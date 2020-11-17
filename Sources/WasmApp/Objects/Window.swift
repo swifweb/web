@@ -136,11 +136,22 @@ public class Window: EventListenerCompatibleObject {
         eventListeners.append(.init(object: self, event: .popstate, history.onPopState))
         eventListeners.append(.init(object: self, event: .online, { self.isOnline = true }))
         eventListeners.append(.init(object: self, event: .offline, { self.isOnline = false }))
+        eventListeners.append(.init(object: self, event: .storage, handleStorageEvent))
         $isInForeground.listenOnlyIfChanged { [self] in
             switch $0 {
             case true: notifyEnterForeground()
             case false: notifyEnterBackground()
             }
+        }
+    }
+    
+    /// `storage` event handler
+    private func handleStorageEvent(_ args: [JSValue]) {
+        guard let event = args.first else { return }
+        if event.object?.storageArea.object == localStorage.domElement.object {
+            localStorage.notifyAboutChanges(event)
+        } else if event.object?.storageArea.object == sessionStorage.domElement.object {
+            sessionStorage.notifyAboutChanges(event)
         }
     }
     
