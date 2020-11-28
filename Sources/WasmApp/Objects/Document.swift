@@ -9,6 +9,8 @@ import Foundation
 import JavaScriptKit
 
 public class Document: AnyElement {
+    static var name: String { "\(Self.self)".lowercased() }
+    
     public let window: Window
     
     let domElement = JSObject.global.document
