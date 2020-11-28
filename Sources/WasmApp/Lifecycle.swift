@@ -28,7 +28,7 @@ public protocol LifecycleBuilderProtocol: class, AppBuilderContent {
 }
 
 extension LifecycleBuilderProtocol {
-    public var appBuilderContent: AppBuilderItem { .lifecycle(self) }
+    public var appBuilderContent: AppBuilder.Item { .lifecycle(self) }
 }
 
 protocol _LifecycleBuilderProtocol: LifecycleBuilderProtocol {

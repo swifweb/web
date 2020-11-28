@@ -6,25 +6,27 @@
 //
 
 public protocol AppBuilderContent {
-    var appBuilderContent: AppBuilderItem { get }
-}
-
-public enum AppBuilderItem {
-    case none
-    case lifecycle(LifecycleBuilderProtocol)
-//    case document(Document)
-//    case mainScene(BaseApp.MainScene)
-//    case scene(BaseApp.Scene)
-//    case shortcuts(BaseApp.Shortcuts)
-    case items([AppBuilderItem])
+    var appBuilderContent: AppBuilder.Item { get }
 }
 
 struct _AppContent: AppBuilderContent {
-    let appBuilderContent: AppBuilderItem
+    let appBuilderContent: AppBuilder.Item
 }
 
 @_functionBuilder public struct AppBuilder {
     public typealias Block = () -> AppBuilderContent
+    
+    public enum Item {
+        case none
+        case lifecycle(LifecycleBuilderProtocol)
+        case routes(Routes)
+    //    case router(Router)
+    //    case document(Document)
+    //    case mainScene(BaseApp.MainScene)
+    //    case scene(BaseApp.Scene)
+    //    case shortcuts(BaseApp.Shortcuts)
+        case items([Item])
+    }
 
     public static func buildBlock() -> AppBuilderContent {
         _AppContent(appBuilderContent: .none)
