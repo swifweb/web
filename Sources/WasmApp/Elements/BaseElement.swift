@@ -9,10 +9,10 @@ import Foundation
 import JavaScriptKit
 import CSS
 
-open class BaseElement: _AnyElement, ElementsBuilderContent {
+open class BaseElement: _AnyElement, BodyBuilderContent {
     public class var name: String { "\(Self.self)".lowercased() }
     
-    public var elementsBuilderContent: ElementsBuilderItem { .elements([self]) }
+    public var bodyBuilderContent: BodyBuilderItem { .elements([self]) }
     
     let uid = UUID.new()?.uuidString ?? "id\(Date().timeIntervalSince1970)"
     var cssProperties: [AnyProperty] = []
@@ -36,9 +36,9 @@ open class BaseElement: _AnyElement, ElementsBuilderContent {
         postInit()
     }
     
-    public convenience init(@ElementsBuilder content: @escaping ElementsBuilder.Block) {
+    public convenience init(@BodyBuilder content: @escaping BodyBuilder.Block) {
         self.init()
-        parseElementsBuilderItem(content().elementsBuilderContent)
+        parseBodyBuilderItem(content().bodyBuilderContent)
     }
     
     func postInit() {
@@ -47,21 +47,21 @@ open class BaseElement: _AnyElement, ElementsBuilderContent {
         postBuildUI()
     }
     
-    @ElementsBuilder open var body: ElementsBuilder.Result { EBContent(elementsBuilderContent: .none) }
+    @BodyBuilder open var body: BodyBuilder.Content { EBContent(bodyBuilderContent: .none) }
     
     open func buildUI() {}
     
     @discardableResult
-    public func body(@ElementsBuilder content: @escaping ElementsBuilder.Block) -> Self {
-        parseElementsBuilderItem(content().elementsBuilderContent)
+    public func body(@BodyBuilder content: @escaping BodyBuilder.Block) -> Self {
+        parseBodyBuilderItem(content().bodyBuilderContent)
         return self
     }
     
     private func postBuildUI() {
-        parseElementsBuilderItem(body.elementsBuilderContent)
+        parseBodyBuilderItem(body.bodyBuilderContent)
     }
     
-    func parseElementsBuilderItem(_ item: ElementsBuilderItem) {
+    func parseBodyBuilderItem(_ item: BodyBuilderItem) {
         switch item {
         case .elements(let elements):
             elements.forEach {
@@ -69,7 +69,7 @@ open class BaseElement: _AnyElement, ElementsBuilderContent {
                 subElements.append(element)
                 appendChild(element)
             }
-        case .items(let items): items.forEach { parseElementsBuilderItem($0) }
+        case .items(let items): items.forEach { parseBodyBuilderItem($0) }
         case .none: break
         }
     }
