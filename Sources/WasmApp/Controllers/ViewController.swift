@@ -8,21 +8,21 @@
 import Foundation
 import JavaScriptKit
 
-open class ViewController: Response {
+open class ViewController: BaseElement, Response {
+    public override class var name: String { "div" }
+    
     public var controller: ViewController { self }
     
-    public let view: JSValue
+    public var view: JSValue { domElement }
+    
+    lazy var styleElement = Stylesheet()
     
     @State public var title = ""
     
-    public init () {
-        view = WasmApp.shared.document.domElement.createElement("div")
+    public override init () {
+        super.init()
         title = WasmApp.shared.window.document.title
         $title.listenOnlyIfChanged { WasmApp.shared.window.document.title = $0 }
+        appendChild(styleElement) // TODO: parse styles
     }
-    
-    
-    
-    var css: String = ""
-    var html: String = ""
 }

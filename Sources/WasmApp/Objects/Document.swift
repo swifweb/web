@@ -9,7 +9,7 @@ import Foundation
 import JavaScriptKit
 
 public class Document: AnyElement {
-    static var name: String { "\(Self.self)".lowercased() }
+    public static var name: String { "\(Self.self)".lowercased() }
     
     public let window: Window
     
@@ -22,10 +22,11 @@ public class Document: AnyElement {
     @State public internal(set) var isInForeground = false
     @State public internal(set) var isActive = false
     
-    lazy var titleElement = Title()
+    lazy var titleElement = Title(in: self)
+    lazy var styleElement = Stylesheet(in: self)
     
-    lazy var head = Head(domElement: domElement.head)
-    lazy var body = Body(domElement: domElement.body)
+    public lazy var head = Head(domElement: domElement.head)
+    public lazy var body = Body(domElement: domElement.body)
     
     func createElement(_ name: String) -> JSValue {
         domElement.createElement(name)
@@ -34,6 +35,7 @@ public class Document: AnyElement {
     init (_ window: Window) {
         self.window = window
         setupTitle()
+        head.appendChild(styleElement)
         window.$isInForeground.merge(with: $isInForeground)
         window.$isActive.merge(with: $isActive)
         $isVisible.listen { old, new in

@@ -8,13 +8,16 @@
 import Foundation
 import JavaScriptKit
 
-protocol AnyElement: class {
+public protocol AnyElement: class {
     static var name: String { get }
+}
+
+protocol _AnyElement: AnyElement {
     var domElement: JSValue { get }
 }
 
-extension AnyElement {
-    func appendChild(_ element: AnyElement) {
+extension _AnyElement {
+    func appendChild(_ element: _AnyElement) {
         _ = domElement.appendChild(element.domElement)
     }
 }
