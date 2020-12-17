@@ -13,7 +13,7 @@ public protocol AnyElement: class {
 }
 
 protocol _AnyElement: AnyElement {
-    var domElement: JSValue { get }
+    var domElement: JSValue { get set }
 }
 
 extension _AnyElement {

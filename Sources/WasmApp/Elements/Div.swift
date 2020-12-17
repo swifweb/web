@@ -7,6 +7,11 @@
 
 import Foundation
 
-open class Div: BaseElement {
+open class Div: BaseActiveElement, _ScrollHandleable {
+    var scrollClosure: ScrollClosure?
+    var scrollHandler: (UIEvent) -> Void = { _ in }
     
+    deinit {
+        scrollClosure?.release()
+    }
 }

@@ -9,12 +9,12 @@ import Foundation
 import JavaScriptKit
 import CSS
 
-open class BaseElement: _AnyElement, BodyBuilderContent {
+open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable, _AnimationIterationHandleable, _AnimationStartHandleable, _ContextMenuHandleable, _CopyHandleable, _CutHandleable, _DragHandleable, _DragEndHandleable, _DragEnterHandleable, _DragLeaveHandleable, _DragOverHandleable, _DragStartHandleable, _DropHandleable, _FullScreenChangeHandleable, _FullScreenErrorHandleable, _MessageHandleable, _OpenHandleable, _PasteHandleable, _TouchCancelHandleable, _TouchEndHandleable, _TouchMoveHandleable, _TouchStartHandleable, _TransitionEndHandleable, _WheelHandleable {
     public class var name: String { "\(Self.self)".lowercased() }
     
     public var bodyBuilderContent: BodyBuilderItem { .elements([self]) }
     
-    let uid = UUID.new()?.uuidString ?? "id\(Date().timeIntervalSince1970)"
+    let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789=")
     var cssProperties: [AnyProperty] = []
     var subElements: [_AnyElement] = []
     
@@ -45,6 +45,105 @@ open class BaseElement: _AnyElement, BodyBuilderContent {
         domElement.id = uid.jsValue()
         buildUI()
         postBuildUI()
+    }
+    
+    var animationEndClosure: AnimationEndClosure?
+    var animationEndHandler: (AnimationEvent) -> Void = { _ in }
+    
+    var animationIterationClosure: AnimationIterationClosure?
+    var animationIterationHandler: (AnimationEvent) -> Void = { _ in }
+    
+    var animationStartClosure: AnimationStartClosure?
+    var animationStartHandler: (AnimationEvent) -> Void = { _ in }
+    
+    var contextMenuClosure: ContextMenuClosure?
+    var contextMenuHandler: (MouseEvent) -> Void = { _ in }
+    
+    var copyClosure: CopyClosure?
+    var copyHandler: (ClipboardEvent) -> Void = { _ in }
+    
+    var cutClosure: CutClosure?
+    var cutHandler: (ClipboardEvent) -> Void = { _ in }
+    
+    var dragClosure: DragClosure?
+    var dragHandler: (DragEvent) -> Void = { _ in }
+    
+    var dragEndClosure: DragEndClosure?
+    var dragEndHandler: (DragEvent) -> Void = { _ in }
+    
+    var dragEnterClosure: DragEnterClosure?
+    var dragEnterHandler: (DragEvent) -> Void = { _ in }
+    
+    var dragLeaveClosure: DragLeaveClosure?
+    var dragLeaveHandler: (DragEvent) -> Void = { _ in }
+    
+    var dragOverClosure: DragOverClosure?
+    var dragOverHandler: (DragEvent) -> Void = { _ in }
+    
+    var dragStartClosure: DragStartClosure?
+    var dragStartHandler: (DragEvent) -> Void = { _ in }
+    
+    var dropClosure: DropClosure?
+    var dropHandler: (DragEvent) -> Void = { _ in }
+    
+    var fullScreenChangeClosure: FullScreenChangeClosure?
+    var fullScreenChangeHandler: (HandledEvent) -> Void = { _ in }
+    
+    var fullScreenErrorClosure: FullScreenErrorClosure?
+    var fullScreenErrorHandler: (HandledEvent) -> Void = { _ in }
+    
+    var messageClosure: MessageClosure?
+    var messageHandler: (HandledEvent) -> Void = { _ in }
+    
+    var openClosure: OpenClosure?
+    var openHandler: (HandledEvent) -> Void = { _ in }
+    
+    var pasteClosure: PasteClosure?
+    var pasteHandler: (ClipboardEvent) -> Void = { _ in }
+    
+    var touchCancelClosure: TouchCancelClosure?
+    var touchCancelHandler: (TouchEvent) -> Void = { _ in }
+    
+    var touchEndClosure: TouchEndClosure?
+    var touchEndHandler: (TouchEvent) -> Void = { _ in }
+    
+    var touchMoveClosure: TouchMoveClosure?
+    var touchMoveHandler: (TouchEvent) -> Void = { _ in }
+    
+    var touchStartClosure: TouchStartClosure?
+    var touchStartHandler: (TouchEvent) -> Void = { _ in }
+    
+    var transitionEndClosure: TransitionEndClosure?
+    var transitionEndHandler: (TransitionEvent) -> Void = { _ in }
+    
+    var wheelClosure: WheelClosure?
+    var wheelHandler: (WheelEvent) -> Void = { _ in }
+    
+    deinit {
+        animationEndClosure?.release()
+        animationIterationClosure?.release()
+        animationStartClosure?.release()
+        contextMenuClosure?.release()
+        copyClosure?.release()
+        cutClosure?.release()
+        dragClosure?.release()
+        dragEndClosure?.release()
+        dragEnterClosure?.release()
+        dragLeaveClosure?.release()
+        dragOverClosure?.release()
+        dragStartClosure?.release()
+        dropClosure?.release()
+        fullScreenChangeClosure?.release()
+        fullScreenErrorClosure?.release()
+        messageClosure?.release()
+        openClosure?.release()
+        pasteClosure?.release()
+        touchCancelClosure?.release()
+        touchEndClosure?.release()
+        touchMoveClosure?.release()
+        touchStartClosure?.release()
+        transitionEndClosure?.release()
+        wheelClosure?.release()
     }
     
     @BodyBuilder open var body: BodyBuilder.Content { EBContent(bodyBuilderContent: .none) }
@@ -88,5 +187,76 @@ open class BaseElement: _AnyElement, BodyBuilderContent {
         guard let rootElement = rootElement else { return }
         rootElement.removeChild.function?.callAsFunction(this: rootElement.object, domElement)
         self.rootElement = nil
+    }
+}
+
+// Inactive tags: <base>, <bdo>, <br>, <head>, <html>, <iframe>, <meta>, <param>, <script>, <style>, and <title>
+
+open class BaseActiveElement: BaseElement, _BlurHandleable, _ClickHandleable, _DblClickHandleable, _FocusHandleable, _FocusInHandleable, _FocusOutHandleable, _KeyDownHandleable, _KeyPressHandleable, _KeyUpHandleable, _MouseDownHandleable, _MouseEnterHandleable, _MouseLeaveHandleable, _MouseMoveHandleable, _MouseOverHandleable, _MouseOutHandleable, _MouseUpHandleable {
+    var blurClosure: BlurClosure?
+    var blurHandler: (FocusEvent) -> Void = { _ in }
+    
+    var clickClosure: ClickClosure?
+    var clickHandler: (MouseEvent) -> Void = { _ in }
+    
+    var dblClickClosure: DblClickClosure?
+    var dblClickHandler: (MouseEvent) -> Void = { _ in }
+    
+    var focusClosure: FocusClosure?
+    var focusHandler: (FocusEvent) -> Void = { _ in }
+    
+    var focusInClosure: FocusInClosure?
+    var focusInHandler: (FocusEvent) -> Void = { _ in }
+    
+    var focusOutClosure: FocusOutClosure?
+    var focusOutHandler: (FocusEvent) -> Void = { _ in }
+    
+    var keyDownClosure: KeyDownClosure?
+    var keyDownHandler: (KeyboardEvent) -> Void = { _ in }
+    
+    var keyPressClosure: KeyPressClosure?
+    var keyPressHandler: (KeyboardEvent) -> Void = { _ in }
+    
+    var keyUpClosure: KeyUpClosure?
+    var keyUpHandler: (KeyboardEvent) -> Void = { _ in }
+    
+    var mouseDownClosure: MouseDownClosure?
+    var mouseDownHandler: (MouseEvent) -> Void = { _ in }
+    
+    var mouseEnterClosure: MouseEnterClosure?
+    var mouseEnterHandler: (MouseEvent) -> Void = { _ in }
+    
+    var mouseLeaveClosure: MouseLeaveClosure?
+    var mouseLeaveHandler: (MouseEvent) -> Void = { _ in }
+    
+    var mouseMoveClosure: MouseMoveClosure?
+    var mouseMoveHandler: (MouseEvent) -> Void = { _ in }
+    
+    var mouseOverClosure: MouseOverClosure?
+    var mouseOverHandler: (MouseEvent) -> Void = { _ in }
+    
+    var mouseOutClosure: MouseOutClosure?
+    var mouseOutHandler: (MouseEvent) -> Void = { _ in }
+    
+    var mouseUpClosure: MouseUpClosure?
+    var mouseUpHandler: (MouseEvent) -> Void = { _ in }
+    
+    deinit {
+        blurClosure?.release()
+        clickClosure?.release()
+        dblClickClosure?.release()
+        focusClosure?.release()
+        focusInClosure?.release()
+        focusOutClosure?.release()
+        keyDownClosure?.release()
+        keyPressClosure?.release()
+        keyUpClosure?.release()
+        mouseDownClosure?.release()
+        mouseEnterClosure?.release()
+        mouseLeaveClosure?.release()
+        mouseMoveClosure?.release()
+        mouseOverClosure?.release()
+        mouseOutClosure?.release()
+        mouseUpClosure?.release()
     }
 }
