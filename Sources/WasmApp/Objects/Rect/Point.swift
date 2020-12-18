@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Point.swift
 //  
 //
 //  Created by Mihael Isaev on 16.11.2020.
