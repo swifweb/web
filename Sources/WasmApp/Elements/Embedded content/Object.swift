@@ -7,6 +7,9 @@
 
 import Foundation
 
+///
+///
+/// [Learn more ->](<#T##c: Character##Character#>)
 open class Object: BaseActiveElement, _ErrorHandleable, _ScrollHandleable {
     var errorClosure: ErrorClosure?
     var errorHandler: (ProgressEvent) -> Void = { _ in }

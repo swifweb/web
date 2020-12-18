@@ -7,6 +7,9 @@
 
 import Foundation
 
+///
+///
+/// [Learn more ->](<#T##c: Character##Character#>)
 open class Body: BaseElement, _AfterPrintHandleable, _BeforePrintHandleable, _BeforeUnloadHandleable, _HashChangeHandleable, _OfflineHandleable, _OnlineHandleable, _PageHideHandleable, _PageShowHandleable, _ResizeHandleable, _UnloadHandleable, _ScrollHandleable, _LoadHandleable {
     var afterPrintClosure: AfterPrintClosure?
     var afterPrintHandler: (HandledEvent) -> Void = { _ in }

@@ -7,6 +7,9 @@
 
 import Foundation
 
+///
+///
+/// [Learn more ->](<#T##c: Character##Character#>)
 open class Img: BaseActiveElement, _ErrorHandleable, _LoadHandleable {
     var errorClosure: ErrorClosure?
     var errorHandler: (ProgressEvent) -> Void = { _ in }

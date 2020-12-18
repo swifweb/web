@@ -7,6 +7,9 @@
 
 import Foundation
 
+///
+///
+/// [Learn more ->](<#T##c: Character##Character#>)
 open class Button: BaseActiveElement {
     var value: String {
         get { innerText }

@@ -12,6 +12,6 @@ import Foundation
 ///
 /// A document's used base URL can be accessed by scripts with **document.baseURI**.
 /// If the document has no `<base>` elements, then baseURI defaults to **location.href**.
-open class Base: BaseElement {
-    
-}
+///
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base)
+open class Base: BaseElement {}

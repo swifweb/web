@@ -7,6 +7,9 @@
 
 import Foundation
 
+///
+///
+/// [Learn more ->](<#T##c: Character##Character#>)
 open class Form: BaseActiveElement, _ResetHandleable, _ScrollHandleable, _SubmitHandleable {
     var resetClosure: ResetClosure?
     var resetHandler: (HandledEvent) -> Void = { _ in }

@@ -8,7 +8,7 @@
 import Foundation
 import JavaScriptKit
 
-open class BaseActiveElement: BaseElement, _BlurHandleable, _ClickHandleable, _DblClickHandleable, _FocusHandleable, _FocusInHandleable, _FocusOutHandleable, _KeyDownHandleable, _KeyPressHandleable, _KeyUpHandleable, _MouseDownHandleable, _MouseEnterHandleable, _MouseLeaveHandleable, _MouseMoveHandleable, _MouseOverHandleable, _MouseOutHandleable, _MouseUpHandleable {
+open class BaseActiveElement: BaseContentElement, _BlurHandleable, _ClickHandleable, _DblClickHandleable, _FocusHandleable, _FocusInHandleable, _FocusOutHandleable, _KeyDownHandleable, _KeyPressHandleable, _KeyUpHandleable, _MouseDownHandleable, _MouseEnterHandleable, _MouseLeaveHandleable, _MouseMoveHandleable, _MouseOverHandleable, _MouseOutHandleable, _MouseUpHandleable {
     var blurClosure: BlurClosure?
     var blurHandler: (FocusEvent) -> Void = { _ in }
     

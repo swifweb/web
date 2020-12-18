@@ -7,7 +7,10 @@
 
 import Foundation
 
-open class Title: BaseElement {
+///
+///
+/// [Learn more ->](<#T##c: Character##Character#>)
+open class Title: BaseContentElement {
     var value: String {
         get { innerText }
         set { innerText = newValue }

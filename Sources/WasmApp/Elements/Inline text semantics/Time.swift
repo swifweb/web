@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+///
+///
+/// [Learn more ->](<#T##c: Character##Character#>)
+open class Time: BaseActiveElement {
+    
+}

@@ -7,6 +7,9 @@
 
 import Foundation
 
+///
+///
+/// [Learn more ->](<#T##c: Character##Character#>)
 open class Video: BaseActiveElement, _AbortHandleable, _CanPlayHandleable, _CanPlayThroughHandleable, _DurationChangeHandleable, _EndedHandleable, _LoadedDataHandleable, _LoadedMetadataHandleable, _LoadStartHandleable, _PauseHandleable, _PlayHandleable, _PlayingHandleable, _ProgressHandleable, _RateChangeHandleable, _SeekedHandleable, _SeekingHandleable, _StalledHandleable, _SuspendHandleable, _TimeUpdateHandleable, _VolumeChangeHandleable, _WaitingHandleable {
     var abortClosure: AbortClosure?
     var abortHandler: (UIEvent) -> Void = { _ in }
