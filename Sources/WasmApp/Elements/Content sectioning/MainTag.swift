@@ -12,6 +12,6 @@ import Foundation
 /// or expands upon the central topic of a document, or the central functionality of an application.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main)
-open class MMMMAAAA: BaseActiveElement {
+open class Main: BaseActiveElement {
     
 }
