@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML Ruby Fallback Parenthesis (<rp>) element is used
+/// to provide fall-back parentheses for browsers
+/// that do not support display of ruby annotations using the ruby element.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rp)
 open class Rp: BaseActiveElement {
     
 }

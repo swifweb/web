@@ -1,6 +1,5 @@
 import Foundation
 import JavaScriptKit
-import WebCore
 
 private var wasmapp: WasmApp!
 

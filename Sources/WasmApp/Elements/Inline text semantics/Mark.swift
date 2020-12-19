@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML Mark Text element (<mark>) represents text
+/// which is marked or highlighted for reference or notation purposes,
+/// due to the marked passage's relevance or importance in the enclosing context.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark)
 open class Mark: BaseActiveElement {
     
 }

@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <aside> element represents a portion of a document
+/// whose content is only indirectly related to the document's main content.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside)
 open class ASide: BaseActiveElement {
     
 }

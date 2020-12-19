@@ -57,18 +57,17 @@ extension AlignAttrable {
     }
 }
 
-//extension Applet: _AlignAttrable {}
 extension Caption: _AlignAttrable {}
-//extension Col: _AlignAttrable {}
-//extension ColGroup: _AlignAttrable {}
+extension Col: _AlignAttrable {}
+extension ColGroup: _AlignAttrable {}
 extension Div: _AlignAttrable {}
-//extension Hr: _AlignAttrable {}
+extension Hr: _AlignAttrable {}
 extension IFrame: _AlignAttrable {}
 extension Img: _AlignAttrable {}
-//extension Table: _AlignAttrable {}
-//extension Tbody: _AlignAttrable {}
-//extension Td: _AlignAttrable {}
+extension Table: _AlignAttrable {}
+extension TBody: _AlignAttrable {}
+extension Td: _AlignAttrable {}
 extension TFoot: _AlignAttrable {}
-//extension Th: _AlignAttrable {}
-//extension Thead: _AlignAttrable {}
-//extension Tr: _AlignAttrable {}
+extension Th: _AlignAttrable {}
+extension THead: _AlignAttrable {}
+extension Tr: _AlignAttrable {}

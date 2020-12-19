@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <fieldset> element is used to group several controls as well as labels (label) within a web form.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset)
 open class FieldSet: BaseActiveElement, _ScrollHandleable {
     var scrollClosure: ScrollClosure?
     var scrollHandler: (UIEvent) -> Void = { _ in }

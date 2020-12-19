@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <select> element represents a control that provides a menu of options
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select)
 open class Select: BaseActiveElement, _ChangeHandleable, _ScrollHandleable {
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }

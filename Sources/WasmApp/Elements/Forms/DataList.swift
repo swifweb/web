@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <datalist> element contains a set of option elements
+/// that represent the permissible or recommended options available to choose from within other controls.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist)
 open class DataList: BaseActiveElement {
     
 }

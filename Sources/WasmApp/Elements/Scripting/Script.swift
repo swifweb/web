@@ -7,14 +7,11 @@
 
 import Foundation
 
+/// The HTML <script> element is used to embed executable code or data;
+/// this is typically used to embed or refer to JavaScript code.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
-//open class Script: BaseElement {
-//    
-//}
-
-//open class Script: BaseActiveElement, _ErrorHandleable, _LoadHandleable {
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script)
+//open class Script: BaseElement, _ErrorHandleable, _LoadHandleable {
 //    var errorClosure: ErrorClosure?
 //    var errorHandler: (ProgressEvent) -> Void = { _ in }
 //    

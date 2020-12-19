@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <dt> element specifies a term in a description or definition list,
+/// and as such must be used inside a dl element.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt)
 open class Dt: BaseActiveElement, _ScrollHandleable {
     var scrollClosure: ScrollClosure?
     var scrollHandler: (UIEvent) -> Void = { _ in }

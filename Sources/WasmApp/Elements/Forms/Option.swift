@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML <option> element is used to define an item contained in a select,
+/// an optgroup, or a datalist element. As such, <option> can represent menu items
+/// in popups and other lists of items in an HTML document.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option)
 open class Option: BaseActiveElement {
     
 }

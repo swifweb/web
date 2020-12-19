@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML Definition element (<dfn>) is used to indicate the term
+/// being defined within the context of a definition phrase or sentence.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dfn)
 open class Dfn: BaseActiveElement {
     
 }

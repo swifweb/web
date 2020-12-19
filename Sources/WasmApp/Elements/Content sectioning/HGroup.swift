@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <hgroup> element represents a multi-level heading
+/// for a section of a document. It groups a set of <h1>–<h6> elements.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hgroup)
 open class HGroup: BaseActiveElement {
     
 }

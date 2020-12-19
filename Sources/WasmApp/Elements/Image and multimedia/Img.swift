@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <img> element embeds an image into the document.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img)
 open class Img: BaseActiveElement, _ErrorHandleable, _LoadHandleable {
     var errorClosure: ErrorClosure?
     var errorHandler: (ProgressEvent) -> Void = { _ in }

@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML Bring Attention To element (<b>) is used to draw
+/// the reader's attention to the element's contents,
+/// which are not otherwise granted special importance.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b)
 open class B: BaseActiveElement {
     
 }

@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML Citation element (<cite>) is used to describe a reference
+/// to a cited creative work, and must include the title of that work.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite)
 open class Cite: BaseActiveElement {
     
 }

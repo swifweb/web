@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <meter> element represents either a scalar value within a known range or a fractional value.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter)
 open class Meter: BaseActiveElement {
     
 }

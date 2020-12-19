@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <th> element defines a cell as header of a group of table cells.
+/// The exact nature of this group is defined by the scope and headers attributes.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th)
 open class Th: BaseActiveElement {
     
 }

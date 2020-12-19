@@ -6,6 +6,54 @@
 //
 
 import Foundation
+import JavaScriptKit
 
-//https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel
-//<a>, <area>, <link>    Specifies the relationship of the target object to the link object.
+public protocol RelAttrable {
+    @discardableResult
+    func rel(_ value: Rel) -> Self
+    @discardableResult
+    func rel(_ value: State<Rel>) -> Self
+    @discardableResult
+    func rel<V>(_ expressable: ExpressableState<V, Rel>) -> Self
+}
+
+protocol _RelAttrable: _AnyElement, RelAttrable {}
+
+extension RelAttrable {
+    /// Specifies the relationship of the target object to the link object.
+    ///
+    /// Applicable to <a>, <area>, <form>, and <link>
+    ///
+    /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
+    @discardableResult
+    public func rel(_ value: Rel) -> Self {
+        guard let s = self as? _RelAttrable else { return self }
+        s.domElement.rel = value.value.jsValue()
+        return self
+    }
+    
+    /// Specifies the relationship of the target object to the link object.
+    ///
+    /// Applicable to <a>, <area>, <form>, and <link>
+    ///
+    /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
+    @discardableResult
+    public func rel(_ value: State<Rel>) -> Self {
+        value.listen { self.rel($0) }
+        return self
+    }
+    
+    /// Specifies the relationship of the target object to the link object.
+    ///
+    /// Applicable to <a>, <area>, <form>, and <link>
+    ///
+    /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
+    @discardableResult
+    public func rel<V>(_ expressable: ExpressableState<V, Rel>) -> Self {
+        rel(expressable.unwrap())
+    }
+}
+
+extension A: _RelAttrable {}
+extension Area: _RelAttrable {}
+extension Link: _RelAttrable {}

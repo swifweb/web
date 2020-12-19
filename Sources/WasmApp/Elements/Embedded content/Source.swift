@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <source> element specifies multiple media resources
+/// for the picture, the audio element, or the video element.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source)
 open class Source: BaseActiveElement {
     
 }

@@ -8,7 +8,7 @@
 import Foundation
 import JavaScriptKit
 
-open class ViewController: BaseElement, Response {
+open class ViewController: BaseContentElement, Response {
     public override class var name: String { "div" }
     
     public var controller: ViewController { self }

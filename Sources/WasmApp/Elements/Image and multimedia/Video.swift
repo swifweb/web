@@ -7,9 +7,12 @@
 
 import Foundation
 
+/// The HTML Video element (<video>) embeds a media player
+/// which supports video playback into the document.
+/// You can use <video> for audio content as well,
+/// but the audio element may provide a more appropriate user experience.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
 open class Video: BaseActiveElement, _AbortHandleable, _CanPlayHandleable, _CanPlayThroughHandleable, _DurationChangeHandleable, _EndedHandleable, _LoadedDataHandleable, _LoadedMetadataHandleable, _LoadStartHandleable, _PauseHandleable, _PlayHandleable, _PlayingHandleable, _ProgressHandleable, _RateChangeHandleable, _SeekedHandleable, _SeekingHandleable, _StalledHandleable, _SuspendHandleable, _TimeUpdateHandleable, _VolumeChangeHandleable, _WaitingHandleable {
     var abortClosure: AbortClosure?
     var abortHandler: (UIEvent) -> Void = { _ in }

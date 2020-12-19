@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// Use the HTML <canvas> element with either the canvas scripting API
+/// or the WebGL API to draw graphics and animations.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas)
 open class Canvas: BaseElement {
     
 }

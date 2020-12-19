@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <colgroup> element defines a group of columns within a table.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/colgroup)
 open class ColGroup: BaseActiveElement {
     
 }

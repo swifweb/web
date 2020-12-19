@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <map> element is used with area elements to define an image map (a clickable link area).
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/map)
 open class Map: BaseActiveElement {
     
 }

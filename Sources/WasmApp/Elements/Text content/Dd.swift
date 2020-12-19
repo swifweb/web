@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <dd> element provides the description, definition,
+/// or value for the preceding term (dt) in a description list (dl).
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd)
 open class Dd: BaseActiveElement, _ScrollHandleable {
     var scrollClosure: ScrollClosure?
     var scrollHandler: (UIEvent) -> Void = { _ in }

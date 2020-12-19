@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML Subscript element (<sub>) specifies inline text
+/// which should be displayed as subscript for solely typographical reasons.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sub)
 open class Sub: BaseActiveElement {
     
 }

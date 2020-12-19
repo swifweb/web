@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <td> element defines a cell of a table that contains data.
+/// It participates in the table model.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td)
 open class Td: BaseActiveElement {
     
 }

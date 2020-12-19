@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML <figure> (Figure With Optional Caption) element
+/// represents self-contained content, potentially with an optional caption,
+/// which is specified using the (figcaption) element.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)
 open class Figure: BaseActiveElement {
     
 }

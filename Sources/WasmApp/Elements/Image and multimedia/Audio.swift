@@ -7,9 +7,12 @@
 
 import Foundation
 
+/// The HTML <audio> element is used to embed sound content in documents.
+/// It may contain one or more audio sources, represented using the src attribute
+/// or the source element: the browser will choose the most suitable one.
+/// It can also be the destination for streamed media, using a MediaStream.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)
 open class Audio: BaseActiveElement, _AbortHandleable, _CanPlayHandleable, _CanPlayThroughHandleable, _DurationChangeHandleable, _EndedHandleable, _LoadedDataHandleable, _LoadedMetadataHandleable, _LoadStartHandleable, _PauseHandleable, _PlayHandleable, _PlayingHandleable, _ProgressHandleable, _RateChangeHandleable, _SeekedHandleable, _SeekingHandleable, _StalledHandleable, _SuspendHandleable, _TimeUpdateHandleable, _VolumeChangeHandleable, _WaitingHandleable {
     var abortClosure: AbortClosure?
     var abortHandler: (UIEvent) -> Void = { _ in }

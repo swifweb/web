@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <style> element contains style information for a document, or part of a document.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style)
 open class Style: BaseActiveElement, _LoadHandleable {
     var loadClosure: LoadClosure?
     var loadHandler: (UIEvent) -> Void = { _ in }

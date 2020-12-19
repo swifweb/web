@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML Unarticulated Annotation element (<u>)
+/// represents a span of inline text which should be rendered
+/// in a way that indicates that it has a non-textual annotation.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/u)
 open class U: BaseActiveElement {
     
 }

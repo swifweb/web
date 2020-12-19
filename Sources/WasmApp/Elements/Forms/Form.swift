@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <form> element represents a document section containing interactive controls for submitting information.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)
 open class Form: BaseActiveElement, _ResetHandleable, _ScrollHandleable, _SubmitHandleable {
     var resetClosure: ResetClosure?
     var resetHandler: (HandledEvent) -> Void = { _ in }

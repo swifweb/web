@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <progress> element displays an indicator
+/// showing the completion progress of a task, typically displayed as a progress bar.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress)
 open class Progress: BaseActiveElement {
     
 }

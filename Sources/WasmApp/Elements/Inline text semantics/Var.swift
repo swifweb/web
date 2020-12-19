@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML Variable element (<var>) represents the name of a variable
+/// in a mathematical expression or a programming context.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/var)
 open class Var: BaseActiveElement {
     
 }

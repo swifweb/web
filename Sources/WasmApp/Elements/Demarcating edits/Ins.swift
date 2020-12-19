@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <ins> element represents a range of text that has been added to a document.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ins)
 open class Ins: BaseActiveElement {
     
 }

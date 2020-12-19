@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <time> element represents a specific period in time.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time)
 open class Time: BaseActiveElement {
     
 }

@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <body> Element represents the content of an HTML document.
+/// There can be only one <body> element in a document.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body)
 open class Body: BaseElement, _AfterPrintHandleable, _BeforePrintHandleable, _BeforeUnloadHandleable, _HashChangeHandleable, _OfflineHandleable, _OnlineHandleable, _PageHideHandleable, _PageShowHandleable, _ResizeHandleable, _UnloadHandleable, _ScrollHandleable, _LoadHandleable {
     var afterPrintClosure: AfterPrintClosure?
     var afterPrintHandler: (HandledEvent) -> Void = { _ in }

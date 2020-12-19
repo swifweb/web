@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML Sample Element (<samp>) is used to enclose inline text
+/// which represents sample (or quoted) output from a computer program.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/samp)
 open class Samp: BaseActiveElement {
     
 }

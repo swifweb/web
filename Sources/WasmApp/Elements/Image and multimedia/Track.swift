@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <track> element is used as a child of the media elements, audio and video.
+/// It lets you specify timed text tracks (or time-based data), for example to automatically handle subtitles.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track)
 open class Track: BaseActiveElement {
     
 }

@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <dialog> element represents a dialog box
+/// or other interactive component, such as a dismissable alert, inspector, or subwindow.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog)
 open class Dialog: BaseActiveElement {
     
 }

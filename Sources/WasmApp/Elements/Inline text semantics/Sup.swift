@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML Superscript element (<sup>) specifies inline text
+/// which is to be displayed as superscript for solely typographical reasons.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sup)
 open class Sup: BaseActiveElement {
     
 }

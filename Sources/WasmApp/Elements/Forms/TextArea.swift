@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML <textarea> element represents a multi-line plain-text editing control,
+/// useful when you want to allow users to enter a sizeable amount of free-form text,
+/// for example a comment on a review or feedback form.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
 open class TextArea: BaseActiveElement, _ChangeHandleable, _InputHandleable, _ScrollHandleable, _SelectHandleable {
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }

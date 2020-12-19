@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML Inline Frame element (<iframe>) represents a nested browsing context,
+/// embedding another HTML page into the current one.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)
 open class IFrame: BaseElement, _LoadHandleable {
     var loadClosure: LoadClosure?
     var loadHandler: (UIEvent) -> Void = { _ in }

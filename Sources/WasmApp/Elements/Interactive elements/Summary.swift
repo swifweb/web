@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML Disclosure Summary element (<summary>) element specifies
+/// a summary, caption, or legend for a details element's disclosure box.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary)
 open class Summary: BaseActiveElement {
     
 }

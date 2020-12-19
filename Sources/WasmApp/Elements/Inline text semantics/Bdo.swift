@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML Bidirectional Text Override element (<bdo>)
+/// overrides the current directionality of text,
+/// so that the text within is rendered in a different direction.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdo)
 open class Bdo: BaseActiveElement {
     
 }

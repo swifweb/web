@@ -45,11 +45,11 @@ var deps: [Dep] = []
 
 deps.append(.github("swiftwasm/JavaScriptKit", "0.8.0"), .product("JavaScriptKit", "JavaScriptKit"))
 
-if localDev {
-    deps.append(.local("SwifWeb/WebCore"), .product("WebCore"))
-} else {
-    deps.append(.github("SwifWeb/WebCore", "1.0.0-beta"), .product("WebCore"))
-}
+//if localDev {
+    deps.append(.local("SwifWeb/CSS"), .product("CSS"))
+//} else {
+//    deps.append(.github("SwifWeb/WebCore", "1.0.0-beta"), .product("WebCore"))
+//}
 
 // MARK: - Package
 

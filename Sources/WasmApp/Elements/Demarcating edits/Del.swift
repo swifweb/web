@@ -7,9 +7,9 @@
 
 import Foundation
 
+/// The HTML <del> element represents a range of text that has been deleted from a document.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/del)
 open class Del: BaseActiveElement {
     
 }

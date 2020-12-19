@@ -7,9 +7,12 @@
 
 import Foundation
 
+/// The HTML <input> element is used to create interactive controls
+/// for web-based forms in order to accept data from the user;
+/// a wide variety of types of input data and control widgets are available,
+/// depending on the device and user agent.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
 open class Input: BaseActiveElement, _ChangeHandleable, _ErrorHandleable, _InvalidHandleable, _InputHandleable, _LoadHandleable, _SelectHandleable, _SearchHandleable {
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }

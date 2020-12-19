@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// The HTML <table> element represents tabular data — that is,
+/// information presented in a two-dimensional table comprised
+/// of rows and columns of cells containing data.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table)
 open class Table: BaseActiveElement {
     
 }

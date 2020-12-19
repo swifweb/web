@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <button> element represents a clickable button,
+/// used to submit forms or anywhere in a document for accessible, standard button functionality.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
 open class Button: BaseActiveElement {
     var value: String {
         get { innerText }

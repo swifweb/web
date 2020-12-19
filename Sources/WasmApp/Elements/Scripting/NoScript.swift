@@ -7,9 +7,10 @@
 
 import Foundation
 
+/// The HTML <noscript> element defines a section of HTML to be inserted
+/// if a script type on the page is unsupported or if scripting is currently turned off in the browser.
 ///
-///
-/// [Learn more ->](<#T##c: Character##Character#>)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript)
 open class NoScript: BaseElement {
     
 }
