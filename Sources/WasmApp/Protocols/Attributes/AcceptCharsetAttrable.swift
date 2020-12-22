@@ -10,8 +10,6 @@ import JavaScriptKit
 
 public protocol AcceptCharsetAttrable {
     @discardableResult
-    func acceptCharset(_ value: String) -> Self
-    @discardableResult
     func acceptCharset(_ value: [String]) -> Self
     @discardableResult
     func acceptCharset(_ value: String...) -> Self
@@ -34,7 +32,7 @@ extension AcceptCharsetAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
-    public func acceptCharset(_ value: String) -> Self {
+    private func acceptCharset(value: String) -> Self {
         guard let s = self as? _AcceptCharsetAttrable else { return self }
         s.domElement.acceptCharset = value.jsValue()
         return self
@@ -47,7 +45,7 @@ extension AcceptCharsetAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
     public func acceptCharset(_ value: [String]) -> Self {
-        acceptCharset(value.joined(separator: ","))
+        acceptCharset(value: value.joined(separator: ","))
     }
     
     /// List of supported charsets.
@@ -67,7 +65,7 @@ extension AcceptCharsetAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
     public func acceptCharset(_ value: State<String>) -> Self {
-        value.listen { self.acceptCharset($0) }
+        value.listen { self.acceptCharset(value: $0) }
         return self
     }
     

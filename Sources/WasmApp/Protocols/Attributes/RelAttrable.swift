@@ -10,11 +10,11 @@ import JavaScriptKit
 
 public protocol RelAttrable {
     @discardableResult
-    func rel(_ value: Rel) -> Self
+    func rel(_ value: RelType) -> Self
     @discardableResult
-    func rel(_ value: State<Rel>) -> Self
+    func rel(_ value: State<RelType>) -> Self
     @discardableResult
-    func rel<V>(_ expressable: ExpressableState<V, Rel>) -> Self
+    func rel<V>(_ expressable: ExpressableState<V, RelType>) -> Self
 }
 
 protocol _RelAttrable: _AnyElement, RelAttrable {}
@@ -26,7 +26,7 @@ extension RelAttrable {
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
-    public func rel(_ value: Rel) -> Self {
+    public func rel(_ value: RelType) -> Self {
         guard let s = self as? _RelAttrable else { return self }
         s.domElement.rel = value.value.jsValue()
         return self
@@ -38,7 +38,7 @@ extension RelAttrable {
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
-    public func rel(_ value: State<Rel>) -> Self {
+    public func rel(_ value: State<RelType>) -> Self {
         value.listen { self.rel($0) }
         return self
     }
@@ -49,7 +49,7 @@ extension RelAttrable {
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
-    public func rel<V>(_ expressable: ExpressableState<V, Rel>) -> Self {
+    public func rel<V>(_ expressable: ExpressableState<V, RelType>) -> Self {
         rel(expressable.unwrap())
     }
 }

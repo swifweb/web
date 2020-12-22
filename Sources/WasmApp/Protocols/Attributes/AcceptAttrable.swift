@@ -10,8 +10,6 @@ import JavaScriptKit
 
 public protocol AcceptAttrable {
     @discardableResult
-    func accept(_ value: String) -> Self
-    @discardableResult
     func accept(_ value: [String]) -> Self
     @discardableResult
     func accept(_ value: String...) -> Self
@@ -34,7 +32,7 @@ extension AcceptAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
-    public func accept(_ value: String) -> Self {
+    private func accept(value: String) -> Self {
         guard let s = self as? _AcceptAttrable else { return self }
         s.domElement.accept = value.jsValue()
         return self
@@ -47,7 +45,7 @@ extension AcceptAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
     public func accept(_ value: [String]) -> Self {
-        accept(value.joined(separator: ","))
+        accept(value: value.joined(separator: ","))
     }
     
     /// List of types the server accepts, typically a file type.
@@ -67,7 +65,7 @@ extension AcceptAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
     public func accept(_ value: State<String>) -> Self {
-        value.listen { self.accept($0) }
+        value.listen { self.accept(value: $0) }
         return self
     }
     

@@ -73,11 +73,11 @@ open class WasmApp {
     }
 }
 
-class Script {
-    fileprivate(set) var code = ""
-    
-    init () {}
-    
-    func addedToDocument() {}
-}
-
+//class Script {
+//    fileprivate(set) var code = ""
+//    
+//    init () {}
+//    
+//    func addedToDocument() {}
+//}
+//

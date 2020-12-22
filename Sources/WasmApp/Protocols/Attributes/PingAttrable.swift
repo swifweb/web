@@ -6,6 +6,100 @@
 //
 
 import Foundation
+import JavaScriptKit
 
-//https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping
-//<a>, <area>    The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
+public protocol PingAttrable {
+    @discardableResult
+    func ping(_ value: [URLConformable]) -> Self
+    @discardableResult
+    func ping(_ value: URLConformable...) -> Self
+    @discardableResult
+    func ping(_ value: State<URLConformable>) -> Self
+    @discardableResult
+    func ping<V>(_ expressable: ExpressableState<V, URLConformable>) -> Self
+    @discardableResult
+    func ping(_ value: State<[URLConformable]>) -> Self
+    @discardableResult
+    func ping<V>(_ expressable: ExpressableState<V, [URLConformable]>) -> Self
+}
+
+protocol _PingAttrable: _AnyElement, PingAttrable {}
+
+extension PingAttrable {
+    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
+    ///
+    /// Applicable to <a>, <area>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
+    @discardableResult
+    private func ping(value: URLConformable) -> Self {
+        guard let s = self as? _AcceptAttrable else { return self }
+        s.domElement.ping = value.stringValue.jsValue()
+        return self
+    }
+    
+    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
+    ///
+    /// Applicable to <a>, <area>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
+    @discardableResult
+    public func ping(_ value: [URLConformable]) -> Self {
+        ping(value: value.map { $0.stringValue }.joined(separator: " "))
+    }
+    
+    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
+    ///
+    /// Applicable to <a>, <area>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
+    @discardableResult
+    public func ping(_ value: URLConformable...) -> Self {
+        ping(value)
+    }
+    
+    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
+    ///
+    /// Applicable to <a>, <area>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
+    @discardableResult
+    public func ping(_ value: State<URLConformable>) -> Self {
+        value.listen { self.ping(value: $0) }
+        return self
+    }
+    
+    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
+    ///
+    /// Applicable to <a>, <area>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
+    @discardableResult
+    public func ping<V>(_ expressable: ExpressableState<V, URLConformable>) -> Self {
+        ping(expressable.unwrap())
+    }
+    
+    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
+    ///
+    /// Applicable to <a>, <area>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
+    @discardableResult
+    public func ping(_ value: State<[URLConformable]>) -> Self {
+        value.listen { self.ping($0) }
+        return self
+    }
+    
+    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
+    ///
+    /// Applicable to <a>, <area>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
+    @discardableResult
+    public func ping<V>(_ expressable: ExpressableState<V, [URLConformable]>) -> Self {
+        ping(expressable.unwrap())
+    }
+}
+
+extension A: _PingAttrable {}
+extension Area: _PingAttrable {}

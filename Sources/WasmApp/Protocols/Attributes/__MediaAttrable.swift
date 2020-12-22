@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import CSS
 
-//https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/media
+// TODO: user media ules here from CSS
+//https://www.w3schools.com/tags/att_media.asp
 //<a>, <area>, <link>, <source>, <style>    Specifies a hint of the media for which the linked resource was designed.

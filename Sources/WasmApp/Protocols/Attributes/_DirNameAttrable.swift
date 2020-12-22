@@ -7,5 +7,5 @@
 
 import Foundation
 
-//https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/dirname
+//https://www.w3schools.com/tags/att_input_dirname.asp
 //<input>, <textarea>

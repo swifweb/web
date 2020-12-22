@@ -1,5 +1,5 @@
 //
-//  Target.swift
+//  TargetType.swift
 //  WasmApp
 //
 //  Created by Mihael Isaev on 19.12.2020.
@@ -10,7 +10,7 @@ import Foundation
 /// A keyword or author-defined name of the default browsing context
 /// to show the results of navigation from <a>, <area>,
 /// or <form> elements without explicit target attributes.
-public enum Target: String {
+public enum TargetType: String {
     /// Show the result in the current browsing context.
     /// **Default**
     case `self` = "_self"

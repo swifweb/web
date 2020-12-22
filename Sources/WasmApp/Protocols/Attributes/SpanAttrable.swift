@@ -6,6 +6,53 @@
 //
 
 import Foundation
+import JavaScriptKit
 
-//https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/span
-//<col>, <colgroup>
+public protocol SpanAttrable {
+    @discardableResult
+    func span(_ value: Int) -> Self
+    @discardableResult
+    func span(_ value: State<Int>) -> Self
+    @discardableResult
+    func span<V>(_ expressable: ExpressableState<V, Int>) -> Self
+}
+
+protocol _SpanAttrable: _AnyElement, SpanAttrable {}
+
+extension SpanAttrable {
+    /// The span attribute defines the number of columns a <col>/<colgroup> element should span.
+    ///
+    /// Applicable to <col>, <colgroup>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_span.asp)
+    @discardableResult
+    public func span(_ value: Int) -> Self {
+        guard let s = self as? _SpanAttrable else { return self }
+        s.domElement.span = value.jsValue()
+        return self
+    }
+    
+    /// The span attribute defines the number of columns a <col>/<colgroup> element should span.
+    ///
+    /// Applicable to <col>, <colgroup>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_span.asp)
+    @discardableResult
+    public func span(_ value: State<Int>) -> Self {
+        value.listen { self.span($0) }
+        return self
+    }
+    
+    /// The span attribute defines the number of columns a <col>/<colgroup> element should span.
+    ///
+    /// Applicable to <col>, <colgroup>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_span.asp)
+    @discardableResult
+    public func span<V>(_ expressable: ExpressableState<V, Int>) -> Self {
+        span(expressable.unwrap())
+    }
+}
+
+extension Col: _SpanAttrable {}
+extension ColGroup: _SpanAttrable {}

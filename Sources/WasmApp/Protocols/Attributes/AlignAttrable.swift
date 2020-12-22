@@ -10,11 +10,11 @@ import JavaScriptKit
 
 public protocol AlignAttrable {
     @discardableResult
-    func align(_ value: Align) -> Self
+    func align(_ value: AlignType) -> Self
     @discardableResult
-    func align(_ value: State<Align>) -> Self
+    func align(_ value: State<AlignType>) -> Self
     @discardableResult
-    func align<V>(_ expressable: ExpressableState<V, Align>) -> Self
+    func align<V>(_ expressable: ExpressableState<V, AlignType>) -> Self
 }
 
 protocol _AlignAttrable: _AnyElement, AlignAttrable {}
@@ -27,7 +27,7 @@ extension AlignAttrable {
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
-    public func align(_ value: Align) -> Self {
+    public func align(_ value: AlignType) -> Self {
         guard let s = self as? _AlignAttrable else { return self }
         s.domElement.align = value.value.jsValue()
         return self
@@ -40,7 +40,7 @@ extension AlignAttrable {
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
-    public func align(_ value: State<Align>) -> Self {
+    public func align(_ value: State<AlignType>) -> Self {
         value.listen { self.align($0) }
         return self
     }
@@ -52,7 +52,7 @@ extension AlignAttrable {
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
-    public func align<V>(_ expressable: ExpressableState<V, Align>) -> Self {
+    public func align<V>(_ expressable: ExpressableState<V, AlignType>) -> Self {
         align(expressable.unwrap())
     }
 }

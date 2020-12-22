@@ -27,7 +27,7 @@ extension HrefAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/href)
     @discardableResult
     public func href(_ value: URLConformable) -> Self {
-        guard let s = self as? _ActionAttrable else { return self }
+        guard let s = self as? _HrefAttrable else { return self }
         s.domElement.href = value.stringValue.jsValue()
         return self
     }

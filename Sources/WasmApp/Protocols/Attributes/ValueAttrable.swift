@@ -6,6 +6,139 @@
 //
 
 import Foundation
+import JavaScriptKit
 
-//https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/value
-//<button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>    Defines a default value which will be displayed in the element on page load.
+public protocol ValueAttrable {
+    @discardableResult
+    func value(_ value: Bool) -> Self
+    @discardableResult
+    func value(_ value: State<Bool>) -> Self
+    @discardableResult
+    func value<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    
+    @discardableResult
+    func value(_ value: Double) -> Self
+    @discardableResult
+    func value(_ value: State<Double>) -> Self
+    @discardableResult
+    func value<V>(_ expressable: ExpressableState<V, Double>) -> Self
+    
+    @discardableResult
+    func value(_ value: String) -> Self
+    @discardableResult
+    func value(_ value: State<String>) -> Self
+    @discardableResult
+    func value<V>(_ expressable: ExpressableState<V, String>) -> Self
+}
+
+protocol _ValueAttrable: _AnyElement, ValueAttrable {}
+
+extension ValueAttrable {
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value(_ value: Bool) -> Self {
+        guard let s = self as? _ValueAttrable else { return self }
+        s.domElement.value = value ? "true".jsValue() : "false".jsValue()
+        return self
+    }
+    
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value(_ value: State<Bool>) -> Self {
+        value.listen { self.value($0) }
+        return self
+    }
+    
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
+        value(expressable.unwrap())
+    }
+    
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value(_ value: Double) -> Self {
+        guard let s = self as? _ValueAttrable else { return self }
+        s.domElement.value = value.jsValue()
+        return self
+    }
+    
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value(_ value: State<Double>) -> Self {
+        value.listen { self.value($0) }
+        return self
+    }
+    
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value<V>(_ expressable: ExpressableState<V, Double>) -> Self {
+        value(expressable.unwrap())
+    }
+    
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value(_ value: String) -> Self {
+        guard let s = self as? _ValueAttrable else { return self }
+        s.domElement.value = value.jsValue()
+        return self
+    }
+    
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value(_ value: State<String>) -> Self {
+        value.listen { self.value($0) }
+        return self
+    }
+    
+    /// Defines a default value which will be displayed in the element on page load.
+    ///
+    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
+    @discardableResult
+    public func value<V>(_ expressable: ExpressableState<V, String>) -> Self {
+        value(expressable.unwrap())
+    }
+}
+
+extension Button: _ValueAttrable {}
+extension Data: _ValueAttrable {}
+extension Input: _ValueAttrable {}
+extension Li: _ValueAttrable {}
+extension Meter: _ValueAttrable {}
+extension Option: _ValueAttrable {}
+extension Progress: _ValueAttrable {}
+extension Param: _ValueAttrable {}

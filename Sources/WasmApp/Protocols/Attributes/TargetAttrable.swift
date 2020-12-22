@@ -10,11 +10,11 @@ import JavaScriptKit
 
 public protocol TargetAttrable {
     @discardableResult
-    func target(_ value: Target) -> Self
+    func target(_ value: TargetType) -> Self
     @discardableResult
-    func target(_ value: State<Target>) -> Self
+    func target(_ value: State<TargetType>) -> Self
     @discardableResult
-    func target<V>(_ expressable: ExpressableState<V, Target>) -> Self
+    func target<V>(_ expressable: ExpressableState<V, TargetType>) -> Self
 }
 
 protocol _TargetAttrable: _AnyElement, TargetAttrable {}
@@ -27,7 +27,7 @@ extension TargetAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/target)
     @discardableResult
-    public func target(_ value: Target) -> Self {
+    public func target(_ value: TargetType) -> Self {
         guard let s = self as? _TargetAttrable else { return self }
         s.domElement.target = value.rawValue.jsValue()
         return self
@@ -40,7 +40,7 @@ extension TargetAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/target)
     @discardableResult
-    public func target(_ value: State<Target>) -> Self {
+    public func target(_ value: State<TargetType>) -> Self {
         value.listen { self.target($0) }
         return self
     }
@@ -52,7 +52,7 @@ extension TargetAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/target)
     @discardableResult
-    public func target<V>(_ expressable: ExpressableState<V, Target>) -> Self {
+    public func target<V>(_ expressable: ExpressableState<V, TargetType>) -> Self {
         target(expressable.unwrap())
     }
 }

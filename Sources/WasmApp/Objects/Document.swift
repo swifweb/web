@@ -58,17 +58,17 @@ public class Document: AnyElement {
         isVisible = domElement.visibilityState.string == "visible"
     }
     
-    func append(_ script: Script) {
-        guard script.code.count > 0 else { return }
-        var scriptElement = domElement.createElement("script")
-        #if DEBUG
-        scriptElement.innerText = script.code.jsValue()
-        #else
-        guard let base64Code = script.code.data(using: .utf8)?.base64EncodedString() else { return }
-        let code = "data:text/javascript;base64," + base64Code
-        scriptElement.src = code.jsValue()
-        #endif
-        scripts.append((script, domElement.head.appendChild(scriptElement)))
-        script.addedToDocument()
-    }
+//    func append(_ script: Script) {
+//        guard script.code.count > 0 else { return }
+//        var scriptElement = domElement.createElement("script")
+//        #if DEBUG
+//        scriptElement.innerText = script.code.jsValue()
+//        #else
+//        guard let base64Code = script.code.data(using: .utf8)?.base64EncodedString() else { return }
+//        let code = "data:text/javascript;base64," + base64Code
+//        scriptElement.src = code.jsValue()
+//        #endif
+//        scripts.append((script, domElement.head.appendChild(scriptElement)))
+//        script.addedToDocument()
+//    }
 }
