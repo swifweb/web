@@ -64,4 +64,5 @@ extension FormTargetAttrable {
 }
 
 extension Button: _FormTargetAttrable {}
-extension Input: _FormTargetAttrable {}
+extension InputSubmit: _FormTargetAttrable {}
+extension InputImage: _FormTargetAttrable {}

@@ -60,7 +60,7 @@ extension UseMapAttrable {
     ///
     /// Note: The usemap attribute cannot be used if the <img> element is a descendant of an <a> or <button> element.
     ///
-    /// Applicable to <img>, <input>, <object>
+    /// Applicable to <img>, <object>
     ///
     /// [More info →](https://www.w3schools.com/tags/att_usemap.asp)
     @discardableResult
@@ -70,5 +70,5 @@ extension UseMapAttrable {
 }
 
 extension Img: _UseMapAttrable {}
-extension Input: _UseMapAttrable {}
+extension InputImage: _UseMapAttrable {}
 extension Object: _UseMapAttrable {}

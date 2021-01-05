@@ -58,7 +58,7 @@ extension Audio: _SrcAttrable {}
 extension Embed: _SrcAttrable {}
 extension IFrame: _SrcAttrable {}
 extension Img: _SrcAttrable {}
-extension Input: _SrcAttrable {}
+extension InputImage: _SrcAttrable {}
 extension Script: _SrcAttrable {}
 extension Source: _SrcAttrable {}
 extension Track: _SrcAttrable {}

@@ -54,5 +54,9 @@ extension MaxLengthAttrable {
     }
 }
 
-extension Input: _MaxLengthAttrable {}
+extension InputText: _MaxLengthAttrable {}
+extension InputTel: _MaxLengthAttrable {}
+extension InputPassword: _MaxLengthAttrable {}
+extension InputSearch: _MaxLengthAttrable {}
+extension InputURL: _MaxLengthAttrable {}
 extension TextArea: _MaxLengthAttrable {}

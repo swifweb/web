@@ -24,7 +24,7 @@ extension FormEncTypeAttrable {
     ///
     /// Applicable to <form>
     ///
-    /// [More info →](https://www.w3schools.com/tags/att_form_enctype.asp)
+    /// [More info →](https://www.w3schools.com/tags/att_input_formenctype.asp)
     @discardableResult
     public func formEncType(_ value: EncType) -> Self {
         guard let s = self as? _EncTypeAttrable else { return self }
@@ -36,7 +36,7 @@ extension FormEncTypeAttrable {
     ///
     /// Applicable to <form>
     ///
-    /// [More info →](https://www.w3schools.com/tags/att_form_enctype.asp)
+    /// [More info →](https://www.w3schools.com/tags/att_input_formenctype.asp)
     @discardableResult
     public func formEncType(_ value: State<EncType>) -> Self {
         value.listen { self.formEncType($0) }
@@ -49,7 +49,7 @@ extension FormEncTypeAttrable {
     ///
     /// Applicable to <button>, <input>
     ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/formenctype)
+    /// [More info →](https://www.w3schools.com/tags/att_input_formenctype.asp)
     @discardableResult
     public func formEncType<V>(_ expressable: ExpressableState<V, EncType>) -> Self {
         formEncType(expressable.unwrap())
@@ -57,4 +57,5 @@ extension FormEncTypeAttrable {
 }
 
 extension Button: _FormEncTypeAttrable {}
-extension Input: _FormEncTypeAttrable {}
+extension InputSubmit: _FormEncTypeAttrable {}
+extension InputImage: _FormEncTypeAttrable {}

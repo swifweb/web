@@ -136,7 +136,24 @@ extension ValueAttrable {
 
 extension Button: _ValueAttrable {}
 extension Data: _ValueAttrable {}
-extension Input: _ValueAttrable {}
+extension InputText: _ValueAttrable {}
+extension InputTel: _ValueAttrable {}
+extension InputEmail: _ValueAttrable {}
+extension InputPassword: _ValueAttrable {}
+extension InputSearch: _ValueAttrable {}
+extension InputURL: _ValueAttrable {}
+extension InputNumber: _ValueAttrable {}
+extension InputRange: _ValueAttrable {}
+extension InputDateTime: _ValueAttrable {}
+extension InputDate: _ValueAttrable {}
+extension InputTime: _ValueAttrable {}
+extension InputWeek: _ValueAttrable {}
+extension InputMonth: _ValueAttrable {}
+extension InputColor: _ValueAttrable {}
+extension InputList: _ValueAttrable {}
+extension InputRadio: _ValueAttrable {}
+extension InputCheckbox: _ValueAttrable {}
+extension InputHidden: _ValueAttrable {}
 extension Li: _ValueAttrable {}
 extension Meter: _ValueAttrable {}
 extension Option: _ValueAttrable {}

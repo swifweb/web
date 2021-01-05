@@ -55,7 +55,7 @@ extension TypeAttrable {
 }
 
 extension Button: _TypeAttrable {}
-extension Input: _TypeAttrable {}
+extension InputText: _TypeAttrable {}
 extension Embed: _TypeAttrable {}
 extension Object: _TypeAttrable {}
 extension Script: _TypeAttrable {}

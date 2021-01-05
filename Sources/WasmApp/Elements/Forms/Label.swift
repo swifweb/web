@@ -10,6 +10,9 @@ import Foundation
 /// The HTML <label> element represents a caption for an item in a user interface.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label)
-open class Label: BaseActiveElement {
-    
+open class Label: BaseActiveElement, _StringInitializable {
+    public required convenience init(_ value: String) {
+        self.init()
+        self.value = value
+    }
 }

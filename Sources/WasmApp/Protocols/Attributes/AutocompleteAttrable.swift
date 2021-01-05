@@ -55,6 +55,17 @@ extension AutocompleteAttrable {
 }
 
 extension Form: _AutocompleteAttrable {}
-extension Input: _AutocompleteAttrable {}
+extension InputText: _AutocompleteAttrable {}
+extension InputTel: _AutocompleteAttrable {}
+extension InputEmail: _AutocompleteAttrable {}
+extension InputPassword: _AutocompleteAttrable {}
+extension InputSearch: _AutocompleteAttrable {}
+extension InputURL: _AutocompleteAttrable {}
+extension InputNumber: _AutocompleteAttrable {}
+extension InputDateTime: _AutocompleteAttrable {}
+extension InputDate: _AutocompleteAttrable {}
+extension InputTime: _AutocompleteAttrable {}
+extension InputWeek: _AutocompleteAttrable {}
+extension InputMonth: _AutocompleteAttrable {}
 extension Select: _AutocompleteAttrable {}
 extension TextArea: _AutocompleteAttrable {}

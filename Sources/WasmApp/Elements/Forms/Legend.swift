@@ -10,6 +10,9 @@ import Foundation
 /// The HTML <legend> element represents a caption for the content of its parent fieldset.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/legend)
-open class Legend: BaseActiveElement {
-    
+open class Legend: BaseActiveElement, _StringInitializable {
+    public required convenience init(_ value: String) {
+        self.init()
+        self.value = value
+    }
 }

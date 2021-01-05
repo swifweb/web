@@ -15,14 +15,11 @@ open class ViewController: BaseContentElement, Response {
     
     public var view: JSValue { domElement }
     
-    lazy var styleElement = Stylesheet()
-    
     @State public var title = ""
     
-    public override init () {
+    public required init () {
         super.init()
         title = WasmApp.shared.window.document.title
         $title.listenOnlyIfChanged { WasmApp.shared.window.document.title = $0 }
-        appendChild(styleElement) // TODO: parse styles
     }
 }

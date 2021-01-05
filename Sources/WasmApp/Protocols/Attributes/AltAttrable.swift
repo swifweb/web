@@ -56,4 +56,4 @@ extension AltAttrable {
 
 extension Area: _AltAttrable {}
 extension Img: _AltAttrable {}
-extension Input: _AltAttrable {}
+extension InputImage: _AltAttrable {}

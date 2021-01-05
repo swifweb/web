@@ -12,9 +12,13 @@ import Foundation
 /// for example a comment on a review or feedback form.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
-open class TextArea: BaseActiveElement, _ChangeHandleable, _InputHandleable, _ScrollHandleable, _SelectHandleable {
+open class TextArea: BaseActiveElement, _ChangeHandleable, _InputHandleable, _ScrollHandleable, _SelectHandleable, _StringInitializable {
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
+    
+    func onChange(_ event: HandledEvent) {
+        enteredText = value
+    }
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
@@ -30,5 +34,25 @@ open class TextArea: BaseActiveElement, _ChangeHandleable, _InputHandleable, _Sc
         inputClosure?.release()
         scrollClosure?.release()
         selectClosure?.release()
+    }
+    
+    @State var enteredText = ""
+    
+    public required init() {
+        super.init()
+        subscribeToChanges()
+    }
+    
+    public required convenience init(_ value: String) {
+        self.init()
+        self.value = value
+        self.enteredText = value
+    }
+    
+    public func bind(_ state: State<String>) -> Self {
+        $enteredText.listen {
+            state.wrappedValue = $0
+        }
+        return self
     }
 }

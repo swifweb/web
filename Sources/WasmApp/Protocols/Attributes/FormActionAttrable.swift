@@ -55,4 +55,5 @@ extension FormActionAttrable {
 }
 
 extension Button: _FormActionAttrable {}
-extension Input: _FormActionAttrable {}
+extension InputSubmit: _FormActionAttrable {}
+extension InputImage: _FormActionAttrable {}

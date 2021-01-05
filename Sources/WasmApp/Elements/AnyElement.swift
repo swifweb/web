@@ -21,3 +21,8 @@ extension _AnyElement {
         _ = domElement.appendChild(element.domElement)
     }
 }
+
+protocol _BaseContentElement: class {
+    var innerText: String { get set }
+    var innerHTML: String { get set }
+}

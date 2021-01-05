@@ -56,4 +56,4 @@ extension CaptureAttrable {
     }
 }
 
-extension Input: _CaptureAttrable {}
+extension InputFile: _CaptureAttrable {}

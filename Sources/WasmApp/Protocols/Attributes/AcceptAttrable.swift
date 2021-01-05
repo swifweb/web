@@ -102,4 +102,4 @@ extension AcceptAttrable {
 }
 
 extension Form: _AcceptAttrable {}
-extension Input: _AcceptAttrable {}
+extension InputFile: _AcceptAttrable {}

@@ -54,4 +54,5 @@ extension CheckedAttrable {
     }
 }
 
-extension Input: _CheckedAttrable {}
+extension InputCheckbox: _CheckedAttrable {}
+extension InputRadio: _CheckedAttrable {}

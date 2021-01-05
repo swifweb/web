@@ -25,4 +25,8 @@ open class Link: BaseActiveElement, _ErrorHandleable, _LoadHandleable {
         errorClosure?.release()
         loadClosure?.release()
     }
+    
+    public required init() {
+        super.init()
+    }
 }

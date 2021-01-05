@@ -54,5 +54,16 @@ extension PlaceholderAttrable {
     }
 }
 
-extension Input: _PlaceholderAttrable {}
+extension InputText: _PlaceholderAttrable {}
+extension InputTel: _PlaceholderAttrable {}
+extension InputEmail: _PlaceholderAttrable {}
+extension InputPassword: _PlaceholderAttrable {}
+extension InputSearch: _PlaceholderAttrable {}
+extension InputURL: _PlaceholderAttrable {}
+extension InputNumber: _PlaceholderAttrable {}
+extension InputDateTime: _PlaceholderAttrable {}
+extension InputDate: _PlaceholderAttrable {}
+extension InputTime: _PlaceholderAttrable {}
+extension InputWeek: _PlaceholderAttrable {}
+extension InputMonth: _PlaceholderAttrable {}
 extension TextArea: _PlaceholderAttrable {}

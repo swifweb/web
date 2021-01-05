@@ -78,5 +78,8 @@ extension SizeAttrable {
     }
 }
 
-extension Input: _SizeAttrable {}
+extension InputText: _SizeAttrable {}
+extension InputTel: _SizeAttrable {}
+extension InputEmail: _SizeAttrable {}
+extension InputPassword: _SizeAttrable {}
 extension Select: _SizeAttrable {}

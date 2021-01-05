@@ -23,7 +23,7 @@ extension FormNoValidateAttrable {
     /// The novalidate attribute is a boolean attribute.
     /// When present, it specifies that the form-data (input) should not be validated when submitted.
     ///
-    /// Applicable to <button>, <input>
+    /// Applicable to <button>, <form>
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
@@ -36,7 +36,7 @@ extension FormNoValidateAttrable {
     /// The novalidate attribute is a boolean attribute.
     /// When present, it specifies that the form-data (input) should not be validated when submitted.
     ///
-    /// Applicable to <button>, <input>
+    /// Applicable to <button>, <form>
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
@@ -48,7 +48,7 @@ extension FormNoValidateAttrable {
     /// The novalidate attribute is a boolean attribute.
     /// When present, it specifies that the form-data (input) should not be validated when submitted.
     ///
-    /// Applicable to <button>, <input>
+    /// Applicable to <button>, <form>
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
@@ -58,4 +58,4 @@ extension FormNoValidateAttrable {
 }
 
 extension Button: _FormNoValidateAttrable {}
-extension Input: _FormNoValidateAttrable {}
+extension Form: _FormNoValidateAttrable {}

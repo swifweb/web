@@ -14,11 +14,20 @@ open class Select: BaseActiveElement, _ChangeHandleable, _ScrollHandleable {
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
+    func onChange(_ event: HandledEvent) {
+        // TODO: update
+    }
+    
     var scrollClosure: ScrollClosure?
     var scrollHandler: (UIEvent) -> Void = { _ in }
     
     deinit {
         changeClosure?.release()
         scrollClosure?.release()
+    }
+    
+    public required init() {
+        super.init()
+        subscribeToChanges()
     }
 }

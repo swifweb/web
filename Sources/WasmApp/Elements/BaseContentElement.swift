@@ -8,7 +8,7 @@
 import Foundation
 import JavaScriptKit
 
-open class BaseContentElement: BaseElement {
+open class BaseContentElement: BaseElement, _BaseContentElement {
     public convenience init(@BodyBuilder content: @escaping BodyBuilder.Block) {
         self.init()
         parseBodyBuilderItem(content().bodyBuilderContent)

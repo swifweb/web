@@ -18,6 +18,21 @@ protocol _ChangeHandleable: _AnyElement, ChangeHandleable {
     
     var changeClosure: ChangeClosure? { get set }
     var changeHandler: (HandledEvent) -> Void { get set }
+    
+    func subscribeToChanges()
+    func onChange(_ event: HandledEvent)
+}
+
+extension _ChangeHandleable {
+    func subscribeToChanges() {
+        changeClosure?.release()
+        changeClosure = JSClosure { event -> Void in
+            let event = HandledEvent(event.jsValue())
+            self.changeHandler(event)
+            self.onChange(event)
+        }
+        domElement.onchange = changeClosure.jsValue()
+    }
 }
 
 extension ChangeHandleable {
@@ -34,11 +49,6 @@ extension ChangeHandleable {
     @discardableResult
     public func onChange(_ handler: @escaping (HandledEvent) -> Void) -> Self {
         guard let s = self as? _ChangeHandleable else { return self }
-        s.changeClosure?.release()
-        s.changeClosure = JSClosure { event in
-            s.changeHandler(.init(event.jsValue()))
-        }
-        s.domElement.onchange = s.changeClosure.jsValue()
         s.changeHandler = handler
         return self
     }

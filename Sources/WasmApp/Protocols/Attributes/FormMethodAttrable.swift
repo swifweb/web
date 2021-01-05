@@ -26,7 +26,7 @@ extension FormMethodAttrable {
     ///
     /// Applicable to <button>, <input>
     ///
-    /// [More info →](https://www.w3schools.com/tags/att_form_method.asp)
+    /// [More info →](https://www.w3schools.com/tags/att_input_formmethod.asp)
     @discardableResult
     public func formMethod(_ value: MethodType) -> Self {
         guard let s = self as? _FormMethodAttrable else { return self }
@@ -40,7 +40,7 @@ extension FormMethodAttrable {
     ///
     /// Applicable to <button>, <input>
     ///
-    /// [More info →](https://www.w3schools.com/tags/att_form_method.asp)
+    /// [More info →](https://www.w3schools.com/tags/att_input_formmethod.asp)
     @discardableResult
     public func formMethod(_ value: State<MethodType>) -> Self {
         value.listen { self.formMethod($0) }
@@ -53,7 +53,7 @@ extension FormMethodAttrable {
     ///
     /// Applicable to <button>, <input>
     ///
-    /// [More info →](https://www.w3schools.com/tags/att_form_method.asp)
+    /// [More info →](https://www.w3schools.com/tags/att_input_formmethod.asp)
     @discardableResult
     public func formMethod<V>(_ expressable: ExpressableState<V, MethodType>) -> Self {
         formMethod(expressable.unwrap())
@@ -61,4 +61,5 @@ extension FormMethodAttrable {
 }
 
 extension Button: _FormMethodAttrable {}
-extension Input: _FormMethodAttrable {}
+extension InputSubmit: _FormMethodAttrable {}
+extension InputImage: _FormMethodAttrable {}

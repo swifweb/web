@@ -54,4 +54,6 @@ extension PatternAttrable {
     }
 }
 
-extension Input: _PatternAttrable {}
+extension InputText: _PatternAttrable {}
+extension InputTel: _PatternAttrable {}
+extension InputPassword: _PatternAttrable {}

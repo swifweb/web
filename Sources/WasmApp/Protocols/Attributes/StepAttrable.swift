@@ -57,4 +57,10 @@ extension StepAttrable {
     }
 }
 
-extension Input: _StepAttrable {}
+extension InputNumber: _StepAttrable {}
+extension InputRange: _StepAttrable {}
+extension InputDateTime: _StepAttrable {}
+extension InputDate: _StepAttrable {}
+extension InputTime: _StepAttrable {}
+extension InputWeek: _StepAttrable {}
+extension InputMonth: _StepAttrable {}

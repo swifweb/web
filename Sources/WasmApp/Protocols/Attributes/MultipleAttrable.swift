@@ -54,5 +54,6 @@ extension MultipleAttrable {
     }
 }
 
-extension Input: _MultipleAttrable {}
+extension InputEmail: _MultipleAttrable {}
+extension InputFile: _MultipleAttrable {}
 extension Select: _MultipleAttrable {}

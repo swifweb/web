@@ -66,4 +66,4 @@ extension ListAttrable {
     }
 }
 
-extension Input: _ListAttrable {}
+extension InputList: _ListAttrable {}

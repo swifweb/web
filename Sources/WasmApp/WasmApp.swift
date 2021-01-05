@@ -7,6 +7,7 @@ open class WasmApp {
     private var isStarted = false
     
     public static var shared: WasmApp { wasmapp }
+    public static var current: Self { shared as! Self }
     
     public private(set) lazy var window = Window()
     public var document: Document { window.document }
@@ -28,6 +29,7 @@ open class WasmApp {
     
     private func start() {
         parseAppBuilderItem(body.appBuilderContent)
+        stylesheets.forEach { document.head.appendChild($0) }
         window.appDidStarted()
         handleRoute(.init(
             application: self,
@@ -61,13 +63,16 @@ open class WasmApp {
         }
     }
     
-    @AppBuilder open var body: AppBuilderContent { _AppContent(appBuilderContent: .none) }
+    @AppBuilder open var body: AppBuilder.Content { _AppContent(appBuilderContent: .none) }
+    
+    var stylesheets: [Stylesheet] = []
     
     private func parseAppBuilderItem(_ item: AppBuilder.Item) {
         switch item {
         case .items(let v): v.forEach { parseAppBuilderItem($0) }
         case .lifecycle(let v): window.addLifecycleListener(v)
         case .routes(let v): v.addRoutes(into: routes)
+        case .stylesheet(let v): stylesheets.append(v)
         case .none: break
         }
     }

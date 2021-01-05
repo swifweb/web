@@ -85,7 +85,7 @@ private struct NotFoundResponder: Responder {
 }
 
 private class NotFoundViewController: ViewController {
-    override init() {
+    required init() {
         super.init()
         view.object?.innerHTML = "Nothing has been found".jsValue()
     }

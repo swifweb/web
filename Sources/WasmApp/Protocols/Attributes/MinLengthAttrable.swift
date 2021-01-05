@@ -54,5 +54,9 @@ extension MinLengthAttrable {
     }
 }
 
-extension Input: _MinLengthAttrable {}
+extension InputText: _MinLengthAttrable {}
+extension InputTel: _MinLengthAttrable {}
+extension InputPassword: _MinLengthAttrable {}
+extension InputSearch: _MinLengthAttrable {}
+extension InputURL: _MinLengthAttrable {}
 extension TextArea: _MinLengthAttrable {}

@@ -7,31 +7,32 @@
 
 import Foundation
 import JavaScriptKit
-import CSS
 
-open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable, _AnimationIterationHandleable, _AnimationStartHandleable, _ContextMenuHandleable, _CopyHandleable, _CutHandleable, _DragHandleable, _DragEndHandleable, _DragEnterHandleable, _DragLeaveHandleable, _DragOverHandleable, _DragStartHandleable, _DropHandleable, _FullScreenChangeHandleable, _FullScreenErrorHandleable, _MessageHandleable, _OpenHandleable, _PasteHandleable, _TouchCancelHandleable, _TouchEndHandleable, _TouchMoveHandleable, _TouchStartHandleable, _TransitionEndHandleable, _WheelHandleable {
+open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable, _AnimationIterationHandleable, _AnimationStartHandleable, _ContextMenuHandleable, _CopyHandleable, _CutHandleable, _DragHandleable, _DragEndHandleable, _DragEnterHandleable, _DragLeaveHandleable, _DragOverHandleable, _DragStartHandleable, _DropHandleable, _FullScreenChangeHandleable, _FullScreenErrorHandleable, _MessageHandleable, _OpenHandleable, _PasteHandleable, _TouchCancelHandleable, _TouchEndHandleable, _TouchMoveHandleable, _TouchStartHandleable, _TransitionEndHandleable, _WheelHandleable, StaticPointerable, _CSSRulable {
+    public var pointer: Pointer { .init(Self.name) }
+    
     public class var name: String { "\(Self.self)".lowercased() }
     
     public var bodyBuilderContent: BodyBuilderItem { .elements([self]) }
     
     let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789=")
-    var cssProperties: [AnyProperty] = []
+//    var cssProperties: [AnyProperty] = []
     var subElements: [_AnyElement] = []
     
     var rootElement: JSValue?
     var domElement: JSValue
     
-    init () {
+    required public init () {
         domElement = WasmApp.shared.document.createElement(Self.name)
         postInit()
     }
     
-    init (in document: Document) {
+    public init (in document: Document) {
         domElement = document.createElement(Self.name)
         postInit()
     }
     
-    init (domElement: JSValue) {
+    public init (domElement: JSValue) {
         self.domElement = domElement
         postInit()
     }
@@ -143,5 +144,15 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
         guard let rootElement = rootElement else { return }
         rootElement.removeChild.function?.callAsFunction(this: rootElement.object, domElement)
         self.rootElement = nil
+    }
+    
+    // MARK: _CSSRulable
+    
+    func _removeProperty(_ key: String) {
+        domElement.style.object?[key] = .null
+    }
+    
+    func _setProperty(_ key: String, _ value: String) {
+        domElement.style.object?[key] = value.jsValue()
     }
 }
