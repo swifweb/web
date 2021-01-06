@@ -66,24 +66,29 @@ public class ColorProperty: _Property {
 }
 
 extension PropertyKey {
+    /// Sets the color of text
     public static var color: PropertyKey<Color> { "color".propertyKey() }
 }
 
 extension Stylesheet {
+    /// Sets the color of text
     public typealias Color = ColorProperty
 }
 
 extension CSSRulable {
+    /// Sets the color of text
     public func color(_ color: Color) -> Self {
         s?._addProperty(.color, color)
         return self
     }
     
+    /// Sets the color of text
     public func color(_ color: State<Color>) -> Self {
         s?._addProperty(ColorProperty(color))
         return self
     }
     
+    /// Sets the color of text
     public func color<V>(_ color: ExpressableState<V, Color>) -> Self {
         self.color(color.unwrap())
     }
