@@ -21,12 +21,40 @@ public class BackgroundProperty: _Property {
         propertyValue = value
     }
     
-    public init (color: ColorType? = nil, src: String? = nil, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil) {
-        propertyValue = BackgroundValue(color: color, src: src, position: position, size: size, repeat: `repeat`, origin: origin, clip: clip, attachment: attachment)
+    public convenience init (_ type: State<BackgroundValue>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, BackgroundValue>) {
+        self.init(type.unwrap())
+    }
+    
+    public init (
+        color: ColorType? = nil,
+        src: String? = nil,
+        position: BackgroundPositionType? = nil,
+        size: BackgroundSizeType? = nil,
+        repeat: BackgroundRepeatType? = nil,
+        origin: BackgroundOriginType? = nil,
+        clip: BackgroundClipType? = nil,
+        attachment: BackgroundAttachmentType? = nil
+    ) {
+        propertyValue = BackgroundValue(
+            color: color,
+            src: src,
+            position: position,
+            size: size,
+            repeat: `repeat`,
+            origin: origin,
+            clip: clip,
+            attachment: attachment
+        )
     }
 }
 
 extension PropertyKey {
+    /// A shorthand property for all the background-* properties
     public static var background: PropertyKey<BackgroundValue> { "background".propertyKey() }
 }
 
@@ -38,4 +66,52 @@ public struct BackgroundValue: CustomStringConvertible {
     }
     
     public var description: String { value }
+}
+
+extension Stylesheet {
+    /// A shorthand property for all the background-* properties
+    public typealias Background = BackgroundProperty
+}
+
+extension CSSRulable {
+    /// A shorthand property for all the background-* properties
+    public func background(_ type: BackgroundValue) -> Self {
+        s?._addProperty(.background, type)
+        return self
+    }
+
+    /// A shorthand property for all the background-* properties
+    public func background(_ type: State<BackgroundValue>) -> Self {
+        s?._addProperty(BackgroundProperty(type))
+        return self
+    }
+
+    /// A shorthand property for all the background-* properties
+    public func background<V>(_ type: ExpressableState<V, BackgroundValue>) -> Self {
+        background(type.unwrap())
+    }
+    
+    /// A shorthand property for all the background-* properties
+    public func background(
+        color: ColorType? = nil,
+        src: String? = nil,
+        position: BackgroundPositionType? = nil,
+        size: BackgroundSizeType? = nil,
+        repeat: BackgroundRepeatType? = nil,
+        origin: BackgroundOriginType? = nil,
+        clip: BackgroundClipType? = nil,
+        attachment: BackgroundAttachmentType? = nil
+    ) -> Self {
+        s?._addProperty(BackgroundProperty(
+            color: color,
+            src: src,
+            position: position,
+            size: size,
+            repeat: `repeat`,
+            origin: origin,
+            clip: clip,
+            attachment: attachment
+        ))
+        return self
+    }
 }
