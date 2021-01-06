@@ -34,6 +34,10 @@ public class PaddingProperty: _Property {
     }
 }
 
+extension PropertyKey {
+    public static var padding: PropertyKey<PaddingValue> { "padding".propertyKey() }
+}
+
 public struct PaddingValue: CustomStringConvertible {
     public let value: String
     
@@ -50,92 +54,4 @@ public struct PaddingValue: CustomStringConvertible {
     }
     
     public var description: String { value }
-}
-
-extension PropertyKey {
-    public static var padding: PropertyKey<PaddingValue> { "padding".propertyKey() }
-}
-
-/// Sets the bottom padding of an element
-///
-/// ```html
-/// padding-bottom: 25px;
-/// ```
-///
-/// [Learn more](https://www.w3schools.com/cssref/pr_padding-bottom.asp)
-public class PaddingBottomProperty: _Property {
-    public var propertyKey: PropertyKey<UnitValue> { .paddingBottom }
-    public var propertyValue: UnitValue
-    var _content = _PropertyContent<UnitValue>()
-    
-    public init<U: UnitValuable>(_ v: U) {
-        propertyValue = UnitValue(v.value.doubleValue, v.unit)
-    }
-}
-
-extension PropertyKey {
-    public static var paddingBottom: PropertyKey<UnitValue> { "padding-bottom".propertyKey() }
-}
-
-/// Sets the left padding of an element
-///
-/// ```html
-/// padding-left: 25px;
-/// ```
-///
-/// [Learn more](https://www.w3schools.com/cssref/pr_padding-left.asp)
-public class PaddingLeftProperty: _Property {
-    public var propertyKey: PropertyKey<UnitValue> { .paddingLeft }
-    public var propertyValue: UnitValue
-    var _content = _PropertyContent<UnitValue>()
-    
-    public init<U: UnitValuable>(_ v: U) {
-        propertyValue = UnitValue(v.value.doubleValue, v.unit)
-    }
-}
-
-extension PropertyKey {
-    public static var paddingLeft: PropertyKey<UnitValue> { "padding-left".propertyKey() }
-}
-
-/// Sets the right padding of an element
-///
-/// ```html
-/// padding-right: 25px;
-/// ```
-///
-/// [Learn more](https://www.w3schools.com/cssref/pr_padding-right.asp)
-public class PaddingRightProperty: _Property {
-    public var propertyKey: PropertyKey<UnitValue> { .paddingRight }
-    public var propertyValue: UnitValue
-    var _content = _PropertyContent<UnitValue>()
-    
-    public init<U: UnitValuable>(_ v: U) {
-        propertyValue = UnitValue(v.value.doubleValue, v.unit)
-    }
-}
-
-extension PropertyKey {
-    public static var paddingRight: PropertyKey<UnitValue> { "padding-right".propertyKey() }
-}
-
-/// Sets the top padding of an element
-///
-/// ```html
-/// padding-top: 25px;
-/// ```
-///
-/// [Learn more](https://www.w3schools.com/cssref/pr_padding-top.asp)
-public class PaddingTopProperty: _Property {
-    public var propertyKey: PropertyKey<UnitValue> { .paddingTop }
-    public var propertyValue: UnitValue
-    var _content = _PropertyContent<UnitValue>()
-    
-    public init<U: UnitValuable>(_ v: U) {
-        propertyValue = UnitValue(v.value.doubleValue, v.unit)
-    }
-}
-
-extension PropertyKey {
-    public static var paddingTop: PropertyKey<UnitValue> { "padding-top".propertyKey() }
 }

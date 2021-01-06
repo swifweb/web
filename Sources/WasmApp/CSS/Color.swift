@@ -7,8 +7,14 @@
 
 import Foundation
 
-open class Color: CustomStringConvertible {
+protocol _PropertyValueInnerChangeable: class {
+    var _changeHandler: () -> Void { get set }
+}
+
+open class Color: CustomStringConvertible, _PropertyValueInnerChangeable {
     @State public var value: ColorType = .css(.black)
+    
+    var _changeHandler = {}
     
     public init (_ value: ColorType) {
         self.value = value

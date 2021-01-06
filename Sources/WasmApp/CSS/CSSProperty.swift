@@ -30,7 +30,7 @@ extension AnyProperty {
     }
 }
 
-public protocol Property: AnyProperty {
+public protocol Property: AnyProperty, PropertiesContent {
     associatedtype Value: CustomStringConvertible
     
     var propertyKey: PropertyKey<Value> { get }
@@ -43,6 +43,8 @@ public protocol Property: AnyProperty {
 }
 
 extension Property {
+    public var propertiesContent: Properties.Item { .property(self) }
+    
     public var key: String { propertyKey.key }
     public var value: String { propertyValue.description }
     

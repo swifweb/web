@@ -52,20 +52,46 @@ open class CSSRule: RulesContent, _CSSRulable {
     }
     
     public init (_ pointers: [Pointerable]) {
-        self.pointers = pointers
+        self._pointers = pointers
+    }
+    
+    public init (_ pointers: [Pointerable], @Properties content: @escaping Properties.Block) {
+        self._pointers = pointers
     }
     
     public convenience init (_ pointers: Pointerable...) {
         self.init(pointers)
     }
     
-    var pointers: [Pointerable] = []
-    var properties: [String: String] = [:]
+    public convenience init (_ pointers: Pointerable..., @Properties content: @escaping Properties.Block) {
+        self.init(pointers)
+    }
     
-//    public func property<V>(_ property: PropertyKey<V>, _ value: V) -> Self {
-//        addRuleProperty(property.key, value.description)
-//        return self
-//    }
+    @discardableResult
+    public func properties(@Properties content: @escaping Properties.Block) -> Self {
+        parsePropertiesItem(content().propertiesContent)
+        return self
+    }
+    
+    public typealias Content = Properties.Content
+    @Properties open var properties: Content { _PropertiesContent(propertiesContent: .none) }
+    
+    private func parsePropertiesItem(_ item: Properties.Item) {
+        switch item {
+        case .items(let v): v.forEach { parsePropertiesItem($0) }
+        case .property(let v): _properties[v.key] = v.value
+        case .none: break
+        }
+    }
+    
+    var _pointers: [Pointerable] = []
+    var _properties: [String: String] = [:]
+    
+    /// Alternative way to set properties of the rule
+    public func property<V>(_ property: PropertyKey<V>, _ value: V) -> Self { // TODO: need autocomplete for rhs value
+        _addProperty(property.key, value.description)
+        return self
+    }
     
     /// Represents the textual representation of the rule,
     /// e.g. "h1,h2 { font-size: 16pt }" or "@import 'url'".
@@ -97,12 +123,12 @@ open class CSSRule: RulesContent, _CSSRulable {
     }
     
     func set(_ key: String, _ value: String) {
-        properties[key] = value
+        _properties[key] = value
         domElement?.style.object?[key] = value.jsValue()
     }
     
     func remove(_ key: String) {
-        properties.removeValue(forKey: key)
+        _properties.removeValue(forKey: key)
         domElement?.style.object?[key] = JSValue.null
     }
     
@@ -136,6 +162,11 @@ extension _CSSRulable {
     func _addProperty<P: _Property>(_ property: P) {
         let key = property.key
         _setProperty(key, property.value)
+        if let internalChangeable = property.propertyValue as? _PropertyValueInnerChangeable {
+            internalChangeable._changeHandler = {
+                self._setProperty(key, property.propertyValue.description)
+            }
+        }
         property._content._changeHandler = { newValue in
             guard let newValue = newValue else {
                 self._removeProperty(key)

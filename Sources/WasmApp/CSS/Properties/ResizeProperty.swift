@@ -8,7 +8,10 @@
 /// Defines if (and how) an element is resizable by the user
 ///
 /// ```html
-///
+/// div {
+///     resize: both;
+///     overflow: auto;
+/// }
 /// ```
 ///
 /// [Learn more](https://www.w3schools.com/cssref/css3_pr_resize.asp)
