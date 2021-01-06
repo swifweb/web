@@ -31,9 +31,18 @@ public class TextDecorationProperty: _Property {
     public var propertyValue: TextDecorationValue
     var _content = _PropertyContent<TextDecorationValue>()
     
-    public init (_ line: TextDecorationLineType, _ color: TextDecorationColorType, _ style: TextDecorationStyleType) {
+    public init (_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) {
         propertyValue = TextDecorationValue(line, color, style)
     }
+    
+    //    public convenience init (_ type: State<<#T##c: Type##Type#>>) {
+    //        self.init(type.wrappedValue)
+    //        type.listen { self._changed(to: $0) }
+    //    }
+    //
+    //    public convenience init <V>(_ type: ExpressableState<V, <#T##c: Type##Type#>>) {
+    //        self.init(type.unwrap())
+    //    }
 }
 
 extension PropertyKey {
@@ -42,16 +51,40 @@ extension PropertyKey {
 
 public struct TextDecorationValue: CustomStringConvertible {
     let line: TextDecorationLineType
-    let color: TextDecorationColorType
+    let color: Color
     let style: TextDecorationStyleType
     
-    public init (_ line: TextDecorationLineType, _ color: TextDecorationColorType, _ style: TextDecorationStyleType) {
+    public init (_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) {
         self.line = line
         self.color = color
         self.style = style
     }
     
     public var description: String {
-        [line.value, color.value, style.value].joined(separator: " ")
+        [line.value, color.description, style.value].joined(separator: " ")
     }
 }
+
+//extension Stylesheet {
+//    <#T##c: Docs##String#>
+//    public typealias <#T##c: Alias##String#> = <#T##c: Original##Original#>
+//}
+//
+//extension CSSRulable {
+//    <#T##c: Docs##String#>
+//    public func <#T##c: variableName##variableName#>(_ type: <#T##c: Type##Type#>) -> Self {
+//        s?._addProperty(.<#T##c: variableName##variableName#>, type)
+//        return self
+//    }
+//
+//    <#T##c: Docs##String#>
+//    public func <#T##c: variableName##variableName#>(_ type: State<<#T##c: Type##Type#>>) -> Self {
+//        s?._addProperty(<#T##c: Original##Original#>(type))
+//        return self
+//    }
+//
+//    <#T##c: Docs##String#>
+//    public func <#T##c: variableName##variableName#><V>(_ type: ExpressableState<V, <#T##c: Type##Type#>>) -> Self {
+//        <#T##c: variableName##variableName#>(type.unwrap())
+//    }
+//}

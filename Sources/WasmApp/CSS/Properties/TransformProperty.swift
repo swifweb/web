@@ -31,14 +31,14 @@ public class TransformProperty: _Property {
         propertyValue = `func`
     }
     
-    //    public convenience init (_ type: State<TransformFunction>) {
-    //        self.init(type.wrappedValue)
-    //        type.listen { self._changed(to: $0) }
-    //    }
-    //
-    //    public convenience init <V>(_ type: ExpressableState<V, TransformFunction>) {
-    //        self.init(type.unwrap())
-    //    }
+    public convenience init (_ type: State<TransformFunction>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, TransformFunction>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {

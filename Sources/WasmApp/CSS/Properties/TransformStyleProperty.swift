@@ -24,14 +24,14 @@ public class TransformStyleProperty: _Property {
         propertyValue = type
     }
     
-    //    public convenience init (_ type: State<TransformStyleType>) {
-    //        self.init(type.wrappedValue)
-    //        type.listen { self._changed(to: $0) }
-    //    }
-    //
-    //    public convenience init <V>(_ type: ExpressableState<V, TransformStyleType>) {
-    //        self.init(type.unwrap())
-    //    }
+    public convenience init (_ type: State<TransformStyleType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, TransformStyleType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {

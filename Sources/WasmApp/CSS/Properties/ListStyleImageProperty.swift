@@ -66,7 +66,7 @@ extension Stylesheet {
 extension CSSRulable {
     /// Specifies an image as the list-item marker
     public func listStyleImage(_ type: URLValue) -> Self {
-        s?._addProperty(.listStyleImage, type)
+        s?._addProperty(.listStyleImage, URLValueContainer(type))
         return self
     }
     

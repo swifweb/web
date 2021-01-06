@@ -155,7 +155,7 @@ protocol _CSSRulable: CSSRulable {
     func _addProperty<P: _Property>(_ property: P)
     func _addProperty(_ key: String, _ value: String)
     func _addProperty<V>(_ key: PropertyKey<V>, _ value: V)
-    func _addProperty<V>(_ key: PropertyKey<V>, _ value: String)
+    func _addProperty<V>(_ key: PropertyKey<V>, value: String)
 }
 
 extension _CSSRulable {
@@ -184,7 +184,7 @@ extension _CSSRulable {
         _addProperty(key.key, value.description)
     }
 
-    func _addProperty<V>(_ key: PropertyKey<V>, _ value: String) where V : CustomStringConvertible {
+    func _addProperty<V>(_ key: PropertyKey<V>, value: String) where V : CustomStringConvertible {
         _addProperty(key.key, value)
     }
 }
