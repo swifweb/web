@@ -115,6 +115,7 @@ extension CSSRulable {
         animation(type.unwrap())
     }
     
+    /// A shorthand property for all the animation-* properties
     public func animation<D1: TimeUnitValue, D2: TimeUnitValue>(
         name: String? = nil,
         duration: D1? = nil,
