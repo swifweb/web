@@ -20,8 +20,42 @@ public class AnimationIterationCountProperty: _Property {
     public init (_ n: Int) {
         propertyValue = n
     }
+    
+    public convenience init (_ type: State<Int>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, Int>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the number of times an animation should be played
     public static var animationIterationCount: PropertyKey<Int> { "animation-iteration-count".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the number of times an animation should be played
+    public typealias AnimationIterationCount = AnimationIterationCountProperty
+}
+
+extension CSSRulable {
+    /// Specifies the number of times an animation should be played
+    public func animationIterationCount(_ type: Int) -> Self {
+        s?._addProperty(.animationIterationCount, type)
+        return self
+    }
+
+    /// Specifies the number of times an animation should be played
+    public func animationIterationCount(_ type: State<Int>) -> Self {
+        s?._addProperty(AnimationIterationCountProperty(type))
+        return self
+    }
+
+    /// Specifies the number of times an animation should be played
+    public func animationIterationCount<V>(_ type: ExpressableState<V, Int>) -> Self {
+        animationIterationCount(type.unwrap())
+    }
 }

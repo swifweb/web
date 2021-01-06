@@ -20,8 +20,42 @@ public class DisplayProperty: _Property {
     public init (_ type: DisplayType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<DisplayType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, DisplayType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies how a certain HTML element should be displayed
     public static var display: PropertyKey<DisplayType> { "display".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies how a certain HTML element should be displayed
+    public typealias Display = DisplayProperty
+}
+
+extension CSSRulable {
+    /// Specifies how a certain HTML element should be displayed
+    public func display(_ type: DisplayType) -> Self {
+        s?._addProperty(.display, type)
+        return self
+    }
+
+    /// Specifies how a certain HTML element should be displayed
+    public func display(_ type: State<DisplayType>) -> Self {
+        s?._addProperty(DisplayProperty(type))
+        return self
+    }
+
+    /// Specifies how a certain HTML element should be displayed
+    public func display<V>(_ type: ExpressableState<V, DisplayType>) -> Self {
+        display(type.unwrap())
+    }
 }

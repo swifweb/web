@@ -20,8 +20,42 @@ public class AlignItemsProperty: _Property {
     public init (_ type: AlignItemsType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<AlignItemsType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, AlignItemsType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the alignment for items inside a flexible container
     public static var alignItems: PropertyKey<AlignItemsType> { "align-items".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the alignment for items inside a flexible container
+    public typealias AlignItems = AlignItemsProperty
+}
+
+extension CSSRulable {
+    /// Specifies the alignment for items inside a flexible container
+    public func alignItems(_ type: AlignItemsType) -> Self {
+        s?._addProperty(.alignItems, type)
+        return self
+    }
+    
+    /// Specifies the alignment for items inside a flexible container
+    public func alignItems(_ type: State<AlignItemsType>) -> Self {
+        s?._addProperty(AlignItemsProperty(type))
+        return self
+    }
+    
+    /// Specifies the alignment for items inside a flexible container
+    public func alignItems<V>(_ type: ExpressableState<V, AlignItemsType>) -> Self {
+        alignItems(type.unwrap())
+    }
 }

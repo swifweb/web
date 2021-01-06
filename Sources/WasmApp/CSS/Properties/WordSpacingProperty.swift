@@ -22,8 +22,42 @@ public class WordSpacingProperty: _Property {
     public init (_ type: WordSpacingType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<WordSpacingType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, WordSpacingType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Increases or decreases the space between words in a text
     public static var wordSpacing: PropertyKey<WordSpacingType> { "word-spacing".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Increases or decreases the space between words in a text
+    public typealias WordSpacing = WordSpacingProperty
+}
+
+extension CSSRulable {
+    /// Increases or decreases the space between words in a text
+    public func wordSpacing(_ type: WordSpacingType) -> Self {
+        s?._addProperty(.wordSpacing, type)
+        return self
+    }
+
+    /// Increases or decreases the space between words in a text
+    public func wordSpacing(_ type: State<WordSpacingType>) -> Self {
+        s?._addProperty(WordSpacingProperty(type))
+        return self
+    }
+
+    /// Increases or decreases the space between words in a text
+    public func wordSpacing<V>(_ type: ExpressableState<V, WordSpacingType>) -> Self {
+        wordSpacing(type.unwrap())
+    }
 }

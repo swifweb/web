@@ -25,8 +25,42 @@ public class ZIndexProperty: _Property {
     public init (_ value: Int) {
         propertyValue = value
     }
+    
+    public convenience init (_ type: State<Int>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, Int>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Sets the stack order of a positioned element
     public static var zIndex: PropertyKey<Int> { "z-index".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Sets the stack order of a positioned element
+    public typealias ZIndex = ZIndexProperty
+}
+
+extension CSSRulable {
+    /// Sets the stack order of a positioned element
+    public func zIndex(_ type: Int) -> Self {
+        s?._addProperty(.zIndex, type)
+        return self
+    }
+
+    /// Sets the stack order of a positioned element
+    public func zIndex(_ type: State<Int>) -> Self {
+        s?._addProperty(ZIndexProperty(type))
+        return self
+    }
+
+    /// Sets the stack order of a positioned element
+    public func zIndex<V>(_ type: ExpressableState<V, Int>) -> Self {
+        zIndex(type.unwrap())
+    }
 }

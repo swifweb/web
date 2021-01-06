@@ -20,8 +20,42 @@ public class AnimationNameProperty: _Property {
     public init (_ name: String) {
         propertyValue = name
     }
+    
+    public convenience init (_ type: State<String>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, String>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies a name for the @keyframes animation
     public static var animationName: PropertyKey<String> { "animation-name".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies a name for the @keyframes animation
+    public typealias AnimationName = AnimationNameProperty
+}
+
+extension CSSRulable {
+    /// Specifies a name for the @keyframes animation
+    public func animationName(_ type: String) -> Self {
+        s?._addProperty(.animationName, type)
+        return self
+    }
+
+    /// Specifies a name for the @keyframes animation
+    public func animationName(_ type: State<String>) -> Self {
+        s?._addProperty(AnimationNameProperty(type))
+        return self
+    }
+
+    /// Specifies a name for the @keyframes animation
+    public func animationName<V>(_ type: ExpressableState<V, String>) -> Self {
+        animationName(type.unwrap())
+    }
 }

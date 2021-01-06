@@ -20,8 +20,42 @@ public class LetterSpacingProperty: _Property {
     public init (_ type: LetterSpacingType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<LetterSpacingType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, LetterSpacingType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Increases or decreases the space between characters in a text
     public static var letterSpacing: PropertyKey<LetterSpacingType> { "letter-spacing".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Increases or decreases the space between characters in a text
+    public typealias LetterSpacing = LetterSpacingProperty
+}
+
+extension CSSRulable {
+    /// Increases or decreases the space between characters in a text
+    public func letterSpacing(_ type: LetterSpacingType) -> Self {
+        s?._addProperty(.letterSpacing, type)
+        return self
+    }
+
+    /// Increases or decreases the space between characters in a text
+    public func letterSpacing(_ type: State<LetterSpacingType>) -> Self {
+        s?._addProperty(LetterSpacingProperty(type))
+        return self
+    }
+
+    /// Increases or decreases the space between characters in a text
+    public func letterSpacing<V>(_ type: ExpressableState<V, LetterSpacingType>) -> Self {
+        letterSpacing(type.unwrap())
+    }
 }

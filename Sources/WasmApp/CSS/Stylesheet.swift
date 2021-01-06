@@ -10,7 +10,7 @@ import JavaScriptKit
 
 open class Stylesheet: BaseElement, AppBuilderContent {
     public typealias Rule = CSSRule
-    public typealias Content = Rules.Content
+    public typealias RuleItems = Rules.Content
     public override class var name: String { "style" }
     public var appBuilderContent: AppBuilder.Item { .stylesheet(self) }
     
@@ -33,7 +33,7 @@ open class Stylesheet: BaseElement, AppBuilderContent {
         return self
     }
     
-    @Rules open var rules: Content { _RulesContent(rulesContent: .none) }
+    @Rules open var rules: RuleItems { _RulesContent(rulesContent: .none) }
     
     private func parseRulesItem(_ item: Rules.Item) {
         switch item {

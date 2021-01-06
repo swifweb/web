@@ -22,8 +22,42 @@ public class VerticalAlignProperty: _Property {
     public init (_ type: VerticalAlignType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<VerticalAlignType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, VerticalAlignType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Sets the vertical alignment of an element
     public static var verticalAlign: PropertyKey<VerticalAlignType> { "vertical-align".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Sets the vertical alignment of an element
+    public typealias VerticalAlign = VerticalAlignProperty
+}
+
+extension CSSRulable {
+    /// Sets the vertical alignment of an element
+    public func verticalAlign(_ type: VerticalAlignType) -> Self {
+        s?._addProperty(.verticalAlign, type)
+        return self
+    }
+
+    /// Sets the vertical alignment of an element
+    public func verticalAlign(_ type: State<VerticalAlignType>) -> Self {
+        s?._addProperty(VerticalAlignProperty(type))
+        return self
+    }
+
+    /// Sets the vertical alignment of an element
+    public func verticalAlign<V>(_ type: ExpressableState<V, VerticalAlignType>) -> Self {
+        verticalAlign(type.unwrap())
+    }
 }

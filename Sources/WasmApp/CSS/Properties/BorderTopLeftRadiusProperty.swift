@@ -20,8 +20,42 @@ public class BorderTopLeftRadiusProperty: _Property {
     public init (_ value: BorderRadiusType) {
         propertyValue = value
     }
+    
+    public convenience init (_ type: State<BorderRadiusType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, BorderRadiusType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Defines the radius of the border of the top-left corner
     public static var borderTopLeftRadius: PropertyKey<BorderRadiusType> { "border-top-left-radius".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Defines the radius of the border of the top-left corner
+    public typealias BorderTopLeftRadius = BorderTopLeftRadiusProperty
+}
+
+extension CSSRulable {
+    /// Defines the radius of the border of the top-left corner
+    public func borderTopLeftRadius(_ type: BorderRadiusType) -> Self {
+        s?._addProperty(.borderTopLeftRadius, type)
+        return self
+    }
+
+    /// Defines the radius of the border of the top-left corner
+    public func borderTopLeftRadius(_ type: State<BorderRadiusType>) -> Self {
+        s?._addProperty(BorderTopLeftRadiusProperty(type))
+        return self
+    }
+
+    /// Defines the radius of the border of the top-left corner
+    public func borderTopLeftRadius<V>(_ type: ExpressableState<V, BorderRadiusType>) -> Self {
+        borderTopLeftRadius(type.unwrap())
+    }
 }

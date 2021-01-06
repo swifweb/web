@@ -20,8 +20,42 @@ public class ContentProperty: _Property {
     public init (_ type: ContentType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<ContentType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, ContentType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Used with the :before and :after pseudo-elements, to insert generated content
     public static var content: PropertyKey<ContentType> { "content".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Used with the :before and :after pseudo-elements, to insert generated content
+    public typealias Content = ContentProperty
+}
+
+extension CSSRulable {
+    /// Used with the :before and :after pseudo-elements, to insert generated content
+    public func content(_ type: ContentType) -> Self {
+        s?._addProperty(.content, type)
+        return self
+    }
+
+    /// Used with the :before and :after pseudo-elements, to insert generated content
+    public func content(_ type: State<ContentType>) -> Self {
+        s?._addProperty(ContentProperty(type))
+        return self
+    }
+
+    /// Used with the :before and :after pseudo-elements, to insert generated content
+    public func content<V>(_ type: ExpressableState<V, ContentType>) -> Self {
+        content(type.unwrap())
+    }
 }

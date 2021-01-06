@@ -12,13 +12,63 @@ public protocol UnitValuable: CustomStringConvertible {
     var unit: Unit { get }
 }
 
-public struct UnitValue: UnitValuable {
-    public let value: Double
-    public let unit: Unit
+public class UnitValue: UnitValuable, _PropertyValueInnerChangeable {
+    @State public var value: Double = 0
+    @State public var unit: Unit = .px
+    
+    var _changeHandler = {}
     
     init (_ value: Double, _ unit: Unit) {
         self.value = value
         self.unit = unit
+    }
+    
+    convenience init (_ value: State<Double>, _ unit: Unit) {
+        self.init(value.wrappedValue, unit)
+        value.listen {
+            self.value = $0
+            self._changeHandler()
+        }
+    }
+    
+    convenience init (_ value: Double, _ unit: State<Unit>) {
+        self.init(value, unit.wrappedValue)
+        unit.listen {
+            self.unit = $0
+            self._changeHandler()
+        }
+    }
+    
+    convenience init (_ value: State<Double>, _ unit: State<Unit>) {
+        self.init(value.wrappedValue, unit.wrappedValue)
+        value.listen {
+            self.value = $0
+            self._changeHandler()
+        }
+        unit.listen {
+            self.unit = $0
+            self._changeHandler()
+        }
+    }
+    
+    convenience init <V>(_ value: ExpressableState<V, Double>, _ unit: Unit) {
+        self.init(value.unwrap(), unit)
+    }
+    
+    convenience init <V>(_ value: ExpressableState<V, Double>, _ unit: State<Unit>) {
+        self.init(value.unwrap(), unit)
+    }
+    
+    convenience init <V>(_ value: Double, _ unit: ExpressableState<V, Unit>) {
+        self.init(value, unit.unwrap())
+    }
+    
+    convenience init <V>(_ value: State<Double>, _ unit: ExpressableState<V, Unit>) {
+        self.init(value, unit.unwrap())
+    }
+    
+    convenience init <V, U>(_ value: ExpressableState<V, Double>, _ unit: ExpressableState<U, Unit>) {
+        self.init(value.unwrap(), unit.unwrap())
     }
 }
 

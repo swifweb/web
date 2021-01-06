@@ -20,8 +20,42 @@ public class BorderTopWidthProperty: _Property {
     public init (_ type: BorderWidthType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<BorderWidthType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, BorderWidthType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Sets the width of the top border
     public static var borderTopWidth: PropertyKey<BorderWidthType> { "border-top-width".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Sets the width of the top border
+    public typealias BorderTopWidth = BorderTopWidthProperty
+}
+
+extension CSSRulable {
+    /// Sets the width of the top border
+    public func borderTopWidth(_ type: BorderWidthType) -> Self {
+        s?._addProperty(.borderTopWidth, type)
+        return self
+    }
+
+    /// Sets the width of the top border
+    public func borderTopWidth(_ type: State<BorderWidthType>) -> Self {
+        s?._addProperty(BorderTopWidthProperty(type))
+        return self
+    }
+
+    /// Sets the width of the top border
+    public func borderTopWidth<V>(_ type: ExpressableState<V, BorderWidthType>) -> Self {
+        borderTopWidth(type.unwrap())
+    }
 }

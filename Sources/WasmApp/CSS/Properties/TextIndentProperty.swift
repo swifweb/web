@@ -30,8 +30,42 @@ public class TextIndentProperty: _Property {
     public init (_ type: TextIndentType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<TextIndentType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, TextIndentType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the indentation of the first line in a text-block
     public static var textIndent: PropertyKey<TextIndentType> { "text-indent".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the indentation of the first line in a text-block
+    public typealias TextIndent = TextIndentProperty
+}
+
+extension CSSRulable {
+    /// Specifies the indentation of the first line in a text-block
+    public func textIndent(_ type: TextIndentType) -> Self {
+        s?._addProperty(.textIndent, type)
+        return self
+    }
+
+    /// Specifies the indentation of the first line in a text-block
+    public func textIndent(_ type: State<TextIndentType>) -> Self {
+        s?._addProperty(TextIndentProperty(type))
+        return self
+    }
+
+    /// Specifies the indentation of the first line in a text-block
+    public func textIndent<V>(_ type: ExpressableState<V, TextIndentType>) -> Self {
+        textIndent(type.unwrap())
+    }
 }

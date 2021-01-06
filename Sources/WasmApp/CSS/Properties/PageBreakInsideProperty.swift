@@ -20,8 +20,42 @@ public class PageBreakInsideProperty: _Property {
     public init (_ type: PageBreakInsideType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<PageBreakInsideType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, PageBreakInsideType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Sets the page-break behavior inside an element
     public static var pageBreakInside: PropertyKey<PageBreakInsideType> { "page-break-inside".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Sets the page-break behavior inside an element
+    public typealias PageBreakInside = PageBreakInsideProperty
+}
+
+extension CSSRulable {
+    /// Sets the page-break behavior inside an element
+    public func pageBreakInside(_ type: PageBreakInsideType) -> Self {
+        s?._addProperty(.pageBreakInside, type)
+        return self
+    }
+
+    /// Sets the page-break behavior inside an element
+    public func pageBreakInside(_ type: State<PageBreakInsideType>) -> Self {
+        s?._addProperty(PageBreakInsideProperty(type))
+        return self
+    }
+
+    /// Sets the page-break behavior inside an element
+    public func pageBreakInside<V>(_ type: ExpressableState<V, PageBreakInsideType>) -> Self {
+        pageBreakInside(type.unwrap())
+    }
 }

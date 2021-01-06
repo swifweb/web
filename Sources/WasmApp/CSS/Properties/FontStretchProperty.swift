@@ -34,8 +34,42 @@ public class FontStretchProperty: _Property {
     public init (_ type: FontStretchType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<FontStretchType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, FontStretchType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Selects a normal, condensed, or expanded face from a font family
     public static var fontStretch: PropertyKey<FontStretchType> { "font-stretch".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Selects a normal, condensed, or expanded face from a font family
+    public typealias FontStretch = FontStretchProperty
+}
+
+extension CSSRulable {
+    /// Selects a normal, condensed, or expanded face from a font family
+    public func fontStretch(_ type: FontStretchType) -> Self {
+        s?._addProperty(.fontStretch, type)
+        return self
+    }
+
+    /// Selects a normal, condensed, or expanded face from a font family
+    public func fontStretch(_ type: State<FontStretchType>) -> Self {
+        s?._addProperty(FontStretchProperty(type))
+        return self
+    }
+
+    /// Selects a normal, condensed, or expanded face from a font family
+    public func fontStretch<V>(_ type: ExpressableState<V, FontStretchType>) -> Self {
+        fontStretch(type.unwrap())
+    }
 }

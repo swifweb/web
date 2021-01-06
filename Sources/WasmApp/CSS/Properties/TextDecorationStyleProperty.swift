@@ -38,8 +38,42 @@ public class TextDecorationStyleProperty: _Property {
     public init (_ type: TextDecorationStyleType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<TextDecorationStyleType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, TextDecorationStyleType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the style of the line in a text decoration
     public static var textDecorationStyle: PropertyKey<TextDecorationStyleType> { "text-decoration-style".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the style of the line in a text decoration
+    public typealias TextDecorationStyle = TextDecorationStyleProperty
+}
+
+extension CSSRulable {
+    /// Specifies the style of the line in a text decoration
+    public func textDecorationStyle(_ type: TextDecorationStyleType) -> Self {
+        s?._addProperty(.textDecorationStyle, type)
+        return self
+    }
+
+    /// Specifies the style of the line in a text decoration
+    public func textDecorationStyle(_ type: State<TextDecorationStyleType>) -> Self {
+        s?._addProperty(TextDecorationStyleProperty(type))
+        return self
+    }
+
+    /// Specifies the style of the line in a text decoration
+    public func textDecorationStyle<V>(_ type: ExpressableState<V, TextDecorationStyleType>) -> Self {
+        textDecorationStyle(type.unwrap())
+    }
 }

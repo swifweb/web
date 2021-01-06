@@ -20,8 +20,42 @@ public class FlexDirectionProperty: _Property {
     public init (_ type: FlexDirectionType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<FlexDirectionType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, FlexDirectionType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the direction of the flexible items
     public static var flexDirection: PropertyKey<FlexDirectionType> { "flex-direction".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the direction of the flexible items
+    public typealias FlexDirection = FlexDirectionProperty
+}
+
+extension CSSRulable {
+    /// Specifies the direction of the flexible items
+    public func flexDirection(_ type: FlexDirectionType) -> Self {
+        s?._addProperty(.flexDirection, type)
+        return self
+    }
+
+    /// Specifies the direction of the flexible items
+    public func flexDirection(_ type: State<FlexDirectionType>) -> Self {
+        s?._addProperty(FlexDirectionProperty(type))
+        return self
+    }
+
+    /// Specifies the direction of the flexible items
+    public func flexDirection<V>(_ type: ExpressableState<V, FlexDirectionType>) -> Self {
+        flexDirection(type.unwrap())
+    }
 }

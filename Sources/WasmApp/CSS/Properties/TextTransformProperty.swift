@@ -30,8 +30,42 @@ public class TextTransformProperty: _Property {
     public init (_ type: TextTransformType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<TextTransformType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, TextTransformType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Controls the capitalization of text
     public static var textTransform: PropertyKey<TextTransformType> { "text-transform".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Controls the capitalization of text
+    public typealias TextTransform = TextTransformProperty
+}
+
+extension CSSRulable {
+    /// Controls the capitalization of text
+    public func textTransform(_ type: TextTransformType) -> Self {
+        s?._addProperty(.textTransform, type)
+        return self
+    }
+
+    /// Controls the capitalization of text
+    public func textTransform(_ type: State<TextTransformType>) -> Self {
+        s?._addProperty(TextTransformProperty(type))
+        return self
+    }
+
+    /// Controls the capitalization of text
+    public func textTransform<V>(_ type: ExpressableState<V, TextTransformType>) -> Self {
+        textTransform(type.unwrap())
+    }
 }

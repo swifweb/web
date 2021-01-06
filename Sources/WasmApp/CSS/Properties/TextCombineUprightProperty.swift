@@ -26,8 +26,42 @@ public class TextCombineUprightProperty: _Property {
     public init (_ type: TextCombineUprightType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<TextCombineUprightType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, TextCombineUprightType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the combination of multiple characters into the space of a single character
     public static var textCombineUpright: PropertyKey<TextCombineUprightType> { "text-combine-upright".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the combination of multiple characters into the space of a single character
+    public typealias TextCombineUpright = TextCombineUprightProperty
+}
+
+extension CSSRulable {
+    /// Specifies the combination of multiple characters into the space of a single character
+    public func textCombineUpright(_ type: TextCombineUprightType) -> Self {
+        s?._addProperty(.textCombineUpright, type)
+        return self
+    }
+
+    /// Specifies the combination of multiple characters into the space of a single character
+    public func textCombineUpright(_ type: State<TextCombineUprightType>) -> Self {
+        s?._addProperty(TextCombineUprightProperty(type))
+        return self
+    }
+
+    /// Specifies the combination of multiple characters into the space of a single character
+    public func textCombineUpright<V>(_ type: ExpressableState<V, TextCombineUprightType>) -> Self {
+        textCombineUpright(type.unwrap())
+    }
 }

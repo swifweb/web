@@ -24,8 +24,42 @@ public class TextOrientationProperty: _Property {
     public init (_ type: TextOrientationType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<TextOrientationType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, TextOrientationType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Defines the orientation of the text in a line
     public static var textOrientation: PropertyKey<TextOrientationType> { "text-orientation".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Defines the orientation of the text in a line
+    public typealias TextOrientation = TextOrientationProperty
+}
+
+extension CSSRulable {
+    /// Defines the orientation of the text in a line
+    public func textOrientation(_ type: TextOrientationType) -> Self {
+        s?._addProperty(.textOrientation, type)
+        return self
+    }
+
+    /// Defines the orientation of the text in a line
+    public func textOrientation(_ type: State<TextOrientationType>) -> Self {
+        s?._addProperty(TextOrientationProperty(type))
+        return self
+    }
+
+    /// Defines the orientation of the text in a line
+    public func textOrientation<V>(_ type: ExpressableState<V, TextOrientationType>) -> Self {
+        textOrientation(type.unwrap())
+    }
 }

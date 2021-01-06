@@ -33,58 +33,28 @@ public class AlignContentProperty: _Property {
 
 extension PropertyKey {
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
-    ///
-    /// ```html
-    /// align-content: center;
-    /// ```
-    ///
-    /// [Learn more](https://www.w3schools.com/cssref/css3_pr_align-content.asp)
     public static var alignContent: PropertyKey<AlignContentType> { "align-content".propertyKey() }
 }
 
 extension Stylesheet {
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
-    ///
-    /// ```html
-    /// align-content: center;
-    /// ```
-    ///
-    /// [Learn more](https://www.w3schools.com/cssref/css3_pr_align-content.asp)
     public typealias AlignContent = AlignContentProperty
 }
 
 extension CSSRulable {
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
-    ///
-    /// ```html
-    /// align-content: center;
-    /// ```
-    ///
-    /// [Learn more](https://www.w3schools.com/cssref/css3_pr_align-content.asp)
     public func alignContent(_ type: AlignContentType) -> Self {
         s?._addProperty(.alignContent, type)
         return self
     }
     
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
-    ///
-    /// ```html
-    /// align-content: center;
-    /// ```
-    ///
-    /// [Learn more](https://www.w3schools.com/cssref/css3_pr_align-content.asp)
     public func alignContent(_ type: State<AlignContentType>) -> Self {
         s?._addProperty(AlignContentProperty(type))
         return self
     }
     
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
-    ///
-    /// ```html
-    /// align-content: center;
-    /// ```
-    ///
-    /// [Learn more](https://www.w3schools.com/cssref/css3_pr_align-content.asp)
     public func alignContent<V>(_ type: ExpressableState<V, AlignContentType>) -> Self {
         alignContent(type.unwrap())
     }

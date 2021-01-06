@@ -20,8 +20,42 @@ public class BorderImageWidthProperty: _Property {
     public init (_ type: BorderWidthType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<BorderWidthType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, BorderWidthType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the width of the border image
     public static var borderImageWidth: PropertyKey<BorderWidthType> { "border-image-width".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the width of the border image
+    public typealias BorderImageWidth = BorderImageWidthProperty
+}
+
+extension CSSRulable {
+    /// Specifies the width of the border image
+    public func borderImageWidth(_ type: BorderWidthType) -> Self {
+        s?._addProperty(.borderImageWidth, type)
+        return self
+    }
+
+    /// Specifies the width of the border image
+    public func borderImageWidth(_ type: State<BorderWidthType>) -> Self {
+        s?._addProperty(BorderImageWidthProperty(type))
+        return self
+    }
+
+    /// Specifies the width of the border image
+    public func borderImageWidth<V>(_ type: ExpressableState<V, BorderWidthType>) -> Self {
+        borderImageWidth(type.unwrap())
+    }
 }

@@ -20,8 +20,42 @@ public class CounterIncrementProperty: _Property {
     public init (_ type: CounterResetType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<CounterResetType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, CounterResetType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Increases or decreases the value of one or more CSS counters
     public static var counterIncrement: PropertyKey<CounterResetType> { "counter-increment".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Increases or decreases the value of one or more CSS counters
+    public typealias CounterIncrement = CounterIncrementProperty
+}
+
+extension CSSRulable {
+    /// Increases or decreases the value of one or more CSS counters
+    public func counterIncrement(_ type: CounterResetType) -> Self {
+        s?._addProperty(.counterIncrement, type)
+        return self
+    }
+
+    /// Increases or decreases the value of one or more CSS counters
+    public func counterIncrement(_ type: State<CounterResetType>) -> Self {
+        s?._addProperty(CounterIncrementProperty(type))
+        return self
+    }
+
+    /// Increases or decreases the value of one or more CSS counters
+    public func counterIncrement<V>(_ type: ExpressableState<V, CounterResetType>) -> Self {
+        counterIncrement(type.unwrap())
+    }
 }

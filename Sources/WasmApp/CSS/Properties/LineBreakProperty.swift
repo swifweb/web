@@ -24,8 +24,42 @@ public class LineBreakProperty: _Property {
     public init (_ type: LineBreakType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<LineBreakType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, LineBreakType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies how/if to break lines
     public static var lineBreak: PropertyKey<LineBreakType> { "line-break".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies how/if to break lines
+    public typealias LineBreak = LineBreakProperty
+}
+
+extension CSSRulable {
+    /// Specifies how/if to break lines
+    public func lineBreak(_ type: LineBreakType) -> Self {
+        s?._addProperty(.lineBreak, type)
+        return self
+    }
+
+    /// Specifies how/if to break lines
+    public func lineBreak(_ type: State<LineBreakType>) -> Self {
+        s?._addProperty(LineBreakProperty(type))
+        return self
+    }
+
+    /// Specifies how/if to break lines
+    public func lineBreak<V>(_ type: ExpressableState<V, LineBreakType>) -> Self {
+        lineBreak(type.unwrap())
+    }
 }

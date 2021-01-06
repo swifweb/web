@@ -24,8 +24,42 @@ public class TextJustifyProperty: _Property {
     public init (_ type: TextJustifyType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<TextJustifyType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, TextJustifyType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the justification method used when text-align is "justify"
     public static var textJustify: PropertyKey<TextJustifyType> { "text-justify".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the justification method used when text-align is "justify"
+    public typealias TextJustify = TextJustifyProperty
+}
+
+extension CSSRulable {
+    /// Specifies the justification method used when text-align is "justify"
+    public func textJustify(_ type: TextJustifyType) -> Self {
+        s?._addProperty(.textJustify, type)
+        return self
+    }
+
+    /// Specifies the justification method used when text-align is "justify"
+    public func textJustify(_ type: State<TextJustifyType>) -> Self {
+        s?._addProperty(TextJustifyProperty(type))
+        return self
+    }
+
+    /// Specifies the justification method used when text-align is "justify"
+    public func textJustify<V>(_ type: ExpressableState<V, TextJustifyType>) -> Self {
+        textJustify(type.unwrap())
+    }
 }

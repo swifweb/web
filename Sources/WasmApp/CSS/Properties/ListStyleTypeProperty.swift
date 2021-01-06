@@ -23,8 +23,42 @@ public class ListStyleTypeProperty: _Property {
     public init (_ type: ListStyleTypeType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<ListStyleTypeType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, ListStyleTypeType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the type of list-item marker
     public static var listStyleType: PropertyKey<ListStyleTypeType> { "list-style-type".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the type of list-item marker
+    public typealias ListStyleType = ListStyleTypeProperty
+}
+
+extension CSSRulable {
+    /// Specifies the type of list-item marker
+    public func listStyleType(_ type: ListStyleTypeType) -> Self {
+        s?._addProperty(.listStyleType, type)
+        return self
+    }
+
+    /// Specifies the type of list-item marker
+    public func listStyleType(_ type: State<ListStyleTypeType>) -> Self {
+        s?._addProperty(ListStyleTypeProperty(type))
+        return self
+    }
+
+    /// Specifies the type of list-item marker
+    public func listStyleType<V>(_ type: ExpressableState<V, ListStyleTypeType>) -> Self {
+        listStyleType(type.unwrap())
+    }
 }

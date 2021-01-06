@@ -20,8 +20,42 @@ public class PageBreakBeforeProperty: _Property {
     public init (_ type: PageBreakBeforeType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<PageBreakBeforeType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, PageBreakBeforeType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Sets the page-break behavior before an element
     public static var pageBreakBefore: PropertyKey<PageBreakBeforeType> { "page-break-before".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Sets the page-break behavior before an element
+    public typealias PageBreakBefore = PageBreakBeforeProperty
+}
+
+extension CSSRulable {
+    /// Sets the page-break behavior before an element
+    public func pageBreakBefore(_ type: PageBreakBeforeType) -> Self {
+        s?._addProperty(.pageBreakBefore, type)
+        return self
+    }
+
+    /// Sets the page-break behavior before an element
+    public func pageBreakBefore(_ type: State<PageBreakBeforeType>) -> Self {
+        s?._addProperty(PageBreakBeforeProperty(type))
+        return self
+    }
+
+    /// Sets the page-break behavior before an element
+    public func pageBreakBefore<V>(_ type: ExpressableState<V, PageBreakBeforeType>) -> Self {
+        pageBreakBefore(type.unwrap())
+    }
 }

@@ -43,8 +43,42 @@ public class FontSizeProperty: _Property {
     public init (_ type: FontSizeType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<FontSizeType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, FontSizeType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the font size of text
     public static var fontSize: PropertyKey<FontSizeType> { "font-size".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the font size of text
+    public typealias FontSize = FontSizeProperty
+}
+
+extension CSSRulable {
+    /// Specifies the font size of text
+    public func fontSize(_ type: FontSizeType) -> Self {
+        s?._addProperty(.fontSize, type)
+        return self
+    }
+
+    /// Specifies the font size of text
+    public func fontSize(_ type: State<FontSizeType>) -> Self {
+        s?._addProperty(FontSizeProperty(type))
+        return self
+    }
+
+    /// Specifies the font size of text
+    public func fontSize<V>(_ type: ExpressableState<V, FontSizeType>) -> Self {
+        fontSize(type.unwrap())
+    }
 }

@@ -30,8 +30,42 @@ public class WhiteSpaceProperty: _Property {
     public init (_ type: WhiteSpaceType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<WhiteSpaceType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, WhiteSpaceType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies how white-space inside an element is handled
     public static var whiteSpace: PropertyKey<WhiteSpaceType> { "white-space".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies how white-space inside an element is handled
+    public typealias WhiteSpace = WhiteSpaceProperty
+}
+
+extension CSSRulable {
+    /// Specifies how white-space inside an element is handled
+    public func whiteSpace(_ type: WhiteSpaceType) -> Self {
+        s?._addProperty(.whiteSpace, type)
+        return self
+    }
+
+    /// Specifies how white-space inside an element is handled
+    public func whiteSpace(_ type: State<WhiteSpaceType>) -> Self {
+        s?._addProperty(WhiteSpaceProperty(type))
+        return self
+    }
+
+    /// Specifies how white-space inside an element is handled
+    public func whiteSpace<V>(_ type: ExpressableState<V, WhiteSpaceType>) -> Self {
+        whiteSpace(type.unwrap())
+    }
 }

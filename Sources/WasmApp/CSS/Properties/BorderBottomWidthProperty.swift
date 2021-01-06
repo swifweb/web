@@ -20,8 +20,42 @@ public class BorderBottomWidthProperty: _Property {
     public init (_ type: BorderWidthType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<BorderWidthType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, BorderWidthType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Sets the width of the bottom border
     public static var borderBottomWidth: PropertyKey<BorderWidthType> { "border-bottom-width".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Sets the width of the bottom border
+    public typealias BorderBottomWidth = BorderBottomWidthProperty
+}
+
+extension CSSRulable {
+    /// Sets the width of the bottom border
+    public func borderBottomWidth(_ type: BorderWidthType) -> Self {
+        s?._addProperty(.borderBottomWidth, type)
+        return self
+    }
+
+    /// Sets the width of the bottom border
+    public func borderBottomWidth(_ type: State<BorderWidthType>) -> Self {
+        s?._addProperty(BorderBottomWidthProperty(type))
+        return self
+    }
+
+    /// Sets the width of the bottom border
+    public func borderBottomWidth<V>(_ type: ExpressableState<V, BorderWidthType>) -> Self {
+        borderBottomWidth(type.unwrap())
+    }
 }

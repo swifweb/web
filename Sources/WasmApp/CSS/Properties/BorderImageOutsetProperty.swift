@@ -20,8 +20,42 @@ public class BorderImageOutsetProperty: _Property {
     public init (_ type: BorderImageOutsetType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<BorderImageOutsetType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, BorderImageOutsetType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies the amount by which the border image area extends beyond the border box
     public static var borderImageOutset: PropertyKey<BorderImageOutsetType> { "border-image-outset".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies the amount by which the border image area extends beyond the border box
+    public typealias BorderImageOutset = BorderImageOutsetProperty
+}
+
+extension CSSRulable {
+    /// Specifies the amount by which the border image area extends beyond the border box
+    public func borderImageOutset(_ type: BorderImageOutsetType) -> Self {
+        s?._addProperty(.borderImageOutset, type)
+        return self
+    }
+
+    /// Specifies the amount by which the border image area extends beyond the border box
+    public func borderImageOutset(_ type: State<BorderImageOutsetType>) -> Self {
+        s?._addProperty(BorderImageOutsetProperty(type))
+        return self
+    }
+
+    /// Specifies the amount by which the border image area extends beyond the border box
+    public func borderImageOutset<V>(_ type: ExpressableState<V, BorderImageOutsetType>) -> Self {
+        borderImageOutset(type.unwrap())
+    }
 }

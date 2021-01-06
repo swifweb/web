@@ -20,8 +20,42 @@ public class GridAutoRowsProperty: _Property {
     public init (_ type: GridAutoRowsType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<GridAutoRowsType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, GridAutoRowsType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Specifies a default row size
     public static var gridAutoRows: PropertyKey<GridAutoRowsType> { "grid-auto-rows".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies a default row size
+    public typealias GridAutoRows = GridAutoRowsProperty
+}
+
+extension CSSRulable {
+    /// Specifies a default row size
+    public func gridAutoRows(_ type: GridAutoRowsType) -> Self {
+        s?._addProperty(.gridAutoRows, type)
+        return self
+    }
+
+    /// Specifies a default row size
+    public func gridAutoRows(_ type: State<GridAutoRowsType>) -> Self {
+        s?._addProperty(GridAutoRowsProperty(type))
+        return self
+    }
+
+    /// Specifies a default row size
+    public func gridAutoRows<V>(_ type: ExpressableState<V, GridAutoRowsType>) -> Self {
+        gridAutoRows(type.unwrap())
+    }
 }

@@ -20,8 +20,42 @@ public class BorderLeftStyleProperty: _Property {
     public init (_ type: BorderStyleType) {
         propertyValue = type
     }
+    
+    public convenience init (_ type: State<BorderStyleType>) {
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
+
+    public convenience init <V>(_ type: ExpressableState<V, BorderStyleType>) {
+        self.init(type.unwrap())
+    }
 }
 
 extension PropertyKey {
+    /// Sets the style of the left border
     public static var borderLeftStyle: PropertyKey<BorderStyleType> { "border-left-style".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Sets the style of the left border
+    public typealias BorderLeftStyle = BorderLeftStyleProperty
+}
+
+extension CSSRulable {
+    /// Sets the style of the left border
+    public func borderLeftStyle(_ type: BorderStyleType) -> Self {
+        s?._addProperty(.borderLeftStyle, type)
+        return self
+    }
+
+    /// Sets the style of the left border
+    public func borderLeftStyle(_ type: State<BorderStyleType>) -> Self {
+        s?._addProperty(BorderLeftStyleProperty(type))
+        return self
+    }
+
+    /// Sets the style of the left border
+    public func borderLeftStyle<V>(_ type: ExpressableState<V, BorderStyleType>) -> Self {
+        borderLeftStyle(type.unwrap())
+    }
 }
