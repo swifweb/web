@@ -26,8 +26,34 @@ public class PointerEventsProperty: _Property {
     public init (_ type: PointerEventsType) {
         propertyValue = type
     }
+    
+    public convenience init <A>(_ type: A) where A: StateConvertible, A.Value == PointerEventsType {
+        let type = type.stateValue
+        self.init(type.wrappedValue)
+        type.listen { self._changed(to: $0) }
+    }
 }
 
 extension PropertyKey {
+    /// Defines whether or not an element reacts to pointer events
     public static var pointerEvents: PropertyKey<PointerEventsType> { "pointer-events".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Defines whether or not an element reacts to pointer events
+    public typealias PointerEvents = PointerEventsProperty
+}
+
+extension CSSRulable {
+    /// Defines whether or not an element reacts to pointer events
+    public func pointerEvents(_ type: PointerEventsType) -> Self {
+        s?._addProperty(.pointerEvents, type)
+        return self
+    }
+
+    /// Defines whether or not an element reacts to pointer events
+    public func pointerEvents<A>(_ type: A) -> Self where A: StateConvertible, A.Value == PointerEventsType {
+        s?._addProperty(PointerEventsProperty(type))
+        return self
+    }
 }

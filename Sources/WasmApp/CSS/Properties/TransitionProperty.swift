@@ -24,16 +24,17 @@ public class TransitionProperty: _Property {
     public var propertyValue: TransitionValue
     var _content = _PropertyContent<TransitionValue>()
     
-    public init (_ properties: TransitionPropertyType..., duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) {
+    public init (_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) {
         propertyValue = TransitionValue(properties, duration: duration, timingFunction: timingFunction, delay: delay)
     }
     
-    public init (_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) {
-        propertyValue = TransitionValue(properties, duration: duration, timingFunction: timingFunction, delay: delay)
+    public convenience init (_ properties: TransitionPropertyType..., duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) {
+        self.init(properties, duration: duration, timingFunction: timingFunction, delay: delay)
     }
 }
 
 extension PropertyKey {
+    /// A shorthand property for all the transition-* properties
     public static var transition: PropertyKey<TransitionValue> { "transition".propertyKey() }
 }
 
@@ -61,5 +62,23 @@ public struct TransitionValue: CustomStringConvertible {
             values.append(delay.value)
         }
         return values.joined(separator: " ")
+    }
+}
+
+extension Stylesheet {
+    /// A shorthand property for all the transition-* properties
+    public typealias Transition = TransitionProperty
+}
+
+extension CSSRulable {
+    /// A shorthand property for all the transition-* properties
+    public func transition(_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) -> Self {
+        s?._addProperty(TransitionProperty(properties, duration: duration, timingFunction: timingFunction, delay: delay))
+        return self
+    }
+    
+    /// A shorthand property for all the transition-* properties
+    public func transition(_ properties: TransitionPropertyType..., duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) -> Self {
+        transition(properties, duration: duration, timingFunction: timingFunction, delay: delay)
     }
 }
