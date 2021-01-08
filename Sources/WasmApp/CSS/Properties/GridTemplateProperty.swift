@@ -18,10 +18,6 @@ public class GridTemplateProperty: _Property {
     public var propertyValue: GridTemplateValue
     var _content = _PropertyContent<GridTemplateValue>()
     
-    public init (_ value: GridTemplateValue) {
-        propertyValue = value
-    }
-    
     public init (rows: GridTemplateRowsType, columns: GridTemplateColumnsType) {
         propertyValue = GridTemplateValue(rows: rows, columns: columns)
     }
@@ -36,6 +32,7 @@ public class GridTemplateProperty: _Property {
 }
 
 extension PropertyKey {
+    /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
     public static var gridTemplate: PropertyKey<GridTemplateValue> { "grid-template".propertyKey() }
 }
 
@@ -55,4 +52,28 @@ public struct GridTemplateValue: CustomStringConvertible {
     }
     
     public var description: String { value }
+}
+
+extension Stylesheet {
+    /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    public typealias GridTemplate = GridTemplateProperty
+}
+
+extension CSSRulable {
+    /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    public func gridTemplate(rows: GridTemplateRowsType, columns: GridTemplateColumnsType) -> Self {
+        s?._addProperty(GridTemplateProperty(rows: rows, columns: columns))
+        return self
+    }
+    
+    /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    public func gridTemplate(_ area: String...) -> Self {
+        gridTemplate(area)
+    }
+    
+    /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    public func gridTemplate(_ area: [String]) -> Self {
+        s?._addProperty(GridTemplateProperty(area))
+        return self
+    }
 }
