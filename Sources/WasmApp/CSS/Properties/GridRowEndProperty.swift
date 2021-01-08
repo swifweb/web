@@ -17,49 +17,116 @@ public class GridRowEndProperty: _Property {
     public var propertyValue: GridRowEndValue
     var _content = _PropertyContent<GridRowEndValue>()
     
-    public init (_ value: GridRowEndValue) {
-        propertyValue = value
-    }
-    
+    // Means `auto`
     public init() {
         propertyValue = .auto
+    }
+    
+    public init (rowLine: Int) {
+        propertyValue = .rowLine(rowLine)
+    }
+    
+    public init <V>(rowLine: V) where V: StateConvertible, V.Value == Int {
+        propertyValue = .rowLine(rowLine)
     }
     
     public init (span n: Int) {
         propertyValue = .span(n)
     }
     
-    public init (columnLine: Int) {
-        propertyValue = .columnLine(columnLine)
+    public init <V>(span n: V) where V: StateConvertible, V.Value == Int {
+        propertyValue = .span(n)
     }
     
-    public static var auto: GridRowEndProperty { .init() }
-    public static func span(_ n: Int) -> GridRowEndProperty { .init(span: n) }
-    public static func columnLine(_ v: Int) -> GridRowEndProperty { .init(columnLine: v) }
+    public static var auto: GridRowEndValue { .init() }
+    public static func rowLine(_ v: Int) -> GridRowEndValue { .init(rowLine: v) }
+    public static func rowLine<V>(_ v: V) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(rowLine: v) }
+    public static func span(_ n: Int) -> GridRowEndValue { .init(span: n) }
+    public static func span<V>(_ n: V) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(span: n) }
 }
 
 extension PropertyKey {
+    /// Specifies where to end the grid item
     public static var gridRowEnd: PropertyKey<GridRowEndValue> { "grid-row-end".propertyKey() }
 }
 
-public struct GridRowEndValue: CustomStringConvertible {
-    let value: String
+public class GridRowEndValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+    public var value: String
+    
+    var _changeHandler = {}
     
     public init() {
         value = "auto"
     }
     
-    public init (span n: Int) {
-        value = "\(n)"
+    public init (rowLine: Int) {
+        value = "\(rowLine)"
     }
     
-    public init (columnLine: Int) {
-        value = "\(columnLine)"
+    public convenience init <V>(rowLine: V) where V: StateConvertible, V.Value == Int {
+        let rowLine = rowLine.stateValue
+        self.init(rowLine: rowLine.wrappedValue)
+        rowLine.listen {
+            self.value = "\($0)"
+            self._changeHandler()
+        }
+    }
+    
+    public init (span n: Int) {
+        value = "span \(n)"
+    }
+    
+    public convenience init <V>(span n: V) where V: StateConvertible, V.Value == Int {
+        let n = n.stateValue
+        self.init(span: n.wrappedValue)
+        n.listen {
+            self.value = "span \($0)"
+            self._changeHandler()
+        }
     }
     
     public static var auto: GridRowEndValue { .init() }
+    public static func rowLine(_ v: Int) -> GridRowEndValue { .init(rowLine: v) }
+    public static func rowLine<V>(_ v: V) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(rowLine: v) }
     public static func span(_ n: Int) -> GridRowEndValue { .init(span: n) }
-    public static func columnLine(_ v: Int) -> GridRowEndValue { .init(columnLine: v) }
+    public static func span<V>(_ n: V) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(span: n) }
     
     public var description: String { value }
+}
+
+extension Stylesheet {
+    /// Specifies where to end the grid item
+    public typealias GridRowEnd = GridRowEndProperty
+}
+
+extension CSSRulable {
+    /// Specifies where to end the grid item
+    public func gridRowEnd() -> Self {
+        s?._addProperty(GridRowEndProperty())
+        return self
+    }
+    
+    /// Specifies where to end the grid item
+    public func gridRowEnd(rowLine: Int) -> Self {
+        s?._addProperty(GridRowEndProperty(rowLine: rowLine))
+        return self
+    }
+    
+    /// Specifies where to end the grid item
+    public func gridRowEnd<V>(rowLine: V) -> Self where V: StateConvertible, V.Value == Int {
+        s?._addProperty(GridRowEndProperty(rowLine: rowLine))
+        return self
+    }
+    
+    /// Specifies where to end the grid item
+    public func gridRowEnd(span n: Int) -> Self {
+        s?._addProperty(GridRowEndProperty(span: n))
+        return self
+    }
+    
+    /// Specifies where to end the grid item
+    public func gridRowEnd<V>(span n: V) -> Self where V: StateConvertible, V.Value == Int {
+        s?._addProperty(GridRowEndProperty(span: n))
+        return self
+    }
 }
