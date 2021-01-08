@@ -17,16 +17,18 @@ public class BorderStyleProperty: _Property {
     public var propertyValue: BorderStyleValue
     var _content = _PropertyContent<BorderStyleValue>()
     
-    public init (_ value: BorderStyleValue) {
-        propertyValue = value
-    }
-    
     public init (_ type: BorderStyleType...) {
         propertyValue = BorderStyleValue(type)
     }
     
     public init (_ type: [BorderStyleType]) {
         propertyValue = BorderStyleValue(type)
+    }
+    
+    public convenience init <A>(_ type: A) where A: StateConvertible, A.Value == [BorderStyleType] {
+        let state = type.stateValue
+        self.init(state.wrappedValue)
+        state.listen { self._changed(to: BorderStyleValue($0)) }
     }
 }
 
@@ -46,4 +48,28 @@ public struct BorderStyleValue: CustomStringConvertible {
     }
     
     public var description: String { value }
+}
+
+extension Stylesheet {
+    /// Sets the style of the four borders
+    public typealias BorderStyle = BorderStyleProperty
+}
+
+extension CSSRulable {
+    /// Sets the style of the four borders
+    public func borderStyle(_ type: BorderStyleType...) -> Self {
+        borderStyle(type)
+    }
+    
+    /// Sets the style of the four borders
+    public func borderStyle(_ type: [BorderStyleType]) -> Self {
+        s?._addProperty(BorderStyleProperty(type))
+        return self
+    }
+    
+    /// Sets the style of the four borders
+    public func borderStyle<A>(_ type: A) -> Self where A: StateConvertible, A.Value == [BorderStyleType] {
+        s?._addProperty(BorderStyleProperty(type))
+        return self
+    }
 }
