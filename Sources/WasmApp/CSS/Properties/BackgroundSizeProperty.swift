@@ -23,7 +23,7 @@ public class BackgroundSizeProperty: _Property {
         propertyValue = BackgroundSizeValue(all: all)
     }
     
-    public convenience init <A>(all type: A) where A: StateConvertible, A.Value: BackgroundSizeType {
+    public convenience init <A>(all type: A) where A: StateConvertible, A.Value == BackgroundSizeType {
         let state = type.stateValue
         self.init(all: state.wrappedValue)
         state.listen { self._changed(to: BackgroundSizeValue(all: $0)) }
@@ -35,19 +35,19 @@ public class BackgroundSizeProperty: _Property {
         propertyValue = BackgroundSizeValue(h: h, v: v)
     }
     
-    public convenience init <A>(h: A, v: BackgroundSizeType) where A: StateConvertible, A.Value: BackgroundSizeType {
+    public convenience init <A>(h: A, v: BackgroundSizeType) where A: StateConvertible, A.Value == BackgroundSizeType {
         let h = h.stateValue
         self.init(h: h.wrappedValue, v: v)
         h.listen { self._changed(to: BackgroundSizeValue(h: $0, v: v)) }
     }
     
-    public convenience init <B>(h: BackgroundSizeType, v: B) where B: StateConvertible, B.Value: BackgroundSizeType {
+    public convenience init <B>(h: BackgroundSizeType, v: B) where B: StateConvertible, B.Value == BackgroundSizeType {
         let v = v.stateValue
         self.init(h: h, v: v.wrappedValue)
         v.listen { self._changed(to: BackgroundSizeValue(h: h, v: $0)) }
     }
     
-    public convenience init <A, B>(h: A, v: B) where A: StateConvertible, A.Value: BackgroundSizeType, B: StateConvertible, B.Value: BackgroundSizeType {
+    public convenience init <A, B>(h: A, v: B) where A: StateConvertible, A.Value == BackgroundSizeType, B: StateConvertible, B.Value == BackgroundSizeType {
         let h = h.stateValue
         let v = v.stateValue
         self.init(h: h.wrappedValue, v: v.wrappedValue)
@@ -97,7 +97,7 @@ extension CSSRulable {
     }
     
     /// Specifies the size of the background images
-    public func backgroundSize<A>(all value: A) -> Self where A: StateConvertible, A.Value: BackgroundSizeType {
+    public func backgroundSize<A>(all value: A) -> Self where A: StateConvertible, A.Value == BackgroundSizeType {
         s?._addProperty(BackgroundSizeProperty(all: value))
         return self
     }
@@ -111,19 +111,19 @@ extension CSSRulable {
     }
     
     /// Specifies the size of the background images
-    public func backgroundSize<A>(h: A, v: BackgroundSizeType) -> Self where A: StateConvertible, A.Value: BackgroundSizeType {
+    public func backgroundSize<A>(h: A, v: BackgroundSizeType) -> Self where A: StateConvertible, A.Value == BackgroundSizeType {
         s?._addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
     
     /// Specifies the size of the background images
-    public func backgroundSize<B>(h: BackgroundSizeType, v: B) -> Self where B: StateConvertible, B.Value: BackgroundSizeType {
+    public func backgroundSize<B>(h: BackgroundSizeType, v: B) -> Self where B: StateConvertible, B.Value == BackgroundSizeType {
         s?._addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
     
     /// Specifies the size of the background images
-    public func backgroundSize<A, B>(h: A, v: B) -> Self where A: StateConvertible, A.Value: BackgroundSizeType, B: StateConvertible, B.Value: BackgroundSizeType {
+    public func backgroundSize<A, B>(h: A, v: B) -> Self where A: StateConvertible, A.Value == BackgroundSizeType, B: StateConvertible, B.Value == BackgroundSizeType {
         s?._addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
