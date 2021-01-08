@@ -60,15 +60,23 @@ extension PropertyKey {
     public static var backgroundSize: PropertyKey<BackgroundSizeValue> { "background-size".propertyKey() }
 }
 
-public struct BackgroundSizeValue: CustomStringConvertible {
-    public let value: String
+public class BackgroundSizeValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+    @State public var value = ""
+    
+    var _changeHandler = {}
     
     public init (all: BackgroundSizeType) {
         value = all.value
+        $value.listen {
+            self._changeHandler()
+        }
     }
     
     public init (h: BackgroundSizeType, v: BackgroundSizeType) {
         value = [h.value, v.value].joined(separator: " ")
+        $value.listen {
+            self._changeHandler()
+        }
     }
     
     public var description: String { value }

@@ -248,7 +248,7 @@ extension PropertyKey {
 }
 
 public class BorderRadiusValue: CustomStringConvertible, _PropertyValueInnerChangeable {
-    @State public var value: String = ""
+    @State public var value = ""
     
     var _changeHandler = {}
     
@@ -350,17 +350,13 @@ extension Stylesheet {
 }
 
 extension CSSRulable {
-//    /// A shorthand property for the four border-*-radius properties
-//    public func borderRadius<U: UnitValuable>(all: U) -> Self {
-//        s?._addProperty(BorderRadiusProperty(all: all))
-//        return self
-//    }
     /// A shorthand property for the four border-*-radius properties
     public func borderRadius(all: BorderRadiusType) -> Self {
         s?._addProperty(BorderRadiusProperty(all: all))
         return self
     }
     
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A>(all type: A) -> Self where A: StateConvertible, A.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(all: type))
         return self
@@ -368,21 +364,25 @@ extension CSSRulable {
     
     // MARK: TL/BR
     
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius(topLeft: BorderRadiusType, bottomRight: BorderRadiusType) -> Self {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A>(topLeft: A, bottomRight: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<B>(topLeft: BorderRadiusType, bottomRight: B) -> Self where B: StateConvertible, B.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, B>(topLeft: A, bottomRight: B) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
@@ -390,41 +390,49 @@ extension CSSRulable {
 
     // MARK: TL/TR/BL
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A>(topLeft: A, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<B>(topLeft: BorderRadiusType, topRight: B, bottomLeft: BorderRadiusType) -> Self where B: StateConvertible, B.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<C>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: C) -> Self where C: StateConvertible, C.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, B>(topLeft: A, topRight: B, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, C>(topLeft: A, topRight: BorderRadiusType, bottomLeft: C) -> Self where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<B, C>(topLeft: BorderRadiusType, topRight: B, bottomLeft: C) -> Self where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, B, C>(topLeft: A, topRight: B, bottomLeft: C) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
@@ -432,81 +440,97 @@ extension CSSRulable {
 
     // MARK: TL/TR/BR/BL
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A>(topLeft: A, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<B>(topLeft: BorderRadiusType, topRight: B, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where B: StateConvertible, B.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<C>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: C, bottomLeft: BorderRadiusType) -> Self where C: StateConvertible, C.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<D>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: D) -> Self where D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, B>(topLeft: A, topRight: B, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, C>(topLeft: A, topRight: BorderRadiusType, bottomRight: C, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, D>(topLeft: A, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: D) -> Self where A: StateConvertible, A.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<B, C>(topLeft: BorderRadiusType, topRight: B, bottomRight: C, bottomLeft: BorderRadiusType) -> Self where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<B, D>(topLeft: BorderRadiusType, topRight: B, bottomRight: BorderRadiusType, bottomLeft: D) -> Self where B: StateConvertible, B.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<C, D>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: C, bottomLeft: D) -> Self where C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, B, C>(topLeft: A, topRight: B, bottomRight: C, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, B, D>(topLeft: A, topRight: B, bottomRight: BorderRadiusType, bottomLeft: D) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, C, D>(topLeft: A, topRight: BorderRadiusType, bottomRight: C, bottomLeft: D) -> Self where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<B, C, D>(topLeft: BorderRadiusType, topRight: B, bottomRight: C, bottomLeft: D) -> Self where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
 
+    /// A shorthand property for the four border-*-radius properties
     public func borderRadius<A, B, C, D>(topLeft: A, topRight: B, bottomRight: C, bottomLeft: D) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
