@@ -17,64 +17,228 @@ public class BorderRadiusProperty: _Property {
     public var propertyValue: BorderRadiusValue
     var _content = _PropertyContent<BorderRadiusValue>()
     
-    public init <U: UnitValuable>(all: U) {
+    public init (all: BorderRadiusType) {
         propertyValue = BorderRadiusValue(all: all)
     }
     
-    public init <U: UnitValuable>(all: State<U>) {
-        propertyValue = BorderRadiusValue(all: all)
-    }
-    
-    public convenience init <V, U: UnitValuable>(all: ExpressableState<V, U>) {
-        self.init(all: all.unwrap())
+    public convenience init <A>(all type: A) where A: StateConvertible, A.Value: BorderRadiusType {
+        let state = type.stateValue
+        self.init(all: state.wrappedValue)
+        state.listen { self._changed(to: BorderRadiusValue(all: $0)) }
     }
     
     // MARK: TL/BR
     
-    public init <TL: UnitValuable, BR: UnitValuable>(topLeft: TL, bottomRight: BR) {
+    public init (topLeft: BorderRadiusType, bottomRight: BorderRadiusType) {
         propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
     }
     
-    public init <TL: UnitValuable, BR: UnitValuable>(topLeft: State<TL>, bottomRight: BR) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
+    public convenience init <A>(topLeft: A, bottomRight: BorderRadiusType) where A: StateConvertible, A.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, bottomRight: bottomRight)) }
     }
     
-    public init <TLV, TL: UnitValuable, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: BR) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
+    public convenience init <B>(topLeft: BorderRadiusType, bottomRight: B) where B: StateConvertible, B.Value: BorderRadiusType {
+        let bottomRight = bottomRight.stateValue
+        self.init(topLeft: topLeft, bottomRight: bottomRight.wrappedValue)
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, bottomRight: $0)) }
     }
     
-    public init <TLV, TL: UnitValuable, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: State<BR>) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
+    public convenience init <A, B>(topLeft: A, bottomRight: B) where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let bottomRight = bottomRight.stateValue
+        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight.wrappedValue)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, bottomRight: bottomRight.wrappedValue)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, bottomRight: $0)) }
     }
     
-    public init <TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: TL, bottomRight: ExpressableState<BRV, BR>) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
-    }
+    // MARK: TL/TR/BL
     
-    public init <TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: State<TL>, bottomRight: ExpressableState<BRV, BR>) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
-    }
-    
-    public init <TLV, TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: ExpressableState<BRV, BR>) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
-    }
-    
-    public init <TL: UnitValuable, BR: UnitValuable>(topLeft: TL, bottomRight: State<BR>) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
-    }
-    
-    public init <TL: UnitValuable, BR: UnitValuable>(topLeft: State<TL>, bottomRight: State<BR>) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
-    }
-    
-    // MARK: Other
-    
-    public init <TL: UnitValuable, TR: UnitValuable, BL: UnitValuable>(topLeft: TL, topRight: TR, bottomLeft: BL) {
+    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
         propertyValue = BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft)
     }
     
-    public init <TL: UnitValuable, TR: UnitValuable, BR: UnitValuable, BL: UnitValuable>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BL) {
+    public convenience init <A>(topLeft: A, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) where A: StateConvertible, A.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: bottomLeft)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomLeft: bottomLeft)) }
+    }
+    
+    public convenience init <B>(topLeft: BorderRadiusType, topRight: B, bottomLeft: BorderRadiusType) where B: StateConvertible, B.Value: BorderRadiusType {
+        let topRight = topRight.stateValue
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: bottomLeft)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomLeft: bottomLeft)) }
+    }
+    
+    public convenience init <C>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: C) where C: StateConvertible, C.Value: BorderRadiusType {
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft.wrappedValue)
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomLeft: $0)) }
+    }
+    
+    public convenience init <A, B>(topLeft: A, topRight: B, bottomLeft: BorderRadiusType) where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let topRight = topRight.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: bottomLeft)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomLeft: bottomLeft)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomLeft: bottomLeft)) }
+    }
+    
+    public convenience init <A, C>(topLeft: A, topRight: BorderRadiusType, bottomLeft: C) where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: bottomLeft.wrappedValue)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: $0)) }
+    }
+    
+    public convenience init <B, C>(topLeft: BorderRadiusType, topRight: B, bottomLeft: C) where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        let topRight = topRight.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: $0)) }
+    }
+    
+    public convenience init <A, B, C>(topLeft: A, topRight: B, bottomLeft: C) where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let topRight = topRight.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: $0)) }
+    }
+    
+    // MARK: TL/TR/BR/BL
+    
+    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
         propertyValue = BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
+    }
+    
+    public convenience init <A>(topLeft: A, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) where A: StateConvertible, A.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    }
+    
+    public convenience init <B>(topLeft: BorderRadiusType, topRight: B, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) where B: StateConvertible, B.Value: BorderRadiusType {
+        let topRight = topRight.stateValue
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    }
+    
+    public convenience init <C>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: C, bottomLeft: BorderRadiusType) where C: StateConvertible, C.Value: BorderRadiusType {
+        let bottomRight = bottomRight.stateValue
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft)) }
+    }
+    
+    public convenience init <D>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: D) where D: StateConvertible, D.Value: BorderRadiusType {
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: $0)) }
+    }
+    
+    public convenience init <A, B>(topLeft: A, topRight: B, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let topRight = topRight.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    }
+    
+    public convenience init <A, C>(topLeft: A, topRight: BorderRadiusType, bottomRight: C, bottomLeft: BorderRadiusType) where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let bottomRight = bottomRight.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft)) }
+    }
+    
+    public convenience init <A, D>(topLeft: A, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: D) where A: StateConvertible, A.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: $0)) }
+    }
+    
+    public convenience init <B, C>(topLeft: BorderRadiusType, topRight: B, bottomRight: C, bottomLeft: BorderRadiusType) where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        let topRight = topRight.stateValue
+        let bottomRight = bottomRight.stateValue
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft)) }
+    }
+
+    public convenience init <B, D>(topLeft: BorderRadiusType, topRight: B, bottomRight: BorderRadiusType, bottomLeft: D) where B: StateConvertible, B.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        let topRight = topRight.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: $0)) }
+    }
+
+    public convenience init <C, D>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: C, bottomLeft: D) where C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        let bottomRight = bottomRight.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    }
+
+    public convenience init <A, B, C>(topLeft: A, topRight: B, bottomRight: C, bottomLeft: BorderRadiusType) where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let topRight = topRight.stateValue
+        let bottomRight = bottomRight.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft)) }
+    }
+
+    public convenience init <A, B, D>(topLeft: A, topRight: B, bottomRight: BorderRadiusType, bottomLeft: D) where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let topRight = topRight.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: $0)) }
+    }
+
+    public convenience init <A, C, D>(topLeft: A, topRight: BorderRadiusType, bottomRight: C, bottomLeft: D) where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let bottomRight = bottomRight.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    }
+
+    public convenience init <B, C, D>(topLeft: BorderRadiusType, topRight: B, bottomRight: C, bottomLeft: D) where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        let topRight = topRight.stateValue
+        let bottomRight = bottomRight.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    }
+
+    public convenience init <A, B, C, D>(topLeft: A, topRight: B, bottomRight: C, bottomLeft: D) where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        let topLeft = topLeft.stateValue
+        let topRight = topRight.stateValue
+        let bottomRight = bottomRight.stateValue
+        let bottomLeft = bottomLeft.stateValue
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
     }
 }
 
@@ -88,91 +252,92 @@ public class BorderRadiusValue: CustomStringConvertible, _PropertyValueInnerChan
     
     var _changeHandler = {}
     
-    public init <U: UnitValuable>(all: U) {
+    public init (all: BorderRadiusType) {
         value = all.description
-    }
-    
-    public convenience init <U: UnitValuable>(all: State<U>) {
-        self.init(all: all.wrappedValue)
-        all.listen {
-            self.value = all.wrappedValue.description
+        $value.listen {
             self._changeHandler()
         }
     }
     
-    public convenience init <V, U: UnitValuable>(all: ExpressableState<V, U>) {
+    public convenience init (all: State<BorderRadiusType>) {
+        self.init(all: all.wrappedValue)
+        all.listen {
+            self.value = all.wrappedValue.description
+        }
+    }
+    
+    public convenience init <V>(all: ExpressableState<V, BorderRadiusType>) {
         self.init(all: all.unwrap())
     }
     
-    private static func values(_ values: AnyUnitValuable...) -> String {
+    private static func values(_ values: BorderRadiusType...) -> String {
         self.values(values)
     }
     
-    private static func values(_ values: [AnyUnitValuable]) -> String {
+    private static func values(_ values: [BorderRadiusType]) -> String {
         values.map { $0.description }.joined(separator: " ")
     }
     
     // MARK: TL/BR
     
-    public init <TL: UnitValuable, BR: UnitValuable>(topLeft: TL, bottomRight: BR) {
+    public init (topLeft: BorderRadiusType, bottomRight: BorderRadiusType) {
         value = Self.values(topLeft, bottomRight)
+        $value.listen {
+            self._changeHandler()
+        }
     }
     
-    public convenience init <TL: UnitValuable, BR: UnitValuable>(topLeft: State<TL>, bottomRight: BR) {
+    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: BorderRadiusType) {
         self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight)
         topLeft.listen {
             self.value = Self.values($0, bottomRight)
-            self._changeHandler()
         }
     }
     
-    public convenience init <TLV, TL: UnitValuable, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: BR) {
+    public convenience init <V>(topLeft: ExpressableState<V, BorderRadiusType>, bottomRight: BorderRadiusType) {
         self.init(topLeft: topLeft.unwrap(), bottomRight: bottomRight)
     }
     
-    public convenience init <TLV, TL: UnitValuable, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: State<BR>) {
+    public convenience init <V>(topLeft: ExpressableState<V, BorderRadiusType>, bottomRight: State<BorderRadiusType>) {
         self.init(topLeft: topLeft.unwrap(), bottomRight: bottomRight)
     }
     
-    public convenience init <TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: TL, bottomRight: ExpressableState<BRV, BR>) {
+    public convenience init <V>(topLeft: BorderRadiusType, bottomRight: ExpressableState<V, BorderRadiusType>) {
         self.init(topLeft: topLeft, bottomRight: bottomRight.unwrap())
     }
     
-    public convenience init <TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: State<TL>, bottomRight: ExpressableState<BRV, BR>) {
+    public convenience init <V>(topLeft: State<BorderRadiusType>, bottomRight: ExpressableState<V, BorderRadiusType>) {
         self.init(topLeft: topLeft, bottomRight: bottomRight.unwrap())
     }
     
-    public convenience init <TLV, TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: ExpressableState<BRV, BR>) {
+    public convenience init <V1, V2>(topLeft: ExpressableState<V1, BorderRadiusType>, bottomRight: ExpressableState<V2, BorderRadiusType>) {
         self.init(topLeft: topLeft.unwrap(), bottomRight: bottomRight.unwrap())
     }
     
-    public convenience init <TL: UnitValuable, BR: UnitValuable>(topLeft: TL, bottomRight: State<BR>) {
+    public convenience init (topLeft: BorderRadiusType, bottomRight: State<BorderRadiusType>) {
         self.init(topLeft: topLeft, bottomRight: bottomRight.wrappedValue)
         bottomRight.listen {
             self.value = Self.values(topLeft, $0)
-            self._changeHandler()
         }
     }
     
-    public convenience init <TL: UnitValuable, BR: UnitValuable>(topLeft: State<TL>, bottomRight: State<BR>) {
+    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>) {
         self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight.wrappedValue)
         topLeft.listen {
             self.value = Self.values($0, bottomRight.wrappedValue)
-            self._changeHandler()
         }
         bottomRight.listen {
             self.value = Self.values(topLeft.wrappedValue, $0)
-            self._changeHandler()
         }
     }
     
     // MARK: Other
     
-    public init <TL: UnitValuable, TR: UnitValuable, BL: UnitValuable>(topLeft: TL, topRight: TR, bottomLeft: BL) {
+    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
         value = Self.values(topLeft, topRight, bottomLeft)
     }
     
-    public init <TL: UnitValuable, TR: UnitValuable, BR: UnitValuable, BL: UnitValuable>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BL) {
+    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
         value = Self.values(topLeft, topRight, bottomRight, bottomLeft)
     }
     
@@ -185,90 +350,164 @@ extension Stylesheet {
 }
 
 extension CSSRulable {
+//    /// A shorthand property for the four border-*-radius properties
+//    public func borderRadius<U: UnitValuable>(all: U) -> Self {
+//        s?._addProperty(BorderRadiusProperty(all: all))
+//        return self
+//    }
     /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<U: UnitValuable>(all: U) -> Self {
+    public func borderRadius(all: BorderRadiusType) -> Self {
         s?._addProperty(BorderRadiusProperty(all: all))
         return self
     }
     
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<U: UnitValuable>(all: State<U>) -> Self {
-        s?._addProperty(BorderRadiusProperty(all: all))
-        return self
-    }
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<V, U: UnitValuable>(all: ExpressableState<V, U>) -> Self {
-        s?._addProperty(BorderRadiusProperty(all: all))
+    public func borderRadius<A>(all type: A) -> Self where A: StateConvertible, A.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(all: type))
         return self
     }
     
     // MARK: TL/BR
     
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TL: UnitValuable, BR: UnitValuable>(topLeft: TL, bottomRight: BR) -> Self {
+    public func borderRadius(topLeft: BorderRadiusType, bottomRight: BorderRadiusType) -> Self {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TL: UnitValuable, BR: UnitValuable>(topLeft: State<TL>, bottomRight: BR) -> Self {
+    public func borderRadius<A>(topLeft: A, bottomRight: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TLV, TL: UnitValuable, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: BR) -> Self {
+    public func borderRadius<B>(topLeft: BorderRadiusType, bottomRight: B) -> Self where B: StateConvertible, B.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TLV, TL: UnitValuable, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: State<BR>) -> Self {
+
+    public func borderRadius<A, B>(topLeft: A, bottomRight: B) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: TL, bottomRight: ExpressableState<BRV, BR>) -> Self {
-        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
-        return self
-    }
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: State<TL>, bottomRight: ExpressableState<BRV, BR>) -> Self {
-        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
-        return self
-    }
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TLV, TL: UnitValuable, BRV, BR: UnitValuable>(topLeft: ExpressableState<TLV, TL>, bottomRight: ExpressableState<BRV, BR>) -> Self {
-        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
-        return self
-    }
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TL: UnitValuable, BR: UnitValuable>(topLeft: TL, bottomRight: State<BR>) -> Self {
-        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
-        return self
-    }
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TL: UnitValuable, BR: UnitValuable>(topLeft: State<TL>, bottomRight: State<BR>) -> Self {
-        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
-        return self
-    }
-    
-    // MARK: Other
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TL: UnitValuable, TR: UnitValuable, BL: UnitValuable>(topLeft: TL, topRight: TR, bottomLeft: BL) -> Self {
+
+    // MARK: TL/TR/BL
+
+    public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-    
-    /// A shorthand property for the four border-*-radius properties
-    public func borderRadius<TL: UnitValuable, TR: UnitValuable, BR: UnitValuable, BL: UnitValuable>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BL) -> Self {
+
+    public func borderRadius<A>(topLeft: A, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<B>(topLeft: BorderRadiusType, topRight: B, bottomLeft: BorderRadiusType) -> Self where B: StateConvertible, B.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<C>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: C) -> Self where C: StateConvertible, C.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, B>(topLeft: A, topRight: B, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, C>(topLeft: A, topRight: BorderRadiusType, bottomLeft: C) -> Self where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<B, C>(topLeft: BorderRadiusType, topRight: B, bottomLeft: C) -> Self where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, B, C>(topLeft: A, topRight: B, bottomLeft: C) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    // MARK: TL/TR/BR/BL
+
+    public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A>(topLeft: A, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<B>(topLeft: BorderRadiusType, topRight: B, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where B: StateConvertible, B.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<C>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: C, bottomLeft: BorderRadiusType) -> Self where C: StateConvertible, C.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<D>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: D) -> Self where D: StateConvertible, D.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, B>(topLeft: A, topRight: B, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, C>(topLeft: A, topRight: BorderRadiusType, bottomRight: C, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, D>(topLeft: A, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: D) -> Self where A: StateConvertible, A.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<B, C>(topLeft: BorderRadiusType, topRight: B, bottomRight: C, bottomLeft: BorderRadiusType) -> Self where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<B, D>(topLeft: BorderRadiusType, topRight: B, bottomRight: BorderRadiusType, bottomLeft: D) -> Self where B: StateConvertible, B.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<C, D>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: C, bottomLeft: D) -> Self where C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, B, C>(topLeft: A, topRight: B, bottomRight: C, bottomLeft: BorderRadiusType) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, B, D>(topLeft: A, topRight: B, bottomRight: BorderRadiusType, bottomLeft: D) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, C, D>(topLeft: A, topRight: BorderRadiusType, bottomRight: C, bottomLeft: D) -> Self where A: StateConvertible, A.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<B, C, D>(topLeft: BorderRadiusType, topRight: B, bottomRight: C, bottomLeft: D) -> Self where B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
+        s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+        return self
+    }
+
+    public func borderRadius<A, B, C, D>(topLeft: A, topRight: B, bottomRight: C, bottomLeft: D) -> Self where A: StateConvertible, A.Value: BorderRadiusType, B: StateConvertible, B.Value: BorderRadiusType, C: StateConvertible, C.Value: BorderRadiusType, D: StateConvertible, D.Value: BorderRadiusType {
         s?._addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
