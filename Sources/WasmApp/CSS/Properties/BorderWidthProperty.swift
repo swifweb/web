@@ -30,6 +30,12 @@ public class BorderWidthProperty: _Property {
         self.init(state.wrappedValue)
         state.listen { self._changed(to: BorderWidthValue($0)) }
     }
+    
+    public convenience init <A>(_ type: A) where A: StateConvertible, A.Value == BorderWidthType {
+        let state = type.stateValue
+        self.init(state.wrappedValue)
+        state.listen { self._changed(to: BorderWidthValue($0)) }
+    }
 }
 
 extension PropertyKey {
@@ -70,6 +76,12 @@ extension CSSRulable {
     
     /// Sets the width of the four borders
     public func borderWidth<A>(_ type: A) -> Self where A: StateConvertible, A.Value == [BorderWidthType] {
+        s?._addProperty(BorderWidthProperty(type))
+        return self
+    }
+    
+    /// Sets the width of the four borders
+    public func borderWidth<A>(_ type: A) -> Self where A: StateConvertible, A.Value == BorderWidthType {
         s?._addProperty(BorderWidthProperty(type))
         return self
     }

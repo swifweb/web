@@ -22,8 +22,34 @@ public class TransitionDelayProperty: _Property {
     public init (_ type: TimeType) {
         propertyValue = type
     }
+    
+    public convenience init <A>(_ value: A) where A: StateConvertible, A.Value == TimeType {
+        let value = value.stateValue
+        self.init(value.wrappedValue)
+        value.listen { self._changed(to: $0) }
+    }
 }
 
 extension PropertyKey {
+    /// Specifies when the transition effect will start
     public static var transitionDelay: PropertyKey<TimeType> { "transition-delay".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies when the transition effect will start
+    public typealias TransitionDelay = TransitionDelayProperty
+}
+
+extension CSSRulable {
+    /// Specifies when the transition effect will start
+    public func transitionDelay(_ type: TimeType) -> Self {
+        s?._addProperty(TransitionDelayProperty(type))
+        return self
+    }
+    
+    /// Specifies when the transition effect will start
+    public func transitionDelay<A>(_ value: A) -> Self where A: StateConvertible, A.Value == TimeType {
+        s?._addProperty(TransitionDelayProperty(value))
+        return self
+    }
 }

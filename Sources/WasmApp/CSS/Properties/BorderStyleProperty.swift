@@ -30,6 +30,12 @@ public class BorderStyleProperty: _Property {
         self.init(state.wrappedValue)
         state.listen { self._changed(to: BorderStyleValue($0)) }
     }
+    
+    public convenience init <A>(_ type: A) where A: StateConvertible, A.Value == BorderStyleType {
+        let state = type.stateValue
+        self.init(state.wrappedValue)
+        state.listen { self._changed(to: BorderStyleValue($0)) }
+    }
 }
 
 extension PropertyKey {
@@ -69,6 +75,12 @@ extension CSSRulable {
     
     /// Sets the style of the four borders
     public func borderStyle<A>(_ type: A) -> Self where A: StateConvertible, A.Value == [BorderStyleType] {
+        s?._addProperty(BorderStyleProperty(type))
+        return self
+    }
+    
+    /// Sets the style of the four borders
+    public func borderStyle<A>(_ type: A) -> Self where A: StateConvertible, A.Value == BorderStyleType {
         s?._addProperty(BorderStyleProperty(type))
         return self
     }
