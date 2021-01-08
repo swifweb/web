@@ -27,6 +27,10 @@ public class ExpressableState<S, Result> where S: Stateable {
     }
 }
 
+extension ExpressableState: StateConvertible {
+    public var stateValue: State<Result> { unwrap() }
+}
+
 extension Stateable {
     public func map<Result>(_ expression: @escaping () -> Result) -> ExpressableState<Self, Result> {
         .init(self) { _ in

@@ -22,7 +22,10 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable {
     
     public convenience init (_ value: State<ColorType>) {
         self.init(value.wrappedValue)
-        value.listen { self.value = $0 }
+        value.listen {
+            self.value = $0
+            self._changeHandler()
+        }
     }
     
     public convenience init<V>(_ value: ExpressableState<V, ColorType>) {
@@ -35,7 +38,10 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable {
     
     public convenience init(_ hex: State<Int>) {
         self.init(hex.wrappedValue)
-        hex.listen { self.value = .hex($0) }
+        hex.listen {
+            self.value = .hex($0)
+            self._changeHandler()
+        }
     }
     
     public convenience init<V>(_ hex: ExpressableState<V, Int>) {

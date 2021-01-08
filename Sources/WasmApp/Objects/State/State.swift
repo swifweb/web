@@ -7,6 +7,12 @@
 
 public typealias UState = State
 
+public protocol StateConvertible {
+    associatedtype Value
+    
+    var stateValue: State<Value> { get }
+}
+
 @propertyWrapper
 open class State<Value>: Stateable {
     private var _originalValue: Value
@@ -113,6 +119,10 @@ open class State<Value>: Stateable {
         }
         return resultState
     }
+}
+
+extension State: StateConvertible {
+    public var stateValue: State<Value> { self }
 }
 
 extension State: StateChangeableObserver where Value: StateChangeable {

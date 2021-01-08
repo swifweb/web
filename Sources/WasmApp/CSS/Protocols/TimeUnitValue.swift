@@ -12,13 +12,65 @@ public protocol TimeUnitValue: CustomStringConvertible {
     var timeUnit: TimeUnit { get }
 }
 
-public struct TimeUnitValueContainer: CustomStringConvertible {
-    public let value: Double
-    public let timeUnit: TimeUnit
+public class TimeUnitValueContainer: TimeUnitValue, CustomStringConvertible, _PropertyValueInnerChangeable {
+    @State public var value: Double = 0
+    @State public var timeUnit: TimeUnit = .ms
     
-    public init (value: Double, timeUnit: TimeUnit) {
+    var _changeHandler = {}
+    
+    init (_ value: Double, _ timeUnit: TimeUnit) {
         self.value = value
         self.timeUnit = timeUnit
+        $value.listen {
+            self._changeHandler()
+        }
+        $timeUnit.listen {
+            self._changeHandler()
+        }
+    }
+    
+    convenience init (_ value: State<Double>, _ timeUnit: TimeUnit) {
+        self.init(value.wrappedValue, timeUnit)
+        value.listen {
+            self.value = $0
+        }
+    }
+    
+    convenience init (_ value: Double, _ timeUnit: State<TimeUnit>) {
+        self.init(value, timeUnit.wrappedValue)
+        timeUnit.listen {
+            self.timeUnit = $0
+        }
+    }
+    
+    convenience init (_ value: State<Double>, _ timeUnit: State<TimeUnit>) {
+        self.init(value.wrappedValue, timeUnit.wrappedValue)
+        value.listen {
+            self.value = $0
+        }
+        timeUnit.listen {
+            self.timeUnit = $0
+        }
+    }
+    
+    convenience init <V>(_ value: ExpressableState<V, Double>, _ timeUnit: TimeUnit) {
+        self.init(value.unwrap(), timeUnit)
+    }
+    
+    convenience init <V>(_ value: ExpressableState<V, Double>, _ timeUnit: State<TimeUnit>) {
+        self.init(value.unwrap(), timeUnit)
+    }
+    
+    convenience init <V>(_ value: Double, _ timeUnit: ExpressableState<V, TimeUnit>) {
+        self.init(value, timeUnit.unwrap())
+    }
+    
+    convenience init <V>(_ value: State<Double>, _ timeUnit: ExpressableState<V, TimeUnit>) {
+        self.init(value, timeUnit.unwrap())
+    }
+    
+    convenience init <V, U>(_ value: ExpressableState<V, Double>, _ timeUnit: ExpressableState<U, TimeUnit>) {
+        self.init(value.unwrap(), timeUnit.unwrap())
     }
     
     public var description: String { "\(value)\(timeUnit.rawValue)" }

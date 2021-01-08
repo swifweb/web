@@ -5,7 +5,9 @@
 //  Created by Mihael Isaev on 08.07.2020.
 //
 
-public protocol UnitValuable: CustomStringConvertible {
+public protocol AnyUnitValuable: CustomStringConvertible {}
+
+public protocol UnitValuable: AnyUnitValuable {
     associatedtype V: Doubleable
     
     var value: V { get }
@@ -21,13 +23,18 @@ public class UnitValue: UnitValuable, _PropertyValueInnerChangeable {
     init (_ value: Double, _ unit: Unit) {
         self.value = value
         self.unit = unit
+        $value.listen {
+            self._changeHandler()
+        }
+        $unit.listen {
+            self._changeHandler()
+        }
     }
     
     convenience init (_ value: State<Double>, _ unit: Unit) {
         self.init(value.wrappedValue, unit)
         value.listen {
             self.value = $0
-            self._changeHandler()
         }
     }
     
@@ -35,7 +42,6 @@ public class UnitValue: UnitValuable, _PropertyValueInnerChangeable {
         self.init(value, unit.wrappedValue)
         unit.listen {
             self.unit = $0
-            self._changeHandler()
         }
     }
     
@@ -43,11 +49,9 @@ public class UnitValue: UnitValuable, _PropertyValueInnerChangeable {
         self.init(value.wrappedValue, unit.wrappedValue)
         value.listen {
             self.value = $0
-            self._changeHandler()
         }
         unit.listen {
             self.unit = $0
-            self._changeHandler()
         }
     }
     

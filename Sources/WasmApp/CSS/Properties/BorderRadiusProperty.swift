@@ -335,10 +335,16 @@ public class BorderRadiusValue: CustomStringConvertible, _PropertyValueInnerChan
     
     public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
         value = Self.values(topLeft, topRight, bottomLeft)
+        $value.listen {
+            self._changeHandler()
+        }
     }
     
     public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
         value = Self.values(topLeft, topRight, bottomRight, bottomLeft)
+        $value.listen {
+            self._changeHandler()
+        }
     }
     
     public var description: String { value }
