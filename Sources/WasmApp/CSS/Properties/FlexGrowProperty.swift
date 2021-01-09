@@ -20,8 +20,32 @@ public class FlexGrowProperty: _Property {
     public init (_ n: NumericValue) {
         propertyValue = NumericValueContainer(n)
     }
+    
+    public init <N>(_ n: N) where N: StateConvertible, N.Value: NumericValue {
+        propertyValue = NumericValueContainer(n)
+    }
 }
 
 extension PropertyKey {
+    /// Specifies how much the item will grow relative to the rest
     public static var flexGrow: PropertyKey<NumericValueContainer> { "flex-grow".propertyKey() }
+}
+
+extension Stylesheet {
+    /// Specifies how much the item will grow relative to the rest
+    public typealias FlexGrow = FlexGrowProperty
+}
+
+extension CSSRulable {
+    /// Specifies how much the item will grow relative to the rest
+    public func flexGrow(_ n: NumericValue) -> Self {
+        s?._addProperty(FlexGrowProperty(n))
+        return self
+    }
+    
+    /// Specifies how much the item will grow relative to the rest
+    public func flexGrow<N>(_ n: N) -> Self where N: StateConvertible, N.Value: NumericValue {
+        s?._addProperty(FlexGrowProperty(n))
+        return self
+    }
 }

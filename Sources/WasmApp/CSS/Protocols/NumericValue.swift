@@ -13,11 +13,22 @@ extension NumericValue {
     public var description: String { numericValue }
 }
 
-public struct NumericValueContainer: CustomStringConvertible {
-    public let value: String
+public class NumericValueContainer: CustomStringConvertible, _PropertyValueInnerChangeable {
+    public var value: String
+    
+    var _changeHandler = {}
     
     public init (_ value: NumericValue) {
         self.value = value.numericValue
+    }
+    
+    public convenience init <N>(_ value: N) where N: StateConvertible, N.Value: NumericValue {
+        let value = value.stateValue
+        self.init(value.wrappedValue)
+        value.listen {
+            self.value = $0.numericValue
+            self._changeHandler()
+        }
     }
     
     public var description: String { value }
