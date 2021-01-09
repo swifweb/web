@@ -17,14 +17,26 @@ import Foundation
 /// depending on the device and user agent.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
-open class InputRange: BaseActiveElement, _ChangeHandleable, _InvalidHandleable {
+open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _InvalidHandleable {
     public override class var name: String { "input" }
     
+    var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
     func onChange(_ event: HandledEvent) {
-        // TODO: update
+        guard inputEventHasNeverFired else { return }
+        guard let value = self.domElement.valueAsNumber.number else { return }
+        self.currentValue = value
+    }
+    
+    var inputClosure: InputClosure?
+    var inputHandler: (InputEvent) -> Void = { _ in }
+    
+    func onInput(_ event: InputEvent) {
+        inputEventHasNeverFired = false
+        guard let value = self.domElement.valueAsNumber.number else { return }
+        self.currentValue = value
     }
     
     var invalidClosure: InvalidClosure?
@@ -40,6 +52,7 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InvalidHandleable 
     public required init() {
         super.init()
         subscribeToChanges()
+        subscribeToInput()
         domElement.type = "range".jsValue()
     }
     
@@ -52,6 +65,9 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InvalidHandleable 
     public func bind(_ state: State<Double>) -> Self {
         $currentValue.listen {
             state.wrappedValue = $0
+        }
+        if let value = self.domElement.valueAsNumber.number {
+            self.currentValue = value
         }
         return self
     }

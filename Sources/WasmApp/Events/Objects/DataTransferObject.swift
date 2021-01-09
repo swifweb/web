@@ -28,9 +28,16 @@ public class DataTransferObject {
     
     init (_ object: JSValue) {
         self.object = object
+        guard !object.isNull && !object.isUndefined else {
+            dropEffect = .none
+            effectAllowed = .none
+            files = []
+            items = []
+            types = []
+            return
+        }
         dropEffect = DataTransferDropEffect(rawValue: object.dropEffect.string ?? "") ?? .none
         effectAllowed = DataTransferEffectAllowed(rawValue: object.effectAllowed.string ?? "") ?? .none
-        
         if let v = object.files.object, let arr = JSArray(v) {
             var files: [File] = []
             let iterator = arr.makeIterator()
@@ -41,7 +48,6 @@ public class DataTransferObject {
         } else {
             files = []
         }
-        
         if let v = object.items.object, let arr = JSArray(v) {
             var items: [DataTransferItem] = []
             let iterator = arr.makeIterator()
@@ -52,7 +58,6 @@ public class DataTransferObject {
         } else {
             items = []
         }
-        
         if let v = object.types.object, let arr = JSArray(v) {
             var types: [String] = []
             let iterator = arr.makeIterator()

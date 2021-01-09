@@ -18,6 +18,21 @@ protocol _InputHandleable: _AnyElement, InputHandleable {
     
     var inputClosure: InputClosure? { get set }
     var inputHandler: (InputEvent) -> Void { get set }
+    
+    func subscribeToInput()
+    func onInput(_ event: InputEvent)
+}
+
+extension _InputHandleable {
+    func subscribeToInput() {
+        inputClosure?.release()
+        inputClosure = JSClosure { event -> Void in
+            let event = InputEvent(event.jsValue())
+            self.inputHandler(event)
+            self.onInput(event)
+        }
+        domElement.oninput = inputClosure.jsValue()
+    }
 }
 
 extension InputHandleable {

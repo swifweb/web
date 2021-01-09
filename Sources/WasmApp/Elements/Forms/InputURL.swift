@@ -20,10 +20,12 @@ import Foundation
 open class InputURL: BaseActiveElement, _StringInitializable, _ChangeHandleable, _InvalidHandleable, _InputHandleable, _SelectHandleable, _SearchHandleable {
     public override class var name: String { "input" }
     
+    var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
     func onChange(_ event: HandledEvent) {
+        guard inputEventHasNeverFired else { return }
         if let string = domElement.innerText.jsValue().string {
             self.enteredText = string
         }
@@ -34,6 +36,13 @@ open class InputURL: BaseActiveElement, _StringInitializable, _ChangeHandleable,
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
+    
+    func onInput(_ event: InputEvent) {
+        inputEventHasNeverFired  = false
+        if let string = domElement.innerText.jsValue().string {
+            self.enteredText = string
+        }
+    }
     
     var selectClosure: SelectClosure?
     var selectHandler: (UIEvent) -> Void = { _ in }
@@ -54,6 +63,7 @@ open class InputURL: BaseActiveElement, _StringInitializable, _ChangeHandleable,
     public required init() {
         super.init()
         subscribeToChanges()
+        subscribeToInput()
         domElement.type = "url".jsValue()
     }
     

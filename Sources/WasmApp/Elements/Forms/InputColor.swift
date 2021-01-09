@@ -19,10 +19,12 @@ import Foundation
 open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable, _InputHandleable {
     public override class var name: String { "input" }
     
+    var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
     func onChange(_ event: HandledEvent) {
+        guard inputEventHasNeverFired else { return }
         // TODO: update
     }
     
@@ -31,6 +33,11 @@ open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable,
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
+    
+    func onInput(_ event: InputEvent) {
+        inputEventHasNeverFired = false
+        // TODO: update
+    }
     
     deinit {
         changeClosure?.release()
@@ -41,6 +48,7 @@ open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable,
     public required init() {
         super.init()
         subscribeToChanges()
+        subscribeToInput()
         domElement.type = "color".jsValue()
     }
 }

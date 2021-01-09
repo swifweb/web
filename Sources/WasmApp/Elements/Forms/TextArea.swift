@@ -13,15 +13,22 @@ import Foundation
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
 open class TextArea: BaseActiveElement, _ChangeHandleable, _InputHandleable, _ScrollHandleable, _SelectHandleable, _StringInitializable {
+    var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
     func onChange(_ event: HandledEvent) {
+        guard inputEventHasNeverFired else { return }
         enteredText = value
     }
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
+    
+    func onInput(_ event: InputEvent) {
+        inputEventHasNeverFired = false
+        enteredText = value
+    }
     
     var scrollClosure: ScrollClosure?
     var scrollHandler: (UIEvent) -> Void = { _ in }
@@ -41,6 +48,7 @@ open class TextArea: BaseActiveElement, _ChangeHandleable, _InputHandleable, _Sc
     public required init() {
         super.init()
         subscribeToChanges()
+        subscribeToInput()
     }
     
     public required convenience init(_ value: String) {

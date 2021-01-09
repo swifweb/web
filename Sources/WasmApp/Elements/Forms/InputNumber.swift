@@ -20,10 +20,12 @@ import Foundation
 open class InputNumber: BaseActiveElement, _ChangeHandleable, _InvalidHandleable, _InputHandleable, _SelectHandleable, _SearchHandleable {
     public override class var name: String { "input" }
     
+    var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
     func onChange(_ event: HandledEvent) {
+        guard inputEventHasNeverFired else { return }
         if let number = domElement.innerText.jsValue().number {
             self.enteredInt = Int(number)
             self.enteredDouble = number
@@ -35,6 +37,14 @@ open class InputNumber: BaseActiveElement, _ChangeHandleable, _InvalidHandleable
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
+    
+    func onInput(_ event: InputEvent) {
+        inputEventHasNeverFired = false
+        if let number = domElement.innerText.jsValue().number {
+            self.enteredInt = Int(number)
+            self.enteredDouble = number
+        }
+    }
     
     var selectClosure: SelectClosure?
     var selectHandler: (UIEvent) -> Void = { _ in }
@@ -56,6 +66,7 @@ open class InputNumber: BaseActiveElement, _ChangeHandleable, _InvalidHandleable
     public required init() {
         super.init()
         subscribeToChanges()
+        subscribeToInput()
         domElement.type = "number".jsValue()
     }
     
