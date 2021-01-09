@@ -26,33 +26,94 @@ public class FontVariantNumericProperty: _Property {
     public var propertyValue: FontVariantNumericValue
     var _content = _PropertyContent<FontVariantNumericValue>()
     
-    public init (_ value: FontVariantNumericValue) {
-        propertyValue = value
+    public init (_ types: [FontVariantNumericType]) {
+        propertyValue = .init(types)
     }
     
-    public init (_ type: FontVariantNumericType...) {
-        propertyValue = .init(type)
+    public convenience init (_ types: FontVariantNumericType...) {
+        self.init(types)
     }
     
-    public init (_ type: [FontVariantNumericType]) {
-        propertyValue = .init(type)
+    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantNumericType] {
+        let types = types.stateValue
+        self.init(types.wrappedValue)
+        types.listen {
+            self._changed(to: .init($0))
+        }
+    }
+    
+    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantNumericType {
+        let types = types.stateValue
+        self.init(types.wrappedValue)
+        types.listen {
+            self._changed(to: .init($0))
+        }
     }
 }
 
 extension PropertyKey {
+    /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
     public static var fontVariantNumeric: PropertyKey<FontVariantNumericValue> { "font-variant-numeric".propertyKey() }
 }
 
-public struct FontVariantNumericValue: CustomStringConvertible {
-    public let value: String
+public class FontVariantNumericValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+    public var value: String
     
-    public init (_ type: FontVariantNumericType...) {
-        value = type.map { $0.value }.joined(separator: " ")
-    }
+    var _changeHandler = {}
     
     public init (_ type: [FontVariantNumericType]) {
         value = type.map { $0.value }.joined(separator: " ")
     }
     
+    public convenience init (_ type: FontVariantNumericType...) {
+        self.init(type)
+    }
+    
+    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantNumericType] {
+        let types = types.stateValue
+        self.init(types.wrappedValue)
+        types.listen {
+            self.value = $0.map { $0.value }.joined(separator: " ")
+        }
+    }
+    
+    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantNumericType {
+        let types = types.stateValue
+        self.init(types.wrappedValue)
+        types.listen {
+            self.value = $0.value
+        }
+    }
+    
     public var description: String { value }
+}
+
+extension Stylesheet {
+    /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    public typealias FontVariantNumeric = FontVariantNumericProperty
+}
+
+extension CSSRulable {
+    /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    public func fontVariantNumeric(_ types: [FontVariantNumericType]) -> Self {
+        s?._addProperty(FontVariantNumericProperty(types))
+        return self
+    }
+    
+    /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    public func fontVariantNumeric(_ types: FontVariantNumericType...) -> Self {
+        fontVariantNumeric(types)
+    }
+    
+    /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    public func fontVariantNumeric<V>(_ types: V) -> Self where V: StateConvertible, V.Value == [FontVariantNumericType] {
+        s?._addProperty(FontVariantNumericProperty(types))
+        return self
+    }
+    
+    /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    public func fontVariantNumeric<V>(_ types: V) -> Self where V: StateConvertible, V.Value == FontVariantNumericType {
+        s?._addProperty(FontVariantNumericProperty(types))
+        return self
+    }
 }
