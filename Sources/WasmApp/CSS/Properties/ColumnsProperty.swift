@@ -35,3 +35,16 @@ public struct ColumnsValue: CustomStringConvertible {
     
     public var description: String { value }
 }
+
+extension Stylesheet {
+    /// A shorthand property for column-width and column-count
+    public typealias Columns = ColumnsProperty
+}
+
+extension CSSRulable {
+    /// A shorthand property for column-width and column-count
+    public func columns<U: UnitValuable>(width: U, count: Int) -> Self {
+        s?._addProperty(ColumnsProperty(width: width, count: count))
+        return self
+    }
+}
