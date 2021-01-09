@@ -18,12 +18,16 @@ public class FontProperty: _Property {
     public var propertyValue: FontValue
     var _content = _PropertyContent<FontValue>()
     
-    public init (_ value: FontValue) {
-        propertyValue = value
-    }
-    
     public init (_ type: FontType) {
         propertyValue = .init(type)
+    }
+    
+    public convenience init <T>(_ type: T) where T: StateConvertible, T.Value == FontType {
+        let type = type.stateValue
+        self.init(type.wrappedValue)
+        type.listen {
+            self._changed(to: .init($0))
+        }
     }
     
     public init <F: UnitValuable, L: UnitValuable>(
@@ -38,14 +42,26 @@ public class FontProperty: _Property {
 }
 
 extension PropertyKey {
+    /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
     public static var font: PropertyKey<FontValue> { "font".propertyKey() }
 }
 
-public struct FontValue: CustomStringConvertible {
-    public let value: String
+public class FontValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+    public var value: String
+    
+    var _changeHandler = {}
     
     public init (_ type: FontType) {
         value = type.value
+    }
+    
+    public convenience init <T>(_ type: T) where T: StateConvertible, T.Value == FontType {
+        let type = type.stateValue
+        self.init(type.wrappedValue)
+        type.listen {
+            self.value = $0.value
+            self._changeHandler()
+        }
     }
     
     public init <F: UnitValuable, L: UnitValuable>(
@@ -90,4 +106,35 @@ public struct FontValue: CustomStringConvertible {
     }
     
     public var description: String { value }
+}
+
+extension Stylesheet {
+    /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
+    public typealias Font = FontProperty
+}
+
+extension CSSRulable {
+    /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
+    public func font(_ type: FontType) -> Self {
+        s?._addProperty(FontProperty(type))
+        return self
+    }
+    
+    /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
+    public func font<T>(_ type: T) -> Self where T: StateConvertible, T.Value == FontType {
+        s?._addProperty(FontProperty(type))
+        return self
+    }
+    
+    /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
+    public func font<F: UnitValuable, L: UnitValuable>(
+        style: FontStyleType? = nil,
+        variant: FontVariantType? = nil,
+        weight: FontWeightType? = nil,
+        fontSize: F? = nil,
+        lineHeight: L? = nil,
+        fontFamily: [FontFamilyType]? = nil) -> Self {
+        s?._addProperty(FontProperty(style: style, variant: variant, weight: weight, fontSize: fontSize, lineHeight: lineHeight, fontFamily: fontFamily))
+        return self
+    }
 }
