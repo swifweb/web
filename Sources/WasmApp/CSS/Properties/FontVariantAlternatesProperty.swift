@@ -28,33 +28,94 @@ public class FontVariantAlternatesProperty: _Property {
     public var propertyValue: FontVariantAlternatesValue
     var _content = _PropertyContent<FontVariantAlternatesValue>()
     
-    public init (_ value: FontVariantAlternatesValue) {
-        propertyValue = value
+    public init (_ types: [FontVariantAlternatesType]) {
+        propertyValue = .init(types)
     }
     
-    public init (_ type: FontVariantAlternatesType...) {
-        propertyValue = .init(type)
+    public convenience init (_ types: FontVariantAlternatesType...) {
+        self.init(types)
     }
     
-    public init (_ type: [FontVariantAlternatesType]) {
-        propertyValue = .init(type)
+    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantAlternatesType] {
+        let types = types.stateValue
+        self.init(types.wrappedValue)
+        types.listen {
+            self._changed(to: .init($0))
+        }
+    }
+    
+    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantAlternatesType {
+        let types = types.stateValue
+        self.init(types.wrappedValue)
+        types.listen {
+            self._changed(to: .init($0))
+        }
     }
 }
 
 extension PropertyKey {
+    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
     public static var fontVariantAlternates: PropertyKey<FontVariantAlternatesValue> { "font-variant-alternates".propertyKey() }
 }
 
-public struct FontVariantAlternatesValue: CustomStringConvertible {
-    public let value: String
+public class FontVariantAlternatesValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+    public var value: String
     
-    public init (_ type: FontVariantAlternatesType...) {
-        value = type.map { $0.value }.joined(separator: " ")
-    }
+    var _changeHandler = {}
     
     public init (_ type: [FontVariantAlternatesType]) {
         value = type.map { $0.value }.joined(separator: " ")
     }
     
+    public convenience init (_ type: FontVariantAlternatesType...) {
+        self.init(type)
+    }
+    
+    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantAlternatesType] {
+        let types = types.stateValue
+        self.init(types.wrappedValue)
+        types.listen {
+            self.value = $0.map { $0.value }.joined(separator: " ")
+        }
+    }
+    
+    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantAlternatesType {
+        let types = types.stateValue
+        self.init(types.wrappedValue)
+        types.listen {
+            self.value = $0.value
+        }
+    }
+    
     public var description: String { value }
+}
+
+extension Stylesheet {
+    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    public typealias FontVariantAlternates = FontVariantAlternatesProperty
+}
+
+extension CSSRulable {
+    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    public func fontVariantAlternates(_ types: [FontVariantAlternatesType]) -> Self {
+        s?._addProperty(FontVariantAlternatesProperty(types))
+        return self
+    }
+    
+    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    public func fontVariantAlternates(_ types: FontVariantAlternatesType...) -> Self {
+        fontVariantAlternates(types)
+    }
+    
+    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    public func fontVariantAlternates<V>(_ types: V) -> Self where V: StateConvertible, V.Value == [FontVariantAlternatesType] {
+        s?._addProperty(FontVariantAlternatesProperty(types))
+        return self
+    }
+    
+    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    public func fontVariantAlternates<V>(_ types: V) -> Self where V: StateConvertible, V.Value == FontVariantAlternatesType {
+        s?._addProperty(FontVariantAlternatesProperty(types))
+        return self
+    }
 }
