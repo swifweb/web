@@ -1,6 +1,6 @@
 //
 //  ObjectFit.swift
-//  SwifCSS
+//  WasmApp
 //
 //  Created by Mihael Isaev on 09.07.2020.
 //

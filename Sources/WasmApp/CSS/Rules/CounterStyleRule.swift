@@ -1,6 +1,6 @@
 //
 //  CounterStyleRule.swift
-//  SwifCSS
+//  WasmApp
 //
 //  Created by Mihael Isaev on 11.07.2020.
 //
