@@ -73,4 +73,23 @@ open class InputTime: BaseActiveElement, _StringInitializable, _ChangeHandleable
         }
         return self
     }
+    
+    /// The HTMLInputElement.stepUp() method increments the value
+    /// of a numeric type of  `<input>` element by the value of the step attribute,
+    /// or the default step value if the step attribute is not explicitly set.
+    /// The method, when invoked, increments the value by (step * n),
+    /// where n defaults to 1 if not specified, and step defaults
+    /// to the default value for step if not specified.
+    public func stepUp(_ multiplier: Int = 1) {
+        domElement.stepUp.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
+    }
+    
+    /// This method decrements the value of a numeric type of `<input>` element
+    /// by the value of the step attribute or up to n multiples of the step attribute
+    /// if a number is passed as the parameter.  The method, when invoked,
+    /// decrements the value by (step * n), where n defaults to 1 if not specified,
+    /// and step defaults to the default value for step if not specified.
+    public func stepDown(_ multiplier: Int = 1) {
+        domElement.stepDown.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
+    }
 }
