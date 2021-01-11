@@ -10,38 +10,50 @@ import Foundation
 /// A control for specifying a color;
 /// opening a color picker when active in supporting browsers.
 ///
-/// The HTML <input> element is used to create interactive controls
+/// The HTML `<input>` element is used to create interactive controls
 /// for web-based forms in order to accept data from the user;
 /// a wide variety of types of input data and control widgets are available,
 /// depending on the device and user agent.
 ///
-/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color)
 open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable, _InputHandleable {
     public override class var name: String { "input" }
+    
+    @State public var currentValue: String = "#000000"
     
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
-    func onChange(_ event: HandledEvent) {
-        guard inputEventHasNeverFired else { return }
-        // TODO: update
+    /// Convenience getter
+    var _value: String? {
+        domElement.value.string
     }
     
-    var invalidClosure: InvalidClosure?
-    var invalidHandler: (HandledEvent) -> Void = { _ in }
+    func _updateStateWithValue() {
+        guard let value = _value else { return }
+        self.currentValue = value
+    }
+    
+    func onChange(_ event: HandledEvent) {
+        guard inputEventHasNeverFired else { return }
+        _updateStateWithValue()
+    }
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
     
     func onInput(_ event: InputEvent) {
         inputEventHasNeverFired = false
-        // TODO: update
+        _updateStateWithValue()
     }
+    
+    var invalidClosure: InvalidClosure?
+    var invalidHandler: (HandledEvent) -> Void = { _ in }
     
     deinit {
         changeClosure?.release()
-        invalidClosure?.release()
+        inputClosure?.release()
         invalidClosure?.release()
     }
     
@@ -50,5 +62,30 @@ open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable,
         subscribeToChanges()
         subscribeToInput()
         domElement.type = "color".jsValue()
+        domElement.value = currentValue.jsValue()
+    }
+    
+    public required convenience init(_ value: String) {
+        self.init()
+        domElement.value = value.jsValue()
+        self.currentValue = value
+        _currentValue.listen {
+            self.domElement.value = $0.jsValue()
+        }
+    }
+    
+    public required convenience init(_ value: State<String>) {
+        self.init()
+        domElement.value = value.wrappedValue.jsValue()
+        _currentValue.wrappedValue = value.wrappedValue
+        _currentValue.merge(with: value, leftChanged: { new in
+            self.domElement.value = new.jsValue()
+        }, rightChanged: { new in
+            self.domElement.value = new.jsValue()
+        })
+    }
+    
+    public func select() {
+        domElement.select.function?.callAsFunction(this: domElement.object)
     }
 }

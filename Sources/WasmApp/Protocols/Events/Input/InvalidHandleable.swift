@@ -21,23 +21,34 @@ protocol _InvalidHandleable: _AnyElement, InvalidHandleable {
 }
 
 extension InvalidHandleable {
-    /// The oninvalid event occurs when a submittable <input> element is invalid.
+    /// The oninvalid event occurs when a submittable `<input>` element is invalid.
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_oninvalid.asp)
     @discardableResult
-    public func onInvalid(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+    public func onInvalid(_ handler: @escaping (HandledEvent, Self) -> Void) -> Self {
         guard let s = self as? _InvalidHandleable else { return self }
         s.invalidClosure?.release()
         s.invalidClosure = JSClosure { event in
             s.invalidHandler(.init(event.jsValue()))
         }
         s.domElement.oninvalid = s.invalidClosure.jsValue()
-        s.invalidHandler = handler
+        s.invalidHandler = {
+            handler($0, self)
+        }
         return self
     }
     
+    /// The oninvalid event occurs when a submittable `<input>` element is invalid.
+    @discardableResult
+    public func onInvalid(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        onInvalid { event, _ in
+            handler(event)
+        }
+    }
+    
+    /// The oninvalid event occurs when a submittable `<input>` element is invalid.
     @discardableResult
     public func onInvalid(_ handler: @escaping () -> Void) -> Self {
         onInvalid { _ in handler() }

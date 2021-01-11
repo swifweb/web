@@ -78,7 +78,7 @@ open class State<Value>: Stateable {
         listeners.append({ _,_ in listener() })
     }
     
-    public func merge(with state: State<Value>) {
+    public func merge(with state: State<Value>, leftChanged: ((Value) -> Void)? = nil, rightChanged: ((Value) -> Void)? = nil) {
         self.wrappedValue = state.wrappedValue
         var justSetExternal = false
         var justSetInternal = false
@@ -86,12 +86,14 @@ open class State<Value>: Stateable {
             guard !justSetInternal else { return }
             justSetExternal = true
             self.wrappedValue = new
+            rightChanged?(new)
             justSetExternal = false
         }
         self.listen { new in
             guard !justSetExternal else { return }
             justSetInternal = true
             state.wrappedValue = new
+            leftChanged?(new)
             justSetInternal = false
         }
     }

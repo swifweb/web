@@ -22,7 +22,7 @@ protocol _CheckedAttrable: _AnyElement, CheckedAttrable {}
 extension CheckedAttrable {
     /// Mark input as `checked`
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefchecked)
     @discardableResult
@@ -34,7 +34,7 @@ extension CheckedAttrable {
     
     /// Mark input as `checked`
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefchecked)
     @discardableResult
@@ -45,7 +45,7 @@ extension CheckedAttrable {
     
     /// Mark input as `checked`
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefchecked)
     @discardableResult

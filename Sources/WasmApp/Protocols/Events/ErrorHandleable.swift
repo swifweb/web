@@ -23,7 +23,7 @@ protocol _ErrorHandleable: _AnyElement, ErrorHandleable {
 extension ErrorHandleable {
     /// The onerror event is triggered if an error occurs while loading an external file (e.g. a document or an image).
     ///
-    /// Applicable to <img>, <input type="image">, <object>, <link>, and <script>
+    /// Applicable to `<img>`, `<input type="image">`, `<object>`, `<link>`, and `<script>`
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onerror.asp)
     @discardableResult

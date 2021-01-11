@@ -28,8 +28,8 @@ extension _ChangeHandleable {
         changeClosure?.release()
         changeClosure = JSClosure { event -> Void in
             let event = HandledEvent(event.jsValue())
-            self.changeHandler(event)
             self.onChange(event)
+            self.changeHandler(event)
         }
         domElement.onchange = changeClosure.jsValue()
     }
@@ -47,12 +47,23 @@ extension ChangeHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onchange.asp)
     @discardableResult
-    public func onChange(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+    public func onChange(_ handler: @escaping (HandledEvent, Self) -> Void) -> Self {
         guard let s = self as? _ChangeHandleable else { return self }
-        s.changeHandler = handler
+        s.changeHandler = {
+            handler($0, self)
+        }
         return self
     }
     
+    /// The onchange event occurs when the value of an element has been changed.
+    @discardableResult
+    public func onChange(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        onChange { event, _ in
+            handler(event)
+        }
+    }
+    
+    /// The onchange event occurs when the value of an element has been changed.
     @discardableResult
     public func onChange(_ handler: @escaping () -> Void) -> Self {
         onChange { _ in handler() }

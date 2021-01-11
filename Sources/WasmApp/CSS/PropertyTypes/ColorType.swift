@@ -26,7 +26,7 @@ public enum ColorType: CustomStringConvertible {
         case .hsl(let hue, let saturation, let lightness):
             return "hsl(\(hue), \(saturation)%, \(lightness)%)"
         case .hsla(let hue, let saturation, let lightness, let alpha):
-            return "hsls(\(hue), \(saturation)%, \(lightness)%, \(alpha))"
+            return "hsla(\(hue), \(saturation)%, \(lightness)%, \(alpha))"
         }
     }
 }

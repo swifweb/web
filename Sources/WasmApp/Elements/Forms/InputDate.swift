@@ -10,38 +10,46 @@ import Foundation
 /// A control for entering a date (year, month, and day, with no time).
 /// Opens a date picker or numeric wheels for year, month, day when active in supporting browsers.
 ///
-/// The HTML <input> element is used to create interactive controls
+/// The HTML `<input>` element is used to create interactive controls
 /// for web-based forms in order to accept data from the user;
 /// a wide variety of types of input data and control widgets are available,
 /// depending on the device and user agent.
 ///
-/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date)
 open class InputDate: BaseActiveElement, _StringInitializable, _ChangeHandleable, _InvalidHandleable, _InputHandleable, _SelectHandleable {
     public override class var name: String { "input" }
+    
+    @State public var currentValue: String = ""
     
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
-    func onChange(_ event: HandledEvent) {
-        guard inputEventHasNeverFired else { return }
-        if let string = domElement.innerText.jsValue().string {
-            self.enteredText = string
-        }
+    /// Convenience getter
+    var _value: String? {
+        domElement.value.string
     }
     
-    var invalidClosure: InvalidClosure?
-    var invalidHandler: (HandledEvent) -> Void = { _ in }
+    func _updateStateWithValue() {
+        guard let value = _value else { return }
+        self.currentValue = value
+    }
+    
+    func onChange(_ event: HandledEvent) {
+        guard inputEventHasNeverFired else { return }
+        _updateStateWithValue()
+    }
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
     
     func onInput(_ event: InputEvent) {
         inputEventHasNeverFired = false
-        if let string = domElement.innerText.jsValue().string {
-            self.enteredText = string
-        }
+        _updateStateWithValue()
     }
+    
+    var invalidClosure: InvalidClosure?
+    var invalidHandler: (HandledEvent) -> Void = { _ in }
     
     var selectClosure: SelectClosure?
     var selectHandler: (UIEvent) -> Void = { _ in }
@@ -53,26 +61,36 @@ open class InputDate: BaseActiveElement, _StringInitializable, _ChangeHandleable
         selectClosure?.release()
     }
     
-    @State var enteredText = ""
-    
     public required init() {
         super.init()
         subscribeToChanges()
         subscribeToInput()
         domElement.type = "date".jsValue()
+        domElement.value = currentValue.jsValue()
     }
     
     public required convenience init(_ value: String) {
         self.init()
-        self.value = value
-        self.enteredText = value
+        domElement.value = value.jsValue()
+        self.currentValue = value
+        _currentValue.listen {
+            self.domElement.value = $0.jsValue()
+        }
     }
     
-    public func bind(_ state: State<String>) -> Self {
-        $enteredText.listen {
-            state.wrappedValue = $0
-        }
-        return self
+    public required convenience init(_ value: State<String>) {
+        self.init()
+        domElement.value = value.wrappedValue.jsValue()
+        _currentValue.wrappedValue = value.wrappedValue
+        _currentValue.merge(with: value, leftChanged: { new in
+            self.domElement.value = new.jsValue()
+        }, rightChanged: { new in
+            self.domElement.value = new.jsValue()
+        })
+    }
+    
+    public func select() {
+        domElement.select.function?.callAsFunction(this: domElement.object)
     }
     
     /// The HTMLInputElement.stepUp() method increments the value

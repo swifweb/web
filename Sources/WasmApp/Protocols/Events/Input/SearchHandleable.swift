@@ -21,23 +21,34 @@ protocol _SearchHandleable: _AnyElement, SearchHandleable {
 }
 
 extension SearchHandleable {
-    /// The onsearch event occurs when a user presses the "ENTER" key or clicks the "x" button in an <input> element with type="search".
+    /// The onsearch event occurs when a user presses the "ENTER" key or clicks the "x" button in an `<input>` element with type="search".
     ///
-    /// Applicable to <input type="search">
+    /// Applicable to `<input type="search">`
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onsearch.asp)
     @discardableResult
-    public func onSearch(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+    public func onSearch(_ handler: @escaping (HandledEvent, Self) -> Void) -> Self {
         guard let s = self as? _SearchHandleable else { return self }
         s.searchClosure?.release()
         s.searchClosure = JSClosure { event in
             s.searchHandler(.init(event.jsValue()))
         }
         s.domElement.onsearch = s.searchClosure.jsValue()
-        s.searchHandler = handler
+        s.searchHandler = {
+            handler($0, self)
+        }
         return self
     }
     
+    /// The onsearch event occurs when a user presses the "ENTER" key or clicks the "x" button in an `<input>` element with type="search".
+    @discardableResult
+    public func onSearch(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        onSearch { event, _ in
+            handler(event)
+        }
+    }
+    
+    /// The onsearch event occurs when a user presses the "ENTER" key or clicks the "x" button in an `<input>` element with type="search".
     @discardableResult
     public func onSearch(_ handler: @escaping () -> Void) -> Self {
         onSearch { _ in handler() }

@@ -23,21 +23,32 @@ protocol _SelectHandleable: _AnyElement, SelectHandleable {
 extension SelectHandleable {
     /// The `onselect` event occurs after some text has been selected in an element.
     ///
-    /// Applicable to <input type="file">, <input type="password">, <input type="text">, and <textarea>
+    /// Applicable to `<input type="file">`, `<input type="password">`, `<input type="text">`, and `<textarea>`
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onselect.asp)
     @discardableResult
-    public func onSelect(_ handler: @escaping (UIEvent) -> Void) -> Self {
+    public func onSelect(_ handler: @escaping (UIEvent, Self) -> Void) -> Self {
         guard let s = self as? _SelectHandleable else { return self }
         s.selectClosure?.release()
         s.selectClosure = JSClosure { event in
             s.selectHandler(.init(event.jsValue()))
         }
         s.domElement.onselect = s.selectClosure.jsValue()
-        s.selectHandler = handler
+        s.selectHandler = {
+            handler($0, self)
+        }
         return self
     }
     
+    /// The `onselect` event occurs after some text has been selected in an element.
+    @discardableResult
+    public func onSelect(_ handler: @escaping (UIEvent) -> Void) -> Self {
+        onSelect { event, _ in
+            handler(event)
+        }
+    }
+    
+    /// The `onselect` event occurs after some text has been selected in an element.
     @discardableResult
     public func onSelect(_ handler: @escaping () -> Void) -> Self {
         onSelect { _ in handler() }

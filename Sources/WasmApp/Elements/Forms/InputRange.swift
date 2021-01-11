@@ -16,18 +16,30 @@ import Foundation
 /// a wide variety of types of input data and control widgets are available,
 /// depending on the device and user agent.
 ///
-/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range)
 open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _InvalidHandleable {
     public override class var name: String { "input" }
+    
+    @State public var currentValue: Double = 0
     
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
+    /// Convenience getter
+    var _value: Double? {
+        guard let value = self.domElement.valueAsNumber.number else { return nil }
+        return value
+    }
+    
+    func _updateStateWithValue() {
+        guard let value = _value else { return }
+        self.currentValue = value
+    }
+    
     func onChange(_ event: HandledEvent) {
         guard inputEventHasNeverFired else { return }
-        guard let value = self.domElement.valueAsNumber.number else { return }
-        self.currentValue = value
+        _updateStateWithValue()
     }
     
     var inputClosure: InputClosure?
@@ -35,8 +47,7 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _
     
     func onInput(_ event: InputEvent) {
         inputEventHasNeverFired = false
-        guard let value = self.domElement.valueAsNumber.number else { return }
-        self.currentValue = value
+        _updateStateWithValue()
     }
     
     var invalidClosure: InvalidClosure?
@@ -44,10 +55,9 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _
     
     deinit {
         changeClosure?.release()
+        inputClosure?.release()
         invalidClosure?.release()
     }
-    
-    @State var currentValue: Double = 0
     
     public required init() {
         super.init()
@@ -62,14 +72,13 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _
         self.currentValue = value
     }
     
-    public func bind(_ state: State<Double>) -> Self {
-        $currentValue.listen {
-            state.wrappedValue = $0
-        }
-        if let value = self.domElement.valueAsNumber.number {
-            self.currentValue = value
-        }
-        return self
+    public required convenience init(_ value: State<Double>) {
+        self.init()
+        domElement.innerText = value.wrappedValue.jsValue()
+        _currentValue.wrappedValue = value.wrappedValue
+        _currentValue.merge(with: value, rightChanged: { new in
+            self.domElement.value = "\(new)".jsValue()
+        })
     }
     
     /// The HTMLInputElement.stepUp() method increments the value
@@ -78,16 +87,20 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _
     /// The method, when invoked, increments the value by (step * n),
     /// where n defaults to 1 if not specified, and step defaults
     /// to the default value for step if not specified.
-    public func stepUp(_ multiplier: Double = 1) {
+    public func stepUp(_ multiplier: Double) {
         domElement.stepUp.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
+        _updateStateWithValue()
     }
+    public func stepUp() { stepUp(1) }
     
     /// This method decrements the value of a numeric type of `<input>` element
     /// by the value of the step attribute or up to n multiples of the step attribute
     /// if a number is passed as the parameter.  The method, when invoked,
     /// decrements the value by (step * n), where n defaults to 1 if not specified,
     /// and step defaults to the default value for step if not specified.
-    public func stepDown(_ multiplier: Double = 1) {
+    public func stepDown(_ multiplier: Double) {
         domElement.stepDown.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
+        _updateStateWithValue()
     }
+    public func stepDown() { stepDown(1) }
 }

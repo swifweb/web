@@ -46,17 +46,28 @@ extension InputHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_oninput.asp)
     @discardableResult
-    public func onInput(_ handler: @escaping (InputEvent) -> Void) -> Self {
+    public func onInput(_ handler: @escaping (InputEvent, Self) -> Void) -> Self {
         guard let s = self as? _InputHandleable else { return self }
         s.inputClosure?.release()
         s.inputClosure = JSClosure { event in
             s.inputHandler(.init(event.jsValue()))
         }
         s.domElement.oninput = s.inputClosure.jsValue()
-        s.inputHandler = handler
+        s.inputHandler = {
+            handler($0, self)
+        }
         return self
     }
     
+    /// The oninput event occurs when an element gets user input.
+    @discardableResult
+    public func onInput(_ handler: @escaping (InputEvent) -> Void) -> Self {
+        onInput { event, _ in
+            handler(event)
+        }
+    }
+    
+    /// The oninput event occurs when an element gets user input.
     @discardableResult
     public func onInput(_ handler: @escaping () -> Void) -> Self {
         onInput { _ in handler() }

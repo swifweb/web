@@ -667,7 +667,7 @@ extension ClickHandleable {
     /// The `onclick` event occurs when the user clicks on an element.
     ///
     /// Applicable to all tags
-    ///including SVG: <image>, <line>, <linearGradient>, <marker>, <metadata>, <mpath>,
+    /// including SVG: <image>, <line>, <linearGradient>, <marker>, <metadata>, <mpath>,
     /// <path>, <pattern>, <polygon>, <polyline>, <radialGradient>, <rect>,
     /// <script>, <set>, <stop>, <style>, <svg>, <switch>, <symbol>,
     /// <text>, <textPath>, <title>, <tref>, <tspan>, <use>, <view>
@@ -689,5 +689,10 @@ extension ClickHandleable {
     @discardableResult
     public func onClick(_ handler: @escaping () -> Void) -> Self {
         onClick { _ in handler() }
+    }
+    
+    public func click() {
+        guard let s = self as? _ClickHandleable else { return }
+        s.domElement.click.function?.callAsFunction(this: s.domElement.object)
     }
 }
