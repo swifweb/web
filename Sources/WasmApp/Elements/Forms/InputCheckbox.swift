@@ -77,10 +77,7 @@ open class InputCheckbox: BaseActiveElement, _ChangeHandleable, _InvalidHandleab
         }
     }
     
-    public func select() {
-        domElement.select.function?.callAsFunction(this: domElement.object)
-    }
-    
+    /// Convenience method to toggle checkbox
     public func toggle() {
         domElement.indeterminate = false.jsValue()
         domElement.checked = (!checked).jsValue()
@@ -88,3 +85,5 @@ open class InputCheckbox: BaseActiveElement, _ChangeHandleable, _InvalidHandleab
         checked = !checked
     }
 }
+
+extension InputCheckbox: _Selectable {}

@@ -92,8 +92,6 @@ open class InputEmail: BaseActiveElement, _StringInitializable, _ChangeHandleabl
             self.domElement.value = new.jsValue()
         })
     }
-    
-    public func select() {
-        domElement.select.function?.callAsFunction(this: domElement.object)
-    }
 }
+
+extension InputEmail: _Selectable {}

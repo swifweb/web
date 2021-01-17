@@ -19,7 +19,7 @@ import Foundation
 open class InputDate: BaseActiveElement, _StringInitializable, _ChangeHandleable, _InvalidHandleable, _InputHandleable, _SelectHandleable {
     public override class var name: String { "input" }
     
-    @State public var currentValue: String = ""
+    @State public var text: String = ""
     
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
@@ -32,7 +32,7 @@ open class InputDate: BaseActiveElement, _StringInitializable, _ChangeHandleable
     
     func _updateStateWithValue() {
         guard let value = _value else { return }
-        self.currentValue = value
+        self.text = value
     }
     
     func onChange(_ event: HandledEvent) {
@@ -66,14 +66,14 @@ open class InputDate: BaseActiveElement, _StringInitializable, _ChangeHandleable
         subscribeToChanges()
         subscribeToInput()
         domElement.type = "date".jsValue()
-        domElement.value = currentValue.jsValue()
+        domElement.value = text.jsValue()
     }
     
     public required convenience init(_ value: String) {
         self.init()
         domElement.value = value.jsValue()
-        self.currentValue = value
-        _currentValue.listen {
+        self.text = value
+        _text.listen {
             self.domElement.value = $0.jsValue()
         }
     }
@@ -81,16 +81,12 @@ open class InputDate: BaseActiveElement, _StringInitializable, _ChangeHandleable
     public required convenience init(_ value: State<String>) {
         self.init()
         domElement.value = value.wrappedValue.jsValue()
-        _currentValue.wrappedValue = value.wrappedValue
-        _currentValue.merge(with: value, leftChanged: { new in
+        _text.wrappedValue = value.wrappedValue
+        _text.merge(with: value, leftChanged: { new in
             self.domElement.value = new.jsValue()
         }, rightChanged: { new in
             self.domElement.value = new.jsValue()
         })
-    }
-    
-    public func select() {
-        domElement.select.function?.callAsFunction(this: domElement.object)
     }
     
     /// The HTMLInputElement.stepUp() method increments the value
@@ -112,3 +108,5 @@ open class InputDate: BaseActiveElement, _StringInitializable, _ChangeHandleable
         domElement.stepDown.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
     }
 }
+
+extension InputDate: _Selectable {}

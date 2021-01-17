@@ -10,43 +10,71 @@ import JavaScriptKit
 
 public protocol ForAttrable {
     @discardableResult
-    func `for`(_ value: String) -> Self
+    func `for`(_ values: [String]) -> Self
     @discardableResult
-    func `for`(_ value: BaseElement) -> Self
+    func `for`(_ values: String...) -> Self
+    @discardableResult
+    func `for`(_ values: [BaseElement]) -> Self
+    @discardableResult
+    func `for`(_ values: BaseElement...) -> Self
     @discardableResult
     func `for`(_ value: State<String>) -> Self
     @discardableResult
+    func `for`(_ values: State<[String]>) -> Self
+    @discardableResult
     func `for`<V>(_ expressable: ExpressableState<V, String>) -> Self
+    @discardableResult
+    func `for`<V>(_ expressable: ExpressableState<V, [String]>) -> Self
 }
 
 protocol _ForAttrable: _AnyElement, ForAttrable {}
 
 extension ForAttrable {
-    /// Defines the ID of an element which belongs to this one.
+    /// Defines the IDs of an elements which belongs to this one.
     ///
-    /// Applicable to <label>, <output>
+    /// Applicable to `<label>`, `<output>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_for.asp)
     @discardableResult
-    public func `for`(_ value: String) -> Self {
+    public func `for`(_ values: [String]) -> Self {
         guard let s = self as? _ForAttrable else { return self }
-        s.domElement.for = value.jsValue()
+        s.domElement.for = values.joined(separator: " ").jsValue()
         return self
     }
     
     /// Defines the ID of an element which belongs to this one.
     ///
-    /// Applicable to <label>, <output>
+    /// Applicable to `<label>`, `<output>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_for.asp)
     @discardableResult
-    public func `for`(_ value: BaseElement) -> Self {
-        `for`(value.uid)
+    public func `for`(_ values: String...) -> Self {
+        `for`(values)
     }
     
     /// Defines the ID of an element which belongs to this one.
     ///
-    /// Applicable to <label>, <output>
+    /// Applicable to `<label>`, `<output>`
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_for.asp)
+    @discardableResult
+    public func `for`(_ values: [BaseElement]) -> Self {
+        `for`(values.map { $0.uid })
+    }
+    
+    /// Defines the ID of an element which belongs to this one.
+    ///
+    /// Applicable to `<label>`, `<output>`
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_for.asp)
+    @discardableResult
+    public func `for`(_ values: BaseElement...) -> Self {
+        `for`(values)
+    }
+    
+    /// Defines the ID of an element which belongs to this one.
+    ///
+    /// Applicable to `<label>`, `<output>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_for.asp)
     @discardableResult
@@ -57,11 +85,32 @@ extension ForAttrable {
     
     /// Defines the ID of an element which belongs to this one.
     ///
-    /// Applicable to <label>, <output>
+    /// Applicable to `<label>`, `<output>`
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_for.asp)
+    @discardableResult
+    public func `for`(_ values: State<[String]>) -> Self {
+        values.listen { self.`for`($0) }
+        return self
+    }
+    
+    /// Defines the ID of an element which belongs to this one.
+    ///
+    /// Applicable to `<label>`, `<output>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_for.asp)
     @discardableResult
     public func `for`<V>(_ expressable: ExpressableState<V, String>) -> Self {
+        `for`(expressable.unwrap())
+    }
+    
+    /// Defines the ID of an element which belongs to this one.
+    ///
+    /// Applicable to `<label>`, `<output>`
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_for.asp)
+    @discardableResult
+    public func `for`<V>(_ expressable: ExpressableState<V, [String]>) -> Self {
         `for`(expressable.unwrap())
     }
 }

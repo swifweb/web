@@ -24,19 +24,19 @@ protocol _ListAttrable: _AnyElement, ListAttrable {}
 extension ListAttrable {
     /// Identifies a list of pre-defined options to suggest to the user. Points to id of Datalist element.
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_list.asp)
     @discardableResult
     public func list(_ value: String) -> Self {
         guard let s = self as? _ListAttrable else { return self }
-        s.domElement.list = value.jsValue()
+        s.domElement.setAttribute.function?.callAsFunction(this: s.domElement.object, "list", value.jsValue())
         return self
     }
     
     /// Identifies a list of pre-defined options to suggest to the user. Points to id of Datalist element.
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_list.asp)
     @discardableResult
@@ -46,7 +46,7 @@ extension ListAttrable {
     
     /// Identifies a list of pre-defined options to suggest to the user. Points to id of Datalist element.
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_list.asp)
     @discardableResult
@@ -57,7 +57,7 @@ extension ListAttrable {
     
     /// Identifies a list of pre-defined options to suggest to the user. Points to id of Datalist element.
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_list.asp)
     @discardableResult
@@ -66,4 +66,5 @@ extension ListAttrable {
     }
 }
 
+extension Input: _ListAttrable {}
 extension InputList: _ListAttrable {}

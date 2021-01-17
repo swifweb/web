@@ -16,7 +16,7 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
     public var bodyBuilderContent: BodyBuilderItem { .elements([self]) }
     
     let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789=")
-//    var cssProperties: [AnyProperty] = []
+
     var subElements: [_AnyElement] = []
     
     var rootElement: JSValue?

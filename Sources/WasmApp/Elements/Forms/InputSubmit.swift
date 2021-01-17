@@ -9,7 +9,7 @@ import Foundation
 
 /// A button that submits the form.
 ///
-/// The HTML <input> element is used to create interactive controls
+/// The HTML `<input>` element is used to create interactive controls
 /// for web-based forms in order to accept data from the user;
 /// a wide variety of types of input data and control widgets are available,
 /// depending on the device and user agent.

@@ -11,7 +11,7 @@ import Foundation
 /// Displays as a range widget defaulting to the middle value.
 /// Used in conjunction min and max to define the range of acceptable values.
 ///
-/// The HTML <input> element is used to create interactive controls
+/// The HTML `<input>` element is used to create interactive controls
 /// for web-based forms in order to accept data from the user;
 /// a wide variety of types of input data and control widgets are available,
 /// depending on the device and user agent.
@@ -20,21 +20,21 @@ import Foundation
 open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _InvalidHandleable {
     public override class var name: String { "input" }
     
-    @State public var currentValue: Double = 0
+    @State public var value: Double = 0
     
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
     /// Convenience getter
-    var _value: Double? {
+    var __value: Double? {
         guard let value = self.domElement.valueAsNumber.number else { return nil }
         return value
     }
     
     func _updateStateWithValue() {
-        guard let value = _value else { return }
-        self.currentValue = value
+        guard let value = __value else { return }
+        self.value = value
     }
     
     func onChange(_ event: HandledEvent) {
@@ -69,14 +69,14 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _
     public required convenience init(_ value: Double) {
         self.init()
         domElement.innerText = value.jsValue()
-        self.currentValue = value
+        self.value = value
     }
     
     public required convenience init(_ value: State<Double>) {
         self.init()
         domElement.innerText = value.wrappedValue.jsValue()
-        _currentValue.wrappedValue = value.wrappedValue
-        _currentValue.merge(with: value, rightChanged: { new in
+        _value.wrappedValue = value.wrappedValue
+        _value.merge(with: value, rightChanged: { new in
             self.domElement.value = "\(new)".jsValue()
         })
     }

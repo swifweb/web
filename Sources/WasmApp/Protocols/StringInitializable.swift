@@ -14,7 +14,7 @@ public protocol StringInitializable: class {
     init <V>(_ value: ExpressableState<V, String>)
 }
 
-protocol _StringInitializable: _BaseContentElement, StringInitializable {
+protocol _StringInitializable: _BaseContentElementable, StringInitializable {
     var value: String { get set }
 }
 

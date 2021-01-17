@@ -20,31 +20,37 @@ import Foundation
 open class InputNumber: BaseActiveElement, _ChangeHandleable, _InvalidHandleable, _InputHandleable, _SelectHandleable, _SearchHandleable {
     public override class var name: String { "input" }
     
+    @State public var text: String = ""
+    
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
-    func onChange(_ event: HandledEvent) {
-        guard inputEventHasNeverFired else { return }
-        if let number = domElement.innerText.jsValue().number {
-            self.enteredInt = Int(number)
-            self.enteredDouble = number
-        }
+    /// Convenience getter
+    var _value: String? {
+        domElement.value.string
     }
     
-    var invalidClosure: InvalidClosure?
-    var invalidHandler: (HandledEvent) -> Void = { _ in }
+    func _updateStateWithValue() {
+        guard let value = _value else { return }
+        self.text = value
+    }
+    
+    func onChange(_ event: HandledEvent) {
+        guard inputEventHasNeverFired else { return }
+        _updateStateWithValue()
+    }
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
     
     func onInput(_ event: InputEvent) {
         inputEventHasNeverFired = false
-        if let number = domElement.innerText.jsValue().number {
-            self.enteredInt = Int(number)
-            self.enteredDouble = number
-        }
+        _updateStateWithValue()
     }
+    
+    var invalidClosure: InvalidClosure?
+    var invalidHandler: (HandledEvent) -> Void = { _ in }
     
     var selectClosure: SelectClosure?
     var selectHandler: (UIEvent) -> Void = { _ in }
@@ -60,42 +66,32 @@ open class InputNumber: BaseActiveElement, _ChangeHandleable, _InvalidHandleable
         searchClosure?.release()
     }
     
-    @State var enteredInt: Int = 0
-    @State var enteredDouble: Double = 0
-    
     public required init() {
         super.init()
         subscribeToChanges()
         subscribeToInput()
         domElement.type = "number".jsValue()
+        domElement.value = text.jsValue()
     }
     
-    public required convenience init(_ value: Int) {
+    public required convenience init(_ value: String) {
         self.init()
-        domElement.innerText = value.jsValue()
-        self.enteredInt = value
-        self.enteredDouble = Double(value)
+        domElement.value = value.jsValue()
+        self.text = value
+        _text.listen {
+            self.domElement.value = $0.jsValue()
+        }
     }
     
-    public required convenience init(_ value: Double) {
+    public required convenience init(_ value: State<String>) {
         self.init()
-        domElement.innerText = value.jsValue()
-        self.enteredInt = Int(value)
-        self.enteredDouble = value
-    }
-    
-    public func bind(_ state: State<Int>) -> Self {
-        $enteredInt.listen {
-            state.wrappedValue = $0
-        }
-        return self
-    }
-    
-    public func bind(_ state: State<Double>) -> Self {
-        $enteredDouble.listen {
-            state.wrappedValue = $0
-        }
-        return self
+        domElement.value = value.wrappedValue.jsValue()
+        _text.wrappedValue = value.wrappedValue
+        _text.merge(with: value, leftChanged: { new in
+            self.domElement.value = new.jsValue()
+        }, rightChanged: { new in
+            self.domElement.value = new.jsValue()
+        })
     }
     
     /// The HTMLInputElement.stepUp() method increments the value

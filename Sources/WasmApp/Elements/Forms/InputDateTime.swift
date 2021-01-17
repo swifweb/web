@@ -10,7 +10,7 @@ import Foundation
 /// A control for entering a date and time, with no time zone.
 /// Opens a date picker or numeric wheels for date- and time-components when active in supporting browsers.
 ///
-/// The HTML <input> element is used to create interactive controls
+/// The HTML `<input>` element is used to create interactive controls
 /// for web-based forms in order to accept data from the user;
 /// a wide variety of types of input data and control widgets are available,
 /// depending on the device and user agent.
@@ -19,7 +19,7 @@ import Foundation
 open class InputDateTime: BaseActiveElement, _StringInitializable, _ChangeHandleable, _InvalidHandleable, _InputHandleable, _SelectHandleable {
     public override class var name: String { "input" }
     
-    @State public var currentValue: String = ""
+    @State public var text: String = ""
     
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
@@ -32,7 +32,7 @@ open class InputDateTime: BaseActiveElement, _StringInitializable, _ChangeHandle
     
     func _updateStateWithValue() {
         guard let value = _value else { return }
-        self.currentValue = value
+        self.text = value
     }
     
     func onChange(_ event: HandledEvent) {
@@ -66,14 +66,14 @@ open class InputDateTime: BaseActiveElement, _StringInitializable, _ChangeHandle
         subscribeToChanges()
         subscribeToInput()
         domElement.type = "datetime-local".jsValue()
-        domElement.value = currentValue.jsValue()
+        domElement.value = text.jsValue()
     }
     
     public required convenience init(_ value: String) {
         self.init()
         domElement.value = value.jsValue()
-        self.currentValue = value
-        _currentValue.listen {
+        self.text = value
+        _text.listen {
             self.domElement.value = $0.jsValue()
         }
     }
@@ -81,16 +81,12 @@ open class InputDateTime: BaseActiveElement, _StringInitializable, _ChangeHandle
     public required convenience init(_ value: State<String>) {
         self.init()
         domElement.value = value.wrappedValue.jsValue()
-        _currentValue.wrappedValue = value.wrappedValue
-        _currentValue.merge(with: value, leftChanged: { new in
+        _text.wrappedValue = value.wrappedValue
+        _text.merge(with: value, leftChanged: { new in
             self.domElement.value = new.jsValue()
         }, rightChanged: { new in
             self.domElement.value = new.jsValue()
         })
-    }
-    
-    public func select() {
-        domElement.select.function?.callAsFunction(this: domElement.object)
     }
     
     /// The HTMLInputElement.stepUp() method increments the value
@@ -112,3 +108,5 @@ open class InputDateTime: BaseActiveElement, _StringInitializable, _ChangeHandle
         domElement.stepDown.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
     }
 }
+
+extension InputDateTime: _Selectable {}

@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// The HTML <fieldset> element is used to group several controls as well as labels (label) within a web form.
+/// The HTML `<fieldset>` element is used to group several controls as well as labels (label) within a web form.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset)
 open class FieldSet: BaseActiveElement, _ScrollHandleable {

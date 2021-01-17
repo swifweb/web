@@ -19,7 +19,7 @@ import Foundation
 open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable, _InputHandleable {
     public override class var name: String { "input" }
     
-    @State public var currentValue: String = "#000000"
+    @State public var text: String = "#000000"
     
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
@@ -32,7 +32,7 @@ open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable,
     
     func _updateStateWithValue() {
         guard let value = _value else { return }
-        self.currentValue = value
+        self.text = value
     }
     
     func onChange(_ event: HandledEvent) {
@@ -62,14 +62,14 @@ open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable,
         subscribeToChanges()
         subscribeToInput()
         domElement.type = "color".jsValue()
-        domElement.value = currentValue.jsValue()
+        domElement.value = text.jsValue()
     }
     
     public required convenience init(_ value: String) {
         self.init()
         domElement.value = value.jsValue()
-        self.currentValue = value
-        _currentValue.listen {
+        self.text = value
+        _text.listen {
             self.domElement.value = $0.jsValue()
         }
     }
@@ -77,15 +77,13 @@ open class InputColor: BaseActiveElement, _ChangeHandleable, _InvalidHandleable,
     public required convenience init(_ value: State<String>) {
         self.init()
         domElement.value = value.wrappedValue.jsValue()
-        _currentValue.wrappedValue = value.wrappedValue
-        _currentValue.merge(with: value, leftChanged: { new in
+        _text.wrappedValue = value.wrappedValue
+        _text.merge(with: value, leftChanged: { new in
             self.domElement.value = new.jsValue()
         }, rightChanged: { new in
             self.domElement.value = new.jsValue()
         })
     }
-    
-    public func select() {
-        domElement.select.function?.callAsFunction(this: domElement.object)
-    }
 }
+
+extension InputColor: _Selectable {}

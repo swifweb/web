@@ -10,7 +10,7 @@ import Foundation
 /// A single-line text field whose value is obscured.
 /// Will alert user if site is not secure.
 ///
-/// The HTML <input> element is used to create interactive controls
+/// The HTML `<input>` element is used to create interactive controls
 /// for web-based forms in order to accept data from the user;
 /// a wide variety of types of input data and control widgets are available,
 /// depending on the device and user agent.
@@ -19,29 +19,37 @@ import Foundation
 open class InputPassword: BaseActiveElement, _StringInitializable, _ChangeHandleable, _InvalidHandleable, _InputHandleable, _SelectHandleable, _SearchHandleable {
     public override class var name: String { "input" }
     
+    @State public var text: String = ""
+    
     var inputEventHasNeverFired = true
     var changeClosure: ChangeClosure?
     var changeHandler: (HandledEvent) -> Void = { _ in }
     
-    func onChange(_ event: HandledEvent) {
-        guard inputEventHasNeverFired else { return }
-        if let string = domElement.innerText.jsValue().string {
-            self.enteredText = string
-        }
+    /// Convenience getter
+    var _value: String? {
+        domElement.value.string
     }
     
-    var invalidClosure: InvalidClosure?
-    var invalidHandler: (HandledEvent) -> Void = { _ in }
+    func _updateStateWithValue() {
+        guard let value = _value else { return }
+        self.text = value
+    }
+    
+    func onChange(_ event: HandledEvent) {
+        guard inputEventHasNeverFired else { return }
+        _updateStateWithValue()
+    }
     
     var inputClosure: InputClosure?
     var inputHandler: (InputEvent) -> Void = { _ in }
     
     func onInput(_ event: InputEvent) {
-        inputEventHasNeverFired  = false
-        if let string = domElement.innerText.jsValue().string {
-            self.enteredText = string
-        }
+        inputEventHasNeverFired = false
+        _updateStateWithValue()
     }
+    
+    var invalidClosure: InvalidClosure?
+    var invalidHandler: (HandledEvent) -> Void = { _ in }
     
     var selectClosure: SelectClosure?
     var selectHandler: (UIEvent) -> Void = { _ in }
@@ -57,25 +65,35 @@ open class InputPassword: BaseActiveElement, _StringInitializable, _ChangeHandle
         searchClosure?.release()
     }
     
-    @State var enteredText = ""
-    
     public required init() {
         super.init()
         subscribeToChanges()
         subscribeToInput()
         domElement.type = "password".jsValue()
+        domElement.value = text.jsValue()
     }
     
     public required convenience init(_ value: String) {
         self.init()
-        self.value = value
-        self.enteredText = value
+        domElement.value = value.jsValue()
+        self.text = value
+        _text.listen {
+            self.domElement.value = $0.jsValue()
+        }
     }
     
-    public func bind(_ state: State<String>) -> Self {
-        $enteredText.listen {
-            state.wrappedValue = $0
-        }
-        return self
+    public required convenience init(_ value: State<String>) {
+        self.init()
+        domElement.value = value.wrappedValue.jsValue()
+        _text.wrappedValue = value.wrappedValue
+        _text.merge(with: value, leftChanged: { new in
+            self.domElement.value = new.jsValue()
+        }, rightChanged: { new in
+            self.domElement.value = new.jsValue()
+        })
     }
 }
+
+extension InputPassword: _Selectable {}
+extension InputPassword: _RangeTextable {}
+extension InputPassword: _SelectionRangeable {}
