@@ -64,6 +64,40 @@ extension BaseContentElementable {
         get { s?.domElement.innerHTML.string ?? "" }
         set { s?.domElement.innerHTML = newValue.jsValue() }
     }
+    
+    public func innerText(_ value: String) -> Self {
+        self.innerText = value
+        return self
+    }
+    
+    public func innerText(_ value: State<String>) -> Self {
+        self.innerText = value.wrappedValue
+        value.listen {
+            self.innerText = $0
+        }
+        return self
+    }
+    
+    public func innerText <V>(_ value: ExpressableState<V, String>) -> Self {
+        innerText (value.unwrap())
+    }
+    
+    public func innerHTML(_ value: String) -> Self {
+        self.innerHTML = value
+        return self
+    }
+    
+    public func innerHTML(_ value: State<String>) -> Self {
+        self.innerHTML = value.wrappedValue
+        value.listen {
+            self.innerHTML = $0
+        }
+        return self
+    }
+    
+    public func innerHTML<V>(_ value: ExpressableState<V, String>) -> Self {
+        innerHTML(value.unwrap())
+    }
 }
 
 extension _BaseContentElementable {
