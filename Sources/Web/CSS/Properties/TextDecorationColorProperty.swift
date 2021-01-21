@@ -84,13 +84,18 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the text-decoration
-    public func textDecorationColor(_ type: State<Color>) -> Self {
-        s?._addProperty(TextDecorationColorProperty(type))
+    public func textDecorationColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
+        s?._addProperty(TextDecorationColorProperty(type.stateValue))
         return self
+    }
+    
+    /// Specifies the color of the text-decoration
+    public func textDecorationColor(_ type: Int) -> Self {
+        textDecorationColor(.hex(type))
     }
 
     /// Specifies the color of the text-decoration
-    public func textDecorationColor<V>(_ type: ExpressableState<V, Color>) -> Self {
-        textDecorationColor(type.unwrap())
+    public func textDecorationColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
+        textDecorationColor(type.stateValue.map { .hex($0) })
     }
 }

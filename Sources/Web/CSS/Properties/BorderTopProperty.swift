@@ -92,9 +92,19 @@ extension CSSRulable {
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: Int) -> Self {
+        borderTop(width: width, style: style, color: .hex(color))
+    }
+    
+    /// A shorthand property for border-top-width, border-top-style and border-top-color
     public func borderTop<A>(width: A, style: BorderStyleType, color: Color? = nil) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
         s?._addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
+    }
+    
+    /// A shorthand property for border-top-width, border-top-style and border-top-color
+    public func borderTop<A>(width: A, style: BorderStyleType, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
+        borderTop(width: width, style: style, color: .hex(color))
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
@@ -104,9 +114,19 @@ extension CSSRulable {
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    public func borderTop<B>(width: BorderWidthType? = nil, style: B, color: Int) -> Self where B: StateConvertible, B.Value == BorderStyleType {
+        borderTop(width: width, style: style, color: .hex(color))
+    }
+    
+    /// A shorthand property for border-top-width, border-top-style and border-top-color
     public func borderTop<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Optional<Color> {
         s?._addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
+    }
+    
+    /// A shorthand property for border-top-width, border-top-style and border-top-color
+    public func borderTop<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Int {
+        borderTop(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
@@ -116,9 +136,19 @@ extension CSSRulable {
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    public func borderTop<A, B>(width: A, style: B, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType {
+        borderTop(width: width, style: style, color: .hex(color))
+    }
+    
+    /// A shorthand property for border-top-width, border-top-style and border-top-color
     public func borderTop<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Optional<Color> {
         s?._addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
+    }
+    
+    /// A shorthand property for border-top-width, border-top-style and border-top-color
+    public func borderTop<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Int {
+        borderTop(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
@@ -128,8 +158,18 @@ extension CSSRulable {
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    public func borderTop<B, C>(width: BorderWidthType, style: B, color: C) -> Self where B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
+        borderTop(width: width, style: style, color: color.stateValue.map { .hex($0) })
+    }
+    
+    /// A shorthand property for border-top-width, border-top-style and border-top-color
     public func borderTop<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Optional<Color> {
         s?._addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
+    }
+    
+    /// A shorthand property for border-top-width, border-top-style and border-top-color
+    public func borderTop<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
+        borderTop(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 }

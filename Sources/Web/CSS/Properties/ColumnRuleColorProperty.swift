@@ -81,13 +81,18 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the rule between columns
-    public func columnRuleColor(_ type: State<Color>) -> Self {
-        s?._addProperty(ColumnRuleColorProperty(type))
+    public func columnRuleColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
+        s?._addProperty(ColumnRuleColorProperty(type.stateValue))
         return self
+    }
+    
+    /// Specifies the color of the rule between columns
+    public func columnRuleColor(_ type: Int) -> Self {
+        columnRuleColor(.hex(type))
     }
 
     /// Specifies the color of the rule between columns
-    public func columnRuleColor<V>(_ type: ExpressableState<V, Color>) -> Self {
-        columnRuleColor(type.unwrap())
+    public func columnRuleColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
+        columnRuleColor(type.stateValue.map { .hex($0) })
     }
 }

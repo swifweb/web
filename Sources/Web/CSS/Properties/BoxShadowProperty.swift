@@ -1321,6 +1321,11 @@ extension CSSRulable {
         return self
     }
     
+    /// Attaches one shadow to an element
+    public func boxShadow<H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
     // MARK: A
     /// Attaches one shadow to an element
     public func boxShadow<A, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable {
@@ -1328,9 +1333,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: B
@@ -1340,9 +1354,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<B, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<B, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<B, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: C
@@ -1352,9 +1375,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<C, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<C, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<C, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Int, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: D
@@ -1364,9 +1396,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Int, inset: Bool = false) -> Self where D: StateConvertible, D.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Int, inset: I) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: E
@@ -1376,9 +1417,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: A B
@@ -1388,9 +1438,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, B>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, B, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, B, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: A C
@@ -1400,9 +1459,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, C, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, C, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, C, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: A D
@@ -1412,9 +1480,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, D, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, D, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, D, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: A E
@@ -1424,9 +1501,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, E, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, E, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, E, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: B C
@@ -1436,9 +1522,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<B, C, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<B, C, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<B, C, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Int, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: B D
@@ -1448,9 +1543,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<B, D, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Int, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<B, D, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<B, D, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Int, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: B E
@@ -1460,9 +1564,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<B, E, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<B, E, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<B, E, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: C D
@@ -1472,9 +1585,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<C, D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: D, color: Int, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<C, D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: D, color: Color? = nil, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<C, D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: D, color: Int, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: C E
@@ -1484,9 +1606,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<C, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<C, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<C, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: D E
@@ -1496,9 +1627,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<D, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: Bool = false) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<D, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: I) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<D, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: I) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: A B C
@@ -1508,9 +1648,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, B, C>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, B, C, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, B, C, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: A B D
@@ -1520,9 +1669,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, B, D>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, B, D, I>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, B, D, I>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: A B E
@@ -1532,9 +1690,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, B, E>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, B, E, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, B, E, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: B C D
@@ -1544,9 +1711,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<B, C, D, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: Int, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<B, C, D, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: Color? = nil, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<B, C, D, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: Int, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: B C E
@@ -1556,9 +1732,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<B, C, E, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<B, C, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<B, C, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: A C D
@@ -1568,9 +1753,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, C, D, V: UnitValuable>(h: A, v: V, blur: C, spread: D, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, C, D, V: UnitValuable, I>(h: A, v: V, blur: C, spread: D, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, C, D, V: UnitValuable, I>(h: A, v: V, blur: C, spread: D, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: A C E
@@ -1580,9 +1774,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, C, E, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, C, E, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, C, E, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: A B C D
@@ -1592,9 +1795,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, B, C, D>(h: A, v: B, blur: C, spread: D, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, B, C, D, I>(h: A, v: B, blur: C, spread: D, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, B, C, D, I>(h: A, v: B, blur: C, spread: D, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
     }
     
     // MARK: A B C E
@@ -1604,9 +1816,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, B, C, E>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, B, C, E, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, B, C, E, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: B C D E
@@ -1616,9 +1837,18 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<B, C, D, E, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<B, C, D, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<B, C, D, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     // MARK: A B C D E
@@ -1628,8 +1858,17 @@ extension CSSRulable {
         return self
     }
     /// Attaches one shadow to an element
+    public func boxShadow<A, B, C, D, E>(h: A, v: B, blur: C, spread: D, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
+    }
+    
+    /// Attaches one shadow to an element
     public func boxShadow<A, B, C, D, E, I>(h: A, v: B, blur: C, spread: D, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
         s?._addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    /// Attaches one shadow to an element
+    public func boxShadow<A, B, C, D, E, I>(h: A, v: B, blur: C, spread: D, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
 }

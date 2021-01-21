@@ -81,13 +81,18 @@ extension CSSRulable {
     }
 
     /// Sets the color of the four borders
-    public func borderColor(_ type: State<Color>) -> Self {
-        s?._addProperty(BorderColorProperty(type))
+    public func borderColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
+        s?._addProperty(BorderColorProperty(type.stateValue))
         return self
+    }
+    
+    /// Sets the color of the four borders
+    public func borderColor(_ type: Int) -> Self {
+        borderColor(.hex(type))
     }
 
     /// Sets the color of the four borders
-    public func borderColor<V>(_ type: ExpressableState<V, Color>) -> Self {
-        borderColor(type.unwrap())
+    public func borderColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
+        borderColor(type.stateValue.map { .hex($0) })
     }
 }

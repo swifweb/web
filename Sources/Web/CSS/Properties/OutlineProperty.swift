@@ -54,4 +54,9 @@ extension CSSRulable {
         s?._addProperty(OutlineProperty(width: width, style: style, color: color))
         return self
     }
+    
+    /// A shorthand property for the outline-width, outline-style, and the outline-color properties
+    public func outline<U: UnitValuable>(width: U, style: OutlineStyleType, color: Int) -> Self {
+        outline(width: width, style: style, color: .hex(color))
+    }
 }

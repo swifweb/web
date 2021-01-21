@@ -50,7 +50,17 @@ extension CSSRulable {
     }
     
     /// A shorthand property for all the column-rule-* properties
+    public func columnRule(width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Int) -> Self {
+        columnRule(width: width, style: style, color: .hex(color))
+    }
+    
+    /// A shorthand property for all the column-rule-* properties
     public func columnRule<W: UnitValuable>(width: W, style: ColumnRuleStyleType, color: Color) -> Self {
         columnRule(width: .length(width), style: style, color: color)
+    }
+    
+    /// A shorthand property for all the column-rule-* properties
+    public func columnRule<W: UnitValuable>(width: W, style: ColumnRuleStyleType, color: Int) -> Self {
+        columnRule(width: .length(width), style: style, color: .hex(color))
     }
 }

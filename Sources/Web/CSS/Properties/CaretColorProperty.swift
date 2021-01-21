@@ -81,13 +81,18 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
-    public func caretColor(_ type: State<Color>) -> Self {
-        s?._addProperty(CaretColorProperty(type))
+    public func caretColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
+        s?._addProperty(CaretColorProperty(type.stateValue))
         return self
+    }
+    
+    /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
+    public func caretColor(_ type: Int) -> Self {
+        caretColor(.hex(type))
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
-    public func caretColor<V>(_ type: ExpressableState<V, Color>) -> Self {
-        caretColor(type.unwrap())
+    public func caretColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
+        caretColor(type.stateValue.map { .hex($0) })
     }
 }

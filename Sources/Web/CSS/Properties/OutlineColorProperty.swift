@@ -81,13 +81,18 @@ extension CSSRulable {
     }
 
     /// Sets the color of an outline
-    public func outlineColor(_ type: State<Color>) -> Self {
-        s?._addProperty(OutlineColorProperty(type))
+    public func outlineColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
+        s?._addProperty(OutlineColorProperty(type.stateValue))
         return self
+    }
+    
+    /// Sets the color of an outline
+    public func outlineColor(_ type: Int) -> Self {
+        outlineColor(.hex(type))
     }
 
     /// Sets the color of an outline
-    public func outlineColor<V>(_ type: ExpressableState<V, Color>) -> Self {
-        outlineColor(type.unwrap())
+    public func outlineColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
+        outlineColor(type.stateValue.map { .hex($0) })
     }
 }

@@ -81,19 +81,14 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the background-* properties
-    public func background(_ type: State<BackgroundValue>) -> Self {
-        s?._addProperty(BackgroundProperty(type))
+    public func background<S>(_ type: S) -> Self where S: StateConvertible, S.Value == BackgroundValue {
+        s?._addProperty(BackgroundProperty(type.stateValue))
         return self
-    }
-
-    /// A shorthand property for all the background-* properties
-    public func background<V>(_ type: ExpressableState<V, BackgroundValue>) -> Self {
-        background(type.unwrap())
     }
     
     /// A shorthand property for all the background-* properties
     public func background(
-        color: ColorType? = nil,
+        color: Color? = nil,
         src: String? = nil,
         position: BackgroundPositionType? = nil,
         size: BackgroundSizeType? = nil,
@@ -102,8 +97,8 @@ extension CSSRulable {
         clip: BackgroundClipType? = nil,
         attachment: BackgroundAttachmentType? = nil
     ) -> Self {
-        s?._addProperty(BackgroundProperty(
-            color: color,
+        background(.init(
+            color: color?.value,
             src: src,
             position: position,
             size: size,
@@ -112,6 +107,28 @@ extension CSSRulable {
             clip: clip,
             attachment: attachment
         ))
-        return self
+    }
+    
+    /// A shorthand property for all the background-* properties
+    public func background(
+        color: Int,
+        src: String? = nil,
+        position: BackgroundPositionType? = nil,
+        size: BackgroundSizeType? = nil,
+        repeat: BackgroundRepeatType? = nil,
+        origin: BackgroundOriginType? = nil,
+        clip: BackgroundClipType? = nil,
+        attachment: BackgroundAttachmentType? = nil
+    ) -> Self {
+        background(.init(
+            color: Color.hex(color).value,
+            src: src,
+            position: position,
+            size: size,
+            repeat: `repeat`,
+            origin: origin,
+            clip: clip,
+            attachment: attachment
+        ))
     }
 }

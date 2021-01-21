@@ -79,15 +79,20 @@ extension CSSRulable {
         s?._addProperty(.backgroundColor, type)
         return self
     }
-
+    
     /// Specifies the background color of an element
-    public func backgroundColor(_ type: State<Color>) -> Self {
-        s?._addProperty(BackgroundColorProperty(type))
+    public func backgroundColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
+        s?._addProperty(BackgroundColorProperty(type.stateValue))
         return self
+    }
+    
+    /// Specifies the background color of an element
+    public func backgroundColor(_ type: Int) -> Self {
+        backgroundColor(.hex(type))
     }
 
     /// Specifies the background color of an element
-    public func backgroundColor<V>(_ type: ExpressableState<V, Color>) -> Self {
-        backgroundColor(type.unwrap())
+    public func backgroundColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
+        backgroundColor(type.stateValue.map { .hex($0) })
     }
 }

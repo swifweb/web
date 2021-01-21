@@ -61,7 +61,7 @@ extension CSSRulable {
     
     /// Specifies the amount by which the border image area extends beyond the border box
     public func borderImageOutset<L: UnitValuable>(_ length: L) -> Self {
-        borderImageOutset(.length(length)
+        borderImageOutset(.length(length))
     }
     
     /// Specifies the amount by which the border image area extends beyond the border box

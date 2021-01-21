@@ -34,15 +34,6 @@ public class TextDecorationProperty: _Property {
     public init (_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) {
         propertyValue = TextDecorationValue(line, color, style)
     }
-    
-    //    public convenience init (_ type: State<<#T##c: Type##Type#>>) {
-    //        self.init(type.wrappedValue)
-    //        type.listen { self._changed(to: $0) }
-    //    }
-    //
-    //    public convenience init <V>(_ type: ExpressableState<V, <#T##c: Type##Type#>>) {
-    //        self.init(type.unwrap())
-    //    }
 }
 
 extension PropertyKey {
@@ -65,26 +56,21 @@ public struct TextDecorationValue: CustomStringConvertible {
     }
 }
 
-//extension Stylesheet {
-//    <#T##c: Docs##String#>
-//    public typealias <#T##c: Alias##String#> = <#T##c: Original##Original#>
-//}
-//
-//extension CSSRulable {
-//    <#T##c: Docs##String#>
-//    public func <#T##c: variableName##variableName#>(_ type: <#T##c: Type##Type#>) -> Self {
-//        s?._addProperty(.<#T##c: variableName##variableName#>, type)
-//        return self
-//    }
-//
-//    <#T##c: Docs##String#>
-//    public func <#T##c: variableName##variableName#>(_ type: State<<#T##c: Type##Type#>>) -> Self {
-//        s?._addProperty(<#T##c: Original##Original#>(type))
-//        return self
-//    }
-//
-//    <#T##c: Docs##String#>
-//    public func <#T##c: variableName##variableName#><V>(_ type: ExpressableState<V, <#T##c: Type##Type#>>) -> Self {
-//        <#T##c: variableName##variableName#>(type.unwrap())
-//    }
-//}
+extension Stylesheet {
+    /// Specifies the decoration added to text
+    public typealias TextDecoration = TextDecorationProperty
+}
+
+extension CSSRulable {
+    /// Specifies the decoration added to text
+    public func textDecoration(_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) -> Self {
+        s?._addProperty(TextDecorationProperty(line, color, style))
+        return self
+    }
+    
+    /// Specifies the decoration added to text
+    public func textDecoration(_ line: TextDecorationLineType, _ color: Int, _ style: TextDecorationStyleType) -> Self {
+        s?._addProperty(TextDecorationProperty(line, .hex(color), style))
+        return self
+    }
+}

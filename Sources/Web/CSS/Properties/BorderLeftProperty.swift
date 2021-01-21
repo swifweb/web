@@ -92,9 +92,19 @@ extension CSSRulable {
     }
     
     /// A shorthand property for all the border-left-* properties
+    public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: Int) -> Self {
+        borderLeft(width: width, style: style, color: .hex(color))
+    }
+    
+    /// A shorthand property for all the border-left-* properties
     public func borderLeft<A>(width: A, style: BorderStyleType, color: Color? = nil) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
         s?._addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
+    }
+    
+    /// A shorthand property for all the border-left-* properties
+    public func borderLeft<A>(width: A, style: BorderStyleType, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
+        borderLeft(width: width, style: style, color: .hex(color))
     }
     
     /// A shorthand property for all the border-left-* properties
@@ -104,9 +114,19 @@ extension CSSRulable {
     }
     
     /// A shorthand property for all the border-left-* properties
+    public func borderLeft<B>(width: BorderWidthType? = nil, style: B, color: Int) -> Self where B: StateConvertible, B.Value == BorderStyleType {
+        borderLeft(width: width, style: style, color: .hex(color))
+    }
+    
+    /// A shorthand property for all the border-left-* properties
     public func borderLeft<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Optional<Color> {
         s?._addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
+    }
+    
+    /// A shorthand property for all the border-left-* properties
+    public func borderLeft<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Int {
+        borderLeft(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
     
     /// A shorthand property for all the border-left-* properties
@@ -116,9 +136,19 @@ extension CSSRulable {
     }
     
     /// A shorthand property for all the border-left-* properties
+    public func borderLeft<A, B>(width: A, style: B, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType {
+        borderLeft(width: width, style: style, color: .hex(color))
+    }
+    
+    /// A shorthand property for all the border-left-* properties
     public func borderLeft<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Optional<Color> {
         s?._addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
+    }
+    
+    /// A shorthand property for all the border-left-* properties
+    public func borderLeft<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Int {
+        borderLeft(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
     
     /// A shorthand property for all the border-left-* properties
@@ -128,8 +158,18 @@ extension CSSRulable {
     }
     
     /// A shorthand property for all the border-left-* properties
+    public func borderLeft<B, C>(width: BorderWidthType, style: B, color: C) -> Self where B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
+        borderLeft(width: width, style: style, color: color.stateValue.map { .hex($0) })
+    }
+    
+    /// A shorthand property for all the border-left-* properties
     public func borderLeft<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Optional<Color> {
         s?._addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
+    }
+    
+    /// A shorthand property for all the border-left-* properties
+    public func borderLeft<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
+        borderLeft(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 }

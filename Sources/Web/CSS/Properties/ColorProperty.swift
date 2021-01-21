@@ -83,13 +83,18 @@ extension CSSRulable {
     }
     
     /// Sets the color of text
-    public func color(_ color: State<Color>) -> Self {
-        s?._addProperty(ColorProperty(color))
+    public func color<S>(_ color: S) -> Self where S: StateConvertible, S.Value == Color {
+        s?._addProperty(ColorProperty(color.stateValue))
         return self
     }
     
     /// Sets the color of text
-    public func color<V>(_ color: ExpressableState<V, Color>) -> Self {
-        self.color(color.unwrap())
+    public func color(_ color: Int) -> Self {
+        self.color(.hex(color))
+    }
+    
+    /// Sets the color of text
+    public func color<S>(_ color: S) -> Self where S: StateConvertible, S.Value == Int {
+        self.color(color.stateValue.map { .hex($0) })
     }
 }
