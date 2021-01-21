@@ -60,4 +60,19 @@ extension CSSRulable {
     public func verticalAlign<V>(_ type: ExpressableState<V, VerticalAlignType>) -> Self {
         verticalAlign(type.unwrap())
     }
+    
+    /// Sets the vertical alignment of an element
+    public func verticalAlign<U: UnitValuable>(_ type: U) -> Self {
+        verticalAlign(.length(type))
+    }
+
+    /// Sets the vertical alignment of an element
+    public func verticalAlign<U: UnitValuable>(_ type: State<U>) -> Self {
+        verticalAlign(type.map { .length($0) })
+    }
+
+    /// Sets the vertical alignment of an element
+    public func verticalAlign<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
+        verticalAlign(type.unwrap())
+    }
 }

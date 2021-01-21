@@ -67,6 +67,11 @@ extension CSSRulable {
     }
     
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    public func gridTemplate<U: UnitValuable>(rows: U, columns: GridTemplateColumnsType) -> Self {
+        gridTemplate(rows: .length(rows), columns: columns)
+    }
+    
+    /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
     public func gridTemplate(_ area: String...) -> Self {
         gridTemplate(area)
     }

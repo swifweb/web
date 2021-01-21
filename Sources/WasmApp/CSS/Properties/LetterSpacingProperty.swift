@@ -58,4 +58,19 @@ extension CSSRulable {
     public func letterSpacing<V>(_ type: ExpressableState<V, LetterSpacingType>) -> Self {
         letterSpacing(type.unwrap())
     }
+    
+    /// Increases or decreases the space between characters in a text
+    public func letterSpacing<L: UnitValuable>(_ length: L) -> Self {
+        letterSpacing(.length(length))
+    }
+    
+    /// Increases or decreases the space between characters in a text
+    public func letterSpacing<L: UnitValuable>(_ type: State<L>) -> Self {
+        letterSpacing(type.map { .length($0) })
+    }
+
+    /// Increases or decreases the space between characters in a text
+    public func letterSpacing<V, L: UnitValuable>(_ type: ExpressableState<V, L>) -> Self {
+        letterSpacing(type.unwrap())
+    }
 }

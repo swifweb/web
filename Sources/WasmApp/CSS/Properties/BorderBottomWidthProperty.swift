@@ -58,4 +58,19 @@ extension CSSRulable {
     public func borderBottomWidth<V>(_ type: ExpressableState<V, BorderWidthType>) -> Self {
         borderBottomWidth(type.unwrap())
     }
+    
+    /// Sets the width of the bottom border
+    public func borderBottomWidth<L: UnitValuable>(_ length: L) -> Self {
+        borderBottomWidth(.length(length))
+    }
+    
+    /// Sets the width of the bottom border
+    public func borderBottomWidth<L: UnitValuable>(_ type: State<L>) -> Self {
+        borderBottomWidth(type.map { .length($0) })
+    }
+
+    /// Sets the width of the bottom border
+    public func borderBottomWidth<V, L: UnitValuable>(_ type: ExpressableState<V, L>) -> Self {
+        borderBottomWidth(type.unwrap())
+    }
 }

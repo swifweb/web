@@ -68,4 +68,19 @@ extension CSSRulable {
     public func textIndent<V>(_ type: ExpressableState<V, TextIndentType>) -> Self {
         textIndent(type.unwrap())
     }
+    
+    /// Specifies the indentation of the first line in a text-block
+    public func textIndent<U: UnitValuable>(_ type: U) -> Self {
+        textIndent(.length(type))
+    }
+
+    /// Specifies the indentation of the first line in a text-block
+    public func textIndent<U: UnitValuable>(_ type: State<U>) -> Self {
+        textIndent(type.map { .length($0) })
+    }
+
+    /// Specifies the indentation of the first line in a text-block
+    public func textIndent<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
+        textIndent(type.unwrap())
+    }
 }

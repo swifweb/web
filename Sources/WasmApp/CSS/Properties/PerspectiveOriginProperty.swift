@@ -138,9 +138,19 @@ extension CSSRulable {
     }
     
     /// Defines at which position the user is looking at the 3D-positioned element
+    public func perspectiveOrigin<X: UnitValuable>(_ xAxis: X, _ yAxis: YAxis) -> Self {
+        perspectiveOrigin(.length(xAxis), yAxis)
+    }
+    
+    /// Defines at which position the user is looking at the 3D-positioned element
     public func perspectiveOrigin<X>(_ xAxis: X, _ yAxis: YAxis) -> Self where X: StateConvertible, X.Value == XAxis {
         s?._addProperty(PerspectiveOriginProperty(xAxis, yAxis))
         return self
+    }
+    
+    /// Defines at which position the user is looking at the 3D-positioned element
+    public func perspectiveOrigin<X>(_ xAxis: X, _ yAxis: YAxis) -> Self where X: StateConvertible, X.Value: UnitValuable {
+        perspectiveOrigin(xAxis.stateValue.map { .length($0) }, yAxis)
     }
     
     /// Defines at which position the user is looking at the 3D-positioned element
@@ -150,9 +160,19 @@ extension CSSRulable {
     }
     
     /// Defines at which position the user is looking at the 3D-positioned element
+    public func perspectiveOrigin<Y>(_ xAxis: XAxis, _ yAxis: Y) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
+        perspectiveOrigin(xAxis, yAxis.stateValue.map { .length($0) })
+    }
+    
+    /// Defines at which position the user is looking at the 3D-positioned element
     public func perspectiveOrigin<X, Y>(_ xAxis: X, _ yAxis: Y) -> Self where X: StateConvertible, X.Value == XAxis, Y: StateConvertible, Y.Value == YAxis {
         s?._addProperty(PerspectiveOriginProperty(xAxis, yAxis))
         return self
+    }
+    
+    /// Defines at which position the user is looking at the 3D-positioned element
+    public func perspectiveOrigin<X, Y>(_ xAxis: X, _ yAxis: Y) -> Self where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
+        perspectiveOrigin(xAxis.stateValue.map { .length($0) }, yAxis.stateValue.map { .length($0) })
     }
     
     /// Defines at which position the user is looking at the 3D-positioned element
@@ -177,5 +197,15 @@ extension CSSRulable {
     public func perspectiveOrigin<Y>(_ yAxis: Y) -> Self where Y: StateConvertible, Y.Value == YAxis {
         s?._addProperty(PerspectiveOriginProperty(yAxis))
         return self
+    }
+    
+    /// Defines at which position the user is looking at the 3D-positioned element
+    public func perspectiveOrigin<U: UnitValuable>(_ value: U) -> Self {
+        perspectiveOrigin(XAxis.length(value))
+    }
+    
+    /// Defines at which position the user is looking at the 3D-positioned element
+    public func perspectiveOrigin<U>(_ value: U) -> Self where U: StateConvertible, U.Value: UnitValuable {
+        perspectiveOrigin(value.stateValue.map { XAxis.length($0) })
     }
 }

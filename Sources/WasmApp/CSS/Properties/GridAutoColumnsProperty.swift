@@ -80,6 +80,16 @@ extension CSSRulable {
     public func gridAutoColumns(_ type: GridAutoColumnsType...) -> Self {
         gridAutoColumns(type)
     }
+    
+    /// Specifies a default column size
+    public func gridAutoColumns<U: UnitValuable>(_ type: [U]) -> Self {
+        gridAutoColumns(type.map { .length($0) })
+    }
+    
+    /// Specifies a default column size
+    public func gridAutoColumns<U: UnitValuable>(_ type: U...) -> Self {
+        gridAutoColumns(type.map { .length($0) })
+    }
 
     /// Specifies a default column size
     public func gridAutoColumns(_ type: State<[GridAutoColumnsType]>) -> Self {
@@ -88,9 +98,19 @@ extension CSSRulable {
     }
     
     /// Specifies a default column size
+    public func gridAutoColumns<U: UnitValuable>(_ type: State<[U]>) -> Self {
+        gridAutoColumns(type.map { $0.map { .length($0) } })
+    }
+    
+    /// Specifies a default column size
     public func gridAutoColumns(_ type: State<GridAutoColumnsType>) -> Self {
         s?._addProperty(GridAutoColumnsProperty(type))
         return self
+    }
+    
+    /// Specifies a default column size
+    public func gridAutoColumns<U: UnitValuable>(_ type: State<U>) -> Self {
+        gridAutoColumns(type.map { .length($0) })
     }
 
     /// Specifies a default column size
@@ -99,7 +119,17 @@ extension CSSRulable {
     }
     
     /// Specifies a default column size
+    public func gridAutoColumns<V, U: UnitValuable>(_ type: ExpressableState<V, [U]>) -> Self {
+        gridAutoColumns(type.unwrap())
+    }
+    
+    /// Specifies a default column size
     public func gridAutoColumns<V>(_ type: ExpressableState<V, GridAutoColumnsType>) -> Self {
+        gridAutoColumns(type.unwrap())
+    }
+    
+    /// Specifies a default column size
+    public func gridAutoColumns<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
         gridAutoColumns(type.unwrap())
     }
 }

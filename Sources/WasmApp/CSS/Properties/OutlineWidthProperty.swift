@@ -58,4 +58,19 @@ extension CSSRulable {
     public func outlineWidth<V>(_ type: ExpressableState<V, OutlineWidthType>) -> Self {
         outlineWidth(type.unwrap())
     }
+    
+    /// Sets the width of an outline
+    public func outlineWidth<U: UnitValuable>(_ type: U) -> Self {
+        outlineWidth(.length(type))
+    }
+
+    /// Sets the width of an outline
+    public func outlineWidth<U: UnitValuable>(_ type: State<U>) -> Self {
+        outlineWidth(type.map { .length($0) })
+    }
+
+    /// Sets the width of an outline
+    public func outlineWidth<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
+        outlineWidth(type.unwrap())
+    }
 }

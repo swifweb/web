@@ -60,4 +60,19 @@ extension CSSRulable {
     public func wordSpacing<V>(_ type: ExpressableState<V, WordSpacingType>) -> Self {
         wordSpacing(type.unwrap())
     }
+    
+    /// Increases or decreases the space between words in a text
+    public func wordSpacing<U: UnitValuable>(_ type: U) -> Self {
+        wordSpacing(.length(type))
+    }
+
+    /// Increases or decreases the space between words in a text
+    public func wordSpacing<U: UnitValuable>(_ type: State<U>) -> Self {
+        wordSpacing(type.map { .length($0) })
+    }
+
+    /// Increases or decreases the space between words in a text
+    public func wordSpacing<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
+        wordSpacing(type.unwrap())
+    }
 }

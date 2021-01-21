@@ -48,4 +48,9 @@ extension CSSRulable {
         s?._addProperty(ColumnRuleProperty(width: width, style: style, color: color))
         return self
     }
+    
+    /// A shorthand property for all the column-rule-* properties
+    public func columnRule<W: UnitValuable>(width: W, style: ColumnRuleStyleType, color: Color) -> Self {
+        columnRule(width: .length(width), style: style, color: color)
+    }
 }

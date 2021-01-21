@@ -61,4 +61,19 @@ extension CSSRulable {
     public func lineHeight<V>(_ type: ExpressableState<V, LineHeightType>) -> Self {
         lineHeight(type.unwrap())
     }
+    
+    /// Sets the line height
+    public func lineHeight<U: UnitValuable>(_ type: U) -> Self {
+        lineHeight(.length(type))
+    }
+
+    /// Sets the line height
+    public func lineHeight<U: UnitValuable>(_ type: State<U>) -> Self {
+        lineHeight(type.map { .length($0) })
+    }
+
+    /// Sets the line height
+    public func lineHeight<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
+        lineHeight(type.unwrap())
+    }
 }

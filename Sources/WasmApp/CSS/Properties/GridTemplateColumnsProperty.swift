@@ -58,4 +58,19 @@ extension CSSRulable {
     public func gridTemplateColumns<V>(_ type: ExpressableState<V, GridTemplateColumnsType>) -> Self {
         gridTemplateColumns(type.unwrap())
     }
+    
+    /// Specifies the size of the columns, and how many columns in a grid layout
+    public func gridTemplateColumns<U: UnitValuable>(_ type: U) -> Self {
+        gridTemplateColumns(.length(type))
+    }
+
+    /// Specifies the size of the columns, and how many columns in a grid layout
+    public func gridTemplateColumns<U: UnitValuable>(_ type: State<U>) -> Self {
+        gridTemplateColumns(type.map { .length($0) })
+    }
+
+    /// Specifies the size of the columns, and how many columns in a grid layout
+    public func gridTemplateColumns<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
+        gridTemplateColumns(type.unwrap())
+    }
 }

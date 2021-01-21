@@ -58,4 +58,19 @@ extension CSSRulable {
     public func borderImageOutset<V>(_ type: ExpressableState<V, BorderImageOutsetType>) -> Self {
         borderImageOutset(type.unwrap())
     }
+    
+    /// Specifies the amount by which the border image area extends beyond the border box
+    public func borderImageOutset<L: UnitValuable>(_ length: L) -> Self {
+        borderImageOutset(.length(length)
+    }
+    
+    /// Specifies the amount by which the border image area extends beyond the border box
+    public func borderImageOutset<L: UnitValuable>(_ type: State<L>) -> Self {
+        borderImageOutset(type.map { .length($0) })
+    }
+
+    /// Specifies the amount by which the border image area extends beyond the border box
+    public func borderImageOutset<V, L: UnitValuable>(_ type: ExpressableState<V, L>) -> Self {
+        borderImageOutset(type.unwrap())
+    }
 }

@@ -112,6 +112,11 @@ extension CSSRulable {
         return self
     }
     
+    /// Specifies the size(s) of the columns and rows
+    public func grid<U: UnitValuable>(templateRows: U, templateColumns: GridTemplateColumnsType) -> Self {
+        grid(templateRows: .length(templateRows), templateColumns: templateColumns)
+    }
+    
     /// Specifies the grid layout using named items
     public func grid(_ area: [String]) -> Self {
         s?._addProperty(GridProperty(area))
@@ -129,10 +134,30 @@ extension CSSRulable {
         return self
     }
     
+    /// Specifies the size (height) of the rows, and the auto size of the columns
+    public func grid<U: UnitValuable>(templateRows: U, autoColumns: GridAutoColumnsValue) -> Self {
+        grid(templateRows: .length(templateRows), autoColumns: autoColumns)
+    }
+    
     /// Specifies the auto size of the rows, and sets the grid-template-columns property
     public func grid(autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) -> Self {
         s?._addProperty(GridProperty(autoRows: autoRows, templateColumns: templateColumns))
         return self
+    }
+    
+    /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    public func grid<U: UnitValuable>(autoRows: GridAutoRowsType, templateColumns: U) -> Self {
+        grid(autoRows: autoRows, templateColumns: .length(templateColumns))
+    }
+    
+    /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    public func grid<U: UnitValuable>(autoRows: U, templateColumns: GridTemplateColumnsType) -> Self {
+        grid(autoRows: .length(autoRows), templateColumns: templateColumns)
+    }
+    
+    /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    public func grid<U1: UnitValuable, U2: UnitValuable>(autoRows: U1, templateColumns: U2) -> Self {
+        grid(autoRows: .length(autoRows), templateColumns: .length(templateColumns))
     }
     
     /// Specifies the size (height) of the rows, and the auto size of the columns
@@ -141,8 +166,26 @@ extension CSSRulable {
         return self
     }
     
+    /// Specifies the size (height) of the rows, and the auto size of the columns
+    public func grid<U: UnitValuable>(templateRows: U, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue) -> Self {
+        grid(templateRows: .length(templateRows), autoFlow: autoFlow, autoColumns: autoColumns)
+    }
+    
     public func grid(autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) -> Self {
         s?._addProperty(GridProperty(autoFlow: autoFlow, autoRows: autoRows, templateColumns: templateColumns))
         return self
+    }
+    
+    public func grid<U: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: U) -> Self {
+        s?._addProperty(GridProperty(autoFlow: autoFlow, autoRows: autoRows, templateColumns: .length(templateColumns)))
+        return self
+    }
+    
+    public func grid<U: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: U, templateColumns: GridTemplateColumnsType) -> Self {
+        grid(autoFlow: autoFlow, autoRows: .length(autoRows), templateColumns: templateColumns)
+    }
+    
+    public func grid<U1: UnitValuable, U2: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: U1, templateColumns: U2) -> Self {
+        grid(autoFlow: autoFlow, autoRows: .length(autoRows), templateColumns: .length(templateColumns))
     }
 }

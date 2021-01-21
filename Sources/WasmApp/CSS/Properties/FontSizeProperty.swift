@@ -81,4 +81,19 @@ extension CSSRulable {
     public func fontSize<V>(_ type: ExpressableState<V, FontSizeType>) -> Self {
         fontSize(type.unwrap())
     }
+    
+    /// Specifies the font size of text
+    public func fontSize<L: UnitValuable>(_ length: L) -> Self {
+        fontSize(.length(length))
+    }
+    
+    /// Specifies the font size of text
+    public func fontSize<L: UnitValuable>(_ type: State<L>) -> Self {
+        fontSize(type.map { .length($0) })
+    }
+
+    /// Specifies the font size of text
+    public func fontSize<V, L: UnitValuable>(_ type: ExpressableState<V, L>) -> Self {
+        fontSize(type.unwrap())
+    }
 }

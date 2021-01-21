@@ -64,4 +64,19 @@ extension CSSRulable {
     public func tabSize<V>(_ type: ExpressableState<V, TabSizeType>) -> Self {
         tabSize(type.unwrap())
     }
+    
+    /// Specifies the width of a tab character
+    public func tabSize<U: UnitValuable>(_ type: U) -> Self {
+        tabSize(.length(type))
+    }
+
+    /// Specifies the width of a tab character/// Specifies the width of a tab character
+    public func tabSize<U: UnitValuable>(_ type: State<U>) -> Self {
+        tabSize(type.map { .length($0) })
+    }
+
+    /// Specifies the width of a tab character
+    public func tabSize<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
+        tabSize(type.unwrap())
+    }
 }

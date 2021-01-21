@@ -58,4 +58,19 @@ extension CSSRulable {
     public func borderBottomLeftRadius<V>(_ type: ExpressableState<V, BorderRadiusType>) -> Self {
         borderBottomLeftRadius(type.unwrap())
     }
+    
+    /// Defines the radius of the border of the bottom-left corner
+    public func borderBottomLeftRadius<L: UnitValuable>(_ length: L) -> Self {
+        borderBottomLeftRadius(.length(length))
+    }
+    
+    /// Defines the radius of the border of the bottom-left corner
+    public func borderBottomLeftRadius<L: UnitValuable>(_ type: State<L>) -> Self {
+        borderBottomLeftRadius(type.map { .length($0) })
+    }
+
+    /// Defines the radius of the border of the bottom-left corner
+    public func borderBottomLeftRadius<V, L: UnitValuable>(_ type: ExpressableState<V, L>) -> Self {
+        borderBottomLeftRadius(type.unwrap())
+    }
 }

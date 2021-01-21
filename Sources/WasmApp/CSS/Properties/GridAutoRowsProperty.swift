@@ -58,4 +58,19 @@ extension CSSRulable {
     public func gridAutoRows<V>(_ type: ExpressableState<V, GridAutoRowsType>) -> Self {
         gridAutoRows(type.unwrap())
     }
+    
+    /// Specifies a default row size
+    public func gridAutoRows<U: UnitValuable>(_ type: U) -> Self {
+        gridAutoRows(.length(type))
+    }
+
+    /// Specifies a default row size
+    public func gridAutoRows<U: UnitValuable>(_ type: State<U>) -> Self {
+        gridAutoRows(type.map { .length($0) })
+    }
+
+    /// Specifies a default row size
+    public func gridAutoRows<V, U: UnitValuable>(_ type: ExpressableState<V, U>) -> Self {
+        gridAutoRows(type.unwrap())
+    }
 }
