@@ -7,9 +7,13 @@
 
 import Foundation
 
-open class Pointer: Pointerable, ExpressibleByStringLiteral {
+open class Pointer: StaticPointerable, ExpressibleByStringLiteral {
     public var pointer: Pointer { self }
     public let selector: String
+    
+    public required init() {
+        selector = ""
+    }
     
     required public init (stringLiteral value: String) {
         selector = value

@@ -141,6 +141,14 @@ open class CSSRule: RulesContent, _CSSRulable {
     func _setProperty(_ key: String, _ value: String) {
         set(key, value)
     }
+    
+    func render() -> String {
+        var result = _pointers.map { $0.pointer.selector }.joined(separator: ",")
+        result.append("{")
+        result.append(_properties.map { $0.key + ":" + $0.value }.joined(separator: ";"))
+        result.append("}")
+        return result
+    }
 }
 
 public protocol CSSRulable: class {}

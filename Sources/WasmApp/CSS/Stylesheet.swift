@@ -17,10 +17,6 @@ open class Stylesheet: BaseElement, AppBuilderContent {
     lazy var sheet: JSValue = domElement.sheet
     
     var _rules: [CSSRule] = []
-//    var rules: [CSSRule] {
-//        get { _rules }
-//        set { _rules = newValue }
-//    }
     
     public convenience init(@Rules content: @escaping Rules.Block) {
         self.init()
@@ -44,8 +40,10 @@ open class Stylesheet: BaseElement, AppBuilderContent {
     }
     
     func processRules() {
-        _rules.forEach { rule in
-            let index = domElement.insertRule.callAsFunction().number
+        parseRulesItem(rules.rulesContent)
+        _rules.enumerated().forEach { i, rule in
+            let cssText = rule.render()
+            let _ = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number
         }
     }
     
