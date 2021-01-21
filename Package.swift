@@ -5,7 +5,7 @@ import Foundation
 
 // MARK: - Conveniences
 
-let localDev = true//ProcessInfo.processInfo.environment["LIBS_DEVELOPMENT"] == "1"
+let localDev = false
 let devDir = "../../"
 
 struct Dep {
@@ -45,22 +45,18 @@ var deps: [Dep] = []
 
 deps.append(.github("swiftwasm/JavaScriptKit", "0.9.0"), .product("JavaScriptKit", "JavaScriptKit"))
 
-//if localDev {
-//} else {
-//}
-
 // MARK: - Package
 
 let package = Package(
-    name: "WasmApp",
+    name: "Web",
     products: [
-        .library(name: "WasmApp", targets: ["WasmApp"]),
+        .library(name: "Web", targets: ["Web"]),
     ],
     dependencies: deps.map { $0.package },
     targets: [
-        .target(name: "WasmApp", dependencies: deps.flatMap { $0.targets }),
-        .testTarget(name: "WasmAppTests", dependencies: [
-            .target(name: "WasmApp")
+        .target(name: "Web", dependencies: deps.flatMap { $0.targets }),
+        .testTarget(name: "WebTests", dependencies: [
+            .target(name: "Web")
         ])
     ]
 )

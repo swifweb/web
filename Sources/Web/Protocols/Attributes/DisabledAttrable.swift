@@ -1,0 +1,86 @@
+//
+//  DisabledAttrable.swift
+//  Web
+//
+//  Created by Mihael Isaev on 19.12.2020.
+//
+
+import Foundation
+import JavaScriptKit
+
+public protocol DisabledAttrable {
+    @discardableResult
+    func disabled(_ value: Bool) -> Self
+    @discardableResult
+    func disabled(_ value: State<Bool>) -> Self
+    @discardableResult
+    func disabled<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+}
+
+protocol _DisabledAttrable: _AnyElement, DisabledAttrable {}
+
+extension DisabledAttrable {
+    /// Indicates whether the user can interact with the element.
+    ///
+    /// Applicable to <button>, <fieldset>, <input>, <keygen>, <optgroup>, <option>, <select>, <textarea>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+    @discardableResult
+    public func disabled(_ value: Bool) -> Self {
+        guard let s = self as? _DisabledAttrable else { return self }
+        s.domElement.disabled = value.jsValue()
+        return self
+    }
+    
+    /// Indicates whether the user can interact with the element.
+    ///
+    /// Applicable to <button>, <fieldset>, <input>, <keygen>, <optgroup>, <option>, <select>, <textarea>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+    @discardableResult
+    public func disabled(_ value: State<Bool>) -> Self {
+        value.listen { self.disabled($0) }
+        return self
+    }
+    
+    /// Indicates whether the user can interact with the element.
+    ///
+    /// Applicable to <button>, <fieldset>, <input>, <keygen>, <optgroup>, <option>, <select>, <textarea>
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+    @discardableResult
+    public func disabled<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
+        disabled(expressable.unwrap())
+    }
+}
+
+extension Button: _DisabledAttrable {}
+extension FieldSet: _DisabledAttrable {}
+extension InputText: _DisabledAttrable {}
+extension InputTel: _DisabledAttrable {}
+extension InputEmail: _DisabledAttrable {}
+extension InputPassword: _DisabledAttrable {}
+extension InputSearch: _DisabledAttrable {}
+extension InputURL: _DisabledAttrable {}
+extension InputNumber: _DisabledAttrable {}
+extension InputRange: _DisabledAttrable {}
+extension InputImage: _DisabledAttrable {}
+extension InputButton: _DisabledAttrable {}
+extension InputSubmit: _DisabledAttrable {}
+extension InputReset: _DisabledAttrable {}
+extension InputHidden: _DisabledAttrable {}
+extension InputCheckbox: _DisabledAttrable {}
+extension InputRadio: _DisabledAttrable {}
+extension InputColor: _DisabledAttrable {}
+extension InputDateTime: _DisabledAttrable {}
+extension InputDate: _DisabledAttrable {}
+extension InputTime: _DisabledAttrable {}
+extension InputWeek: _DisabledAttrable {}
+extension InputMonth: _DisabledAttrable {}
+extension InputFile: _DisabledAttrable {}
+extension OptGroup: _DisabledAttrable {}
+extension Option: _DisabledAttrable {}
+extension Select: _DisabledAttrable {}
+extension Style: _DisabledAttrable {}
+extension Stylesheet: _DisabledAttrable {}
+extension TextArea: _DisabledAttrable {}
