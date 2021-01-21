@@ -5,4 +5,7 @@
 //  Created by Mihael Isaev on 21.01.2021.
 //
 
-import Foundation
+postfix operator %
+public postfix func %<P: Percentable>(lhs: Double) -> P {
+    .percent(lhs)
+}
