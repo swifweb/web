@@ -29,7 +29,10 @@ open class WasmApp {
     
     private func start() {
         parseAppBuilderItem(body.appBuilderContent)
-        stylesheets.forEach { document.head.appendChild($0) }
+        stylesheets.forEach {
+            document.head.appendChild($0)
+            $0.processRules()
+        }
         window.appDidStarted()
         handleRoute(.init(
             application: self,
