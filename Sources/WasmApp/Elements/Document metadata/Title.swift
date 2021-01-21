@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// The HTML Title element (<title>) defines the document's title
+/// The HTML Title element `<title>` defines the document's title
 /// that is shown in a Browser's title bar or a page's tab.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title)
