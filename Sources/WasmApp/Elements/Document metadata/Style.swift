@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// The HTML <style> element contains style information for a document, or part of a document.
+/// The HTML `<style>` element contains style information for a document, or part of a document.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style)
 open class Style: BaseActiveElement, _LoadHandleable {
