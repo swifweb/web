@@ -1,12 +1,12 @@
 import Foundation
 import JavaScriptKit
 
-private var wasmapp: WasmApp!
+private var webapp: WebApp!
 
-open class WasmApp {
+open class WebApp {
     private var isStarted = false
     
-    public static var shared: WasmApp { wasmapp }
+    public static var shared: WebApp { webapp }
     public static var current: Self { shared as! Self }
     
     public private(set) lazy var window = Window()
@@ -18,13 +18,13 @@ open class WasmApp {
     
     deinit {}
     
-    public static func start() -> WasmApp {
-        guard wasmapp == nil else { return wasmapp }
-        wasmapp = Self()
-        guard !wasmapp.isStarted else { return wasmapp }
-        wasmapp.isStarted = true
-        wasmapp.start()
-        return wasmapp
+    public static func start() -> WebApp {
+        guard webapp == nil else { return webapp }
+        webapp = Self()
+        guard !webapp.isStarted else { return webapp }
+        webapp.isStarted = true
+        webapp.start()
+        return webapp
     }
     
     private func start() {

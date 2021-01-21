@@ -22,7 +22,7 @@ public final class SessionStorage {
     
     @State public private(set) var length: Int = 0
     
-    public static var length: Int { WasmApp.shared.window.sessionStorage.length }
+    public static var length: Int { WebApp.shared.window.sessionStorage.length }
     
     init () {
         domElement = JSObject.global[domElementName]
@@ -57,7 +57,7 @@ public final class SessionStorage {
     
     /// Use this method to add/update value in the storage
     public static func set<V: ConvertibleToJSValue>(_ value: V, forKey key: String) {
-        WasmApp.shared.window.sessionStorage.set(value, forKey: key)
+        WebApp.shared.window.sessionStorage.set(value, forKey: key)
     }
     
     /// Use this method to add/update value in the storage
@@ -70,7 +70,7 @@ public final class SessionStorage {
     
     /// Returns absract value for `key`
     public static func value(forKey key: String) -> JSValue? {
-        WasmApp.shared.window.sessionStorage.value(forKey: key)
+        WebApp.shared.window.sessionStorage.value(forKey: key)
     }
     
     /// Returns absract value for `key`
@@ -84,7 +84,7 @@ public final class SessionStorage {
     
     /// Returns `String` value for `key` or `nil`
     public static func string(forKey key: String) -> String? {
-        WasmApp.shared.window.sessionStorage.string(forKey: key)
+        WebApp.shared.window.sessionStorage.string(forKey: key)
     }
     
     /// Returns `String` value for `key` or `nil`
@@ -98,7 +98,7 @@ public final class SessionStorage {
     
     /// Returns `Int` value for `key` or `nil`
     public static func integer(forKey key: String) -> Int? {
-        WasmApp.shared.window.sessionStorage.integer(forKey: key)
+        WebApp.shared.window.sessionStorage.integer(forKey: key)
     }
     
     /// Returns `Int` value for `key` or `nil`
@@ -114,7 +114,7 @@ public final class SessionStorage {
     
     /// Returns `Double` value for `key` or `nil`
     public static func double(forKey key: String) -> Double? {
-        WasmApp.shared.window.sessionStorage.double(forKey: key)
+        WebApp.shared.window.sessionStorage.double(forKey: key)
     }
     
     /// Returns `Double` value for `key` or `nil`
@@ -128,7 +128,7 @@ public final class SessionStorage {
     
     /// Removes item by `key` from the storage
     public static func removeItem(forKey key: String) {
-        WasmApp.shared.window.sessionStorage.removeItem(forKey: key)
+        WebApp.shared.window.sessionStorage.removeItem(forKey: key)
     }
     
     /// Removes item by `key` from the storage
@@ -141,7 +141,7 @@ public final class SessionStorage {
     
     /// Removes all items from the storage
     public static func clear() {
-        WasmApp.shared.window.sessionStorage.clear()
+        WebApp.shared.window.sessionStorage.clear()
     }
     
     /// Removes all items from the storage
@@ -153,7 +153,7 @@ public final class SessionStorage {
     
     /// Returns `key` at specified `index`
     public static func key(at index: Int) -> String? {
-        WasmApp.shared.window.sessionStorage.key(at: index)
+        WebApp.shared.window.sessionStorage.key(at: index)
     }
     
     /// Returns `key` at specified `index`
@@ -163,7 +163,7 @@ public final class SessionStorage {
     
     /// Calls handler if something has been changed in the storage
     public static func onChange(_ handler: @escaping (String, JSValue, JSValue) -> Void) {
-        WasmApp.shared.window.sessionStorage.onChange(handler)
+        WebApp.shared.window.sessionStorage.onChange(handler)
     }
     
     /// Calls handler if something has been changed in the storage
@@ -173,7 +173,7 @@ public final class SessionStorage {
     
     /// Calls handler if clear command was called or just last item was removed from the storage
     public static func onClear(_ handler: @escaping () -> Void) {
-        WasmApp.shared.window.sessionStorage.onClear(handler)
+        WebApp.shared.window.sessionStorage.onClear(handler)
     }
     
     /// Calls handler if clear command was called or just last item was removed from the storage

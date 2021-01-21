@@ -23,7 +23,7 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
     var domElement: JSValue
     
     required public init () {
-        domElement = WasmApp.shared.document.createElement(Self.name)
+        domElement = WebApp.shared.document.createElement(Self.name)
         postInit()
     }
     

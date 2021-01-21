@@ -21,7 +21,7 @@ public final class LocalStorage {
     
     @State public private(set) var length: Int = 0
     
-    public static var length: Int { WasmApp.shared.window.localStorage.length }
+    public static var length: Int { WebApp.shared.window.localStorage.length }
     
     init () {
         domElement = JSObject.global[domElementName]
@@ -56,7 +56,7 @@ public final class LocalStorage {
     
     /// Use this method to add/update value in the storage
     public static func set<V: ConvertibleToJSValue>(_ value: V, forKey key: String) {
-        WasmApp.shared.window.localStorage.set(value, forKey: key)
+        WebApp.shared.window.localStorage.set(value, forKey: key)
     }
     
     /// Use this method to add/update value in the storage
@@ -69,7 +69,7 @@ public final class LocalStorage {
     
     /// Returns absract value for `key`
     public static func value(forKey key: String) -> JSValue? {
-        WasmApp.shared.window.localStorage.value(forKey: key)
+        WebApp.shared.window.localStorage.value(forKey: key)
     }
     
     /// Returns absract value for `key`
@@ -83,7 +83,7 @@ public final class LocalStorage {
     
     /// Returns `String` value for `key` or `nil`
     public static func string(forKey key: String) -> String? {
-        WasmApp.shared.window.localStorage.string(forKey: key)
+        WebApp.shared.window.localStorage.string(forKey: key)
     }
     
     /// Returns `String` value for `key` or `nil`
@@ -97,7 +97,7 @@ public final class LocalStorage {
     
     /// Returns `Int` value for `key` or `nil`
     public static func integer(forKey key: String) -> Int? {
-        WasmApp.shared.window.localStorage.integer(forKey: key)
+        WebApp.shared.window.localStorage.integer(forKey: key)
     }
     
     /// Returns `Int` value for `key` or `nil`
@@ -113,7 +113,7 @@ public final class LocalStorage {
     
     /// Returns `Double` value for `key` or `nil`
     public static func double(forKey key: String) -> Double? {
-        WasmApp.shared.window.localStorage.double(forKey: key)
+        WebApp.shared.window.localStorage.double(forKey: key)
     }
     
     /// Returns `Double` value for `key` or `nil`
@@ -127,7 +127,7 @@ public final class LocalStorage {
     
     /// Removes item by `key` from the storage
     public static func removeItem(forKey key: String) {
-        WasmApp.shared.window.localStorage.removeItem(forKey: key)
+        WebApp.shared.window.localStorage.removeItem(forKey: key)
     }
     
     /// Removes item by `key` from the storage
@@ -140,7 +140,7 @@ public final class LocalStorage {
     
     /// Removes all items from the storage
     public static func clear() {
-        WasmApp.shared.window.localStorage.clear()
+        WebApp.shared.window.localStorage.clear()
     }
     
     /// Removes all items from the storage
@@ -152,7 +152,7 @@ public final class LocalStorage {
     
     /// Returns `key` at specified `index`
     public static func key(at index: Int) -> String? {
-        WasmApp.shared.window.localStorage.key(at: index)
+        WebApp.shared.window.localStorage.key(at: index)
     }
     
     /// Returns `key` at specified `index`
@@ -162,7 +162,7 @@ public final class LocalStorage {
     
     /// Calls handler if something has been changed in the storage
     public static func onChange(_ handler: @escaping (String, JSValue, JSValue) -> Void) {
-        WasmApp.shared.window.localStorage.onChange(handler)
+        WebApp.shared.window.localStorage.onChange(handler)
     }
     
     /// Calls handler if something has been changed in the storage
@@ -172,7 +172,7 @@ public final class LocalStorage {
     
     /// Calls handler if clear command was called or just last item was removed from the storage
     public static func onClear(_ handler: @escaping () -> Void) {
-        WasmApp.shared.window.localStorage.onClear(handler)
+        WebApp.shared.window.localStorage.onClear(handler)
     }
     
     /// Calls handler if clear command was called or just last item was removed from the storage

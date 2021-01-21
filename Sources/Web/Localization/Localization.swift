@@ -10,7 +10,7 @@ import Foundation
 private var localization = Localization()
 
 public class Localization {
-    let currentLocaleIdentifier = WasmApp.shared.window.navigator.language.replacingOccurrences(of: "-", with: "_")
+    let currentLocaleIdentifier = WebApp.shared.window.navigator.language.replacingOccurrences(of: "-", with: "_")
     
     var defaultLanguage: Language = .en
     

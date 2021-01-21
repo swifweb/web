@@ -19,7 +19,7 @@ open class ViewController: BaseContentElement, Response {
     
     public required init () {
         super.init()
-        title = WasmApp.shared.window.document.title
-        $title.listenOnlyIfChanged { WasmApp.shared.window.document.title = $0 }
+        title = WebApp.shared.window.document.title
+        $title.listenOnlyIfChanged { WebApp.shared.window.document.title = $0 }
     }
 }

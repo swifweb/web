@@ -108,7 +108,7 @@ public final class History: StateChangeable, Equatable {
     func updateState(_ state: ConvertibleToJSValue?) {
         update()
         self.state = state
-        WasmApp.shared.window.location.update()
+        WebApp.shared.window.location.update()
     }
     
     // MARK: StateChangeable

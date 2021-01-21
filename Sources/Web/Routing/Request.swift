@@ -9,7 +9,7 @@
 import Foundation
 
 public final class Request: CustomStringConvertible {
-    public let application: WasmApp
+    public let application: WebApp
 
     /// The Path used on this request.
     public var path: String
@@ -61,7 +61,7 @@ public final class Request: CustomStringConvertible {
     
     public var parameters: Parameters
 
-    public init(application: WasmApp, path: String, search: String = "", hash: String = "") {
+    public init(application: WebApp, path: String, search: String = "", hash: String = "") {
         self.application = application
         self.parameters = .init()
         self.path = path

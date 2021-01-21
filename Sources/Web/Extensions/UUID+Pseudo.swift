@@ -1,6 +1,6 @@
 //
 //  UUID+Pseudo.swift
-//  
+//  Web
 //
 //  Created by Mihael Isaev on 18.11.2020.
 //
