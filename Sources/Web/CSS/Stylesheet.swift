@@ -43,8 +43,14 @@ open class Stylesheet: BaseElement, AppBuilderContent {
         parseRulesItem(rules.rulesContent)
         _rules.enumerated().forEach { i, rule in
             let cssText = rule.render()
-            let _ = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number
+            guard let index = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number else { return }
+            rule.domElement = sheet.rules.item.function?.callAsFunction(this: sheet.rules.object, Int(index))
         }
+    }
+    
+    override func didAddToDOM() {
+        super.didAddToDOM()
+        disabled(_disabled)
     }
     
     /// Representing the advisory title of the current style sheet.
@@ -92,5 +98,23 @@ open class Stylesheet: BaseElement, AppBuilderContent {
     /// Returns a DOMString representing the style sheet language for this style sheet.
     public var type: String? {
         get { sheet.type.string }
+    }
+    
+    private var _disabled = false
+    
+    /// Disables stylesheet
+    @discardableResult
+    public func disabled(_ value: Bool) -> Self {
+        domElement.disabled = value.jsValue()
+        _disabled = value
+        return self
+    }
+    
+    /// Disables stylesheet
+    @discardableResult
+    public func disabled<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        disabled(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.disabled($0) }
+        return self
     }
 }

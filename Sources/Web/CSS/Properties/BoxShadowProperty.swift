@@ -1733,7 +1733,7 @@ extension CSSRulable {
     }
     /// Attaches one shadow to an element
     public func boxShadow<B, C, E, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
     
     /// Attaches one shadow to an element

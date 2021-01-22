@@ -39,7 +39,8 @@ open class CSSRule: RulesContent, _CSSRulable {
     var domElement: JSValue? {
         get { _domElement }
         set {
-            guard let newValue = newValue, _domElement != nil else {
+            guard _domElement == nil else { return }
+            guard let newValue = newValue else {
                 _domElement = nil
                 return
             }

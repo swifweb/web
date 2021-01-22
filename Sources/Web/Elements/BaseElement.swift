@@ -41,6 +41,10 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
         domElement.id = uid.jsValue()
     }
     
+    func didAddToDOM() {}
+    
+    func didRemoveFromDOM() {}
+    
     var animationEndClosure: AnimationEndClosure?
     var animationEndHandler: (AnimationEvent) -> Void = { _ in }
     

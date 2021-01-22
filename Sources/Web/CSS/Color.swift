@@ -11,7 +11,7 @@ protocol _PropertyValueInnerChangeable: class {
     var _changeHandler: () -> Void { get set }
 }
 
-open class Color: CustomStringConvertible, _PropertyValueInnerChangeable {
+open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashable {
     @State public var value: ColorType = .css(.black)
     
     var _changeHandler = {}
@@ -219,4 +219,12 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable {
     public static var yellowGreen: Color { .init(.css(.yellowGreen)) }
     
     public var description: String { value.description }
+    
+    public static func == (lhs: Color, rhs: Color) -> Bool {
+        lhs.description == rhs.description
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(value.description)
+    }
 }

@@ -15,11 +15,15 @@ public protocol AnyElement: class {
 protocol _AnyElement: AnyElement {
     var domElement: JSValue { get set }
     var subElements: [_AnyElement] { get set }
+    
+    func didAddToDOM()
+    func didRemoveFromDOM()
 }
 
 extension _AnyElement {
     func appendChild(_ element: _AnyElement) {
         _ = domElement.appendChild(element.domElement)
+        element.didAddToDOM()
     }
 }
 
