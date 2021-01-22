@@ -14,9 +14,9 @@ public protocol FormAttrable {
     @discardableResult
     func form(_ value: BaseElement) -> Self
     @discardableResult
-    func form(_ value: State<String>) -> Self
+    func form<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
     @discardableResult
-    func form<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func form<S>(_ value: S) -> Self where S: StateConvertible, S.Value == BaseElement
 }
 
 protocol _FormAttrable: _AnyElement, FormAttrable {}
@@ -24,7 +24,8 @@ protocol _FormAttrable: _AnyElement, FormAttrable {}
 extension FormAttrable {
     /// Defines the ID of form that is the owner of the element.
     ///
-    /// Applicable to <button>, <fieldset>, <input>, <label>, <meter>, <object>, <output>, <progress>, <select>, <textarea>
+    /// Applicable to `<button>`, `<fieldset>`, `<input>`, `<label>`,
+    /// `<meter>`, `<object>`, `<output>`, `<progress>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form.asp)
     @discardableResult
@@ -36,7 +37,8 @@ extension FormAttrable {
     
     /// Defines the ID of form that is the owner of the element.
     ///
-    /// Applicable to <button>, <fieldset>, <input>, <label>, <meter>, <object>, <output>, <progress>, <select>, <textarea>
+    /// Applicable to `<button>`, `<fieldset>`, `<input>`, `<label>`,
+    /// `<meter>`, `<object>`, `<output>`, `<progress>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form.asp)
     @discardableResult
@@ -46,23 +48,28 @@ extension FormAttrable {
     
     /// Defines the ID of form that is the owner of the element.
     ///
-    /// Applicable to <button>, <fieldset>, <input>, <label>, <meter>, <object>, <output>, <progress>, <select>, <textarea>
+    /// Applicable to `<button>`, `<fieldset>`, `<input>`, `<label>`,
+    /// `<meter>`, `<object>`, `<output>`, `<progress>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form.asp)
     @discardableResult
-    public func form(_ value: State<String>) -> Self {
-        value.listen { self.form($0) }
+    public func form<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        form(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.form($0) }
         return self
     }
     
     /// Defines the ID of form that is the owner of the element.
     ///
-    /// Applicable to <button>, <fieldset>, <input>, <label>, <meter>, <object>, <output>, <progress>, <select>, <textarea>
+    /// Applicable to `<button>`, `<fieldset>`, `<input>`, `<label>`,
+    /// `<meter>`, `<object>`, `<output>`, `<progress>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form.asp)
     @discardableResult
-    public func form<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        form(expressable.unwrap())
+    public func form<S>(_ value: S) -> Self where S: StateConvertible, S.Value == BaseElement {
+        form(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.form($0) }
+        return self
     }
 }
 

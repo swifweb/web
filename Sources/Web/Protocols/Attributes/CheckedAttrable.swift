@@ -12,9 +12,7 @@ public protocol CheckedAttrable {
     @discardableResult
     func checked(_ value: Bool) -> Self
     @discardableResult
-    func checked(_ value: State<Bool>) -> Self
-    @discardableResult
-    func checked<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func checked<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _CheckedAttrable: _AnyElement, CheckedAttrable {}
@@ -38,19 +36,10 @@ extension CheckedAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefchecked)
     @discardableResult
-    public func checked(_ value: State<Bool>) -> Self {
-        value.listen { self.checked($0) }
+    public func checked<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        checked(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.checked($0) }
         return self
-    }
-    
-    /// Mark input as `checked`
-    ///
-    /// Applicable to `<input>`
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefchecked)
-    @discardableResult
-    public func checked<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        checked(expressable.unwrap())
     }
 }
 

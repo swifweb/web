@@ -12,9 +12,7 @@ public protocol ContentEditableAttrable {
     @discardableResult
     func contentEditable(_ value: Bool) -> Self
     @discardableResult
-    func contentEditable(_ value: State<Bool>) -> Self
-    @discardableResult
-    func contentEditable<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func contentEditable<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _ContentEditableAttrable: _AnyElement, ContentEditableAttrable {}
@@ -34,17 +32,10 @@ extension ContentEditableAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
     @discardableResult
-    public func contentEditable(_ value: State<Bool>) -> Self {
-        value.listen { self.contentEditable($0) }
+    public func contentEditable<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        contentEditable(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.contentEditable($0) }
         return self
-    }
-    
-    /// Indicates whether the element's content is editable.
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
-    @discardableResult
-    public func contentEditable<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        contentEditable(expressable.unwrap())
     }
 }
 

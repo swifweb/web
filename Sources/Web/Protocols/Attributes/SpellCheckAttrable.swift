@@ -12,9 +12,7 @@ public protocol SpellCheckAttrable {
     @discardableResult
     func spellcheck(_ value: Bool) -> Self
     @discardableResult
-    func spellcheck(_ value: State<Bool>) -> Self
-    @discardableResult
-    func spellcheck<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func spellcheck<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _SpellCheckAttrable: _AnyElement, SpellCheckAttrable {}
@@ -34,17 +32,10 @@ extension SpellCheckAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/spellcheck)
     @discardableResult
-    public func spellcheck(_ value: State<Bool>) -> Self {
-        value.listen { self.spellcheck($0) }
+    public func spellcheck<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        spellcheck(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.spellcheck($0) }
         return self
-    }
-    
-    /// Indicates whether spell checking is allowed for the element.
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/spellcheck)
-    @discardableResult
-    public func spellcheck<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        spellcheck(expressable.unwrap())
     }
 }
 

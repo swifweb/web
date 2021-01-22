@@ -12,9 +12,7 @@ public protocol TranslateAttrable {
     @discardableResult
     func translate(_ value: Bool) -> Self
     @discardableResult
-    func translate(_ value: State<Bool>) -> Self
-    @discardableResult
-    func translate<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func translate<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _TranslateAttrable: _AnyElement, TranslateAttrable {}
@@ -36,18 +34,10 @@ extension TranslateAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/translate)
     @discardableResult
-    public func translate(_ value: State<Bool>) -> Self {
-        value.listen { self.translate($0) }
+    public func translate<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        translate(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.translate($0) }
         return self
-    }
-    
-    /// Specify whether an element’s attribute values and the values
-    /// of its Text node children are to be translated when the page is localized, or whether to leave them unchanged.
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/translate)
-    @discardableResult
-    public func translate<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        translate(expressable.unwrap())
     }
 }
 

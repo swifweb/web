@@ -12,9 +12,7 @@ public protocol CrossOriginAttrable {
     @discardableResult
     func crossOrigin(_ value: CrossOriginType) -> Self
     @discardableResult
-    func crossOrigin(_ value: State<CrossOriginType>) -> Self
-    @discardableResult
-    func crossOrigin<V>(_ expressable: ExpressableState<V, CrossOriginType>) -> Self
+    func crossOrigin<S>(_ value: S) -> Self where S: StateConvertible, S.Value == CrossOriginType
 }
 
 protocol _CrossOriginAttrable: _AnyElement, CrossOriginAttrable {}
@@ -22,7 +20,7 @@ protocol _CrossOriginAttrable: _AnyElement, CrossOriginAttrable {}
 extension CrossOriginAttrable {
     /// How the element handles cross-origin requests
     ///
-    /// Applicable to <audio>, <img>, <link>, <script>, <video>
+    /// Applicable to `<audio>`, `<img>`, `<link>`, `<script>`, `<video>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin)
     @discardableResult
@@ -34,23 +32,14 @@ extension CrossOriginAttrable {
     
     /// How the element handles cross-origin requests
     ///
-    /// Applicable to <audio>, <img>, <link>, <script>, <video>
+    /// Applicable to `<audio>`, `<img>`, `<link>`, `<script>`, `<video>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin)
     @discardableResult
-    public func crossOrigin(_ value: State<CrossOriginType>) -> Self {
-        value.listen { self.crossOrigin($0) }
+    public func crossOrigin<S>(_ value: S) -> Self where S: StateConvertible, S.Value == CrossOriginType {
+        crossOrigin(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.crossOrigin($0) }
         return self
-    }
-    
-    /// How the element handles cross-origin requests
-    ///
-    /// Applicable to <audio>, <img>, <link>, <script>, <video>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin)
-    @discardableResult
-    public func crossOrigin<V>(_ expressable: ExpressableState<V, CrossOriginType>) -> Self {
-        crossOrigin(expressable.unwrap())
     }
 }
 

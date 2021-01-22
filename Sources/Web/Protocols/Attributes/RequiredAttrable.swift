@@ -12,9 +12,7 @@ public protocol RequiredAttrable {
     @discardableResult
     func required(_ value: Bool) -> Self
     @discardableResult
-    func required(_ value: State<Bool>) -> Self
-    @discardableResult
-    func required<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func required<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _RequiredAttrable: _AnyElement, RequiredAttrable {}
@@ -22,7 +20,7 @@ protocol _RequiredAttrable: _AnyElement, RequiredAttrable {}
 extension RequiredAttrable {
     /// Indicates whether this element is required to fill out or not.
     ///
-    /// Applicable to <input>, <select>, <textarea>
+    /// Applicable to `<input>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
     @discardableResult
@@ -34,23 +32,14 @@ extension RequiredAttrable {
     
     /// Indicates whether this element is required to fill out or not.
     ///
-    /// Applicable to <input>, <select>, <textarea>
+    /// Applicable to `<input>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
     @discardableResult
-    public func required(_ value: State<Bool>) -> Self {
-        value.listen { self.required($0) }
+    public func required<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        required(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.required($0) }
         return self
-    }
-    
-    /// Indicates whether this element is required to fill out or not.
-    ///
-    /// Applicable to <input>, <select>, <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
-    @discardableResult
-    public func required<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        required(expressable.unwrap())
     }
 }
 

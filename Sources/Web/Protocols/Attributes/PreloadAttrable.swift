@@ -12,9 +12,7 @@ public protocol PreloadAttrable {
     @discardableResult
     func preload(_ value: PreloadType) -> Self
     @discardableResult
-    func preload(_ value: State<PreloadType>) -> Self
-    @discardableResult
-    func preload<V>(_ expressable: ExpressableState<V, PreloadType>) -> Self
+    func preload<S>(_ value: S) -> Self where S: StateConvertible, S.Value == PreloadType
 }
 
 protocol _PreloadAttrable: _AnyElement, PreloadAttrable {}
@@ -22,7 +20,7 @@ protocol _PreloadAttrable: _AnyElement, PreloadAttrable {}
 extension PreloadAttrable {
     /// Indicates whether the whole resource, parts of it or nothing should be preloaded.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
     @discardableResult
@@ -34,23 +32,14 @@ extension PreloadAttrable {
     
     /// Indicates whether the whole resource, parts of it or nothing should be preloaded.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
     @discardableResult
-    public func preload(_ value: State<PreloadType>) -> Self {
-        value.listen { self.preload($0) }
+    public func preload<S>(_ value: S) -> Self where S: StateConvertible, S.Value == PreloadType {
+        preload(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.preload($0) }
         return self
-    }
-    
-    /// Indicates whether the whole resource, parts of it or nothing should be preloaded.
-    ///
-    /// Applicable to <audio>, <video>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
-    @discardableResult
-    public func preload<V>(_ expressable: ExpressableState<V, PreloadType>) -> Self {
-        preload(expressable.unwrap())
     }
 }
 

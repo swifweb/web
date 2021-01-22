@@ -12,9 +12,7 @@ public protocol DirAttrable {
     @discardableResult
     func dir(_ value: DirType) -> Self
     @discardableResult
-    func dir(_ value: State<DirType>) -> Self
-    @discardableResult
-    func dir<V>(_ expressable: ExpressableState<V, DirType>) -> Self
+    func dir<S>(_ value: S) -> Self where S: StateConvertible, S.Value == DirType
 }
 
 protocol _DirAttrable: _AnyElement, DirAttrable {}
@@ -34,17 +32,10 @@ extension DirAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir)
     @discardableResult
-    public func dir(_ value: State<DirType>) -> Self {
-        value.listen { self.dir($0) }
+    public func dir<S>(_ value: S) -> Self where S: StateConvertible, S.Value == DirType {
+        dir(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.dir($0) }
         return self
-    }
-    
-    /// Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir)
-    @discardableResult
-    public func dir<V>(_ expressable: ExpressableState<V, DirType>) -> Self {
-        dir(expressable.unwrap())
     }
 }
 

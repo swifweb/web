@@ -12,9 +12,7 @@ public protocol HrefLangAttrable {
     @discardableResult
     func hrefLang(_ value: String) -> Self
     @discardableResult
-    func hrefLang(_ value: State<String>) -> Self
-    @discardableResult
-    func hrefLang<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func hrefLang<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _HrefLangAttrable: _AnyElement, HrefLangAttrable {}
@@ -22,7 +20,7 @@ protocol _HrefLangAttrable: _AnyElement, HrefLangAttrable {}
 extension HrefLangAttrable {
     /// Specifies the language of the linked resource.
     ///
-    /// Applicable to <a>, <area>, <link>
+    /// Applicable to `<a>`, `<area>`, `<link>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_hreflang.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension HrefLangAttrable {
     
     /// Specifies the language of the linked resource.
     ///
-    /// Applicable to <a>, <area>, <link>
+    /// Applicable to `<a>`, `<area>`, `<link>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_hreflang.asp)
     @discardableResult
-    public func hrefLang(_ value: State<String>) -> Self {
-        value.listen { self.hrefLang($0) }
+    public func hrefLang<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        hrefLang(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.hrefLang($0) }
         return self
-    }
-    
-    /// Specifies the language of the linked resource.
-    ///
-    /// Applicable to <a>, <area>, <link>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_hreflang.asp)
-    @discardableResult
-    public func hrefLang<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        hrefLang(expressable.unwrap())
     }
 }
 

@@ -12,9 +12,7 @@ public protocol ItemPropAttrable {
     @discardableResult
     func itemprop(_ value: String) -> Self
     @discardableResult
-    func itemprop(_ value: State<String>) -> Self
-    @discardableResult
-    func itemprop<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func itemprop<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _ItemPropAttrable: _AnyElement, ItemPropAttrable {}
@@ -34,17 +32,10 @@ extension ItemPropAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemprop)
     @discardableResult
-    public func itemprop(_ value: State<String>) -> Self {
-        value.listen { self.itemprop($0) }
+    public func itemprop<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        itemprop(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.itemprop($0) }
         return self
-    }
-    
-    /// Used  as key for key-value representation
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemprop)
-    @discardableResult
-    public func itemprop<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        itemprop(expressable.unwrap())
     }
 }
 

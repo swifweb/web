@@ -12,9 +12,7 @@ public protocol ReadOnlyAttrable {
     @discardableResult
     func readonly(_ value: Bool) -> Self
     @discardableResult
-    func readonly(_ value: State<Bool>) -> Self
-    @discardableResult
-    func readonly<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func readonly<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _ReadOnlyAttrable: _AnyElement, ReadOnlyAttrable {}
@@ -22,7 +20,7 @@ protocol _ReadOnlyAttrable: _AnyElement, ReadOnlyAttrable {}
 extension ReadOnlyAttrable {
     /// Indicates whether the element can be edited.
     ///
-    /// Applicable to <input>, <textarea>
+    /// Applicable to `<input>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
     @discardableResult
@@ -34,23 +32,14 @@ extension ReadOnlyAttrable {
     
     /// Indicates whether the element can be edited.
     ///
-    /// Applicable to <input>, <textarea>
+    /// Applicable to `<input>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
     @discardableResult
-    public func readonly(_ value: State<Bool>) -> Self {
-        value.listen { self.readonly($0) }
+    public func readonly<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        readonly(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.readonly($0) }
         return self
-    }
-    
-    /// Indicates whether the element can be edited.
-    ///
-    /// Applicable to <input>, <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
-    @discardableResult
-    public func readonly<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        readonly(expressable.unwrap())
     }
 }
 

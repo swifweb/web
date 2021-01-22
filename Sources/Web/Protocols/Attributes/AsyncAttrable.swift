@@ -12,9 +12,7 @@ public protocol AsyncAttrable {
     @discardableResult
     func async(_ value: Bool) -> Self
     @discardableResult
-    func async(_ value: State<Bool>) -> Self
-    @discardableResult
-    func async<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func async<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _AsyncAttrable: _AnyElement, AsyncAttrable {}
@@ -22,7 +20,7 @@ protocol _AsyncAttrable: _AnyElement, AsyncAttrable {}
 extension AsyncAttrable {
     /// Executes the script asynchronously.
     ///
-    /// Applicable to <script>
+    /// Applicable to `<script>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/async)
     @discardableResult
@@ -34,23 +32,14 @@ extension AsyncAttrable {
     
     /// Executes the script asynchronously.
     ///
-    /// Applicable to <script>
+    /// Applicable to `<script>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/async)
     @discardableResult
-    public func async(_ value: State<Bool>) -> Self {
-        value.listen { self.async($0) }
+    public func async<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        async(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.async($0) }
         return self
-    }
-    
-    /// Executes the script asynchronously.
-    ///
-    /// Applicable to <script>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/async)
-    @discardableResult
-    public func async<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        async(expressable.unwrap())
     }
 }
 

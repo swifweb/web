@@ -12,9 +12,7 @@ public protocol MultipleAttrable {
     @discardableResult
     func multiple(_ value: Bool) -> Self
     @discardableResult
-    func multiple(_ value: State<Bool>) -> Self
-    @discardableResult
-    func multiple<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func multiple<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _MultipleAttrable: _AnyElement, MultipleAttrable {}
@@ -34,23 +32,14 @@ extension MultipleAttrable {
     
     /// Indicates whether multiple values can be entered in an input of the type email or file.
     ///
-    /// Applicable to <input>, <select>
+    /// Applicable to `<input>`, `<select>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
     @discardableResult
-    public func multiple(_ value: State<Bool>) -> Self {
-        value.listen { self.multiple($0) }
+    public func multiple<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        multiple(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.multiple($0) }
         return self
-    }
-    
-    /// Indicates whether multiple values can be entered in an input of the type email or file.
-    ///
-    /// Applicable to <input>, <select>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
-    @discardableResult
-    public func multiple<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        multiple(expressable.unwrap())
     }
 }
 

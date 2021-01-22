@@ -12,9 +12,7 @@ public protocol AlignAttrable {
     @discardableResult
     func align(_ value: AlignType) -> Self
     @discardableResult
-    func align(_ value: State<AlignType>) -> Self
-    @discardableResult
-    func align<V>(_ expressable: ExpressableState<V, AlignType>) -> Self
+    func align<S>(_ value: S) -> Self where S: StateConvertible, S.Value == AlignType
 }
 
 protocol _AlignAttrable: _AnyElement, AlignAttrable {}
@@ -22,8 +20,8 @@ protocol _AlignAttrable: _AnyElement, AlignAttrable {}
 extension AlignAttrable {
     /// Specifies the horizontal alignment of the element.
     ///
-    /// Applicable to <applet>, <caption>, <col>, <colgroup>, <hr>,
-    /// <iframe>, <img>, <table>, <tbody>, <td>, <tfoot> , <th>, <thead>, <tr>
+    /// Applicable to `<applet>`, `<caption>`, `<col>`, `<colgroup>`, `<hr>`,
+    /// `<iframe>`, `<img>`, `<table>`, `<tbody>`, `<td>`, `<tfoot>` , `<th>`, `<thead>`, `<tr>`
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
@@ -35,25 +33,15 @@ extension AlignAttrable {
     
     /// Specifies the horizontal alignment of the element.
     ///
-    /// Applicable to <applet>, <caption>, <col>, <colgroup>, <hr>,
-    /// <iframe>, <img>, <table>, <tbody>, <td>, <tfoot> , <th>, <thead>, <tr>
+    /// Applicable to `<applet>`, `<caption>`, `<col>`, `<colgroup>`, `<hr>`,
+    /// `<iframe>`, `<img>`, `<table>`, `<tbody>`, `<td>`, `<tfoot>` , `<th>`, `<thead>`, `<tr>`
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
-    public func align(_ value: State<AlignType>) -> Self {
-        value.listen { self.align($0) }
+    public func align<S>(_ value: S) -> Self where S: StateConvertible, S.Value == AlignType {
+        align(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.align($0) }
         return self
-    }
-    
-    /// Specifies the horizontal alignment of the element.
-    ///
-    /// Applicable to <applet>, <caption>, <col>, <colgroup>, <div>, <hr>,
-    /// <iframe>, <img>, <table>, <tbody>, <td>, <tfoot> , <th>, <thead>, <tr>
-    ///
-    /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
-    @discardableResult
-    public func align<V>(_ expressable: ExpressableState<V, AlignType>) -> Self {
-        align(expressable.unwrap())
     }
 }
 

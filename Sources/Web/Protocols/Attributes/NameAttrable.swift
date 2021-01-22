@@ -12,9 +12,7 @@ public protocol NameAttrable {
     @discardableResult
     func name(_ value: String) -> Self
     @discardableResult
-    func name(_ value: State<String>) -> Self
-    @discardableResult
-    func name<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func name<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _NameAttrable: _AnyElement, NameAttrable {}
@@ -22,8 +20,8 @@ protocol _NameAttrable: _AnyElement, NameAttrable {}
 extension NameAttrable {
     /// Name of theelement. For example used by the server to identify the fields in form submits.
     ///
-    /// Applicable to <button>, <form>, <fieldset>, <iframe>, <input>,
-    /// <object>, <output>, <select>, <textarea>, <map>, <meta>, <param>
+    /// Applicable to `<button>`, `<form>`, `<fieldset>`, `<iframe>`, `<input>`,
+    /// `<object>`, `<output>`, `<select>`, `<textarea>`, `<map>`, `<meta>`, `<param>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_name.asp)
     @discardableResult
@@ -35,25 +33,15 @@ extension NameAttrable {
     
     /// Name of theelement. For example used by the server to identify the fields in form submits.
     ///
-    /// Applicable to <button>, <form>, <fieldset>, <iframe>, <input>,
-    /// <object>, <output>, <select>, <textarea>, <map>, <meta>, <param>
+    /// Applicable to `<button>`, `<form>`, `<fieldset>`, `<iframe>`, `<input>`,
+    /// `<object>`, `<output>`, `<select>`, `<textarea>`, `<map>`, `<meta>`, `<param>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_name.asp)
     @discardableResult
-    public func name(_ value: State<String>) -> Self {
-        value.listen { self.name($0) }
+    public func name<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        name(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.name($0) }
         return self
-    }
-    
-    /// Name of theelement. For example used by the server to identify the fields in form submits.
-    ///
-    /// Applicable to <button>, <form>, <fieldset>, <iframe>, <input>,
-    /// <object>, <output>, <select>, <textarea>, <map>, <meta>, <param>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_name.asp)
-    @discardableResult
-    public func name<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        name(expressable.unwrap())
     }
 }
 

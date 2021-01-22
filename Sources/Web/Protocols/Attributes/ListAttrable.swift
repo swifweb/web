@@ -14,9 +14,9 @@ public protocol ListAttrable {
     @discardableResult
     func list(_ value: BaseElement) -> Self
     @discardableResult
-    func list(_ value: State<String>) -> Self
+    func list<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
     @discardableResult
-    func list<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func list<S>(_ value: S) -> Self where S: StateConvertible, S.Value == BaseElement
 }
 
 protocol _ListAttrable: _AnyElement, ListAttrable {}
@@ -50,8 +50,9 @@ extension ListAttrable {
     ///
     /// [More info →](https://www.w3schools.com/tags/att_list.asp)
     @discardableResult
-    public func list(_ value: State<String>) -> Self {
-        value.listen { self.list($0) }
+    public func list<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        list(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.list($0) }
         return self
     }
     
@@ -61,8 +62,10 @@ extension ListAttrable {
     ///
     /// [More info →](https://www.w3schools.com/tags/att_list.asp)
     @discardableResult
-    public func list<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        list(expressable.unwrap())
+    public func list<S>(_ value: S) -> Self where S: StateConvertible, S.Value == BaseElement {
+        list(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.list($0) }
+        return self
     }
 }
 

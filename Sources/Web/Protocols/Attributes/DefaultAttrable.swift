@@ -12,9 +12,7 @@ public protocol DefaultAttrable {
     @discardableResult
     func `default`(_ value: Bool) -> Self
     @discardableResult
-    func `default`(_ value: State<Bool>) -> Self
-    @discardableResult
-    func `default`<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func `default`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _DefaultAttrable: _AnyElement, DefaultAttrable {}
@@ -22,7 +20,7 @@ protocol _DefaultAttrable: _AnyElement, DefaultAttrable {}
 extension DefaultAttrable {
     /// Indicates that the track should be enabled unless the user's preferences indicate something different.
     ///
-    /// Applicable to <track>
+    /// Applicable to `<track>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_default.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension DefaultAttrable {
     
     /// Indicates that the track should be enabled unless the user's preferences indicate something different.
     ///
-    /// Applicable to <track>
+    /// Applicable to `<track>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_default.asp)
     @discardableResult
-    public func `default`(_ value: State<Bool>) -> Self {
-        value.listen { self.`default`($0) }
+    public func `default`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        `default`(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.`default`($0) }
         return self
-    }
-    
-    /// Indicates that the track should be enabled unless the user's preferences indicate something different.
-    ///
-    /// Applicable to <track>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_default.asp)
-    @discardableResult
-    public func `default`<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        `default`(expressable.unwrap())
     }
 }
 

@@ -12,9 +12,7 @@ public protocol ControlsAttrable {
     @discardableResult
     func controls(_ value: Bool) -> Self
     @discardableResult
-    func controls(_ value: State<Bool>) -> Self
-    @discardableResult
-    func controls<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func controls<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _ControlsAttrable: _AnyElement, ControlsAttrable {}
@@ -22,7 +20,7 @@ protocol _ControlsAttrable: _AnyElement, ControlsAttrable {}
 extension ControlsAttrable {
     /// Indicates whether the browser should show playback controls to the user.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_controls.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension ControlsAttrable {
     
     /// Indicates whether the browser should show playback controls to the user.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_controls.asp)
     @discardableResult
-    public func controls(_ value: State<Bool>) -> Self {
-        value.listen { self.controls($0) }
+    public func controls<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        controls(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.controls($0) }
         return self
-    }
-    
-    /// Indicates whether the browser should show playback controls to the user.
-    ///
-    /// Applicable to <audio>, <video>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_controls.asp)
-    @discardableResult
-    public func controls<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        controls(expressable.unwrap())
     }
 }
 

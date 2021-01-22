@@ -12,9 +12,7 @@ public protocol OptimumAttrable {
     @discardableResult
     func optimum(_ value: Double) -> Self
     @discardableResult
-    func optimum(_ value: State<Double>) -> Self
-    @discardableResult
-    func optimum<V>(_ expressable: ExpressableState<V, Double>) -> Self
+    func optimum<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double
 }
 
 protocol _OptimumAttrable: _AnyElement, OptimumAttrable {}
@@ -22,7 +20,7 @@ protocol _OptimumAttrable: _AnyElement, OptimumAttrable {}
 extension OptimumAttrable {
     /// Indicates the lower bound of the upper range.
     ///
-    /// Applicable to <meter>
+    /// Applicable to `<meter>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_optimum.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension OptimumAttrable {
     
     /// Indicates the lower bound of the upper range.
     ///
-    /// Applicable to <meter>
+    /// Applicable to `<meter>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_optimum.asp)
     @discardableResult
-    public func optimum(_ value: State<Double>) -> Self {
-        value.listen { self.optimum($0) }
+    public func optimum<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double {
+        optimum(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.optimum($0) }
         return self
-    }
-    
-    /// Indicates the lower bound of the upper range.
-    ///
-    /// Applicable to <meter>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_optimum.asp)
-    @discardableResult
-    public func optimum<V>(_ expressable: ExpressableState<V, Double>) -> Self {
-        optimum(expressable.unwrap())
     }
 }
 

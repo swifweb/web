@@ -12,18 +12,16 @@ public protocol TargetAttrable {
     @discardableResult
     func target(_ value: TargetType) -> Self
     @discardableResult
-    func target(_ value: State<TargetType>) -> Self
-    @discardableResult
-    func target<V>(_ expressable: ExpressableState<V, TargetType>) -> Self
+    func target<S>(_ value: S) -> Self where S: StateConvertible, S.Value == TargetType
 }
 
 protocol _TargetAttrable: _AnyElement, TargetAttrable {}
 
 extension TargetAttrable {
-    /// Specifies where to open the linked document (in the case of an <a> element)
-    /// or where to display the response recieved (in the case of a <form> element)
+    /// Specifies where to open the linked document (in the case of an `<a>` element)
+    /// or where to display the response recieved (in the case of a `<form>` element)
     ///
-    /// Applicable to <a>, <area>, <base>, and <form>
+    /// Applicable to `<a>`, `<area>`, `<base>`, and `<form>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/target)
     @discardableResult
@@ -33,27 +31,17 @@ extension TargetAttrable {
         return self
     }
     
-    /// Specifies where to open the linked document (in the case of an <a> element)
-    /// or where to display the response recieved (in the case of a <form> element)
+    /// Specifies where to open the linked document (in the case of an `<a>` element)
+    /// or where to display the response recieved (in the case of a `<form>` element)
     ///
-    /// Applicable to <a>, <area>, <base>, and <form>
+    /// Applicable to `<a>`, `<area>`, `<base>`, and `<form>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/target)
     @discardableResult
-    public func target(_ value: State<TargetType>) -> Self {
-        value.listen { self.target($0) }
+    public func target<S>(_ value: S) -> Self where S: StateConvertible, S.Value == TargetType {
+        target(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.target($0) }
         return self
-    }
-    
-    /// Specifies where to open the linked document (in the case of an <a> element)
-    /// or where to display the response recieved (in the case of a <form> element)
-    ///
-    /// Applicable to <a>, <area>, <base>, and <form>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/target)
-    @discardableResult
-    public func target<V>(_ expressable: ExpressableState<V, TargetType>) -> Self {
-        target(expressable.unwrap())
     }
 }
 

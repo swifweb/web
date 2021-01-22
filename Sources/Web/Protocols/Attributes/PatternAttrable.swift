@@ -12,9 +12,7 @@ public protocol PatternAttrable {
     @discardableResult
     func pattern(_ value: String) -> Self
     @discardableResult
-    func pattern(_ value: State<String>) -> Self
-    @discardableResult
-    func pattern<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func pattern<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _PatternAttrable: _AnyElement, PatternAttrable {}
@@ -22,7 +20,7 @@ protocol _PatternAttrable: _AnyElement, PatternAttrable {}
 extension PatternAttrable {
     /// Defines a regular expression which the element's value will be validated against.
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
     @discardableResult
@@ -34,23 +32,14 @@ extension PatternAttrable {
     
     /// Defines a regular expression which the element's value will be validated against.
     ///
-    /// Applicable to <input>
+    /// Applicable to `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
     @discardableResult
-    public func pattern(_ value: State<String>) -> Self {
-        value.listen { self.pattern($0) }
+    public func pattern<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        pattern(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.pattern($0) }
         return self
-    }
-    
-    /// Defines a regular expression which the element's value will be validated against.
-    ///
-    /// Applicable to <input>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
-    @discardableResult
-    public func pattern<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        pattern(expressable.unwrap())
     }
 }
 

@@ -14,13 +14,9 @@ public protocol AcceptCharsetAttrable {
     @discardableResult
     func acceptCharset(_ value: String...) -> Self
     @discardableResult
-    func acceptCharset(_ value: State<String>) -> Self
+    func acceptCharset<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
     @discardableResult
-    func acceptCharset<V>(_ expressable: ExpressableState<V, String>) -> Self
-    @discardableResult
-    func acceptCharset(_ value: State<[String]>) -> Self
-    @discardableResult
-    func acceptCharset<V>(_ expressable: ExpressableState<V, [String]>) -> Self
+    func acceptCharset<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [String]
 }
 
 protocol _AcceptCharsetAttrable: _AnyElement, AcceptCharsetAttrable {}
@@ -28,7 +24,7 @@ protocol _AcceptCharsetAttrable: _AnyElement, AcceptCharsetAttrable {}
 extension AcceptCharsetAttrable {
     /// List of supported charsets.
     ///
-    /// Applicable to <form>
+    /// Applicable to `<form>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
@@ -40,7 +36,7 @@ extension AcceptCharsetAttrable {
     
     /// List of supported charsets.
     ///
-    /// Applicable to <form>
+    /// Applicable to `<form>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
@@ -50,7 +46,7 @@ extension AcceptCharsetAttrable {
     
     /// List of supported charsets.
     ///
-    /// Applicable to <form>
+    /// Applicable to `<form>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
@@ -60,44 +56,26 @@ extension AcceptCharsetAttrable {
     
     /// List of supported charsets.
     ///
-    /// Applicable to <form>
+    /// Applicable to `<form>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
-    public func acceptCharset(_ value: State<String>) -> Self {
-        value.listen { self.acceptCharset(value: $0) }
+    public func acceptCharset<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        acceptCharset(value: value.stateValue.wrappedValue)
+        value.stateValue.listen { self.acceptCharset(value: $0) }
         return self
     }
     
     /// List of supported charsets.
     ///
-    /// Applicable to <form>
+    /// Applicable to `<form>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
-    public func acceptCharset<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        acceptCharset(expressable.unwrap())
-    }
-    
-    /// List of supported charsets.
-    ///
-    /// Applicable to <form>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
-    @discardableResult
-    public func acceptCharset(_ value: State<[String]>) -> Self {
-        value.listen { self.acceptCharset($0) }
+    public func acceptCharset<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [String] {
+        acceptCharset(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.acceptCharset($0) }
         return self
-    }
-    
-    /// List of supported charsets.
-    ///
-    /// Applicable to <form>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
-    @discardableResult
-    public func acceptCharset<V>(_ expressable: ExpressableState<V, [String]>) -> Self {
-        acceptCharset(expressable.unwrap())
     }
 }
 

@@ -12,9 +12,7 @@ public protocol MinAttrable {
     @discardableResult
     func min(_ value: Double) -> Self
     @discardableResult
-    func min(_ value: State<Double>) -> Self
-    @discardableResult
-    func min<V>(_ expressable: ExpressableState<V, Double>) -> Self
+    func min<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double
 }
 
 protocol _MinAttrable: _AnyElement, MinAttrable {}
@@ -22,7 +20,7 @@ protocol _MinAttrable: _AnyElement, MinAttrable {}
 extension MinAttrable {
     /// Indicates the minimum value allowed.
     ///
-    /// Applicable to <input>, <meter>
+    /// Applicable to `<input>`, `<meter>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_min.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension MinAttrable {
     
     /// Indicates the minimum value allowed.
     ///
-    /// Applicable to <input>, <meter>
+    /// Applicable to `<input>`, `<meter>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_min.asp)
     @discardableResult
-    public func min(_ value: State<Double>) -> Self {
-        value.listen { self.min($0) }
+    public func min<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double {
+        min(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.min($0) }
         return self
-    }
-    
-    /// Indicates the minimum value allowed.
-    ///
-    /// Applicable to <input>, <meter>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_min.asp)
-    @discardableResult
-    public func min<V>(_ expressable: ExpressableState<V, Double>) -> Self {
-        min(expressable.unwrap())
     }
 }
 extension Meter: _MinAttrable {}

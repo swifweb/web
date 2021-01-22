@@ -12,9 +12,7 @@ public protocol DecodingAttrable {
     @discardableResult
     func decoding(_ value: DecodingType) -> Self
     @discardableResult
-    func decoding(_ value: State<DecodingType>) -> Self
-    @discardableResult
-    func decoding<V>(_ expressable: ExpressableState<V, DecodingType>) -> Self
+    func decoding<S>(_ value: S) -> Self where S: StateConvertible, S.Value == DecodingType
 }
 
 protocol _DecodingAttrable: _AnyElement, DecodingAttrable {}
@@ -22,7 +20,7 @@ protocol _DecodingAttrable: _AnyElement, DecodingAttrable {}
 extension DecodingAttrable {
     /// Indicates the preferred method to decode the image.
     ///
-    /// Applicable to <img>
+    /// Applicable to `<img>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/decoding)
     @discardableResult
@@ -34,23 +32,14 @@ extension DecodingAttrable {
     
     /// Indicates the preferred method to decode the image.
     ///
-    /// Applicable to <img>
+    /// Applicable to `<img>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/decoding)
     @discardableResult
-    public func decoding(_ value: State<DecodingType>) -> Self {
-        value.listen { self.decoding($0) }
+    public func decoding<S>(_ value: S) -> Self where S: StateConvertible, S.Value == DecodingType {
+        decoding(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.decoding($0) }
         return self
-    }
-    
-    /// Indicates the preferred method to decode the image.
-    ///
-    /// Applicable to <img>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/decoding)
-    @discardableResult
-    public func decoding<V>(_ expressable: ExpressableState<V, DecodingType>) -> Self {
-        decoding(expressable.unwrap())
     }
 }
 

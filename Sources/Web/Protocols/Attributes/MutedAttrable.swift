@@ -12,9 +12,7 @@ public protocol MutedAttrable {
     @discardableResult
     func muted(_ value: Bool) -> Self
     @discardableResult
-    func muted(_ value: State<Bool>) -> Self
-    @discardableResult
-    func muted<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func muted<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _MutedAttrable: _AnyElement, MutedAttrable {}
@@ -22,7 +20,7 @@ protocol _MutedAttrable: _AnyElement, MutedAttrable {}
 extension MutedAttrable {
     /// Indicates whether the audio will be initially silenced on page load.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_muted.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension MutedAttrable {
     
     /// Indicates whether the audio will be initially silenced on page load.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_muted.asp)
     @discardableResult
-    public func muted(_ value: State<Bool>) -> Self {
-        value.listen { self.muted($0) }
+    public func muted<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        muted(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.muted($0) }
         return self
-    }
-    
-    /// Indicates whether the audio will be initially silenced on page load.
-    ///
-    /// Applicable to <audio>, <video>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_muted.asp)
-    @discardableResult
-    public func muted<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        muted(expressable.unwrap())
     }
 }
 

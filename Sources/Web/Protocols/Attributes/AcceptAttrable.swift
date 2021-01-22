@@ -14,13 +14,9 @@ public protocol AcceptAttrable {
     @discardableResult
     func accept(_ value: String...) -> Self
     @discardableResult
-    func accept(_ value: State<String>) -> Self
+    func accept<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
     @discardableResult
-    func accept<V>(_ expressable: ExpressableState<V, String>) -> Self
-    @discardableResult
-    func accept(_ value: State<[String]>) -> Self
-    @discardableResult
-    func accept<V>(_ expressable: ExpressableState<V, [String]>) -> Self
+    func accept<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [String]
 }
 
 protocol _AcceptAttrable: _AnyElement, AcceptAttrable {}
@@ -28,7 +24,7 @@ protocol _AcceptAttrable: _AnyElement, AcceptAttrable {}
 extension AcceptAttrable {
     /// List of types the server accepts, typically a file type.
     ///
-    /// Applicable to <form> and <input>
+    /// Applicable to `<form>` and `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
@@ -40,7 +36,7 @@ extension AcceptAttrable {
     
     /// List of types the server accepts, typically a file type.
     ///
-    /// Applicable to <form> and <input>
+    /// Applicable to `<form>` and `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
@@ -50,7 +46,7 @@ extension AcceptAttrable {
     
     /// List of types the server accepts, typically a file type.
     ///
-    /// Applicable to <form> and <input>
+    /// Applicable to `<form>` and `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
@@ -60,44 +56,26 @@ extension AcceptAttrable {
     
     /// List of types the server accepts, typically a file type.
     ///
-    /// Applicable to <form> and <input>
+    /// Applicable to `<form>` and `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
-    public func accept(_ value: State<String>) -> Self {
-        value.listen { self.accept(value: $0) }
+    public func accept<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        accept(value: value.stateValue.wrappedValue)
+        value.stateValue.listen { self.accept(value: $0) }
         return self
     }
     
     /// List of types the server accepts, typically a file type.
     ///
-    /// Applicable to <form> and <input>
+    /// Applicable to `<form>` and `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
-    public func accept<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        accept(expressable.unwrap())
-    }
-    
-    /// List of types the server accepts, typically a file type.
-    ///
-    /// Applicable to <form> and <input>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
-    @discardableResult
-    public func accept(_ value: State<[String]>) -> Self {
-        value.listen { self.accept($0) }
+    public func accept<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [String] {
+        accept(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.accept($0) }
         return self
-    }
-    
-    /// List of types the server accepts, typically a file type.
-    ///
-    /// Applicable to <form> and <input>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
-    @discardableResult
-    public func accept<V>(_ expressable: ExpressableState<V, [String]>) -> Self {
-        accept(expressable.unwrap())
     }
 }
 

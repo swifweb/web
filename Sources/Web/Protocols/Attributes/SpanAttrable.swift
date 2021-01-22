@@ -12,17 +12,15 @@ public protocol SpanAttrable {
     @discardableResult
     func span(_ value: Int) -> Self
     @discardableResult
-    func span(_ value: State<Int>) -> Self
-    @discardableResult
-    func span<V>(_ expressable: ExpressableState<V, Int>) -> Self
+    func span<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int
 }
 
 protocol _SpanAttrable: _AnyElement, SpanAttrable {}
 
 extension SpanAttrable {
-    /// The span attribute defines the number of columns a <col>/<colgroup> element should span.
+    /// The span attribute defines the number of columns a `<col>`/`<colgroup>` element should span.
     ///
-    /// Applicable to <col>, <colgroup>
+    /// Applicable to `<col>`, `<colgroup>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_span.asp)
     @discardableResult
@@ -32,25 +30,16 @@ extension SpanAttrable {
         return self
     }
     
-    /// The span attribute defines the number of columns a <col>/<colgroup> element should span.
+    /// The span attribute defines the number of columns a `<col>`/`<colgroup>` element should span.
     ///
-    /// Applicable to <col>, <colgroup>
+    /// Applicable to `<col>`, `<colgroup>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_span.asp)
     @discardableResult
-    public func span(_ value: State<Int>) -> Self {
-        value.listen { self.span($0) }
+    public func span<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int {
+        span(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.span($0) }
         return self
-    }
-    
-    /// The span attribute defines the number of columns a <col>/<colgroup> element should span.
-    ///
-    /// Applicable to <col>, <colgroup>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_span.asp)
-    @discardableResult
-    public func span<V>(_ expressable: ExpressableState<V, Int>) -> Self {
-        span(expressable.unwrap())
     }
 }
 

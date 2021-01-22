@@ -18,13 +18,9 @@ public protocol ForAttrable {
     @discardableResult
     func `for`(_ values: BaseElement...) -> Self
     @discardableResult
-    func `for`(_ value: State<String>) -> Self
+    func `for`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
     @discardableResult
-    func `for`(_ values: State<[String]>) -> Self
-    @discardableResult
-    func `for`<V>(_ expressable: ExpressableState<V, String>) -> Self
-    @discardableResult
-    func `for`<V>(_ expressable: ExpressableState<V, [String]>) -> Self
+    func `for`<S>(_ values: S) -> Self where S: StateConvertible, S.Value == [String]
 }
 
 protocol _ForAttrable: _AnyElement, ForAttrable {}
@@ -78,8 +74,9 @@ extension ForAttrable {
     ///
     /// [More info →](https://www.w3schools.com/tags/att_for.asp)
     @discardableResult
-    public func `for`(_ value: State<String>) -> Self {
-        value.listen { self.`for`($0) }
+    public func `for`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        `for`(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.`for`($0) }
         return self
     }
     
@@ -89,29 +86,10 @@ extension ForAttrable {
     ///
     /// [More info →](https://www.w3schools.com/tags/att_for.asp)
     @discardableResult
-    public func `for`(_ values: State<[String]>) -> Self {
-        values.listen { self.`for`($0) }
+    public func `for`<S>(_ values: S) -> Self where S: StateConvertible, S.Value == [String] {
+        `for`(values.stateValue.wrappedValue)
+        values.stateValue.listen { self.`for`($0) }
         return self
-    }
-    
-    /// Defines the ID of an element which belongs to this one.
-    ///
-    /// Applicable to `<label>`, `<output>`
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_for.asp)
-    @discardableResult
-    public func `for`<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        `for`(expressable.unwrap())
-    }
-    
-    /// Defines the ID of an element which belongs to this one.
-    ///
-    /// Applicable to `<label>`, `<output>`
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_for.asp)
-    @discardableResult
-    public func `for`<V>(_ expressable: ExpressableState<V, [String]>) -> Self {
-        `for`(expressable.unwrap())
     }
 }
 

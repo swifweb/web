@@ -12,9 +12,7 @@ public protocol DateTimeAttrable {
     @discardableResult
     func dateTime(_ value: String) -> Self
     @discardableResult
-    func dateTime(_ value: State<String>) -> Self
-    @discardableResult
-    func dateTime<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func dateTime<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _DateTimeAttrable: _AnyElement, DateTimeAttrable {}
@@ -22,7 +20,7 @@ protocol _DateTimeAttrable: _AnyElement, DateTimeAttrable {}
 extension DateTimeAttrable {
     /// Indicates the date and time associated with the element.
     ///
-    /// Applicable to <del>, <ins>, <time>
+    /// Applicable to `<del>`, `<ins>`, `<time>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_time_datetime.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension DateTimeAttrable {
     
     /// Indicates the date and time associated with the element.
     ///
-    /// Applicable to <del>, <ins>, <time>
+    /// Applicable to `<del>`, `<ins>`, `<time>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_time_datetime.asp)
     @discardableResult
-    public func dateTime(_ value: State<String>) -> Self {
-        value.listen { self.dateTime($0) }
+    public func dateTime<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        dateTime(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.dateTime($0) }
         return self
-    }
-    
-    /// Indicates the date and time associated with the element.
-    ///
-    /// Applicable to <del>, <ins>, <time>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_time_datetime.asp)
-    @discardableResult
-    public func dateTime<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        dateTime(expressable.unwrap())
     }
 }
 

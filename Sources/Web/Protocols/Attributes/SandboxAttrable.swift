@@ -12,9 +12,7 @@ public protocol SandboxAttrable {
     @discardableResult
     func sandbox(_ value: Bool) -> Self
     @discardableResult
-    func sandbox(_ value: State<Bool>) -> Self
-    @discardableResult
-    func sandbox<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func sandbox<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _SandboxAttrable: _AnyElement, SandboxAttrable {}
@@ -22,7 +20,7 @@ protocol _SandboxAttrable: _AnyElement, SandboxAttrable {}
 extension SandboxAttrable {
     /// Stops a document loaded in an iframe from using certain features (such as submitting forms or opening new windows).
     ///
-    /// Applicable to <iframe>
+    /// Applicable to `<iframe>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox)
     @discardableResult
@@ -34,23 +32,14 @@ extension SandboxAttrable {
     
     /// Stops a document loaded in an iframe from using certain features (such as submitting forms or opening new windows).
     ///
-    /// Applicable to <iframe>
+    /// Applicable to `<iframe>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox)
     @discardableResult
-    public func sandbox(_ value: State<Bool>) -> Self {
-        value.listen { self.sandbox($0) }
+    public func sandbox<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        sandbox(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.sandbox($0) }
         return self
-    }
-    
-    /// Stops a document loaded in an iframe from using certain features (such as submitting forms or opening new windows).
-    ///
-    /// Applicable to <iframe>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox)
-    @discardableResult
-    public func sandbox<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        sandbox(expressable.unwrap())
     }
 }
 

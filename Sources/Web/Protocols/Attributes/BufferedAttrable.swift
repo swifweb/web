@@ -16,7 +16,7 @@ protocol _BufferedAttrable: _AnyElement, BufferedAttrable {}
 extension BufferedAttrable {
     /// Contains the time range of already buffered media.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/buffered)
     public var buffered: TimeInterval {

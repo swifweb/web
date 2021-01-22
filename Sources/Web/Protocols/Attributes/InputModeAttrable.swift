@@ -12,9 +12,7 @@ public protocol InputModeAttrable {
     @discardableResult
     func inputMode(_ value: InputTextType) -> Self
     @discardableResult
-    func inputMode(_ value: State<InputTextType>) -> Self
-    @discardableResult
-    func inputMode<V>(_ expressable: ExpressableState<V, InputTextType>) -> Self
+    func inputMode<S>(_ value: S) -> Self where S: StateConvertible, S.Value == InputTextType
 }
 
 protocol _InputModeAttrable: _AnyElement, InputModeAttrable {}
@@ -25,7 +23,7 @@ extension InputModeAttrable {
     /// The attribute can be used with form controls (such as the value of textarea elements),
     /// or in elements in an editing host (e.g., using contenteditable attribute).
     ///
-    /// Applicable to <textarea>, <input>
+    /// Applicable to `<textarea>`, `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
     @discardableResult
@@ -40,26 +38,14 @@ extension InputModeAttrable {
     /// The attribute can be used with form controls (such as the value of textarea elements),
     /// or in elements in an editing host (e.g., using contenteditable attribute).
     ///
-    /// Applicable to <textarea>, <input>
+    /// Applicable to `<textarea>`, `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
     @discardableResult
-    public func inputMode(_ value: State<InputTextType>) -> Self {
-        value.listen { self.inputMode($0) }
+    public func inputMode<S>(_ value: S) -> Self where S: StateConvertible, S.Value == InputTextType {
+        inputMode(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.inputMode($0) }
         return self
-    }
-    
-    /// Provides a hint as to the type of data that might be entered
-    /// by the user while editing the element or its contents.
-    /// The attribute can be used with form controls (such as the value of textarea elements),
-    /// or in elements in an editing host (e.g., using contenteditable attribute).
-    ///
-    /// Applicable to <textarea>, <input>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-    @discardableResult
-    public func inputMode<V>(_ expressable: ExpressableState<V, InputTextType>) -> Self {
-        inputMode(expressable.unwrap())
     }
 }
 

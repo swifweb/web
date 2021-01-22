@@ -12,9 +12,7 @@ public protocol RowsAttrable {
     @discardableResult
     func rows(_ value: Int) -> Self
     @discardableResult
-    func rows(_ value: State<Int>) -> Self
-    @discardableResult
-    func rows<V>(_ expressable: ExpressableState<V, Int>) -> Self
+    func rows<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int
 }
 
 protocol _RowsAttrable: _AnyElement, RowsAttrable {}
@@ -22,7 +20,7 @@ protocol _RowsAttrable: _AnyElement, RowsAttrable {}
 extension RowsAttrable {
     /// Defines the number of rows in a textarea.
     ///
-    /// Applicable to <textarea>
+    /// Applicable to `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rows)
     @discardableResult
@@ -34,23 +32,14 @@ extension RowsAttrable {
     
     /// Defines the number of rows in a textarea.
     ///
-    /// Applicable to <textarea>
+    /// Applicable to `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rows)
     @discardableResult
-    public func rows(_ value: State<Int>) -> Self {
-        value.listen { self.rows($0) }
+    public func rows<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int {
+        rows(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.rows($0) }
         return self
-    }
-    
-    /// Defines the number of rows in a textarea.
-    ///
-    /// Applicable to <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rows)
-    @discardableResult
-    public func rows<V>(_ expressable: ExpressableState<V, Int>) -> Self {
-        rows(expressable.unwrap())
     }
 }
 

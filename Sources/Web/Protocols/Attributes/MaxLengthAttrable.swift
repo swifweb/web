@@ -12,9 +12,7 @@ public protocol MaxLengthAttrable {
     @discardableResult
     func maxlength(_ value: UInt) -> Self
     @discardableResult
-    func maxlength(_ value: State<UInt>) -> Self
-    @discardableResult
-    func maxlength<V>(_ expressable: ExpressableState<V, UInt>) -> Self
+    func maxlength<S>(_ value: S) -> Self where S: StateConvertible, S.Value == UInt
 }
 
 protocol _MaxLengthAttrable: _AnyElement, MaxLengthAttrable {}
@@ -22,7 +20,7 @@ protocol _MaxLengthAttrable: _AnyElement, MaxLengthAttrable {}
 extension MaxLengthAttrable {
     /// Defines the maximum number of characters allowed in the element.
     ///
-    /// Applicable to <input>, <textarea>
+    /// Applicable to `<input>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/maxlength)
     @discardableResult
@@ -34,23 +32,14 @@ extension MaxLengthAttrable {
     
     /// Defines the maximum number of characters allowed in the element.
     ///
-    /// Applicable to <input>, <textarea>
+    /// Applicable to `<input>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/maxlength)
     @discardableResult
-    public func maxlength(_ value: State<UInt>) -> Self {
-        value.listen { self.maxlength($0) }
+    public func maxlength<S>(_ value: S) -> Self where S: StateConvertible, S.Value == UInt {
+        maxlength(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.maxlength($0) }
         return self
-    }
-    
-    /// Defines the maximum number of characters allowed in the element.
-    ///
-    /// Applicable to <input>, <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/maxlength)
-    @discardableResult
-    public func maxlength<V>(_ expressable: ExpressableState<V, UInt>) -> Self {
-        maxlength(expressable.unwrap())
     }
 }
 

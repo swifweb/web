@@ -12,9 +12,7 @@ public protocol ColsAttrable {
     @discardableResult
     func cols(_ value: Int) -> Self
     @discardableResult
-    func cols(_ value: State<Int>) -> Self
-    @discardableResult
-    func cols<V>(_ expressable: ExpressableState<V, Int>) -> Self
+    func cols<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int
 }
 
 protocol _ColsAttrable: _AnyElement, ColsAttrable {}
@@ -22,7 +20,7 @@ protocol _ColsAttrable: _AnyElement, ColsAttrable {}
 extension ColsAttrable {
     /// Defines the number of columns in a textarea.
     ///
-    /// Applicable to <textarea>
+    /// Applicable to `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/cols)
     @discardableResult
@@ -34,23 +32,14 @@ extension ColsAttrable {
     
     /// Defines the number of columns in a textarea.
     ///
-    /// Applicable to <textarea>
+    /// Applicable to `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/cols)
     @discardableResult
-    public func cols(_ value: State<Int>) -> Self {
-        value.listen { self.cols($0) }
+    public func cols<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int {
+        cols(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.cols($0) }
         return self
-    }
-    
-    /// Defines the number of columns in a textarea.
-    ///
-    /// Applicable to <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/cols)
-    @discardableResult
-    public func cols<V>(_ expressable: ExpressableState<V, Int>) -> Self {
-        cols(expressable.unwrap())
     }
 }
 

@@ -12,9 +12,7 @@ public protocol SrcLangAttrable {
     @discardableResult
     func srcLang(_ value: String) -> Self
     @discardableResult
-    func srcLang(_ value: State<String>) -> Self
-    @discardableResult
-    func srcLang<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func srcLang<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _SrcLangAttrable: _AnyElement, SrcLangAttrable {}
@@ -24,7 +22,7 @@ extension SrcLangAttrable {
     ///
     /// This attribute is required if kind="subtitles".
     ///
-    /// Applicable to <track>
+    /// Applicable to `<track>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_srclang.asp)
     @discardableResult
@@ -38,25 +36,14 @@ extension SrcLangAttrable {
     ///
     /// This attribute is required if kind="subtitles".
     ///
-    /// Applicable to <track>
+    /// Applicable to `<track>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_srclang.asp)
     @discardableResult
-    public func srcLang(_ value: State<String>) -> Self {
-        value.listen { self.srcLang($0) }
+    public func srcLang<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        srcLang(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.srcLang($0) }
         return self
-    }
-    
-    /// The srclang attribute specifies the language of the track text data.
-    ///
-    /// This attribute is required if kind="subtitles".
-    ///
-    /// Applicable to <track>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_srclang.asp)
-    @discardableResult
-    public func srcLang<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        srcLang(expressable.unwrap())
     }
 }
 

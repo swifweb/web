@@ -12,9 +12,7 @@ public protocol MaxAttrable {
     @discardableResult
     func max(_ value: Double) -> Self
     @discardableResult
-    func max(_ value: State<Double>) -> Self
-    @discardableResult
-    func max<V>(_ expressable: ExpressableState<V, Double>) -> Self
+    func max<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double
 }
 
 protocol _MaxAttrable: _AnyElement, MaxAttrable {}
@@ -22,7 +20,7 @@ protocol _MaxAttrable: _AnyElement, MaxAttrable {}
 extension MaxAttrable {
     /// Indicates the maximum value allowed.
     ///
-    /// Applicable to <input>, <meter>, <progress>
+    /// Applicable to `<input>`, `<meter>`, `<progress>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_max.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension MaxAttrable {
     
     /// Indicates the maximum value allowed.
     ///
-    /// Applicable to <input>, <meter>, <progress>
+    /// Applicable to `<input>`, `<meter>`, `<progress>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_max.asp)
     @discardableResult
-    public func max(_ value: State<Double>) -> Self {
-        value.listen { self.max($0) }
+    public func max<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double {
+        max(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.max($0) }
         return self
-    }
-    
-    /// Indicates the maximum value allowed.
-    ///
-    /// Applicable to <input>, <meter>, <progress>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_max.asp)
-    @discardableResult
-    public func max<V>(_ expressable: ExpressableState<V, Double>) -> Self {
-        max(expressable.unwrap())
     }
 }
 extension Meter: _MaxAttrable {}
@@ -62,9 +51,7 @@ public protocol MaxDateAttrable {
     @discardableResult
     func max(_ value: String) -> Self
     @discardableResult
-    func max(_ value: State<String>) -> Self
-    @discardableResult
-    func max<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func max<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _MaxDateAttrable: _AnyElement, MaxDateAttrable {}
@@ -72,7 +59,7 @@ protocol _MaxDateAttrable: _AnyElement, MaxDateAttrable {}
 extension MaxDateAttrable {
     /// Indicates the maximum value allowed.
     ///
-    /// Applicable to <input>, <meter>, <progress>
+    /// Applicable to `<input>`, `<meter>`, `<progress>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_max.asp)
     @discardableResult
@@ -84,23 +71,14 @@ extension MaxDateAttrable {
     
     /// Indicates the maximum value allowed.
     ///
-    /// Applicable to <input>, <meter>, <progress>
+    /// Applicable to `<input>`, `<meter>`, `<progress>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_max.asp)
     @discardableResult
-    public func max(_ value: State<String>) -> Self {
-        value.listen { self.max($0) }
+    public func max<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        max(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.max($0) }
         return self
-    }
-    
-    /// Indicates the maximum value allowed.
-    ///
-    /// Applicable to <input>, <meter>, <progress>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_max.asp)
-    @discardableResult
-    public func max<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        max(expressable.unwrap())
     }
 }
 extension InputDateTime: _MaxDateAttrable {}

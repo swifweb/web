@@ -12,9 +12,7 @@ public protocol ReversedAttrable {
     @discardableResult
     func reversed(_ value: Bool) -> Self
     @discardableResult
-    func reversed(_ value: State<Bool>) -> Self
-    @discardableResult
-    func reversed<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func reversed<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _ReversedAttrable: _AnyElement, ReversedAttrable {}
@@ -22,7 +20,7 @@ protocol _ReversedAttrable: _AnyElement, ReversedAttrable {}
 extension ReversedAttrable {
     /// Indicates whether the list should be displayed in a descending order instead of a ascending.
     ///
-    /// Applicable to <ol>
+    /// Applicable to `<ol>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_reversed.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension ReversedAttrable {
     
     /// Indicates whether the list should be displayed in a descending order instead of a ascending.
     ///
-    /// Applicable to <ol>
+    /// Applicable to `<ol>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_reversed.asp)
     @discardableResult
-    public func reversed(_ value: State<Bool>) -> Self {
-        value.listen { self.reversed($0) }
+    public func reversed<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        reversed(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.reversed($0) }
         return self
-    }
-    
-    /// Indicates whether the list should be displayed in a descending order instead of a ascending.
-    ///
-    /// Applicable to <ol>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_reversed.asp)
-    @discardableResult
-    public func reversed<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        reversed(expressable.unwrap())
     }
 }
 

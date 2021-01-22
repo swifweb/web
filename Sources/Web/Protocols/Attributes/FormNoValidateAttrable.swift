@@ -12,9 +12,7 @@ public protocol FormNoValidateAttrable {
     @discardableResult
     func formNoValidate(_ value: Bool) -> Self
     @discardableResult
-    func formNoValidate(_ value: State<Bool>) -> Self
-    @discardableResult
-    func formNoValidate<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func formNoValidate<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _FormNoValidateAttrable: _AnyElement, FormNoValidateAttrable {}
@@ -23,7 +21,7 @@ extension FormNoValidateAttrable {
     /// The novalidate attribute is a boolean attribute.
     /// When present, it specifies that the form-data (input) should not be validated when submitted.
     ///
-    /// Applicable to <button>, <form>
+    /// Applicable to `<button>`, `<form>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
@@ -36,24 +34,14 @@ extension FormNoValidateAttrable {
     /// The novalidate attribute is a boolean attribute.
     /// When present, it specifies that the form-data (input) should not be validated when submitted.
     ///
-    /// Applicable to <button>, <form>
+    /// Applicable to `<button>`, `<form>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
-    public func formNoValidate(_ value: State<Bool>) -> Self {
-        value.listen { self.formNoValidate($0) }
+    public func formNoValidate<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        formNoValidate(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.formNoValidate($0) }
         return self
-    }
-    
-    /// The novalidate attribute is a boolean attribute.
-    /// When present, it specifies that the form-data (input) should not be validated when submitted.
-    ///
-    /// Applicable to <button>, <form>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
-    @discardableResult
-    public func formNoValidate<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        formNoValidate(expressable.unwrap())
     }
 }
 

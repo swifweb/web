@@ -12,9 +12,7 @@ public protocol TypeAttrable {
     @discardableResult
     func type(_ value: String) -> Self
     @discardableResult
-    func type(_ value: State<String>) -> Self
-    @discardableResult
-    func type<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func type<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _TypeAttrable: _AnyElement, TypeAttrable {}
@@ -22,7 +20,8 @@ protocol _TypeAttrable: _AnyElement, TypeAttrable {}
 extension TypeAttrable {
     /// Defines the type of the element.
     ///
-    /// Applicable to <button>, <input>, <embed>, <object>, <script>, <source>, <style>, <menu>
+    /// Applicable to `<button>`, `<input>`, `<embed>`,
+    /// `<object>`, `<script>`, `<source>`, `<style>`, `<menu>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_type.asp)
     @discardableResult
@@ -34,23 +33,15 @@ extension TypeAttrable {
     
     /// Defines the type of the element.
     ///
-    /// Applicable to <button>, <input>, <embed>, <object>, <script>, <source>, <style>, <menu>
+    /// Applicable to `<button>`, `<input>`, `<embed>`,
+    /// `<object>`, `<script>`, `<source>`, `<style>`, `<menu>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_type.asp)
     @discardableResult
-    public func type(_ value: State<String>) -> Self {
-        value.listen { self.type($0) }
+    public func type<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        type(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.type($0) }
         return self
-    }
-    
-    /// Defines the type of the element.
-    ///
-    /// Applicable to <button>, <input>, <embed>, <object>, <script>, <source>, <style>, <menu>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_type.asp)
-    @discardableResult
-    public func type<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        type(expressable.unwrap())
     }
 }
 

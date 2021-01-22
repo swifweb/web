@@ -12,9 +12,7 @@ public protocol EnterKeyHintAttrable {
     @discardableResult
     func enterKeyHint(_ value: EnterKeyHintType) -> Self
     @discardableResult
-    func enterKeyHint(_ value: State<EnterKeyHintType>) -> Self
-    @discardableResult
-    func enterKeyHint<V>(_ expressable: ExpressableState<V, EnterKeyHintType>) -> Self
+    func enterKeyHint<S>(_ value: S) -> Self where S: StateConvertible, S.Value == EnterKeyHintType
 }
 
 protocol _EnterKeyHintAttrable: _AnyElement, EnterKeyHintAttrable {}
@@ -36,18 +34,10 @@ extension EnterKeyHintAttrable {
     ///
     /// [More info →](https://html.spec.whatwg.org/multipage/interaction.html#input-modalities:-the-enterkeyhint-attribute)
     @discardableResult
-    public func enterKeyHint(_ value: State<EnterKeyHintType>) -> Self {
-        value.listen { self.enterKeyHint($0) }
+    public func enterKeyHint<S>(_ value: S) -> Self where S: StateConvertible, S.Value == EnterKeyHintType {
+        enterKeyHint(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.enterKeyHint($0) }
         return self
-    }
-    
-    /// The enterkeyhint specifies what action label (or icon)
-    /// to present for the enter key on virtual keyboards.
-    ///
-    /// [More info →](https://html.spec.whatwg.org/multipage/interaction.html#input-modalities:-the-enterkeyhint-attribute)
-    @discardableResult
-    public func enterKeyHint<V>(_ expressable: ExpressableState<V, EnterKeyHintType>) -> Self {
-        enterKeyHint(expressable.unwrap())
     }
 }
 

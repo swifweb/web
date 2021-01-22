@@ -12,9 +12,7 @@ public protocol MinLengthAttrable {
     @discardableResult
     func minlength(_ value: UInt) -> Self
     @discardableResult
-    func minlength(_ value: State<UInt>) -> Self
-    @discardableResult
-    func minlength<V>(_ expressable: ExpressableState<V, UInt>) -> Self
+    func minlength<S>(_ value: S) -> Self where S: StateConvertible, S.Value == UInt
 }
 
 protocol _MinLengthAttrable: _AnyElement, MinLengthAttrable {}
@@ -22,7 +20,7 @@ protocol _MinLengthAttrable: _AnyElement, MinLengthAttrable {}
 extension MinLengthAttrable {
     /// Defines the minimum number of characters allowed in the element.
     ///
-    /// Applicable to <input>, <textarea>
+    /// Applicable to `<input>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/minlength)
     @discardableResult
@@ -34,23 +32,14 @@ extension MinLengthAttrable {
     
     /// Defines the minimum number of characters allowed in the element.
     ///
-    /// Applicable to <input>, <textarea>
+    /// Applicable to `<input>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/minlength)
     @discardableResult
-    public func minlength(_ value: State<UInt>) -> Self {
-        value.listen { self.minlength($0) }
+    public func minlength<S>(_ value: S) -> Self where S: StateConvertible, S.Value == UInt {
+        minlength(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.minlength($0) }
         return self
-    }
-    
-    /// Defines the minimum number of characters allowed in the element.
-    ///
-    /// Applicable to <input>, <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/minlength)
-    @discardableResult
-    public func minlength<V>(_ expressable: ExpressableState<V, UInt>) -> Self {
-        minlength(expressable.unwrap())
     }
 }
 

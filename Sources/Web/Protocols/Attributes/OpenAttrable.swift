@@ -12,9 +12,7 @@ public protocol OpenAttrable {
     @discardableResult
     func open(_ value: Bool) -> Self
     @discardableResult
-    func open(_ value: State<Bool>) -> Self
-    @discardableResult
-    func open<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func open<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _OpenAttrable: _AnyElement, OpenAttrable {}
@@ -22,7 +20,7 @@ protocol _OpenAttrable: _AnyElement, OpenAttrable {}
 extension OpenAttrable {
     /// Indicates whether the details will be shown on page load.
     ///
-    /// Applicable to <details>
+    /// Applicable to `<details>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_open.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension OpenAttrable {
     
     /// Indicates whether the details will be shown on page load.
     ///
-    /// Applicable to <details>
+    /// Applicable to `<details>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_open.asp)
     @discardableResult
-    public func open(_ value: State<Bool>) -> Self {
-        value.listen { self.open($0) }
+    public func open<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        open(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.open($0) }
         return self
-    }
-    
-    /// Indicates whether the details will be shown on page load.
-    ///
-    /// Applicable to <details>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_open.asp)
-    @discardableResult
-    public func open<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        open(expressable.unwrap())
     }
 }
 

@@ -12,9 +12,7 @@ public protocol HiddenAttrable {
     @discardableResult
     func hidden(_ value: Bool) -> Self
     @discardableResult
-    func hidden(_ value: State<Bool>) -> Self
-    @discardableResult
-    func hidden<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func hidden<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _HiddenAttrable: _AnyElement, HiddenAttrable {}
@@ -34,17 +32,10 @@ extension HiddenAttrable {
     ///
     /// [More info →](https://www.w3schools.com/tags/att_hidden.asp)
     @discardableResult
-    public func hidden(_ value: State<Bool>) -> Self {
-        value.listen { self.hidden($0) }
+    public func hidden<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        hidden(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.hidden($0) }
         return self
-    }
-    
-    /// Prevents rendering of given element, while keeping child elements, e.g. script elements, active.
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_hidden.asp)
-    @discardableResult
-    public func hidden<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        hidden(expressable.unwrap())
     }
 }
 

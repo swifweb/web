@@ -12,9 +12,7 @@ public protocol AutoplayAttrable {
     @discardableResult
     func autoplay(_ value: Bool) -> Self
     @discardableResult
-    func autoplay(_ value: State<Bool>) -> Self
-    @discardableResult
-    func autoplay<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func autoplay<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _AutoplayAttrable: _AnyElement, AutoplayAttrable {}
@@ -22,7 +20,7 @@ protocol _AutoplayAttrable: _AnyElement, AutoplayAttrable {}
 extension AutoplayAttrable {
     /// The audio or video should play as soon as possible.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autoplay)
     @discardableResult
@@ -34,23 +32,14 @@ extension AutoplayAttrable {
     
     /// The audio or video should play as soon as possible.
     ///
-    /// Applicable to <audio>, <video>
+    /// Applicable to `<audio>`, `<video>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autoplay)
     @discardableResult
-    public func autoplay(_ value: State<Bool>) -> Self {
-        value.listen { self.autoplay($0) }
+    public func autoplay<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        autoplay(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.autoplay($0) }
         return self
-    }
-    
-    /// The audio or video should play as soon as possible.
-    ///
-    /// Applicable to <audio>, <video>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autoplay)
-    @discardableResult
-    public func autoplay<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        autoplay(expressable.unwrap())
     }
 }
 

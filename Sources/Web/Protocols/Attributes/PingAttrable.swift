@@ -14,13 +14,9 @@ public protocol PingAttrable {
     @discardableResult
     func ping(_ value: URLConformable...) -> Self
     @discardableResult
-    func ping(_ value: State<URLConformable>) -> Self
+    func ping<S>(_ value: S) -> Self where S: StateConvertible, S.Value: URLConformable
     @discardableResult
-    func ping<V>(_ expressable: ExpressableState<V, URLConformable>) -> Self
-    @discardableResult
-    func ping(_ value: State<[URLConformable]>) -> Self
-    @discardableResult
-    func ping<V>(_ expressable: ExpressableState<V, [URLConformable]>) -> Self
+    func ping<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [URLConformable]
 }
 
 protocol _PingAttrable: _AnyElement, PingAttrable {}
@@ -28,7 +24,7 @@ protocol _PingAttrable: _AnyElement, PingAttrable {}
 extension PingAttrable {
     /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
     ///
-    /// Applicable to <a>, <area>
+    /// Applicable to `<a>`, `<area>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
     @discardableResult
@@ -40,7 +36,7 @@ extension PingAttrable {
     
     /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
     ///
-    /// Applicable to <a>, <area>
+    /// Applicable to `<a>`, `<area>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
     @discardableResult
@@ -50,7 +46,7 @@ extension PingAttrable {
     
     /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
     ///
-    /// Applicable to <a>, <area>
+    /// Applicable to `<a>`, `<area>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
     @discardableResult
@@ -60,44 +56,26 @@ extension PingAttrable {
     
     /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
     ///
-    /// Applicable to <a>, <area>
+    /// Applicable to `<a>`, `<area>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
     @discardableResult
-    public func ping(_ value: State<URLConformable>) -> Self {
-        value.listen { self.ping(value: $0) }
+    public func ping<S>(_ value: S) -> Self where S: StateConvertible, S.Value: URLConformable {
+        ping(value: value.stateValue.wrappedValue)
+        value.stateValue.listen { self.ping(value: $0) }
         return self
     }
     
     /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
     ///
-    /// Applicable to <a>, <area>
+    /// Applicable to `<a>`, `<area>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
     @discardableResult
-    public func ping<V>(_ expressable: ExpressableState<V, URLConformable>) -> Self {
-        ping(expressable.unwrap())
-    }
-    
-    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
-    ///
-    /// Applicable to <a>, <area>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
-    @discardableResult
-    public func ping(_ value: State<[URLConformable]>) -> Self {
-        value.listen { self.ping($0) }
+    public func ping<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [URLConformable] {
+        ping(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.ping($0) }
         return self
-    }
-    
-    /// The ping attribute specifies a space-separated list of URLs to be notified if a user follows the hyperlink.
-    ///
-    /// Applicable to <a>, <area>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
-    @discardableResult
-    public func ping<V>(_ expressable: ExpressableState<V, [URLConformable]>) -> Self {
-        ping(expressable.unwrap())
     }
 }
 

@@ -12,9 +12,7 @@ public protocol RowSpanAttrable {
     @discardableResult
     func rowSpan(_ value: Int) -> Self
     @discardableResult
-    func rowSpan(_ value: State<Int>) -> Self
-    @discardableResult
-    func rowSpan<V>(_ expressable: ExpressableState<V, Int>) -> Self
+    func rowSpan<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int
 }
 
 protocol _RowSpanAttrable: _AnyElement, RowSpanAttrable {}
@@ -22,7 +20,7 @@ protocol _RowSpanAttrable: _AnyElement, RowSpanAttrable {}
 extension RowSpanAttrable {
     /// The rowspan attribute specifies the number of rows a cell should span.
     ///
-    /// Applicable to <td>, <th>
+    /// Applicable to `<td>`, `<th>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_rowspan.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension RowSpanAttrable {
     
     /// The rowspan attribute specifies the number of rows a cell should span.
     ///
-    /// Applicable to <td>, <th>
+    /// Applicable to `<td>`, `<th>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_rowspan.asp)
     @discardableResult
-    public func rowSpan(_ value: State<Int>) -> Self {
-        value.listen { self.rowSpan($0) }
+    public func rowSpan<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int {
+        rowSpan(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.rowSpan($0) }
         return self
-    }
-    
-    /// The rowspan attribute specifies the number of rows a cell should span.
-    ///
-    /// Applicable to <td>, <th>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_rowspan.asp)
-    @discardableResult
-    public func rowSpan<V>(_ expressable: ExpressableState<V, Int>) -> Self {
-        rowSpan(expressable.unwrap())
     }
 }
 

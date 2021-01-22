@@ -10,11 +10,9 @@ import JavaScriptKit
 
 public protocol WrapAttrable {
     @discardableResult
-    func wrap(_ value: AlignType) -> Self
+    func wrap(_ value: WrapType) -> Self
     @discardableResult
-    func wrap(_ value: State<AlignType>) -> Self
-    @discardableResult
-    func wrap<V>(_ expressable: ExpressableState<V, AlignType>) -> Self
+    func wrap<S>(_ value: S) -> Self where S: StateConvertible, S.Value == WrapType
 }
 
 protocol _WrapAttrable: _AnyElement, WrapAttrable {}
@@ -22,11 +20,11 @@ protocol _WrapAttrable: _AnyElement, WrapAttrable {}
 extension WrapAttrable {
     /// Indicates how the control wraps text.
     ///
-    /// Applicable to <textarea>
+    /// Applicable to `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
     @discardableResult
-    public func wrap(_ value: AlignType) -> Self {
+    public func wrap(_ value: WrapType) -> Self {
         guard let s = self as? _WrapAttrable else { return self }
         s.domElement.wrap = value.value.jsValue()
         return self
@@ -34,23 +32,14 @@ extension WrapAttrable {
     
     /// Indicates how the control wraps text.
     ///
-    /// Applicable to <textarea>
+    /// Applicable to `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
     @discardableResult
-    public func wrap(_ value: State<AlignType>) -> Self {
-        value.listen { self.wrap($0) }
+    public func wrap<S>(_ value: S) -> Self where S: StateConvertible, S.Value == WrapType {
+        wrap(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.wrap($0) }
         return self
-    }
-    
-    /// Indicates how the control wraps text.
-    ///
-    /// Applicable to <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
-    @discardableResult
-    public func wrap<V>(_ expressable: ExpressableState<V, AlignType>) -> Self {
-        wrap(expressable.unwrap())
     }
 }
 

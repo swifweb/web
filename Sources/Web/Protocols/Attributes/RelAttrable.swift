@@ -12,9 +12,7 @@ public protocol RelAttrable {
     @discardableResult
     func rel(_ value: RelType) -> Self
     @discardableResult
-    func rel(_ value: State<RelType>) -> Self
-    @discardableResult
-    func rel<V>(_ expressable: ExpressableState<V, RelType>) -> Self
+    func rel<S>(_ value: S) -> Self where S: StateConvertible, S.Value == RelType
 }
 
 protocol _RelAttrable: _AnyElement, RelAttrable {}
@@ -22,7 +20,7 @@ protocol _RelAttrable: _AnyElement, RelAttrable {}
 extension RelAttrable {
     /// Specifies the relationship of the target object to the link object.
     ///
-    /// Applicable to <a>, <area>, <form>, and <link>
+    /// Applicable to `<a>`, `<area>`, `<form>`, and `<link>`
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
@@ -34,23 +32,14 @@ extension RelAttrable {
     
     /// Specifies the relationship of the target object to the link object.
     ///
-    /// Applicable to <a>, <area>, <form>, and <link>
+    /// Applicable to `<a>`, `<area>`, `<form>`, and `<link>`
     ///
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
-    public func rel(_ value: State<RelType>) -> Self {
-        value.listen { self.rel($0) }
+    public func rel<S>(_ value: S) -> Self where S: StateConvertible, S.Value == RelType {
+        rel(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.rel($0) }
         return self
-    }
-    
-    /// Specifies the relationship of the target object to the link object.
-    ///
-    /// Applicable to <a>, <area>, <form>, and <link>
-    ///
-    /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
-    @discardableResult
-    public func rel<V>(_ expressable: ExpressableState<V, RelType>) -> Self {
-        rel(expressable.unwrap())
     }
 }
 

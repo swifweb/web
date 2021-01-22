@@ -14,9 +14,7 @@ public protocol CoordsAttrable {
     @discardableResult
     func coords(_ value: Int...) -> Self
     @discardableResult
-    func coords(_ value: State<[Int]>) -> Self
-    @discardableResult
-    func coords<V>(_ expressable: ExpressableState<V, [Int]>) -> Self
+    func coords<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [Int]
 }
 
 protocol _CoordsAttrable: _AnyElement, CoordsAttrable {}
@@ -24,7 +22,7 @@ protocol _CoordsAttrable: _AnyElement, CoordsAttrable {}
 extension CoordsAttrable {
     /// A set of values specifying the coordinates of the hot-spot region.
     ///
-    /// Applicable to <area>
+    /// Applicable to `<area>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_coords.asp)
     @discardableResult
@@ -36,7 +34,7 @@ extension CoordsAttrable {
     
     /// A set of values specifying the coordinates of the hot-spot region.
     ///
-    /// Applicable to <area>
+    /// Applicable to `<area>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_coords.asp)
     @discardableResult
@@ -46,7 +44,7 @@ extension CoordsAttrable {
     
     /// A set of values specifying the coordinates of the hot-spot region.
     ///
-    /// Applicable to <area>
+    /// Applicable to `<area>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_coords.asp)
     @discardableResult
@@ -56,23 +54,14 @@ extension CoordsAttrable {
     
     /// A set of values specifying the coordinates of the hot-spot region.
     ///
-    /// Applicable to <area>
+    /// Applicable to `<area>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_coords.asp)
     @discardableResult
-    public func coords(_ value: State<[Int]>) -> Self {
-        value.listen { self.coords($0) }
+    public func coords<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [Int] {
+        coords(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.coords($0) }
         return self
-    }
-    
-    /// A set of values specifying the coordinates of the hot-spot region.
-    ///
-    /// Applicable to <area>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_coords.asp)
-    @discardableResult
-    public func coords<V>(_ expressable: ExpressableState<V, [Int]>) -> Self {
-        coords(expressable.unwrap())
     }
 }
 

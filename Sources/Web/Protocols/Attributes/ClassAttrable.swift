@@ -14,13 +14,9 @@ public protocol ClassAttrable {
     @discardableResult
     func `class`(_ value: String...) -> Self
     @discardableResult
-    func `class`(_ value: State<String>) -> Self
+    func `class`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
     @discardableResult
-    func `class`<V>(_ expressable: ExpressableState<V, String>) -> Self
-    @discardableResult
-    func `class`(_ value: State<[String]>) -> Self
-    @discardableResult
-    func `class`<V>(_ expressable: ExpressableState<V, [String]>) -> Self
+    func `class`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [String]
 }
 
 protocol _ClassAttrable: _AnyElement, ClassAttrable {}
@@ -56,8 +52,9 @@ extension ClassAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
     @discardableResult
-    public func `class`(_ value: State<String>) -> Self {
-        value.listen { self.`class`(value: $0) }
+    public func `class`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        `class`(value: value.stateValue.wrappedValue)
+        value.stateValue.listen { self.`class`(value: $0) }
         return self
     }
     
@@ -65,25 +62,10 @@ extension ClassAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
     @discardableResult
-    public func `class`<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        `class`(expressable.unwrap())
-    }
-    
-    /// The class global attribute is a space-separated list of the case-sensitive classes of the element.
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
-    @discardableResult
-    public func `class`(_ value: State<[String]>) -> Self {
-        value.listen { self.`class`($0) }
+    public func `class`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [String] {
+        `class`(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.`class`($0) }
         return self
-    }
-    
-    /// The class global attribute is a space-separated list of the case-sensitive classes of the element.
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
-    @discardableResult
-    public func `class`<V>(_ expressable: ExpressableState<V, [String]>) -> Self {
-        `class`(expressable.unwrap())
     }
 }
 

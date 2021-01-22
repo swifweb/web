@@ -12,9 +12,7 @@ public protocol DeferAttrable {
     @discardableResult
     func `defer`(_ value: Bool) -> Self
     @discardableResult
-    func `defer`(_ value: State<Bool>) -> Self
-    @discardableResult
-    func `defer`<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func `defer`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _DeferAttrable: _AnyElement, DeferAttrable {}
@@ -22,7 +20,7 @@ protocol _DeferAttrable: _AnyElement, DeferAttrable {}
 extension DeferAttrable {
     /// Indicates that the script should be executed after the page has been parsed.
     ///
-    /// Applicable to <script>
+    /// Applicable to `<script>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_defer.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension DeferAttrable {
     
     /// Indicates that the script should be executed after the page has been parsed.
     ///
-    /// Applicable to <script>
+    /// Applicable to `<script>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_defer.asp)
     @discardableResult
-    public func `defer`(_ value: State<Bool>) -> Self {
-        value.listen { self.`defer`($0) }
+    public func `defer`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        `defer`(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.`defer`($0) }
         return self
-    }
-    
-    /// Indicates that the script should be executed after the page has been parsed.
-    ///
-    /// Applicable to <script>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_defer.asp)
-    @discardableResult
-    public func `defer`<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        `defer`(expressable.unwrap())
     }
 }
 

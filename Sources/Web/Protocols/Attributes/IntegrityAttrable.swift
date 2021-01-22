@@ -12,9 +12,7 @@ public protocol IntegrityAttrable {
     @discardableResult
     func integrity(_ value: String) -> Self
     @discardableResult
-    func integrity(_ value: State<String>) -> Self
-    @discardableResult
-    func integrity<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func integrity<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _IntegrityAttrable: _AnyElement, IntegrityAttrable {}
@@ -22,7 +20,7 @@ protocol _IntegrityAttrable: _AnyElement, IntegrityAttrable {}
 extension IntegrityAttrable {
     /// Specifies a Subresource Integrity value that allows browsers to verify what they fetch.
     ///
-    /// Applicable to <link>, <script>
+    /// Applicable to `<link>`, `<script>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
     @discardableResult
@@ -34,23 +32,14 @@ extension IntegrityAttrable {
     
     /// Specifies a Subresource Integrity value that allows browsers to verify what they fetch.
     ///
-    /// Applicable to <link>, <script>
+    /// Applicable to `<link>`, `<script>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
     @discardableResult
-    public func integrity(_ value: State<String>) -> Self {
-        value.listen { self.integrity($0) }
+    public func integrity<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        integrity(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.integrity($0) }
         return self
-    }
-    
-    /// Specifies a Subresource Integrity value that allows browsers to verify what they fetch.
-    ///
-    /// Applicable to <link>, <script>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
-    @discardableResult
-    public func integrity<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        integrity(expressable.unwrap())
     }
 }
 

@@ -12,9 +12,7 @@ public protocol ScopeAttrable {
     @discardableResult
     func scope(_ value: ScopeType) -> Self
     @discardableResult
-    func scope(_ value: State<ScopeType>) -> Self
-    @discardableResult
-    func scope<V>(_ expressable: ExpressableState<V, ScopeType>) -> Self
+    func scope<S>(_ value: S) -> Self where S: StateConvertible, S.Value == ScopeType
 }
 
 protocol _ScopeAttrable: _AnyElement, ScopeAttrable {}
@@ -22,7 +20,7 @@ protocol _ScopeAttrable: _AnyElement, ScopeAttrable {}
 extension ScopeAttrable {
     /// Defines the cells that the header test (defined in the th element) relates to.
     ///
-    /// Applicable to <th>
+    /// Applicable to `<th>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_scope.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension ScopeAttrable {
     
     /// Defines the cells that the header test (defined in the th element) relates to.
     ///
-    /// Applicable to <th>
+    /// Applicable to `<th>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_scope.asp)
     @discardableResult
-    public func scope(_ value: State<ScopeType>) -> Self {
-        value.listen { self.scope($0) }
+    public func scope<S>(_ value: S) -> Self where S: StateConvertible, S.Value == ScopeType {
+        scope(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.scope($0) }
         return self
-    }
-    
-    /// Defines the cells that the header test (defined in the th element) relates to.
-    ///
-    /// Applicable to <th>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_scope.asp)
-    @discardableResult
-    public func scope<V>(_ expressable: ExpressableState<V, ScopeType>) -> Self {
-        scope(expressable.unwrap())
     }
 }
 

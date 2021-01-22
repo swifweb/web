@@ -12,9 +12,7 @@ public protocol LabelAttrable {
     @discardableResult
     func label(_ value: String) -> Self
     @discardableResult
-    func label(_ value: State<String>) -> Self
-    @discardableResult
-    func label<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func label<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _LabelAttrable: _AnyElement, LabelAttrable {}
@@ -22,7 +20,7 @@ protocol _LabelAttrable: _AnyElement, LabelAttrable {}
 extension LabelAttrable {
     /// Specifies a user-readable title of the element.
     ///
-    /// Applicable to <optgroup>, <option>, <track>
+    /// Applicable to `<optgroup>`, `<option>`, `<track>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_label.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension LabelAttrable {
     
     /// Specifies a user-readable title of the element.
     ///
-    /// Applicable to <optgroup>, <option>, <track>
+    /// Applicable to `<optgroup>`, `<option>`, `<track>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_label.asp)
     @discardableResult
-    public func label(_ value: State<String>) -> Self {
-        value.listen { self.label($0) }
+    public func label<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        label(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.label($0) }
         return self
-    }
-    
-    /// Specifies a user-readable title of the element.
-    ///
-    /// Applicable to <optgroup>, <option>, <track>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_label.asp)
-    @discardableResult
-    public func label<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        label(expressable.unwrap())
     }
 }
 

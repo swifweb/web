@@ -12,9 +12,7 @@ public protocol SrcSetAttrable {
     @discardableResult
     func srcSet(_ value: String) -> Self
     @discardableResult
-    func srcSet(_ value: State<String>) -> Self
-    @discardableResult
-    func srcSet<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func srcSet<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _SrcSetAttrable: _AnyElement, SrcSetAttrable {}
@@ -22,7 +20,7 @@ protocol _SrcSetAttrable: _AnyElement, SrcSetAttrable {}
 extension SrcSetAttrable {
     /// The srcset attribute specifies the URL of the image to use in different situations.
     ///
-    /// Applicable to <img>, <source>
+    /// Applicable to `<img>`, `<source>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_source_srcset.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension SrcSetAttrable {
     
     /// The srcset attribute specifies the URL of the image to use in different situations.
     ///
-    /// Applicable to <img>, <source>
+    /// Applicable to `<img>`, `<source>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_source_srcset.asp)
     @discardableResult
-    public func srcSet(_ value: State<String>) -> Self {
-        value.listen { self.srcSet($0) }
+    public func srcSet<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        srcSet(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.srcSet($0) }
         return self
-    }
-    
-    /// The srcset attribute specifies the URL of the image to use in different situations.
-    ///
-    /// Applicable to <img>, <source>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_source_srcset.asp)
-    @discardableResult
-    public func srcSet<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        srcSet(expressable.unwrap())
     }
 }
 

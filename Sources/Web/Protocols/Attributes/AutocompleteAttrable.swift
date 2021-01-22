@@ -12,9 +12,7 @@ public protocol AutocompleteAttrable {
     @discardableResult
     func autocomplete(_ value: AutocompleteType) -> Self
     @discardableResult
-    func autocomplete(_ value: State<AutocompleteType>) -> Self
-    @discardableResult
-    func autocomplete<V>(_ expressable: ExpressableState<V, AutocompleteType>) -> Self
+    func autocomplete<S>(_ value: S) -> Self where S: StateConvertible, S.Value == AutocompleteType
 }
 
 protocol _AutocompleteAttrable: _AnyElement, AutocompleteAttrable {}
@@ -22,7 +20,7 @@ protocol _AutocompleteAttrable: _AnyElement, AutocompleteAttrable {}
 extension AutocompleteAttrable {
     /// Indicates whether controls in this form can by default have their values automatically completed by the browser.
     ///
-    /// Applicable to <form>, <input>, <select>, <textarea>
+    /// Applicable to `<form>`, `<input>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
     @discardableResult
@@ -34,23 +32,14 @@ extension AutocompleteAttrable {
     
     /// Indicates whether controls in this form can by default have their values automatically completed by the browser.
     ///
-    /// Applicable to <form>, <input>, <select>, <textarea>
+    /// Applicable to `<form>`, `<input>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
     @discardableResult
-    public func autocomplete(_ value: State<AutocompleteType>) -> Self {
-        value.listen { self.autocomplete($0) }
+    public func autocomplete<S>(_ value: S) -> Self where S: StateConvertible, S.Value == AutocompleteType {
+        autocomplete(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.autocomplete($0) }
         return self
-    }
-    
-    /// Indicates whether controls in this form can by default have their values automatically completed by the browser.
-    ///
-    /// Applicable to <form>, <input>, <select>, <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
-    @discardableResult
-    public func autocomplete<V>(_ expressable: ExpressableState<V, AutocompleteType>) -> Self {
-        autocomplete(expressable.unwrap())
     }
 }
 

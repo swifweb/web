@@ -12,9 +12,7 @@ public protocol DraggableAttrable {
     @discardableResult
     func draggable(_ value: Bool) -> Self
     @discardableResult
-    func draggable(_ value: State<Bool>) -> Self
-    @discardableResult
-    func draggable<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func draggable<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _DraggableAttrable: _AnyElement, DraggableAttrable {}
@@ -34,17 +32,10 @@ extension DraggableAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/draggable)
     @discardableResult
-    public func draggable(_ value: State<Bool>) -> Self {
-        value.listen { self.draggable($0) }
+    public func draggable<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        draggable(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.draggable($0) }
         return self
-    }
-    
-    /// Defines whether the element can be dragged.
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/draggable)
-    @discardableResult
-    public func draggable<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        draggable(expressable.unwrap())
     }
 }
 

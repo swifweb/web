@@ -12,9 +12,7 @@ public protocol AutofocusAttrable {
     @discardableResult
     func autofocus(_ value: Bool) -> Self
     @discardableResult
-    func autofocus(_ value: State<Bool>) -> Self
-    @discardableResult
-    func autofocus<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func autofocus<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
 }
 
 protocol _AutofocusAttrable: _AnyElement, AutofocusAttrable {}
@@ -22,7 +20,7 @@ protocol _AutofocusAttrable: _AnyElement, AutofocusAttrable {}
 extension AutofocusAttrable {
     /// The element should be automatically focused after the page loaded.
     ///
-    /// Applicable to <button>, <input>, <keygen>, <select>, <textarea>
+    /// Applicable to `<button>`, `<input>`, `<keygen>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautofocus)
     @discardableResult
@@ -34,23 +32,14 @@ extension AutofocusAttrable {
     
     /// The element should be automatically focused after the page loaded.
     ///
-    /// Applicable to <button>, <input>, <keygen>, <select>, <textarea>
+    /// Applicable to `<button>`, `<input>`, `<keygen>`, `<select>`, `<textarea>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautofocus)
     @discardableResult
-    public func autofocus(_ value: State<Bool>) -> Self {
-        value.listen { self.autofocus($0) }
+    public func autofocus<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        autofocus(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.autofocus($0) }
         return self
-    }
-    
-    /// The element should be automatically focused after the page loaded.
-    ///
-    /// Applicable to <button>, <input>, <select>, <textarea>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautofocus)
-    @discardableResult
-    public func autofocus<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        autofocus(expressable.unwrap())
     }
 }
 

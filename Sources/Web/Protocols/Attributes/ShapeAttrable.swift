@@ -12,9 +12,7 @@ public protocol ShapeAttrable {
     @discardableResult
     func shape(_ value: ShapeType) -> Self
     @discardableResult
-    func shape(_ value: State<ShapeType>) -> Self
-    @discardableResult
-    func shape<V>(_ expressable: ExpressableState<V, ShapeType>) -> Self
+    func shape<S>(_ value: S) -> Self where S: StateConvertible, S.Value == ShapeType
 }
 
 protocol _ShapeAttrable: _AnyElement, ShapeAttrable {}
@@ -22,7 +20,7 @@ protocol _ShapeAttrable: _AnyElement, ShapeAttrable {}
 extension ShapeAttrable {
     /// The shape of the associated hot spot.
     ///
-    /// Applicable to <a>, <area>
+    /// Applicable to `<a>`, `<area>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/area)
     @discardableResult
@@ -34,23 +32,14 @@ extension ShapeAttrable {
     
     /// The shape of the associated hot spot.
     ///
-    /// Applicable to <a>, <area>
+    /// Applicable to `<a>`, `<area>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/area)
     @discardableResult
-    public func shape(_ value: State<ShapeType>) -> Self {
-        value.listen { self.shape($0) }
+    public func shape<S>(_ value: S) -> Self where S: StateConvertible, S.Value == ShapeType {
+        shape(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.shape($0) }
         return self
-    }
-    
-    /// The shape of the associated hot spot.
-    ///
-    /// Applicable to <a>, <area>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/area)
-    @discardableResult
-    public func shape<V>(_ expressable: ExpressableState<V, ShapeType>) -> Self {
-        shape(expressable.unwrap())
     }
 }
 

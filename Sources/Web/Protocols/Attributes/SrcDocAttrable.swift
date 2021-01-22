@@ -12,9 +12,7 @@ public protocol SrcDocAttrable {
     @discardableResult
     func srcDoc(_ value: String) -> Self
     @discardableResult
-    func srcDoc(_ value: State<String>) -> Self
-    @discardableResult
-    func srcDoc<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func srcDoc<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _SrcDocAttrable: _AnyElement, SrcDocAttrable {}
@@ -23,7 +21,6 @@ extension SrcDocAttrable {
     /// Assigns a slot in a shadow DOM shadow tree to an element.
     ///
     /// Points to slot name.
-    ///
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots)
     @discardableResult
@@ -37,22 +34,12 @@ extension SrcDocAttrable {
     ///
     /// Points to slot name.
     ///
-    ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots)
     @discardableResult
-    public func srcDoc(_ value: State<String>) -> Self {
-        value.listen { self.srcDoc($0) }
+    public func srcDoc<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        srcDoc(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.srcDoc($0) }
         return self
-    }
-    
-    /// Assigns a slot in a shadow DOM shadow tree to an element.
-    ///
-    /// Applicable to <iframe>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_srcdoc.asp)
-    @discardableResult
-    public func srcDoc<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        srcDoc(expressable.unwrap())
     }
 }
 

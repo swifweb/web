@@ -12,9 +12,7 @@ public protocol CharsetAttrable {
     @discardableResult
     func charset(_ value: String) -> Self
     @discardableResult
-    func charset(_ value: State<String>) -> Self
-    @discardableResult
-    func charset<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func charset<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _CharsetAttrable: _AnyElement, CharsetAttrable {}
@@ -26,7 +24,7 @@ extension CharsetAttrable {
     /// meta elements which declare a character encoding must be located
     /// entirely within the first 1024 bytes of the document.
     ///
-    /// Applicable to <meta>, <script>
+    /// Applicable to `<meta>`, `<script>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_charset.asp)
     @discardableResult
@@ -42,27 +40,14 @@ extension CharsetAttrable {
     /// meta elements which declare a character encoding must be located
     /// entirely within the first 1024 bytes of the document.
     ///
-    /// Applicable to <meta>, <script>
+    /// Applicable to `<meta>`, `<script>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_charset.asp)
     @discardableResult
-    public func charset(_ value: State<String>) -> Self {
-        value.listen { self.charset($0) }
+    public func charset<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        charset(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.charset($0) }
         return self
-    }
-    
-    /// This attribute declares the document's character encoding.
-    /// If the attribute is present, its value must be an ASCII case-insensitive match for the string "utf-8",
-    /// because UTF-8 is the only valid encoding for HTML5 documents.
-    /// meta elements which declare a character encoding must be located
-    /// entirely within the first 1024 bytes of the document.
-    ///
-    /// Applicable to <meta>, <script>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_charset.asp)
-    @discardableResult
-    public func charset<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        charset(expressable.unwrap())
     }
 }
 

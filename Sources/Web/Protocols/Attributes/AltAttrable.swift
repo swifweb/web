@@ -12,9 +12,7 @@ public protocol AltAttrable {
     @discardableResult
     func alt(_ value: String) -> Self
     @discardableResult
-    func alt(_ value: State<String>) -> Self
-    @discardableResult
-    func alt<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func alt<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _AltAttrable: _AnyElement, AltAttrable {}
@@ -22,7 +20,7 @@ protocol _AltAttrable: _AnyElement, AltAttrable {}
 extension AltAttrable {
     /// Alternative text in case an image can't be displayed.
     ///
-    /// Applicable to <area>, <img>, <input>
+    /// Applicable to `<area>`, `<img>`, `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefalt)
     @discardableResult
@@ -34,23 +32,14 @@ extension AltAttrable {
     
     /// Alternative text in case an image can't be displayed.
     ///
-    /// Applicable to <area>, <img>, <input>
+    /// Applicable to `<area>`, `<img>`, `<input>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefalt)
     @discardableResult
-    public func alt(_ value: State<String>) -> Self {
-        value.listen { self.alt($0) }
+    public func alt<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        alt(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.alt($0) }
         return self
-    }
-    
-    /// Alternative text in case an image can't be displayed.
-    ///
-    /// Applicable to <area>, <img>, <input>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefalt)
-    @discardableResult
-    public func alt<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        alt(expressable.unwrap())
     }
 }
 

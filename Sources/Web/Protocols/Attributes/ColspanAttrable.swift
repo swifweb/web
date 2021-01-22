@@ -12,9 +12,7 @@ public protocol ColspanAttrable {
     @discardableResult
     func colspan(_ value: Int) -> Self
     @discardableResult
-    func colspan(_ value: State<Int>) -> Self
-    @discardableResult
-    func colspan<V>(_ expressable: ExpressableState<V, Int>) -> Self
+    func colspan<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int
 }
 
 protocol _ColspanAttrable: _AnyElement, ColspanAttrable {}
@@ -22,7 +20,7 @@ protocol _ColspanAttrable: _AnyElement, ColspanAttrable {}
 extension ColspanAttrable {
     /// The colspan attribute defines the number of columns a cell should span.
     ///
-    /// Applicable to <td>, <th>
+    /// Applicable to `<td>`, `<th>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/colspan)
     @discardableResult
@@ -34,23 +32,14 @@ extension ColspanAttrable {
     
     /// The colspan attribute defines the number of columns a cell should span.
     ///
-    /// Applicable to <td>, <th>
+    /// Applicable to `<td>`, `<th>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/colspan)
     @discardableResult
-    public func colspan(_ value: State<Int>) -> Self {
-        value.listen { self.colspan($0) }
+    public func colspan<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int {
+        colspan(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.colspan($0) }
         return self
-    }
-    
-    /// The colspan attribute defines the number of columns a cell should span.
-    ///
-    /// Applicable to <td>, <th>
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/colspan)
-    @discardableResult
-    public func colspan<V>(_ expressable: ExpressableState<V, Int>) -> Self {
-        colspan(expressable.unwrap())
     }
 }
 

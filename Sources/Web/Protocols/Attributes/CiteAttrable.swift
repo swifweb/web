@@ -10,11 +10,9 @@ import JavaScriptKit
 
 public protocol CiteAttrable {
     @discardableResult
-    func cite(_ value: URLConformable) -> Self
+    func cite<U: URLConformable>(_ value: U) -> Self
     @discardableResult
-    func cite(_ value: State<URLConformable>) -> Self
-    @discardableResult
-    func cite<V>(_ expressable: ExpressableState<V, URLConformable>) -> Self
+    func cite<S>(_ value: S) -> Self where S: StateConvertible, S.Value: URLConformable
 }
 
 protocol _CiteAttrable: _AnyElement, CiteAttrable {}
@@ -22,11 +20,11 @@ protocol _CiteAttrable: _AnyElement, CiteAttrable {}
 extension CiteAttrable {
     /// Contains a URI which points to the source of the quote or change.
     ///
-    /// Applicable to <blockquote>, <del>, <ins>, <q>
+    /// Applicable to `<blockquote>`, `<del>`, `<ins>`, `<q>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_cite.asp)
     @discardableResult
-    public func cite(_ value: URLConformable) -> Self {
+    public func cite<U: URLConformable>(_ value: U) -> Self {
         guard let s = self as? _CiteAttrable else { return self }
         s.domElement.cite = value.stringValue.jsValue()
         return self
@@ -34,23 +32,14 @@ extension CiteAttrable {
     
     /// Contains a URI which points to the source of the quote or change.
     ///
-    /// Applicable to <blockquote>, <del>, <ins>, <q>
+    /// Applicable to `<blockquote>`, `<del>`, `<ins>`, `<q>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_cite.asp)
     @discardableResult
-    public func cite(_ value: State<URLConformable>) -> Self {
-        value.listen { self.cite($0) }
+    public func cite<S>(_ value: S) -> Self where S: StateConvertible, S.Value: URLConformable {
+        cite(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.cite($0) }
         return self
-    }
-    
-    /// Contains a URI which points to the source of the quote or change.
-    ///
-    /// Applicable to <blockquote>, <del>, <ins>, <q>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_cite.asp)
-    @discardableResult
-    public func cite<V>(_ expressable: ExpressableState<V, URLConformable>) -> Self {
-        cite(expressable.unwrap())
     }
 }
 

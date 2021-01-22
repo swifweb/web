@@ -12,23 +12,17 @@ public protocol ValueAttrable {
     @discardableResult
     func value(_ value: Bool) -> Self
     @discardableResult
-    func value(_ value: State<Bool>) -> Self
-    @discardableResult
-    func value<V>(_ expressable: ExpressableState<V, Bool>) -> Self
+    func value<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
     
     @discardableResult
     func value(_ value: Double) -> Self
     @discardableResult
-    func value(_ value: State<Double>) -> Self
-    @discardableResult
-    func value<V>(_ expressable: ExpressableState<V, Double>) -> Self
+    func value<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double
     
     @discardableResult
     func value(_ value: String) -> Self
     @discardableResult
-    func value(_ value: State<String>) -> Self
-    @discardableResult
-    func value<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func value<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _ValueAttrable: _AnyElement, ValueAttrable {}
@@ -36,7 +30,7 @@ protocol _ValueAttrable: _AnyElement, ValueAttrable {}
 extension ValueAttrable {
     /// Defines a default value which will be displayed in the element on page load.
     ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    /// Applicable to `<button>`, `<data>`, `<input>`, `<li>`, `<meter>`, `<option>`, `<progress>`, `<param>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
@@ -48,28 +42,19 @@ extension ValueAttrable {
     
     /// Defines a default value which will be displayed in the element on page load.
     ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    /// Applicable to `<button>`, `<data>`, `<input>`, `<li>`, `<meter>`, `<option>`, `<progress>`, `<param>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
-    public func value(_ value: State<Bool>) -> Self {
-        value.listen { self.value($0) }
+    public func value<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        self.value(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.value($0) }
         return self
     }
     
     /// Defines a default value which will be displayed in the element on page load.
     ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
-    @discardableResult
-    public func value<V>(_ expressable: ExpressableState<V, Bool>) -> Self {
-        value(expressable.unwrap())
-    }
-    
-    /// Defines a default value which will be displayed in the element on page load.
-    ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    /// Applicable to `<button>`, `<data>`, `<input>`, `<li>`, `<meter>`, `<option>`, `<progress>`, `<param>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
@@ -81,28 +66,19 @@ extension ValueAttrable {
     
     /// Defines a default value which will be displayed in the element on page load.
     ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    /// Applicable to `<button>`, `<data>`, `<input>`, `<li>`, `<meter>`, `<option>`, `<progress>`, `<param>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
-    public func value(_ value: State<Double>) -> Self {
-        value.listen { self.value($0) }
+    public func value<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double {
+        self.value(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.value($0) }
         return self
     }
     
     /// Defines a default value which will be displayed in the element on page load.
     ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
-    @discardableResult
-    public func value<V>(_ expressable: ExpressableState<V, Double>) -> Self {
-        value(expressable.unwrap())
-    }
-    
-    /// Defines a default value which will be displayed in the element on page load.
-    ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    /// Applicable to `<button>`, `<data>`, `<input>`, `<li>`, `<meter>`, `<option>`, `<progress>`, `<param>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
@@ -114,23 +90,14 @@ extension ValueAttrable {
     
     /// Defines a default value which will be displayed in the element on page load.
     ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
+    /// Applicable to `<button>`, `<data>`, `<input>`, `<li>`, `<meter>`, `<option>`, `<progress>`, `<param>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
-    public func value(_ value: State<String>) -> Self {
-        value.listen { self.value($0) }
+    public func value<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        self.value(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.value($0) }
         return self
-    }
-    
-    /// Defines a default value which will be displayed in the element on page load.
-    ///
-    /// Applicable to <button>, <data>, <input>, <li>, <meter>, <option>, <progress>, <param>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_value.asp)
-    @discardableResult
-    public func value<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        value(expressable.unwrap())
     }
 }
 

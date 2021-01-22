@@ -12,9 +12,7 @@ public protocol StartAttrable {
     @discardableResult
     func start(_ value: Int) -> Self
     @discardableResult
-    func start(_ value: State<Int>) -> Self
-    @discardableResult
-    func start<V>(_ expressable: ExpressableState<V, Int>) -> Self
+    func start<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int
 }
 
 protocol _StartAttrable: _AnyElement, StartAttrable {}
@@ -22,7 +20,7 @@ protocol _StartAttrable: _AnyElement, StartAttrable {}
 extension StartAttrable {
     /// Defines the first number if other than 1.
     ///
-    /// Applicable to <ol>
+    /// Applicable to `<ol>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_start.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension StartAttrable {
     
     /// Defines the first number if other than 1.
     ///
-    /// Applicable to <ol>
+    /// Applicable to `<ol>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_start.asp)
     @discardableResult
-    public func start(_ value: State<Int>) -> Self {
-        value.listen { self.start($0) }
+    public func start<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int {
+        start(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.start($0) }
         return self
-    }
-    
-    /// Defines the first number if other than 1.
-    ///
-    /// Applicable to <ol>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_start.asp)
-    @discardableResult
-    public func start<V>(_ expressable: ExpressableState<V, Int>) -> Self {
-        start(expressable.unwrap())
     }
 }
 

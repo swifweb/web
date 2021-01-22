@@ -12,9 +12,7 @@ public protocol LowAttrable {
     @discardableResult
     func low(_ value: Double) -> Self
     @discardableResult
-    func low(_ value: State<Double>) -> Self
-    @discardableResult
-    func low<V>(_ expressable: ExpressableState<V, Double>) -> Self
+    func low<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double
 }
 
 protocol _LowAttrable: _AnyElement, LowAttrable {}
@@ -22,7 +20,7 @@ protocol _LowAttrable: _AnyElement, LowAttrable {}
 extension LowAttrable {
     /// Indicates the upper bound of the lower range.
     ///
-    /// Applicable to <meter>
+    /// Applicable to `<meter>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_low.asp)
     @discardableResult
@@ -34,23 +32,14 @@ extension LowAttrable {
     
     /// Indicates the upper bound of the lower range.
     ///
-    /// Applicable to <meter>
+    /// Applicable to `<meter>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_low.asp)
     @discardableResult
-    public func low(_ value: State<Double>) -> Self {
-        value.listen { self.low($0) }
+    public func low<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Double {
+        low(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.low($0) }
         return self
-    }
-    
-    /// Indicates the upper bound of the lower range.
-    ///
-    /// Applicable to <meter>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_low.asp)
-    @discardableResult
-    public func low<V>(_ expressable: ExpressableState<V, Double>) -> Self {
-        low(expressable.unwrap())
     }
 }
 

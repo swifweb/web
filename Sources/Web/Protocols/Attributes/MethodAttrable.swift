@@ -12,9 +12,7 @@ public protocol MethodAttrable {
     @discardableResult
     func method(_ value: MethodType) -> Self
     @discardableResult
-    func method(_ value: State<MethodType>) -> Self
-    @discardableResult
-    func method<V>(_ expressable: ExpressableState<V, MethodType>) -> Self
+    func method<S>(_ value: S) -> Self where S: StateConvertible, S.Value == MethodType
 }
 
 protocol _MethodAttrable: _AnyElement, MethodAttrable {}
@@ -23,7 +21,7 @@ extension MethodAttrable {
     /// Defines which HTTP method to use when submitting the form.
     /// Can be GET (default) or POST.
     ///
-    /// Applicable to <form>
+    /// Applicable to `<form>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_method.asp)
     @discardableResult
@@ -36,24 +34,14 @@ extension MethodAttrable {
     /// Defines which HTTP method to use when submitting the form.
     /// Can be GET (default) or POST.
     ///
-    /// Applicable to <form>
+    /// Applicable to `<form>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_method.asp)
     @discardableResult
-    public func method(_ value: State<MethodType>) -> Self {
-        value.listen { self.method($0) }
+    public func method<S>(_ value: S) -> Self where S: StateConvertible, S.Value == MethodType {
+        method(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.method($0) }
         return self
-    }
-    
-    /// Defines which HTTP method to use when submitting the form.
-    /// Can be GET (default) or POST.
-    ///
-    /// Applicable to <form>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_method.asp)
-    @discardableResult
-    public func method<V>(_ expressable: ExpressableState<V, MethodType>) -> Self {
-        method(expressable.unwrap())
     }
 }
 

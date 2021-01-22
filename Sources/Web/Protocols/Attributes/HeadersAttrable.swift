@@ -12,17 +12,15 @@ public protocol HeadersAttrable {
     @discardableResult
     func headers(_ value: String) -> Self
     @discardableResult
-    func headers(_ value: State<String>) -> Self
-    @discardableResult
-    func headers<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func headers<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _HeadersAttrable: _AnyElement, HeadersAttrable {}
 
 extension HeadersAttrable {
-    /// IDs of the <th> elements which applies to this element.
+    /// IDs of the `<th>` elements which applies to this element.
     ///
-    /// Applicable to <td>, <th>
+    /// Applicable to `<td>`, `<th>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_headers.asp)
     @discardableResult
@@ -32,25 +30,16 @@ extension HeadersAttrable {
         return self
     }
     
-    /// IDs of the <th> elements which applies to this element.
+    /// IDs of the `<th>` elements which applies to this element.
     ///
-    /// Applicable to <td>, <th>
+    /// Applicable to `<td>`, `<th>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_headers.asp)
     @discardableResult
-    public func headers(_ value: State<String>) -> Self {
-        value.listen { self.headers($0) }
+    public func headers<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        headers(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.headers($0) }
         return self
-    }
-    
-    /// IDs of the <th> elements which applies to this element.
-    ///
-    /// Applicable to <td>, <th>
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_headers.asp)
-    @discardableResult
-    public func headers<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        headers(expressable.unwrap())
     }
 }
 

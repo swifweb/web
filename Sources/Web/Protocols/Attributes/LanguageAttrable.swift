@@ -12,9 +12,7 @@ public protocol LanguageAttrable {
     @discardableResult
     func language(_ value: String) -> Self
     @discardableResult
-    func language(_ value: State<String>) -> Self
-    @discardableResult
-    func language<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func language<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _LanguageAttrable: _AnyElement, LanguageAttrable {}
@@ -22,7 +20,7 @@ protocol _LanguageAttrable: _AnyElement, LanguageAttrable {}
 extension LanguageAttrable {
     /// Defines the script language used in the element.
     ///
-    /// Applicable to <script>
+    /// Applicable to `<script>`
     @discardableResult
     public func language(_ value: String) -> Self {
         guard let s = self as? _LanguageAttrable else { return self }
@@ -32,19 +30,12 @@ extension LanguageAttrable {
     
     /// Defines the script language used in the element.
     ///
-    /// Applicable to <script>
+    /// Applicable to `<script>`
     @discardableResult
-    public func language(_ value: State<String>) -> Self {
-        value.listen { self.language($0) }
+    public func language<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        language(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.language($0) }
         return self
-    }
-    
-    /// Defines the script language used in the element.
-    ///
-    /// Applicable to <script>
-    @discardableResult
-    public func language<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        language(expressable.unwrap())
     }
 }
 

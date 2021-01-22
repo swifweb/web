@@ -12,9 +12,7 @@ public protocol SummaryAttrable {
     @discardableResult
     func summary(_ value: String) -> Self
     @discardableResult
-    func summary(_ value: State<String>) -> Self
-    @discardableResult
-    func summary<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func summary<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
 }
 
 protocol _SummaryAttrable: _AnyElement, SummaryAttrable {}
@@ -26,7 +24,7 @@ extension SummaryAttrable {
     ///
     /// This attribute can be used by screen readers
     ///
-    /// Applicable to <table>
+    /// Applicable to `<table>`
     ///
     /// [More info →](http://w3schools.sinsixx.com/tags/att_table_summary.asp.htm)
     @discardableResult
@@ -42,27 +40,14 @@ extension SummaryAttrable {
     ///
     /// This attribute can be used by screen readers
     ///
-    /// Applicable to <table>
+    /// Applicable to `<table>`
     ///
     /// [More info →](http://w3schools.sinsixx.com/tags/att_table_summary.asp.htm)
     @discardableResult
-    public func summary(_ value: State<String>) -> Self {
-        value.listen { self.summary($0) }
+    public func summary<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        summary(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.summary($0) }
         return self
-    }
-    
-    /// The summary attribute specifies a summary of the content of a table.
-    ///
-    /// The summary attribute makes no visual difference in ordinary web browsers.
-    ///
-    /// This attribute can be used by screen readers
-    ///
-    /// Applicable to <table>
-    ///
-    /// [More info →](http://w3schools.sinsixx.com/tags/att_table_summary.asp.htm)
-    @discardableResult
-    public func summary<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        summary(expressable.unwrap())
     }
 }
 
