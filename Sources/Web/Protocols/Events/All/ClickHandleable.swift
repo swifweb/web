@@ -358,7 +358,11 @@ public class InputEvent: UIEvent {
     override init (_ event: JSValue) {
         data = event.data.string ?? ""
         dataTransfer = DataTransferObject(event.dataTransfer)
-        inputType = InputType(rawValue: event.inputType.string ?? "") ?? .unknown
+        if event.inputType.isUndefined || event.inputType.isNull {
+            inputType = .unknown
+        } else {
+            inputType = InputType(rawValue: event.inputType.string ?? "") ?? .unknown
+        }
         isComposing = event.isComposing.boolean ?? false
         super.init(event)
     }
