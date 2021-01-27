@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AcceptAttrable {
     @discardableResult
@@ -30,7 +29,7 @@ extension AcceptAttrable {
     @discardableResult
     private func accept(value: String) -> Self {
         guard let s = self as? _AcceptAttrable else { return self }
-        s.domElement.accept = value.jsValue()
+        s.setAttribute("accept", value)
         return self
     }
     

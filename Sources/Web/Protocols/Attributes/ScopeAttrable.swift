@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ScopeAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ScopeAttrable {
     @discardableResult
     public func scope(_ value: ScopeType) -> Self {
         guard let s = self as? _ScopeAttrable else { return self }
-        s.domElement.scope = value.value.jsValue()
+        s.setAttribute("scope", value.value)
         return self
     }
     

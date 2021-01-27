@@ -28,6 +28,7 @@ extension WheelHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onwheel.asp)
     @discardableResult
     public func onWheel(_ handler: @escaping (WheelEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _WheelHandleable else { return self }
         s.wheelClosure?.release()
         s.wheelClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension WheelHandleable {
         }
         s.domElement.onwheel = s.wheelClosure.jsValue()
         s.wheelHandler = handler
+        #endif
         return self
     }
     

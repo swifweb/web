@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AutofocusAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension AutofocusAttrable {
     @discardableResult
     public func autofocus(_ value: Bool) -> Self {
         guard let s = self as? _AutofocusAttrable else { return self }
-        s.domElement.autofocus = value.jsValue()
+        s.setAttribute("autofocus", value, .short)
         return self
     }
     

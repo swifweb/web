@@ -125,12 +125,24 @@ open class CSSRule: RulesContent, _CSSRulable {
     
     func set(_ key: String, _ value: String) {
         _properties[key] = value
+        #if arch(wasm32)
         domElement?.style.object?[key] = value.jsValue()
+        #else
+//        previewLiveView.executeJS("""
+//        document.getElementById('\(self.uid)').style.\(key) = '\(value)';
+//        """)
+        #endif
     }
     
     func remove(_ key: String) {
         _properties.removeValue(forKey: key)
+        #if arch(wasm32)
         domElement?.style.object?[key] = JSValue.null
+        #else
+//        previewLiveView.executeJS("""
+//        document.getElementById('\(self.uid)').style.\(key) = null;
+//        """)
+        #endif
     }
     
     // MARK: _CSSRulable

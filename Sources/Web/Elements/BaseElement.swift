@@ -17,7 +17,11 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
     
     let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789=")
 
+    #if !arch(wasm32)
     var subElements: [_AnyElement] = []
+    var styles: [String: String] = [:]
+    var attributes: [String: String] = [:]
+    #endif
     
     var rootElement: JSValue?
     var domElement: JSValue
@@ -38,7 +42,9 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
     }
     
     func postInit() {
+        #if arch(wasm32)
         domElement.id = uid.jsValue()
+        #endif
     }
     
     func didAddToDOM() {}
@@ -145,18 +151,44 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
     }
     
     func removeFromSuperview() {
+        #if arch(wasm32)
         guard let rootElement = rootElement else { return }
         rootElement.removeChild.function?.callAsFunction(this: rootElement.object, domElement)
         self.rootElement = nil
+        #else
+        
+        #endif
     }
     
     // MARK: _CSSRulable
     
     func _removeProperty(_ key: String) {
+        #if arch(wasm32)
         domElement.style.object?[key] = .null
+        #else
+        switch previewMode {
+        case .static:
+            styles.removeValue(forKey: key)
+        case .dynamic:
+            previewLiveView.executeJS("""
+            document.getElementById('\(uid)').style.\(key) = null;
+            """)
+        }
+        #endif
     }
     
     func _setProperty(_ key: String, _ value: String) {
+        #if arch(wasm32)
         domElement.style.object?[key] = value.jsValue()
+        #else
+        switch previewMode {
+        case .static:
+            styles[key] = value
+        case .dynamic:
+            previewLiveView.executeJS("""
+            document.getElementById('\(uid)').style.\(key) = '\(value)';
+            """)
+        }
+        #endif
     }
 }

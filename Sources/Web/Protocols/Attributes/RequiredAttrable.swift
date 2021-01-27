@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol RequiredAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension RequiredAttrable {
     @discardableResult
     public func required(_ value: Bool) -> Self {
         guard let s = self as? _RequiredAttrable else { return self }
-        s.domElement.required = value.jsValue()
+        s.setAttribute("required", value, .long)
         return self
     }
     

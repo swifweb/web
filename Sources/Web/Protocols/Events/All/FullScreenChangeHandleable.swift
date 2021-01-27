@@ -28,6 +28,7 @@ extension FullScreenChangeHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_fullscreenchange.asp)
     @discardableResult
     public func onFullScreenChange(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _FullScreenChangeHandleable else { return self }
         s.fullScreenChangeClosure?.release()
         s.fullScreenChangeClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension FullScreenChangeHandleable {
         }
         s.domElement.onfullscreenchange = s.fullScreenChangeClosure.jsValue()
         s.fullScreenChangeHandler = handler
+        #endif
         return self
     }
     

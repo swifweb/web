@@ -28,6 +28,7 @@ extension FocusOutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onfocusout.asp)
     @discardableResult
     public func onFocusOut(_ handler: @escaping (FocusEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _FocusOutHandleable else { return self }
         s.focusOutClosure?.release()
         s.focusOutClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension FocusOutHandleable {
         }
         s.domElement.onfocusout = s.focusOutClosure.jsValue()
         s.focusOutHandler = handler
+        #endif
         return self
     }
     

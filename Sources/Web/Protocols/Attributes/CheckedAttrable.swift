@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol CheckedAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension CheckedAttrable {
     @discardableResult
     public func checked(_ value: Bool) -> Self {
         guard let s = self as? _CheckedAttrable else { return self }
-        s.domElement.checked = value.jsValue()
+        s.setAttribute("checked", value, .short)
         return self
     }
     

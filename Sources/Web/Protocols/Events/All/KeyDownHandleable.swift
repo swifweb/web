@@ -28,6 +28,7 @@ extension KeyDownHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeydown.asp)
     @discardableResult
     public func onKeyDown(_ handler: @escaping (KeyboardEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _KeyDownHandleable else { return self }
         s.keyDownClosure?.release()
         s.keyDownClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension KeyDownHandleable {
         }
         s.domElement.onkeydown = s.keyDownClosure.jsValue()
         s.keyDownHandler = handler
+        #endif
         return self
     }
     

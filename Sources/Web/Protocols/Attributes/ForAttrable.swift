@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ForAttrable {
     @discardableResult
@@ -34,7 +33,7 @@ extension ForAttrable {
     @discardableResult
     public func `for`(_ values: [String]) -> Self {
         guard let s = self as? _ForAttrable else { return self }
-        s.domElement.for = values.joined(separator: " ").jsValue()
+        s.setAttribute("for", values.joined(separator: " "))
         return self
     }
     

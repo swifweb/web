@@ -38,7 +38,7 @@ open class InputList: BaseActiveElement, _ChangeHandleable, _InvalidHandleable, 
     public required init() {
         super.init()
         subscribeToChanges()
-        domElement.type = "list".jsValue()
+        setAttribute("type", "list")
     }
 }
 

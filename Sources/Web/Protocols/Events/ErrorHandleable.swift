@@ -28,6 +28,7 @@ extension ErrorHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onerror.asp)
     @discardableResult
     public func onError(_ handler: @escaping (ProgressEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ErrorHandleable else { return self }
         s.errorClosure?.release()
         s.errorClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension ErrorHandleable {
         }
         s.domElement.onerror = s.errorClosure.jsValue()
         s.errorHandler = handler
+        #endif
         return self
     }
     

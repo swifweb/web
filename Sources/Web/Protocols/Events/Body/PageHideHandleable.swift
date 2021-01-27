@@ -28,6 +28,7 @@ extension PageHideHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onpagehide.asp)
     @discardableResult
     public func onPageHide(_ handler: @escaping (PageTransitionEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _PageHideHandleable else { return self }
         s.pageHideClosure?.release()
         s.pageHideClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension PageHideHandleable {
         }
         s.domElement.onpagehide = s.pageHideClosure.jsValue()
         s.pageHideHandler = handler
+        #endif
         return self
     }
     

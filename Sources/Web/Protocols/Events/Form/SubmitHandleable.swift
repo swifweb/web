@@ -28,6 +28,7 @@ extension SubmitHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onsubmit.asp)
     @discardableResult
     public func onSubmit(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _SubmitHandleable else { return self }
         s.submitClosure?.release()
         s.submitClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension SubmitHandleable {
         }
         s.domElement.onsubmit = s.submitClosure.jsValue()
         s.submitHandler = handler
+        #endif
         return self
     }
     

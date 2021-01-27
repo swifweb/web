@@ -28,6 +28,7 @@ extension MouseOutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseout.asp)
     @discardableResult
     public func onMouseOut(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _MouseOutHandleable else { return self }
         s.mouseOutClosure?.release()
         s.mouseOutClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension MouseOutHandleable {
         }
         s.domElement.onmouseout = s.mouseOutClosure.jsValue()
         s.mouseOutHandler = handler
+        #endif
         return self
     }
     

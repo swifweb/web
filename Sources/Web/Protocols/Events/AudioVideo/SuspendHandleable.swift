@@ -28,6 +28,7 @@ extension SuspendHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onsuspend.asp)
     @discardableResult
     public func onSuspend(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _SuspendHandleable else { return self }
         s.suspendClosure?.release()
         s.suspendClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension SuspendHandleable {
         }
         s.domElement.onsuspend = s.suspendClosure.jsValue()
         s.suspendHandler = handler
+        #endif
         return self
     }
     

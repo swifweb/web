@@ -28,6 +28,7 @@ extension KeyUpHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeyup.asp)
     @discardableResult
     public func onKeyUp(_ handler: @escaping (KeyboardEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _KeyUpHandleable else { return self }
         s.keyUpClosure?.release()
         s.keyUpClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension KeyUpHandleable {
         }
         s.domElement.onkeyup = s.keyUpClosure.jsValue()
         s.keyUpHandler = handler
+        #endif
         return self
     }
     

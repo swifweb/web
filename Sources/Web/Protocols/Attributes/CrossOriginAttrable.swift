@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol CrossOriginAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension CrossOriginAttrable {
     @discardableResult
     public func crossOrigin(_ value: CrossOriginType) -> Self {
         guard let s = self as? _CrossOriginAttrable else { return self }
-        s.domElement.crossorigin = value.value.jsValue()
+        s.setAttribute("crossorigin", value.value)
         return self
     }
     

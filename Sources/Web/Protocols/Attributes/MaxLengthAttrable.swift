@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol MaxLengthAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension MaxLengthAttrable {
     @discardableResult
     public func maxlength(_ value: UInt) -> Self {
         guard let s = self as? _MaxLengthAttrable else { return self }
-        s.domElement.maxlength = value.jsValue()
+        s.setAttribute("maxlength", value)
         return self
     }
     

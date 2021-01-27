@@ -11,6 +11,9 @@ import JavaScriptKit
 open class BaseContentElement: BaseElement, _BaseContentElementable {
     required public init() {
         super.init()
+        #if !arch(wasm32)
+        appendChild(self)
+        #endif
     }
     
     public override init(in document: Document) {
@@ -30,4 +33,6 @@ open class BaseContentElement: BaseElement, _BaseContentElementable {
     @BodyBuilder open var body: BodyBuilder.Content { EBContent(bodyBuilderContent: .none) }
     
     open func buildUI() {}
+    
+    var __innerText: String = ""
 }

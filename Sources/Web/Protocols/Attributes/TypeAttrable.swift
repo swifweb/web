@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol TypeAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension TypeAttrable {
     @discardableResult
     public func type(_ value: String) -> Self {
         guard let s = self as? _TypeAttrable else { return self }
-        s.domElement.type = value.jsValue()
+        s.setAttribute("type", value)
         return self
     }
     

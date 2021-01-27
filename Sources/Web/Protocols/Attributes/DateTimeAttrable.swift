@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol DateTimeAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension DateTimeAttrable {
     @discardableResult
     public func dateTime(_ value: String) -> Self {
         guard let s = self as? _DateTimeAttrable else { return self }
-        s.domElement.datetime = value.jsValue()
+        s.setAttribute("datetime", value)
         return self
     }
     

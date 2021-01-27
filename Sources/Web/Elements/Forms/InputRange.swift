@@ -63,21 +63,21 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _
         super.init()
         subscribeToChanges()
         subscribeToInput()
-        domElement.type = "range".jsValue()
+        setAttribute("type", "range")
     }
     
     public required convenience init(_ value: Double) {
         self.init()
-        domElement.innerText = value.jsValue()
+        setAttribute("value", value)
         self.value = value
     }
     
     public required convenience init(_ value: State<Double>) {
         self.init()
-        domElement.innerText = value.wrappedValue.jsValue()
+        setAttribute("value", value.wrappedValue)
         _value.wrappedValue = value.wrappedValue
-        _value.merge(with: value, rightChanged: { new in
-            self.domElement.value = "\(new)".jsValue()
+        _value.merge(with: value, rightChanged: { [weak self] in
+            self?.setAttribute("value", $0)
         })
     }
     
@@ -88,7 +88,7 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _
     /// where n defaults to 1 if not specified, and step defaults
     /// to the default value for step if not specified.
     public func stepUp(_ multiplier: Double) {
-        domElement.stepUp.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
+        callFunction("stepUp", args: multiplier)
         _updateStateWithValue()
     }
     public func stepUp() { stepUp(1) }
@@ -99,7 +99,7 @@ open class InputRange: BaseActiveElement, _ChangeHandleable, _InputHandleable, _
     /// decrements the value by (step * n), where n defaults to 1 if not specified,
     /// and step defaults to the default value for step if not specified.
     public func stepDown(_ multiplier: Double) {
-        domElement.stepDown.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
+        callFunction("stepDown", args: multiplier)
         _updateStateWithValue()
     }
     public func stepDown() { stepDown(1) }

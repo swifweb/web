@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol HighAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension HighAttrable {
     @discardableResult
     public func high(_ value: Double) -> Self {
         guard let s = self as? _HighAttrable else { return self }
-        s.domElement.high = value.jsValue()
+        s.setAttribute("high", value)
         return self
     }
     

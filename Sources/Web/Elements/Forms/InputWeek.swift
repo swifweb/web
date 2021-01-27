@@ -64,27 +64,27 @@ open class InputWeek: BaseActiveElement, _StringInitializable, _ChangeHandleable
         super.init()
         subscribeToChanges()
         subscribeToInput()
-        domElement.type = "week".jsValue()
-        domElement.value = text.jsValue()
+        setAttribute("type", "week")
+        setAttribute("value", text)
     }
     
     public required convenience init(_ value: String) {
         self.init()
-        domElement.value = value.jsValue()
+        setAttribute("value", value)
         self.text = value
-        _text.listen {
-            self.domElement.value = $0.jsValue()
+        _text.listen { [weak self] in
+            self?.setAttribute("value", $0)
         }
     }
     
     public required convenience init(_ value: State<String>) {
         self.init()
-        domElement.value = value.wrappedValue.jsValue()
+        setAttribute("value", value.wrappedValue)
         _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { new in
-            self.domElement.value = new.jsValue()
-        }, rightChanged: { new in
-            self.domElement.value = new.jsValue()
+        _text.merge(with: value, leftChanged: { [weak self] in
+            self?.setAttribute("value", $0)
+        }, rightChanged: { [weak self] in
+            self?.setAttribute("value", $0)
         })
     }
     
@@ -95,7 +95,7 @@ open class InputWeek: BaseActiveElement, _StringInitializable, _ChangeHandleable
     /// where n defaults to 1 if not specified, and step defaults
     /// to the default value for step if not specified.
     public func stepUp(_ multiplier: Int = 1) {
-        domElement.stepUp.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
+        callFunction("stepUp", args: multiplier)
     }
     
     /// This method decrements the value of a numeric type of `<input>` element
@@ -104,7 +104,7 @@ open class InputWeek: BaseActiveElement, _StringInitializable, _ChangeHandleable
     /// decrements the value by (step * n), where n defaults to 1 if not specified,
     /// and step defaults to the default value for step if not specified.
     public func stepDown(_ multiplier: Int = 1) {
-        domElement.stepDown.function?.callAsFunction(this: domElement.object, multiplier.jsValue())
+        callFunction("stepDown", args: multiplier)
     }
 }
 

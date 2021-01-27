@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol RowSpanAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension RowSpanAttrable {
     @discardableResult
     public func rowSpan(_ value: Int) -> Self {
         guard let s = self as? _RowSpanAttrable else { return self }
-        s.domElement.rowSpan = value.jsValue()
+        s.setAttribute("rowSpan", value)
         return self
     }
     

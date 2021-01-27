@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol InputModeAttrable {
     @discardableResult
@@ -29,7 +28,7 @@ extension InputModeAttrable {
     @discardableResult
     public func inputMode(_ value: InputTextType) -> Self {
         guard let s = self as? _InputModeAttrable else { return self }
-        s.domElement.inputmode = value.value.jsValue()
+        s.setAttribute("inputmode", value.value)
         return self
     }
     

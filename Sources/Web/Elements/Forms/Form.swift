@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias WForm = Form
+
 /// The HTML `<form>` element represents a document section containing interactive controls for submitting information.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)
@@ -28,11 +30,11 @@ open class Form: BaseActiveElement, _ResetHandleable, _ScrollHandleable, _Submit
     
     /// Resets the values of all elements in a form (same as clicking the Reset button).
     public func reset() {
-        domElement.reset.function?.callAsFunction(this: domElement.object)
+        callFunction("reset")
     }
     
     /// Submits the form (same as clicking the Submit button).
     public func submit() {
-        domElement.submit.function?.callAsFunction(this: domElement.object)
+        callFunction("submit")
     }
 }

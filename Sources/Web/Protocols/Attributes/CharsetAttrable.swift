@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol CharsetAttrable {
     @discardableResult
@@ -30,7 +29,7 @@ extension CharsetAttrable {
     @discardableResult
     public func charset(_ value: String) -> Self {
         guard let s = self as? _CharsetAttrable else { return self }
-        s.domElement.charset = value.jsValue()
+        s.setAttribute("charset", value)
         return self
     }
     

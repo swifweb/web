@@ -23,27 +23,27 @@ open class InputHidden: BaseActiveElement {
     
     public required init() {
         super.init()
-        domElement.type = "hidden".jsValue()
-        domElement.value = value.jsValue()
+        setAttribute("type", "hidden")
+        setAttribute("value", value)
     }
     
     public required convenience init(_ value: String) {
         self.init()
-        domElement.value = value.jsValue()
+        setAttribute("value", value)
         self.value = value
-        _value.listen {
-            self.domElement.value = $0.jsValue()
+        _value.listen { [weak self] in
+            self?.setAttribute("value", $0)
         }
     }
     
     public required convenience init(_ value: State<String>) {
         self.init()
-        domElement.value = value.wrappedValue.jsValue()
+        setAttribute("value", value.wrappedValue)
         _value.wrappedValue = value.wrappedValue
-        _value.merge(with: value, leftChanged: { new in
-            self.domElement.value = new.jsValue()
-        }, rightChanged: { new in
-            self.domElement.value = new.jsValue()
+        _value.merge(with: value, leftChanged: { [weak self] in
+            self?.setAttribute("value", $0)
+        }, rightChanged: { [weak self] in
+            self?.setAttribute("value", $0)
         })
     }
 }

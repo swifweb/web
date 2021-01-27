@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol OpenAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension OpenAttrable {
     @discardableResult
     public func open(_ value: Bool) -> Self {
         guard let s = self as? _OpenAttrable else { return self }
-        s.domElement.open = value.jsValue()
+        s.setAttribute("open", value, .short)
         return self
     }
     

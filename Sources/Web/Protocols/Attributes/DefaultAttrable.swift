@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol DefaultAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension DefaultAttrable {
     @discardableResult
     public func `default`(_ value: Bool) -> Self {
         guard let s = self as? _DefaultAttrable else { return self }
-        s.domElement.default = value.jsValue()
+        s.setAttribute("default", value, .short)
         return self
     }
     

@@ -13,7 +13,7 @@ public class Document: AnyElement {
     
     public let window: Window
     
-    let domElement = JSObject.global.document
+    let domElement: JSValue
     
     var scripts: [(Script, JSValue)] = []
     
@@ -24,14 +24,28 @@ public class Document: AnyElement {
     
     lazy var titleElement = Title(in: self)
     
+    #if arch(wasm32)
     public lazy var head = Head(domElement: domElement.head)
     public lazy var body = Body(domElement: domElement.body)
+    #else
+    public lazy var head = Head(domElement: JSValue(""))
+    public lazy var body = Body(domElement: JSValue(""))
+    #endif
     
     func createElement(_ name: String) -> JSValue {
-        domElement.createElement(name)
+        #if arch(wasm32)
+        return domElement.createElement(name)
+        #else
+        return JSValue.init(stringLiteral: "")
+        #endif
     }
     
     init (_ window: Window) {
+        #if arch(wasm32)
+        domElement = JSObject.global.document
+        #else
+        domElement = JSValue("")
+        #endif
         self.window = window
         setupTitle()
         window.$isInForeground.merge(with: $isInForeground)
@@ -53,7 +67,9 @@ public class Document: AnyElement {
     }
     
     func updateVisibility() {
+        #if arch(wasm32)
         isVisible = domElement.visibilityState.string == "visible"
+        #endif
     }
     
 //    func append(_ script: Script) {

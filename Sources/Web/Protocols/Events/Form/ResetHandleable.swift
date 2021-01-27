@@ -28,6 +28,7 @@ extension ResetHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onreset.asp)
     @discardableResult
     public func onReset(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ResetHandleable else { return self }
         s.resetClosure?.release()
         s.resetClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension ResetHandleable {
         }
         s.domElement.onreset = s.resetClosure.jsValue()
         s.resetHandler = handler
+        #endif
         return self
     }
     

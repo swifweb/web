@@ -28,6 +28,7 @@ extension MouseMoveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmousemove.asp)
     @discardableResult
     public func onMouseMove(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _MouseMoveHandleable else { return self }
         s.mouseMoveClosure?.release()
         s.mouseMoveClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension MouseMoveHandleable {
         }
         s.domElement.onmousemove = s.mouseMoveClosure.jsValue()
         s.mouseMoveHandler = handler
+        #endif
         return self
     }
     

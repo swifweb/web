@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol IntegrityAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension IntegrityAttrable {
     @discardableResult
     public func integrity(_ value: String) -> Self {
         guard let s = self as? _IntegrityAttrable else { return self }
-        s.domElement.integrity = value.jsValue()
+        s.setAttribute("integrity", value)
         return self
     }
     

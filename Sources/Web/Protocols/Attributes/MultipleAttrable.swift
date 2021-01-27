@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol MultipleAttrable {
     @discardableResult
@@ -20,13 +19,13 @@ protocol _MultipleAttrable: _AnyElement, MultipleAttrable {}
 extension MultipleAttrable {
     /// Indicates whether multiple values can be entered in an input of the type email or file.
     ///
-    /// Applicable to <input>, <select>
+    /// Applicable to `<input>`, `<select>`
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
     @discardableResult
     public func multiple(_ value: Bool) -> Self {
         guard let s = self as? _MultipleAttrable else { return self }
-        s.domElement.multiple = value.jsValue()
+        s.setAttribute("multiple", value, .short)
         return self
     }
     

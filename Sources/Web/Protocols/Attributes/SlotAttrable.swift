@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol SlotAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension SlotAttrable {
     @discardableResult
     public func slot(_ value: String) -> Self {
         guard let s = self as? _SlotAttrable else { return self }
-        s.domElement.slot = value.jsValue()
+        s.setAttribute("slot", value)
         return self
     }
     

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol SpanAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension SpanAttrable {
     @discardableResult
     public func span(_ value: Int) -> Self {
         guard let s = self as? _SpanAttrable else { return self }
-        s.domElement.span = value.jsValue()
+        s.setAttribute("span", value)
         return self
     }
     

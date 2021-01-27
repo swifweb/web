@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol DirAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension DirAttrable {
     @discardableResult
     public func dir(_ value: DirType) -> Self {
         guard let s = self as? _DirAttrable else { return self }
-        s.domElement.dir = value.value.jsValue()
+        s.setAttribute("dir", value.value)
         return self
     }
     

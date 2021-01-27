@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol MutedAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension MutedAttrable {
     @discardableResult
     public func muted(_ value: Bool) -> Self {
         guard let s = self as? _MutedAttrable else { return self }
-        s.domElement.muted = value.jsValue()
+        s.setAttribute("muted", value, .short)
         return self
     }
     

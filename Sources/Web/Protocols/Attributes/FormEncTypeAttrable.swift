@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol FormEncTypeAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension FormEncTypeAttrable {
     @discardableResult
     public func formEncType(_ value: EncType) -> Self {
         guard let s = self as? _EncTypeAttrable else { return self }
-        s.domElement.formenctype = value.value.jsValue()
+        s.setAttribute("formenctype", value.value)
         return self
     }
     

@@ -28,6 +28,7 @@ extension OfflineHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onoffline.asp)
     @discardableResult
     public func onOffline(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _OfflineHandleable else { return self }
         s.offlineClosure?.release()
         s.offlineClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension OfflineHandleable {
         }
         s.domElement.onoffline = s.offlineClosure.jsValue()
         s.offlineHandler = handler
+        #endif
         return self
     }
     

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol EncTypeAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension EncTypeAttrable {
     @discardableResult
     public func encType(_ value: EncType) -> Self {
         guard let s = self as? _EncTypeAttrable else { return self }
-        s.domElement.enctype = value.value.jsValue()
+        s.setAttribute("enctype", value.value)
         return self
     }
     

@@ -28,6 +28,7 @@ extension FocusHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onfocus.asp)
     @discardableResult
     public func onFocus(_ handler: @escaping (FocusEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _FocusHandleable else { return self }
         s.focusClosure?.release()
         s.focusClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension FocusHandleable {
         }
         s.domElement.onfocus = s.focusClosure.jsValue()
         s.focusHandler = handler
+        #endif
         return self
     }
     

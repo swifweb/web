@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol NameAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension NameAttrable {
     @discardableResult
     public func name(_ value: String) -> Self {
         guard let s = self as? _NameAttrable else { return self }
-        s.domElement.name = value.jsValue()
+        s.setAttribute("name", value)
         return self
     }
     

@@ -21,7 +21,11 @@ open class TextArea: BaseActiveElement, _ChangeHandleable, _InputHandleable, _Sc
     
     /// Convenience getter
     var _value: String? {
-        domElement.value.string
+        #if arch(wasm32)
+        return domElement.value.string
+        #else
+        return nil
+        #endif
     }
     
     func _updateStateWithValue() {
@@ -59,27 +63,27 @@ open class TextArea: BaseActiveElement, _ChangeHandleable, _InputHandleable, _Sc
         super.init()
         subscribeToChanges()
         subscribeToInput()
-        domElement.type = "text".jsValue()
-        domElement.value = text.jsValue()
+        setAttribute("type", "text")
+        setAttribute("value", text)
     }
     
     public required convenience init(_ value: String) {
         self.init()
-        domElement.value = value.jsValue()
+        setAttribute("value", value)
         self.text = value
-        _text.listen {
-            self.domElement.value = $0.jsValue()
+        _text.listen { [weak self] in
+            self?.setAttribute("value", $0)
         }
     }
     
     public required convenience init(_ value: State<String>) {
         self.init()
-        domElement.value = value.wrappedValue.jsValue()
+        setAttribute("value", value.wrappedValue)
         _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { new in
-            self.domElement.value = new.jsValue()
-        }, rightChanged: { new in
-            self.domElement.value = new.jsValue()
+        _text.merge(with: value, leftChanged: { [weak self] in
+            self?.setAttribute("value", $0)
+        }, rightChanged: { [weak self] in
+            self?.setAttribute("value", $0)
         })
     }
 }

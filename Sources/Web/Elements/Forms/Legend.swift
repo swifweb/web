@@ -22,10 +22,10 @@ open class Legend: BaseActiveElement, _StringInitializable {
         self.init()
         self.value = value.wrappedValue
         _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { new in
-            self.value = new
-        }, rightChanged: { new in
-            self.value = new
+        _text.merge(with: value, leftChanged: { [weak self] in
+            self?.value = $0
+        }, rightChanged: { [weak self] in
+            self?.value = $0
         })
     }
 }

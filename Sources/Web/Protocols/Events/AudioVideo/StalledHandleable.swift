@@ -28,6 +28,7 @@ extension StalledHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onstalled.asp)
     @discardableResult
     public func onStalled(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _StalledHandleable else { return self }
         s.stalledClosure?.release()
         s.stalledClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension StalledHandleable {
         }
         s.domElement.onstalled = s.stalledClosure.jsValue()
         s.stalledHandler = handler
+        #endif
         return self
     }
     

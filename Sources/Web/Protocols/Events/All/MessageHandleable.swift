@@ -34,6 +34,7 @@ extension MessageHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmessage_sse.asp)
     @discardableResult
     public func onMessage(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _MessageHandleable else { return self }
         s.messageClosure?.release()
         s.messageClosure = JSClosure { event in
@@ -41,6 +42,7 @@ extension MessageHandleable {
         }
         s.domElement.onmessage = s.messageClosure.jsValue()
         s.messageHandler = handler
+        #endif
         return self
     }
     

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol DisabledAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension DisabledAttrable {
     @discardableResult
     public func disabled(_ value: Bool) -> Self {
         guard let s = self as? _DisabledAttrable else { return self }
-        s.domElement.disabled = value.jsValue()
+        s.setAttribute("disabled", value, .short)
         return self
     }
     

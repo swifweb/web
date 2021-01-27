@@ -39,11 +39,6 @@ extension SelectionRangeable {
     ///   - selectionDirection: Indicating the direction in which the selection is considered to have been performed.
     public func setSelectionRange(selectionStart: Int, selectionEnd: Int, selectionDirection: SelectionDirection? = nil) {
         guard let s = self as? _SelectionRangeable else { return }
-        s.domElement.setSelectionRange.function?.callAsFunction(
-            this: s.domElement.object,
-            selectionStart.jsValue(),
-            selectionEnd.jsValue(),
-            selectionDirection?.rawValue.jsValue()
-        )
+        s.callFunction("setSelectionRange", args: selectionStart, selectionEnd, selectionDirection?.rawValue)
     }
 }

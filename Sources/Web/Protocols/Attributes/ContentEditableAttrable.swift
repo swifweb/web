@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ContentEditableAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension ContentEditableAttrable {
     @discardableResult
     public func contentEditable(_ value: Bool) -> Self {
         guard let s = self as? _ContentEditableAttrable else { return self }
-        s.domElement.contentEditable = value.jsValue()
+        s.setAttribute("contentEditable", value, .full)
         return self
     }
     

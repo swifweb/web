@@ -43,7 +43,11 @@ public final class Location: StateChangeable, Equatable {
     @State public private(set) var search = ""
     
     init () {
+        #if arch(wasm32)
         domElement = JSObject.global[domElementName]
+        #else
+        domElement = JSValue("")
+        #endif
         update()
         listenStates()
     }
@@ -63,6 +67,7 @@ public final class Location: StateChangeable, Equatable {
     
     func update() {
         manualUpdateStarted()
+        #if arch(wasm32)
         hash = domElement.hash.string ?? ""
         host = domElement.host.string ?? ""
         hostname = domElement.hostname.string ?? ""
@@ -72,6 +77,7 @@ public final class Location: StateChangeable, Equatable {
         port = domElement.port.string ?? ""
         `protocol` = domElement.protocol.string ?? ""
         search = domElement.search.string ?? ""
+        #endif
         manualUpdateFinished()
     }
     

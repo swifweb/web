@@ -28,6 +28,7 @@ extension FullScreenErrorHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_fullscreenerror.asp)
     @discardableResult
     public func onFullScreenError(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _FullScreenErrorHandleable else { return self }
         s.fullScreenErrorClosure?.release()
         s.fullScreenErrorClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension FullScreenErrorHandleable {
         }
         s.domElement.onfullscreenerror = s.fullScreenErrorClosure.jsValue()
         s.fullScreenErrorHandler = handler
+        #endif
         return self
     }
     

@@ -28,6 +28,7 @@ extension MouseUpHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseup.asp)
     @discardableResult
     public func onMouseUp(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _MouseUpHandleable else { return self }
         s.mouseUpClosure?.release()
         s.mouseUpClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension MouseUpHandleable {
         }
         s.domElement.onmouseup = s.mouseUpClosure.jsValue()
         s.mouseUpHandler = handler
+        #endif
         return self
     }
     

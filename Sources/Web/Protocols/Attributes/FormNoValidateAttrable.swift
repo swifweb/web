@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol FormNoValidateAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension FormNoValidateAttrable {
     @discardableResult
     public func formNoValidate(_ value: Bool) -> Self {
         guard let s = self as? _FormNoValidateAttrable else { return self }
-        s.domElement.formnovalidate = value.jsValue()
+        s.setAttribute("formnovalidate", value, .short)
         return self
     }
     

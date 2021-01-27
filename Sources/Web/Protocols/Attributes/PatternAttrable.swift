@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol PatternAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension PatternAttrable {
     @discardableResult
     public func pattern(_ value: String) -> Self {
         guard let s = self as? _PatternAttrable else { return self }
-        s.domElement.pattern = value.jsValue()
+        s.setAttribute("pattern", value)
         return self
     }
     

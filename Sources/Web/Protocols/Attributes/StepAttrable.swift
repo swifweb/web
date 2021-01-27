@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol StepAttrable {
     @discardableResult
@@ -29,7 +28,7 @@ extension StepAttrable {
     @discardableResult
     public func step(_ value: Double) -> Self {
         guard let s = self as? _StepAttrable else { return self }
-        s.domElement.step = value.jsValue()
+        s.setAttribute("step", value)
         return self
     }
     

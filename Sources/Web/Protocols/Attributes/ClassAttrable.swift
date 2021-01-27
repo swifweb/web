@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ClassAttrable {
     @discardableResult
@@ -28,7 +27,7 @@ extension ClassAttrable {
     @discardableResult
     private func `class`(value: String) -> Self {
         guard let s = self as? _ClassAttrable else { return self }
-        s.domElement.class = value.jsValue()
+        s.setAttribute("class", value)
         return self
     }
     

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol CiteAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension CiteAttrable {
     @discardableResult
     public func cite<U: URLConformable>(_ value: U) -> Self {
         guard let s = self as? _CiteAttrable else { return self }
-        s.domElement.cite = value.stringValue.jsValue()
+        s.setAttribute("cite", value.stringValue)
         return self
     }
     

@@ -28,6 +28,7 @@ extension ToggleHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ontoggle.asp)
     @discardableResult
     public func onToggle(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ToggleHandleable else { return self }
         s.toggleClosure?.release()
         s.toggleClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension ToggleHandleable {
         }
         s.domElement.ontoggle = s.toggleClosure.jsValue()
         s.toggleHandler = handler
+        #endif
         return self
     }
     

@@ -28,6 +28,7 @@ extension LoadHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onload.asp)
     @discardableResult
     public func onLoad(_ handler: @escaping (UIEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _LoadHandleable else { return self }
         s.loadClosure?.release()
         s.loadClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension LoadHandleable {
         }
         s.domElement.onload = s.loadClosure.jsValue()
         s.loadHandler = handler
+        #endif
         return self
     }
     

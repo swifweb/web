@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ReversedAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ReversedAttrable {
     @discardableResult
     public func reversed(_ value: Bool) -> Self {
         guard let s = self as? _ReversedAttrable else { return self }
-        s.domElement.reversed = value.jsValue()
+        s.setAttribute("reversed", value, .short)
         return self
     }
     

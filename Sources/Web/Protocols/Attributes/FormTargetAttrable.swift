@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol FormTargetAttrable {
     @discardableResult
@@ -29,7 +28,7 @@ extension FormTargetAttrable {
     @discardableResult
     public func formTarget(_ value: TargetType) -> Self {
         guard let s = self as? _FormTargetAttrable else { return self }
-        s.domElement.formtarget = value.rawValue.jsValue()
+        s.setAttribute("formtarget", value.rawValue)
         return self
     }
     

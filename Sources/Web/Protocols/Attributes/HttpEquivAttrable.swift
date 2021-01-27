@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol HttpEquivAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension HttpEquivAttrable {
     @discardableResult
     public func httpEquiv(_ value: String) -> Self {
         guard let s = self as? _HttpEquivAttrable else { return self }
-        s.domElement.httpequiv = value.jsValue()
+        s.setAttribute("httpequiv", value)
         return self
     }
     

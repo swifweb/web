@@ -28,6 +28,7 @@ extension VolumeChangeHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onvolumechange.asp)
     @discardableResult
     public func onVolumeChange(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _VolumeChangeHandleable else { return self }
         s.volumeChangeClosure?.release()
         s.volumeChangeClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension VolumeChangeHandleable {
         }
         s.domElement.onvolumechange = s.volumeChangeClosure.jsValue()
         s.volumeChangeHandler = handler
+        #endif
         return self
     }
     

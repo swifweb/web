@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ItemPropAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension ItemPropAttrable {
     @discardableResult
     public func itemprop(_ value: String) -> Self {
         guard let s = self as? _ItemPropAttrable else { return self }
-        s.domElement.itemprop = value.jsValue()
+        s.setAttribute("itemprop", value)
         return self
     }
     

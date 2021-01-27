@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol MethodAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension MethodAttrable {
     @discardableResult
     public func method(_ value: MethodType) -> Self {
         guard let s = self as? _MethodAttrable else { return self }
-        s.domElement.method = value.value.jsValue()
+        s.setAttribute("method", value.value)
         return self
     }
     

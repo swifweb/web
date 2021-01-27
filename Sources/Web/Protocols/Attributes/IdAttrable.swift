@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol IdAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension IdAttrable {
     @discardableResult
     public func id(_ value: String) -> Self {
         guard let s = self as? _IdAttrable else { return self }
-        s.domElement.id = value.jsValue()
+        s.setAttribute("id", value)
         return self
     }
     

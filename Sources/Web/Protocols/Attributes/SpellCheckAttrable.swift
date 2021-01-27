@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol SpellCheckAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension SpellCheckAttrable {
     @discardableResult
     public func spellcheck(_ value: Bool) -> Self {
         guard let s = self as? _SpellCheckAttrable else { return self }
-        s.domElement.spellcheck = value.jsValue()
+        s.setAttribute("spellcheck", value, .full)
         return self
     }
     

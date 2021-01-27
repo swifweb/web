@@ -28,6 +28,7 @@ extension AnimationStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_animationstart.asp)
     @discardableResult
     public func onAnimationStart(_ handler: @escaping (AnimationEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _AnimationStartHandleable else { return self }
         s.animationStartClosure?.release()
         s.animationStartClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension AnimationStartHandleable {
         }
         s.domElement.onanimationstart = s.animationStartClosure.jsValue()
         s.animationStartHandler = handler
+        #endif
         return self
     }
     

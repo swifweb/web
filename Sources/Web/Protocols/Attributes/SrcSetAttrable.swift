@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol SrcSetAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension SrcSetAttrable {
     @discardableResult
     public func srcSet(_ value: String) -> Self {
         guard let s = self as? _SrcSetAttrable else { return self }
-        s.domElement.srcset = value.jsValue()
+        s.setAttribute("srcset", value)
         return self
     }
     

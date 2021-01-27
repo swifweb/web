@@ -24,8 +24,14 @@ class EventListener {
     private let object, event: String
     
     deinit {
+        #if arch(wasm32)
         JSObject.global[object].object!["removeEventListener"].function!.callAsFunction(event, closure)
         closure.release()
+        #else
+        previewLiveView.executeJS("""
+        \(object).removeEventListener('\(event)')
+        """)
+        #endif
     }
     
     @discardableResult
@@ -69,6 +75,10 @@ class EventListener {
         self.closure = .init(self.handler)
         self.object = object
         self.event = event
+        #if arch(wasm32)
         JSObject.global[object].object!["addEventListener"].function!.callAsFunction(event, closure)
+        #else
+        // TOSO: preview todo
+        #endif
     }
 }

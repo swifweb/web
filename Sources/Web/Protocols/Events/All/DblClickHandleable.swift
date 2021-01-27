@@ -28,6 +28,7 @@ extension DblClickHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondblclick.asp)
     @discardableResult
     public func onDblClick(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _DblClickHandleable else { return self }
         s.dblClickClosure?.release()
         s.dblClickClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension DblClickHandleable {
         }
         s.domElement.ondblclick = s.dblClickClosure.jsValue()
         s.dblClickHandler = handler
+        #endif
         return self
     }
     

@@ -28,6 +28,7 @@ extension TouchCancelHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchcancel.asp)
     @discardableResult
     public func onTouchCancel(_ handler: @escaping (TouchEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _TouchCancelHandleable else { return self }
         s.touchCancelClosure?.release()
         s.touchCancelClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension TouchCancelHandleable {
         }
         s.domElement.ontouchcancel = s.touchCancelClosure.jsValue()
         s.touchCancelHandler = handler
+        #endif
         return self
     }
     

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol TranslateAttrable {
     @discardableResult
@@ -25,7 +24,7 @@ extension TranslateAttrable {
     @discardableResult
     public func translate(_ value: Bool) -> Self {
         guard let s = self as? _TranslateAttrable else { return self }
-        s.domElement.translate = value ? "yes".jsValue() : "no".jsValue()
+        s.setAttribute("translate", value, .modern)
         return self
     }
     

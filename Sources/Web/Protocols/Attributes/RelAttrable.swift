@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol RelAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension RelAttrable {
     @discardableResult
     public func rel(_ value: RelType) -> Self {
         guard let s = self as? _RelAttrable else { return self }
-        s.domElement.rel = value.value.jsValue()
+        s.setAttribute("rel", value.value)
         return self
     }
     

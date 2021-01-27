@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol OptimumAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension OptimumAttrable {
     @discardableResult
     public func optimum(_ value: Double) -> Self {
         guard let s = self as? _OptimumAttrable else { return self }
-        s.domElement.optimum = value.jsValue()
+        s.setAttribute("optimum", value)
         return self
     }
     

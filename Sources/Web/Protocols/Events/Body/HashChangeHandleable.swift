@@ -28,6 +28,7 @@ extension HashChangeHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onhashchange.asp)
     @discardableResult
     public func onHashChange(_ handler: @escaping (HashChangeEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _HashChangeHandleable else { return self }
         s.hashChangeClosure?.release()
         s.hashChangeClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension HashChangeHandleable {
         }
         s.domElement.onhashchange = s.hashChangeClosure.jsValue()
         s.hashChangeHandler = handler
+        #endif
         return self
     }
     

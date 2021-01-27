@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol DraggableAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension DraggableAttrable {
     @discardableResult
     public func draggable(_ value: Bool) -> Self {
         guard let s = self as? _DraggableAttrable else { return self }
-        s.domElement.draggable = value.jsValue()
+        s.setAttribute("draggable", value, .full)
         return self
     }
     

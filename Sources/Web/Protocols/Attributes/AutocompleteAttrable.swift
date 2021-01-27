@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AutocompleteAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension AutocompleteAttrable {
     @discardableResult
     public func autocomplete(_ value: AutocompleteType) -> Self {
         guard let s = self as? _AutocompleteAttrable else { return self }
-        s.domElement.autocapitalize = value.value.jsValue()
+        s.setAttribute("autocapitalize", value.value)
         return self
     }
     

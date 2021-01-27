@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ColsAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ColsAttrable {
     @discardableResult
     public func cols(_ value: Int) -> Self {
         guard let s = self as? _ColsAttrable else { return self }
-        s.domElement.cols = value.jsValue()
+        s.setAttribute("cols", value)
         return self
     }
     

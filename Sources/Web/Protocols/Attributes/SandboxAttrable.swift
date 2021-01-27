@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol SandboxAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension SandboxAttrable {
     @discardableResult
     public func sandbox(_ value: Bool) -> Self {
         guard let s = self as? _SandboxAttrable else { return self }
-        s.domElement.sandbox = value.jsValue()
+        s.setAttribute("sandbox", value, .short)
         return self
     }
     

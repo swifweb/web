@@ -29,6 +29,7 @@ extension LoadedDataHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onloadeddata.asp)
     @discardableResult
     public func onLoadedData(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _LoadedDataHandleable else { return self }
         s.loadedDataClosure?.release()
         s.loadedDataClosure = JSClosure { event in
@@ -36,6 +37,7 @@ extension LoadedDataHandleable {
         }
         s.domElement.onloadeddata = s.loadedDataClosure.jsValue()
         s.loadedDataHandler = handler
+        #endif
         return self
     }
     

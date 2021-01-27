@@ -15,10 +15,10 @@ open class OptGroup: BaseActiveElement {
     
     public required convenience init(_ label: String) {
         self.init()
-        domElement.label = label.jsValue()
+        setAttribute("label", label)
         self.label = label
-        _label.listen {
-            self.domElement.label = $0.jsValue()
+        _label.listen { [weak self] in
+            self?.setAttribute("label", $0)
         }
     }
     
@@ -31,10 +31,10 @@ open class OptGroup: BaseActiveElement {
         self.init()
         self.label = label.wrappedValue
         _label.wrappedValue = label.wrappedValue
-        _label.merge(with: label, leftChanged: { new in
-            self.domElement.label = new.jsValue()
-        }, rightChanged: { new in
-            self.domElement.label = new.jsValue()
+        _label.merge(with: label, leftChanged: { [weak self] in
+            self?.setAttribute("label", $0)
+        }, rightChanged: { [weak self] in
+            self?.setAttribute("label", $0)
         })
     }
     

@@ -122,6 +122,7 @@ public class Window: EventListenerCompatibleObject {
     }
     
     func setup() {
+        #if arch(wasm32)
         isOnline = navigator.onLine
         $isOnline.listenOnlyIfChanged { self.navigator.onLine = $0 }
         darkModeDetector = DarkModeDetector { self.isDark = $0 }
@@ -143,6 +144,7 @@ public class Window: EventListenerCompatibleObject {
             case false: notifyEnterBackground()
             }
         }
+        #endif
     }
     
     /// `storage` event handler

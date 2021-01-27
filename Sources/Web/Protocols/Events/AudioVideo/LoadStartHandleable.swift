@@ -29,6 +29,7 @@ extension LoadStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onloadstart.asp)
     @discardableResult
     public func onLoadStart(_ handler: @escaping (ProgressEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _LoadStartHandleable else { return self }
         s.loadStartClosure?.release()
         s.loadStartClosure = JSClosure { event in
@@ -36,6 +37,7 @@ extension LoadStartHandleable {
         }
         s.domElement.onloadstart = s.loadStartClosure.jsValue()
         s.loadStartHandler = handler
+        #endif
         return self
     }
     

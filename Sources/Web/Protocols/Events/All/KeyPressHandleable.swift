@@ -28,6 +28,7 @@ extension KeyPressHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeypress.asp)
     @discardableResult
     public func onKeyPress(_ handler: @escaping (KeyboardEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _KeyPressHandleable else { return self }
         s.keyPressClosure?.release()
         s.keyPressClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension KeyPressHandleable {
         }
         s.domElement.onkeypress = s.keyPressClosure.jsValue()
         s.keyPressHandler = handler
+        #endif
         return self
     }
     

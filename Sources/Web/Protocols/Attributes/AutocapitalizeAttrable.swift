@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AutocapitalizeAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension AutocapitalizeAttrable {
     @discardableResult
     public func autocapitalize(_ value: AutocapitalizeType) -> Self {
         guard let s = self as? _AutocapitalizeAttrable else { return self }
-        s.domElement.autocapitalize = value.rawValue.jsValue()
+        s.setAttribute("autocapitalize", value.rawValue)
         return self
     }
     

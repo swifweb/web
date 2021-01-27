@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AccessKeyAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension AccessKeyAttrable {
     @discardableResult
     public func accessKey(_ value: String) -> Self {
         guard let s = self as? _AccessKeyAttrable else { return self }
-        s.domElement.accessKey = value.jsValue()
+        s.setAttribute("accessKey", value)
         return self
     }
     

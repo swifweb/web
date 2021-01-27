@@ -28,6 +28,7 @@ extension DragHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondrag.asp)
     @discardableResult
     public func onDrag(_ handler: @escaping (DragEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _DragHandleable else { return self }
         s.dragClosure?.release()
         s.dragClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension DragHandleable {
         }
         s.domElement.ondrag = s.dragClosure.jsValue()
         s.dragHandler = handler
+        #endif
         return self
     }
     

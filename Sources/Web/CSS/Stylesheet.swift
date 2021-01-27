@@ -21,12 +21,19 @@ open class Stylesheet: BaseElement, AppBuilderContent {
     public convenience init(@Rules content: @escaping Rules.Block) {
         self.init()
         parseRulesItem(content().rulesContent)
+        processRules()
     }
     
     @discardableResult
     public func rules(@Rules content: @escaping Rules.Block) -> Self {
         parseRulesItem(content().rulesContent)
+        processRules()
         return self
+    }
+    
+    override func postInit() {
+        super.postInit()
+        parseRulesItem(rules.rulesContent)
     }
     
     @Rules open var rules: RuleItems { _RulesContent(rulesContent: .none) }
@@ -40,17 +47,43 @@ open class Stylesheet: BaseElement, AppBuilderContent {
     }
     
     func processRules() {
-        parseRulesItem(rules.rulesContent)
         _rules.enumerated().forEach { i, rule in
             let cssText = rule.render()
+            #if arch(wasm32)
             guard let index = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number else { return }
             rule.domElement = sheet.rules.item.function?.callAsFunction(this: sheet.rules.object, Int(index))
+            #else
+            if previewMode == .dynamic {
+                previewLiveView.executeJS("""
+                let sheet = (()=> {
+                    for (let i=0; i < document.styleSheets.length; i++) {
+                        if (document.styleSheets[i].ownerNode.id == '\(self.uid)') {
+                                return document.styleSheets[i];
+                            } else {
+                                return null;
+                            }
+                        }
+                    }
+                )();
+                if (sheet) {
+                    sheet.insertRule('\(cssText)');
+                }
+                """)
+            }
+            #endif
         }
+        previewLiveView.executeJS("""
+        let div = document.createElement('div');
+        div.innerText = document.styleSheets[0].ownerNode.id;
+        document.styleSheets[0].insertRule('textarea{background-color:purple;}');
+        document.body.appendChild(div);
+        """)
     }
     
     override func didAddToDOM() {
         super.didAddToDOM()
         disabled(_disabled)
+        processRules()
     }
     
     /// Representing the advisory title of the current style sheet.
@@ -105,7 +138,25 @@ open class Stylesheet: BaseElement, AppBuilderContent {
     /// Disables stylesheet
     @discardableResult
     public func disabled(_ value: Bool) -> Self {
+        #if arch(wasm32)
         domElement.disabled = value.jsValue()
+        #else
+        previewLiveView.executeJS("""
+        let sheet = (()=> {
+            for (let i=0; i < document.styleSheets.length; i++) {
+                if (document.styleSheets[i].ownerNode.id == '\(self.uid)') {
+                        return document.styleSheets[i];
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        )();
+        if (sheet) {
+            sheet.disabled = \(value ? "true" : "false");
+        }
+        """)
+        #endif
         _disabled = value
         return self
     }

@@ -28,6 +28,7 @@ extension InvalidHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oninvalid.asp)
     @discardableResult
     public func onInvalid(_ handler: @escaping (HandledEvent, Self) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _InvalidHandleable else { return self }
         s.invalidClosure?.release()
         s.invalidClosure = JSClosure { event in
@@ -37,6 +38,7 @@ extension InvalidHandleable {
         s.invalidHandler = {
             handler($0, self)
         }
+        #endif
         return self
     }
     

@@ -28,6 +28,7 @@ extension DragStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondragstart.asp)
     @discardableResult
     public func onDragStart(_ handler: @escaping (DragEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _DragStartHandleable else { return self }
         s.dragStartClosure?.release()
         s.dragStartClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension DragStartHandleable {
         }
         s.domElement.ondragstart = s.dragStartClosure.jsValue()
         s.dragStartHandler = handler
+        #endif
         return self
     }
     

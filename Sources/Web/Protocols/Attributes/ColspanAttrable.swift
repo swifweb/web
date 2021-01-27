@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ColspanAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ColspanAttrable {
     @discardableResult
     public func colspan(_ value: Int) -> Self {
         guard let s = self as? _ColspanAttrable else { return self }
-        s.domElement.colspan = value.jsValue()
+        s.setAttribute("colspan", value)
         return self
     }
     

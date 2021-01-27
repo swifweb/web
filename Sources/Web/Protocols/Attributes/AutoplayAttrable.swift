@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AutoplayAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension AutoplayAttrable {
     @discardableResult
     public func autoplay(_ value: Bool) -> Self {
         guard let s = self as? _AutoplayAttrable else { return self }
-        s.domElement.autoplay = value.jsValue()
+        s.setAttribute("autoplay", value, .short)
         return self
     }
     

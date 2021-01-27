@@ -28,6 +28,7 @@ extension EndedHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onended.asp)
     @discardableResult
     public func onEnded(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _EndedHandleable else { return self }
         s.endedClosure?.release()
         s.endedClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension EndedHandleable {
         }
         s.domElement.onended = s.endedClosure.jsValue()
         s.endedHandler = handler
+        #endif
         return self
     }
     

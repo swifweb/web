@@ -28,6 +28,7 @@ extension BeforePrintHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onbeforeprint.asp)
     @discardableResult
     public func onBeforePrint(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _BeforePrintHandleable else { return self }
         s.beforePrintClosure?.release()
         s.beforePrintClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension BeforePrintHandleable {
         }
         s.domElement.onbeforeprint = s.beforePrintClosure.jsValue()
         s.beforePrintHandler = handler
+        #endif
         return self
     }
     

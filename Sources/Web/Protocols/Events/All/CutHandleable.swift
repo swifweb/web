@@ -28,6 +28,7 @@ extension CutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncut.asp)
     @discardableResult
     public func onCut(_ handler: @escaping (ClipboardEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _CutHandleable else { return self }
         s.cutClosure?.release()
         s.cutClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension CutHandleable {
         }
         s.domElement.oncut = s.cutClosure.jsValue()
         s.cutHandler = handler
+        #endif
         return self
     }
     

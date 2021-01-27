@@ -61,7 +61,7 @@ open class InputFile: BaseActiveElement, _ChangeHandleable, _InvalidHandleable, 
     public required init() {
         super.init()
         subscribeToChanges()
-        domElement.type = "file".jsValue()
+        setAttribute("type", "file")
     }
 }
 

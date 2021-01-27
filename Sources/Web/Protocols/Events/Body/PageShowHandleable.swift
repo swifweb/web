@@ -28,6 +28,7 @@ extension PageShowHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onpageshow.asp)
     @discardableResult
     public func onPageShow(_ handler: @escaping (PageTransitionEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _PageShowHandleable else { return self }
         s.pageShowClosure?.release()
         s.pageShowClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension PageShowHandleable {
         }
         s.domElement.onpageshow = s.pageShowClosure.jsValue()
         s.pageShowHandler = handler
+        #endif
         return self
     }
     

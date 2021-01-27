@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol EnterKeyHintAttrable {
     @discardableResult
@@ -25,7 +24,7 @@ extension EnterKeyHintAttrable {
     @discardableResult
     public func enterKeyHint(_ value: EnterKeyHintType) -> Self {
         guard let s = self as? _EnterKeyHintAttrable else { return self }
-        s.domElement.enterkeyhint = value.value.jsValue()
+        s.setAttribute("enterkeyhint", value.value)
         return self
     }
     

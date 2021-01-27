@@ -28,6 +28,7 @@ extension SelectHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onselect.asp)
     @discardableResult
     public func onSelect(_ handler: @escaping (UIEvent, Self) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _SelectHandleable else { return self }
         s.selectClosure?.release()
         s.selectClosure = JSClosure { event in
@@ -37,6 +38,7 @@ extension SelectHandleable {
         s.selectHandler = {
             handler($0, self)
         }
+        #endif
         return self
     }
     

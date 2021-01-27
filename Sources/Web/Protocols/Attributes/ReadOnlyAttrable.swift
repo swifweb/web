@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ReadOnlyAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ReadOnlyAttrable {
     @discardableResult
     public func readonly(_ value: Bool) -> Self {
         guard let s = self as? _ReadOnlyAttrable else { return self }
-        s.domElement.readonly = value.jsValue()
+        s.setAttribute("readonly", value, .long)
         return self
     }
     

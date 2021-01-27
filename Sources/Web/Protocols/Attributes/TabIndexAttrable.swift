@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol TabIndexAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension TabIndexAttrable {
     @discardableResult
     public func tabIndex(_ value: Int) -> Self {
         guard let s = self as? _TabIndexAttrable else { return self }
-        s.domElement.tabindex = value.jsValue()
+        s.setAttribute("tabindex", value)
         return self
     }
     

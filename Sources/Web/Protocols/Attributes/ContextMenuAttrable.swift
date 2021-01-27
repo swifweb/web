@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ContextMenuAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ContextMenuAttrable {
     @discardableResult
     public func contextMenu(_ value: String) -> Self {
         guard let s = self as? _ContextMenuAttrable else { return self }
-        s.domElement.contextmenu = value.jsValue()
+        s.setAttribute("contextmenu", value)
         return self
     }
     

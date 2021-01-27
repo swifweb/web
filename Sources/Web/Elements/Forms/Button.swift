@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias WButton = Button
+
 /// The HTML <button> element represents a clickable button,
 /// used to submit forms or anywhere in a document for accessible, standard button functionality.
 ///

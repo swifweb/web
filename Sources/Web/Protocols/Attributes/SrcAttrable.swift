@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol SrcAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension SrcAttrable {
     @discardableResult
     public func src<U: URLConformable>(_ value: U) -> Self {
         guard let s = self as? _SrcAttrable else { return self }
-        s.domElement.src = value.stringValue.jsValue()
+        s.setAttribute("src", value.stringValue)
         return self
     }
     

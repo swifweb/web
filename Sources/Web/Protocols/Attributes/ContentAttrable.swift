@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ContentAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ContentAttrable {
     @discardableResult
     public func content(_ value: String) -> Self {
         guard let s = self as? _ContentAttrable else { return self }
-        s.domElement.content = value.jsValue()
+        s.setAttribute("content", value)
         return self
     }
     

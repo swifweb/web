@@ -22,7 +22,11 @@ public final class History: StateChangeable, Equatable {
     @State public private(set) var state: ConvertibleToJSValue? = nil
     
     init () {
+        #if arch(wasm32)
         domElement = JSObject.global[domElementName]
+        #else
+        domElement = JSValue("")
+        #endif
         update()
         listenStates()
     }
@@ -35,7 +39,9 @@ public final class History: StateChangeable, Equatable {
     
     private func update() {
         manualUpdateStarted()
+        #if arch(wasm32)
         length = Int(domElement.length.number ?? 0)
+        #endif
         manualUpdateFinished()
     }
     

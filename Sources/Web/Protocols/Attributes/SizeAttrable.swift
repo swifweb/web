@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol SizeAttrable {
     @discardableResult
@@ -34,7 +33,7 @@ extension SizeAttrable {
     @discardableResult
     public func size(_ value: Int) -> Self {
         guard let s = self as? _SizeAttrable else { return self }
-        s.domElement.size = value.jsValue()
+        s.setAttribute("size", value)
         return self
     }
     

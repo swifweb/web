@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol HeadersAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension HeadersAttrable {
     @discardableResult
     public func headers(_ value: String) -> Self {
         guard let s = self as? _HeadersAttrable else { return self }
-        s.domElement.headers = value.jsValue()
+        s.setAttribute("headers", value)
         return self
     }
     

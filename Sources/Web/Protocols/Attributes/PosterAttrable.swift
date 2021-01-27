@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol PosterAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension PosterAttrable {
     @discardableResult
     public func poster<U: URLConformable>(_ value: U) -> Self {
         guard let s = self as? _PosterAttrable else { return self }
-        s.domElement.poster = value.stringValue.jsValue()
+        s.setAttribute("poster", value.stringValue)
         return self
     }
     

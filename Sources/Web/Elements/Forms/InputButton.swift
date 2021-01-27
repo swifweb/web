@@ -20,6 +20,6 @@ open class InputButton: BaseActiveElement {
     
     public required init() {
         super.init()
-        domElement.type = "button".jsValue()
+        setAttribute("type", "button")
     }
 }

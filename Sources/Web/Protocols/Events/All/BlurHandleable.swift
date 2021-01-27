@@ -28,6 +28,7 @@ extension BlurHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onblur.asp)
     @discardableResult
     public func onBlur(_ handler: @escaping (FocusEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _BlurHandleable else { return self }
         s.blurClosure?.release()
         s.blurClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension BlurHandleable {
         }
         s.domElement.onblur = s.blurClosure.jsValue()
         s.blurHandler = handler
+        #endif
         return self
     }
     

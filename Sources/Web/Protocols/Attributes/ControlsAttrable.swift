@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ControlsAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ControlsAttrable {
     @discardableResult
     public func controls(_ value: Bool) -> Self {
         guard let s = self as? _ControlsAttrable else { return self }
-        s.domElement.controls = value.jsValue()
+        s.setAttribute("controls", value, .short)
         return self
     }
     

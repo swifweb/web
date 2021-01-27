@@ -28,6 +28,7 @@ extension OpenHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onopen_sse.asp)
     @discardableResult
     public func onOpen(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _OpenHandleable else { return self }
         s.openClosure?.release()
         s.openClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension OpenHandleable {
         }
         s.domElement.onopen = s.openClosure.jsValue()
         s.openHandler = handler
+        #endif
         return self
     }
     

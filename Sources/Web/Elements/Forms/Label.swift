@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias WLabel = Label
+
 /// The HTML `<label>` element represents a caption for an item in a user interface.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label)
@@ -22,10 +24,10 @@ open class Label: BaseActiveElement, _StringInitializable {
         self.init()
         self.value = value.wrappedValue
         _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { new in
-            self.value = new
-        }, rightChanged: { new in
-            self.value = new
+        _text.merge(with: value, leftChanged: { [weak self] in
+            self?.value = $0
+        }, rightChanged: { [weak self] in
+            self?.value = $0
         })
     }
     

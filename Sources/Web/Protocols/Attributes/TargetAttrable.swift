@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol TargetAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension TargetAttrable {
     @discardableResult
     public func target(_ value: TargetType) -> Self {
         guard let s = self as? _TargetAttrable else { return self }
-        s.domElement.target = value.rawValue.jsValue()
+        s.setAttribute("target", value.rawValue)
         return self
     }
     

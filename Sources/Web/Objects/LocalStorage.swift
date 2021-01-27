@@ -24,7 +24,11 @@ public final class LocalStorage {
     public static var length: Int { WebApp.shared.window.localStorage.length }
     
     init () {
+        #if arch(wasm32)
         domElement = JSObject.global[domElementName]
+        #else
+        domElement = JSValue("")
+        #endif
         update()
     }
     
@@ -51,7 +55,9 @@ public final class LocalStorage {
     }
     
     private func update() {
+        #if arch(wasm32)
         length = Int(domElement.length.number ?? 0)
+        #endif
     }
     
     /// Use this method to add/update value in the storage

@@ -28,6 +28,7 @@ extension MouseDownHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmousedown.asp)
     @discardableResult
     public func onMouseDown(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _MouseDownHandleable else { return self }
         s.mouseDownClosure?.release()
         s.mouseDownClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension MouseDownHandleable {
         }
         s.domElement.onmousedown = s.mouseDownClosure.jsValue()
         s.mouseDownHandler = handler
+        #endif
         return self
     }
     

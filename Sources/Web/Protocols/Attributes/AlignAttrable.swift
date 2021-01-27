@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AlignAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension AlignAttrable {
     @discardableResult
     public func align(_ value: AlignType) -> Self {
         guard let s = self as? _AlignAttrable else { return self }
-        s.domElement.align = value.value.jsValue()
+        s.setAttribute("align", value.value)
         return self
     }
     

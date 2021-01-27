@@ -28,6 +28,7 @@ extension TouchMoveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchmove.asp)
     @discardableResult
     public func onTouchMove(_ handler: @escaping (TouchEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _TouchMoveHandleable else { return self }
         s.touchMoveClosure?.release()
         s.touchMoveClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension TouchMoveHandleable {
         }
         s.domElement.ontouchmove = s.touchMoveClosure.jsValue()
         s.touchMoveHandler = handler
+        #endif
         return self
     }
     

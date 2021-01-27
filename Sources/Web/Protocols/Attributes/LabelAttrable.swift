@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol LabelAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension LabelAttrable {
     @discardableResult
     public func label(_ value: String) -> Self {
         guard let s = self as? _LabelAttrable else { return self }
-        s.domElement.label = value.jsValue()
+        s.setAttribute("label", value)
         return self
     }
     

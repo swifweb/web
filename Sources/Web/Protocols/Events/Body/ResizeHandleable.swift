@@ -28,6 +28,7 @@ extension ResizeHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onresize.asp)
     @discardableResult
     public func onResize(_ handler: @escaping (UIEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ResizeHandleable else { return self }
         s.resizeClosure?.release()
         s.resizeClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension ResizeHandleable {
         }
         s.domElement.onresize = s.resizeClosure.jsValue()
         s.resizeHandler = handler
+        #endif
         return self
     }
     

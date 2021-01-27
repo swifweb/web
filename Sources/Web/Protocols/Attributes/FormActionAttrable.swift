@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol FormActionAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension FormActionAttrable {
     @discardableResult
     public func formAction<U: URLConformable>(_ value: U) -> Self {
         guard let s = self as? _FormActionAttrable else { return self }
-        s.domElement.formaction = value.stringValue.jsValue()
+        s.setAttribute("formaction", value.stringValue)
         return self
     }
     

@@ -26,6 +26,7 @@ extension PauseHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onpause.asp)
     @discardableResult
     public func onPause(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _PauseHandleable else { return self }
         s.pauseClosure?.release()
         s.pauseClosure = JSClosure { event in
@@ -33,6 +34,7 @@ extension PauseHandleable {
         }
         s.domElement.onpause = s.pauseClosure.jsValue()
         s.pauseHandler = handler
+        #endif
         return self
     }
     

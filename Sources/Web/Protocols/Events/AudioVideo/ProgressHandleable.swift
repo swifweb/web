@@ -28,6 +28,7 @@ extension ProgressHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onprogress.asp)
     @discardableResult
     public func onProgress(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ProgressHandleable else { return self }
         s.progressClosure?.release()
         s.progressClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension ProgressHandleable {
         }
         s.domElement.onprogress = s.progressClosure.jsValue()
         s.progressHandler = handler
+        #endif
         return self
     }
     

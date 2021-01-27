@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AltAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension AltAttrable {
     @discardableResult
     public func alt(_ value: String) -> Self {
         guard let s = self as? _AltAttrable else { return self }
-        s.domElement.alt = value.jsValue()
+        s.setAttribute("alt", value)
         return self
     }
     

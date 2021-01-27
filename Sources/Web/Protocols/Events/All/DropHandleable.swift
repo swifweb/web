@@ -28,6 +28,7 @@ extension DropHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondrop.asp)
     @discardableResult
     public func onDrop(_ handler: @escaping (DragEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _DropHandleable else { return self }
         s.dropClosure?.release()
         s.dropClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension DropHandleable {
         }
         s.domElement.ondrop = s.dropClosure.jsValue()
         s.dropHandler = handler
+        #endif
         return self
     }
     

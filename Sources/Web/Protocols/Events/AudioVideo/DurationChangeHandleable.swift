@@ -28,6 +28,7 @@ extension DurationChangeHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondurationchange.asp)
     @discardableResult
     public func onDurationChange(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _DurationChangeHandleable else { return self }
         s.durationChangeClosure?.release()
         s.durationChangeClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension DurationChangeHandleable {
         }
         s.domElement.ondurationchange = s.durationChangeClosure.jsValue()
         s.durationChangeHandler = handler
+        #endif
         return self
     }
     

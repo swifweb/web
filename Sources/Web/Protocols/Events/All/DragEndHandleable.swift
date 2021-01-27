@@ -28,6 +28,7 @@ extension DragEndHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondragend.asp)
     @discardableResult
     public func onDragEnd(_ handler: @escaping (DragEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _DragEndHandleable else { return self }
         s.dragEndClosure?.release()
         s.dragEndClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension DragEndHandleable {
         }
         s.domElement.ondragend = s.dragEndClosure.jsValue()
         s.dragEndHandler = handler
+        #endif
         return self
     }
     

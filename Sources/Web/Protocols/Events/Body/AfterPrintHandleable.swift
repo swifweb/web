@@ -28,6 +28,7 @@ extension AfterPrintHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onafterprint.asp)
     @discardableResult
     public func onAfterPrint(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _AfterPrintHandleable else { return self }
         s.afterPrintClosure?.release()
         s.afterPrintClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension AfterPrintHandleable {
         }
         s.domElement.onafterprint = s.afterPrintClosure.jsValue()
         s.afterPrintHandler = handler
+        #endif
         return self
     }
     

@@ -28,6 +28,7 @@ extension SearchHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onsearch.asp)
     @discardableResult
     public func onSearch(_ handler: @escaping (HandledEvent, Self) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _SearchHandleable else { return self }
         s.searchClosure?.release()
         s.searchClosure = JSClosure { event in
@@ -37,6 +38,7 @@ extension SearchHandleable {
         s.searchHandler = {
             handler($0, self)
         }
+        #endif
         return self
     }
     

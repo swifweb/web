@@ -28,6 +28,7 @@ extension OnlineHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ononline.asp)
     @discardableResult
     public func onOnline(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _OnlineHandleable else { return self }
         s.onlineClosure?.release()
         s.onlineClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension OnlineHandleable {
         }
         s.domElement.ononline = s.onlineClosure.jsValue()
         s.onlineHandler = handler
+        #endif
         return self
     }
     

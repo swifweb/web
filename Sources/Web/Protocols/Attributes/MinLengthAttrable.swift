@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol MinLengthAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension MinLengthAttrable {
     @discardableResult
     public func minlength(_ value: UInt) -> Self {
         guard let s = self as? _MinLengthAttrable else { return self }
-        s.domElement.minlength = value.jsValue()
+        s.setAttribute("minlength", value)
         return self
     }
     

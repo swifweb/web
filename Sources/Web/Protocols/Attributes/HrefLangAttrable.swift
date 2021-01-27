@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol HrefLangAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension HrefLangAttrable {
     @discardableResult
     public func hrefLang(_ value: String) -> Self {
         guard let s = self as? _HrefLangAttrable else { return self }
-        s.domElement.hreflang = value.jsValue()
+        s.setAttribute("hreflang", value)
         return self
     }
     

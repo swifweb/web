@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol PingAttrable {
     @discardableResult
@@ -30,7 +29,7 @@ extension PingAttrable {
     @discardableResult
     private func ping(value: URLConformable) -> Self {
         guard let s = self as? _AcceptAttrable else { return self }
-        s.domElement.ping = value.stringValue.jsValue()
+        s.setAttribute("ping", value.stringValue)
         return self
     }
     

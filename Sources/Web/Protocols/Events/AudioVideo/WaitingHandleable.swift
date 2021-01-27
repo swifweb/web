@@ -28,6 +28,7 @@ extension WaitingHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onwaiting.asp)
     @discardableResult
     public func onWaiting(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _WaitingHandleable else { return self }
         s.waitingClosure?.release()
         s.waitingClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension WaitingHandleable {
         }
         s.domElement.onwaiting = s.waitingClosure.jsValue()
         s.waitingHandler = handler
+        #endif
         return self
     }
     

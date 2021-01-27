@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ValueAttrable {
     @discardableResult
@@ -36,7 +35,7 @@ extension ValueAttrable {
     @discardableResult
     public func value(_ value: Bool) -> Self {
         guard let s = self as? _ValueAttrable else { return self }
-        s.domElement.value = value ? "true".jsValue() : "false".jsValue()
+        s.setAttribute("value", value ? "true" : "false")
         return self
     }
     
@@ -60,7 +59,7 @@ extension ValueAttrable {
     @discardableResult
     public func value(_ value: Double) -> Self {
         guard let s = self as? _ValueAttrable else { return self }
-        s.domElement.value = value.jsValue()
+        s.setAttribute("value", value)
         return self
     }
     
@@ -84,7 +83,7 @@ extension ValueAttrable {
     @discardableResult
     public func value(_ value: String) -> Self {
         guard let s = self as? _ValueAttrable else { return self }
-        s.domElement.value = value.jsValue()
+        s.setAttribute("value", value)
         return self
     }
     

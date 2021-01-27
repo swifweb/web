@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol NoValidateAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension NoValidateAttrable {
     @discardableResult
     public func noValidate(_ value: Bool) -> Self {
         guard let s = self as? _NoValidateAttrable else { return self }
-        s.domElement.novalidate = value.jsValue()
+        s.setAttribute("novalidate", value, .short)
         return self
     }
     

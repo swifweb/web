@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol PlaceholderAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension PlaceholderAttrable {
     @discardableResult
     public func placeholder(_ value: String) -> Self {
         guard let s = self as? _PlaceholderAttrable else { return self }
-        s.domElement.placeholder = value.jsValue()
+        s.setAttribute("placeholder", value)
         return self
     }
     

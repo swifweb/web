@@ -28,6 +28,7 @@ extension PasteHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onpaste.asp)
     @discardableResult
     public func onPaste(_ handler: @escaping (ClipboardEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _PasteHandleable else { return self }
         s.pasteClosure?.release()
         s.pasteClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension PasteHandleable {
         }
         s.domElement.onpaste = s.pasteClosure.jsValue()
         s.pasteHandler = handler
+        #endif
         return self
     }
     

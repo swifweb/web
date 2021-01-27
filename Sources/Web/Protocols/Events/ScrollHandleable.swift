@@ -30,6 +30,7 @@ extension ScrollHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onscroll.asp)
     @discardableResult
     public func onScroll(_ handler: @escaping (UIEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ScrollHandleable else { return self }
         s.scrollClosure?.release()
         s.scrollClosure = JSClosure { event in
@@ -37,6 +38,7 @@ extension ScrollHandleable {
         }
         s.domElement.onscroll = s.scrollClosure.jsValue()
         s.scrollHandler = handler
+        #endif
         return self
     }
     

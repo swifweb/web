@@ -55,7 +55,7 @@ open class Select: BaseActiveElement, _ChangeHandleable, _ScrollHandleable {
     public required init() {
         super.init()
         subscribeToChanges()
-        domElement.value = text.jsValue()
+        setAttribute("value", text)
     }
     
     public var value: String {
@@ -64,10 +64,10 @@ open class Select: BaseActiveElement, _ChangeHandleable, _ScrollHandleable {
     
     public required convenience init(_ value: String) {
         self.init()
-        domElement.value = value.jsValue()
+        setAttribute("value", value)
         self.text = value
-        _text.listen {
-            self.domElement.value = $0.jsValue()
+        _text.listen { [weak self] in
+            self?.setAttribute("value", $0)
         }
     }
     
@@ -78,12 +78,12 @@ open class Select: BaseActiveElement, _ChangeHandleable, _ScrollHandleable {
     
     public required convenience init(_ value: State<String>) {
         self.init()
-        domElement.value = value.wrappedValue.jsValue()
+        setAttribute("value", value.wrappedValue)
         _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { new in
-            self.domElement.value = new.jsValue()
-        }, rightChanged: { new in
-            self.domElement.value = new.jsValue()
+        _text.merge(with: value, leftChanged: { [weak self] in
+            self?.setAttribute("value", $0)
+        }, rightChanged: { [weak self] in
+            self?.setAttribute("value", $0)
         })
     }
     
@@ -93,6 +93,6 @@ open class Select: BaseActiveElement, _ChangeHandleable, _ScrollHandleable {
     }
     
     public func checkValidity() {
-        domElement.checkValidity.function?.callAsFunction(this: domElement.object)
+        callFunction("checkValidity")
     }
 }

@@ -31,6 +31,7 @@ extension AnimationEndHandleable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/animationend_event)
     @discardableResult
     public func onAnimationEnd(_ handler: @escaping (AnimationEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _AnimationEndHandleable else { return self }
         s.animationEndClosure?.release()
         s.animationEndClosure = JSClosure { event in
@@ -38,6 +39,7 @@ extension AnimationEndHandleable {
         }
         s.domElement.onanimationend = s.animationEndClosure.jsValue()
         s.animationEndHandler = handler
+        #endif
         return self
     }
     

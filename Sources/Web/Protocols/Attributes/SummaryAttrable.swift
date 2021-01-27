@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol SummaryAttrable {
     @discardableResult
@@ -30,7 +29,7 @@ extension SummaryAttrable {
     @discardableResult
     public func summary(_ value: String) -> Self {
         guard let s = self as? _SummaryAttrable else { return self }
-        s.domElement.summary = value.jsValue()
+        s.setAttribute("summary", value)
         return self
     }
     

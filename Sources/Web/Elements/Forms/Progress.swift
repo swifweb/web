@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias WProgress = Progress
+
 /// The HTML `<progress>` element displays an indicator
 /// showing the completion progress of a task, typically displayed as a progress bar.
 ///
@@ -23,31 +25,31 @@ open class Progress: BaseActiveElement {
     
     public required convenience init(_ value: Double, _ shadowText: String? = nil) {
         self.init()
-        domElement.value = value.jsValue()
+        setAttribute("value", value)
         self.value = value
-        _value.listen {
-            self.domElement.value = $0.jsValue()
+        _value.listen { [weak self] in
+            self?.setAttribute("value", $0)
         }
         let shadowText = shadowText ?? String(value)
-        domElement.innerText = shadowText.jsValue()
+        innerText = shadowText
         self.shadowText = shadowText
-        _shadowText.listen {
-            self.domElement.innerText = $0.jsValue()
+        _shadowText.listen { [weak self] in
+            self?.innerText = $0
         }
     }
     
     public required convenience init(_ value: State<Double>, _ shadowText: State<String>? = nil) {
         self.init(value.wrappedValue, shadowText?.wrappedValue)
-        _value.merge(with: value, leftChanged: { new in
-            self.domElement.value = new.jsValue()
-        }, rightChanged: { new in
-            self.domElement.value = new.jsValue()
+        _value.merge(with: value, leftChanged: { [weak self] in
+            self?.setAttribute("value", $0)
+        }, rightChanged: { [weak self] in
+            self?.setAttribute("value", $0)
         })
         if let shadowText = shadowText {
-            _shadowText.merge(with: shadowText, leftChanged: { new in
-                self.domElement.innerText = new.jsValue()
-            }, rightChanged: { new in
-                self.domElement.innerText = new.jsValue()
+            _shadowText.merge(with: shadowText, leftChanged: { [weak self] in
+                self?.innerText = $0
+            }, rightChanged: { [weak self] in
+                self?.innerText = $0
             })
         }
     }

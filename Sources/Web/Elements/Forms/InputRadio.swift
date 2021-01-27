@@ -42,26 +42,26 @@ open class InputRadio: BaseActiveElement, _ChangeHandleable, _InvalidHandleable 
     public required init() {
         super.init()
         subscribeToChanges()
-        domElement.type = "radio".jsValue()
+        setAttribute("type", "radio")
     }
     
     public required convenience init(_ checked: Bool) {
         self.init()
-        domElement.checked = checked.jsValue()
+        setAttribute("checked", checked, .short)
         self.checked = checked
-        _checked.listen {
-            self.domElement.checked = $0.jsValue()
+        _checked.listen { [weak self] in
+            self?.setAttribute("checked", $0, .short)
         }
     }
     
     public required convenience init(_ checked: State<Bool>) {
         self.init()
-        domElement.checked = checked.wrappedValue.jsValue()
+        setAttribute("checked", checked.wrappedValue, .short)
         _checked.wrappedValue = checked.wrappedValue
-        _checked.merge(with: checked, leftChanged: { new in
-            self.domElement.checked = new.jsValue()
-        }, rightChanged: { new in
-            self.domElement.checked = new.jsValue()
+        _checked.merge(with: checked, leftChanged: { [weak self] in
+            self?.setAttribute("checked", $0, .short)
+        }, rightChanged: { [weak self] in
+            self?.setAttribute("checked", $0, .short)
         })
     }
 }

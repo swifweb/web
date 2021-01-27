@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol MinAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension MinAttrable {
     @discardableResult
     public func min(_ value: Double) -> Self {
         guard let s = self as? _MinAttrable else { return self }
-        s.domElement.min = value.jsValue()
+        s.setAttribute("min", value)
         return self
     }
     
@@ -66,7 +65,7 @@ extension MinDateAttrable {
     @discardableResult
     public func min(_ value: String) -> Self {
         guard let s = self as? _MinDateAttrable else { return self }
-        s.domElement.min = value.jsValue()
+        s.setAttribute("min", value)
         return self
     }
     

@@ -28,6 +28,7 @@ extension TimeUpdateHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ontimeupdate.asp)
     @discardableResult
     public func onTimeUpdate(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _TimeUpdateHandleable else { return self }
         s.timeUpdateClosure?.release()
         s.timeUpdateClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension TimeUpdateHandleable {
         }
         s.domElement.ontimeupdate = s.timeUpdateClosure.jsValue()
         s.timeUpdateHandler = handler
+        #endif
         return self
     }
     

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol CoordsAttrable {
     @discardableResult
@@ -28,7 +27,7 @@ extension CoordsAttrable {
     @discardableResult
     private func coords(value: String) -> Self {
         guard let s = self as? _CoordsAttrable else { return self }
-        s.domElement.coords = value.jsValue()
+        s.setAttribute("coords", value)
         return self
     }
     

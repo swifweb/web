@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias WMap = Map
+
 /// The HTML <map> element is used with area elements to define an image map (a clickable link area).
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/map)

@@ -28,6 +28,7 @@ extension LoadedMetadataHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onloadedmetadata.asp)
     @discardableResult
     public func onLoadedMetadata(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _LoadedMetadataHandleable else { return self }
         s.loadedMetadataClosure?.release()
         s.loadedMetadataClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension LoadedMetadataHandleable {
         }
         s.domElement.onloadedmetadata = s.loadedMetadataClosure.jsValue()
         s.loadedMetadataHandler = handler
+        #endif
         return self
     }
     

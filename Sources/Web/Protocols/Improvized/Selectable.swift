@@ -14,6 +14,6 @@ extension Selectable {
     /// in a `<textarea>` element or in an `<input>` element that includes a text field.
     public func select() {
         guard let s = self as? _Selectable else { return }
-        s.domElement.select.function?.callAsFunction(this: s.domElement.object)
+        s.callFunction("select")
     }
 }

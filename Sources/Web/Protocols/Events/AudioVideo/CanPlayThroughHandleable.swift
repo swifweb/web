@@ -29,6 +29,7 @@ extension CanPlayThroughHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncanplaythrough.asp)
     @discardableResult
     public func onCanPlayThrough(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _CanPlayThroughHandleable else { return self }
         s.canPlayThroughClosure?.release()
         s.canPlayThroughClosure = JSClosure { event in
@@ -36,6 +37,7 @@ extension CanPlayThroughHandleable {
         }
         s.domElement.oncanplaythrough = s.canPlayThroughClosure.jsValue()
         s.canPlayThroughHandler = handler
+        #endif
         return self
     }
     

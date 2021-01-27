@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ListAttrable {
     @discardableResult
@@ -30,7 +29,7 @@ extension ListAttrable {
     @discardableResult
     public func list(_ value: String) -> Self {
         guard let s = self as? _ListAttrable else { return self }
-        s.domElement.setAttribute.function?.callAsFunction(this: s.domElement.object, "list", value.jsValue())
+        s.setAttribute("list", value, wasmPlain: true)
         return self
     }
     

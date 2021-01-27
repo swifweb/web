@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol UseMapAttrable {
     @discardableResult
@@ -31,7 +30,7 @@ extension UseMapAttrable {
     @discardableResult
     public func useMap(_ value: String) -> Self {
         guard let s = self as? _UseMapAttrable else { return self }
-        s.domElement.usemap = value.jsValue()
+        s.setAttribute("usemap", value)
         return self
     }
     

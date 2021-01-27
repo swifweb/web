@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol HiddenAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension HiddenAttrable {
     @discardableResult
     public func hidden(_ value: Bool) -> Self {
         guard let s = self as? _HiddenAttrable else { return self }
-        s.domElement.hidden = value.jsValue()
+        s.setAttribute("hidden", value, .short)
         return self
     }
     

@@ -25,6 +25,7 @@ protocol _ChangeHandleable: _AnyElement, ChangeHandleable {
 
 extension _ChangeHandleable {
     func subscribeToChanges() {
+        #if arch(wasm32)
         changeClosure?.release()
         changeClosure = JSClosure { event -> Void in
             let event = HandledEvent(event.jsValue())
@@ -32,6 +33,7 @@ extension _ChangeHandleable {
             self.changeHandler(event)
         }
         domElement.onchange = changeClosure.jsValue()
+        #endif
     }
 }
 

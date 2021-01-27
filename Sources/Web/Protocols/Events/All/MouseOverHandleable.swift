@@ -28,6 +28,7 @@ extension MouseOverHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseover.asp)
     @discardableResult
     public func onMouseOver(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _MouseOverHandleable else { return self }
         s.mouseOverClosure?.release()
         s.mouseOverClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension MouseOverHandleable {
         }
         s.domElement.onmouseover = s.mouseOverClosure.jsValue()
         s.mouseOverHandler = handler
+        #endif
         return self
     }
     

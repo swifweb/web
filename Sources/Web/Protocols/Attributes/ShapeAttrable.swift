@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol ShapeAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension ShapeAttrable {
     @discardableResult
     public func shape(_ value: ShapeType) -> Self {
         guard let s = self as? _ShapeAttrable else { return self }
-        s.domElement.shape = value.value.jsValue()
+        s.setAttribute("shape", value.value)
         return self
     }
     

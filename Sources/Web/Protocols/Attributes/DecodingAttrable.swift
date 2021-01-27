@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol DecodingAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension DecodingAttrable {
     @discardableResult
     public func decoding(_ value: DecodingType) -> Self {
         guard let s = self as? _DecodingAttrable else { return self }
-        s.domElement.decoding = value.value.jsValue()
+        s.setAttribute("decoding", value.value)
         return self
     }
     

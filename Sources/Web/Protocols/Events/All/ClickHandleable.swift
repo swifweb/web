@@ -680,6 +680,7 @@ extension ClickHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onclick.asp)
     @discardableResult
     public func onClick(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ClickHandleable else { return self }
         s.clickClosure?.release()
         s.clickClosure = JSClosure { event in
@@ -687,6 +688,7 @@ extension ClickHandleable {
         }
         s.domElement.onclick = s.clickClosure.jsValue()
         s.clickHandler = handler
+        #endif
         return self
     }
     
@@ -697,6 +699,6 @@ extension ClickHandleable {
     
     public func click() {
         guard let s = self as? _ClickHandleable else { return }
-        s.domElement.click.function?.callAsFunction(this: s.domElement.object)
+        s.callFunction("click")
     }
 }

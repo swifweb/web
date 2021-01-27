@@ -40,39 +40,39 @@ open class InputCheckbox: BaseActiveElement, _ChangeHandleable, _InvalidHandleab
     public required init() {
         super.init()
         subscribeToChanges()
-        domElement.type = "checkbox".jsValue()
+        setAttribute("type", "checkbox")
     }
     
     public required convenience init(_ checked: Bool, indeterminate: Bool = false) {
         self.init()
-        domElement.checked = checked.jsValue()
-        domElement.indeterminate = indeterminate.jsValue()
+        setAttribute("checked", checked, .short)
+        setAttribute("indeterminate", indeterminate, .short)
         self.checked = checked
         self.indeterminate = indeterminate
-        _checked.listen {
-            self.domElement.checked = $0.jsValue()
+        _checked.listen { [weak self] in
+            self?.setAttribute("checked", $0, .short)
         }
-        _indeterminate.listen {
-            self.domElement.indeterminate = $0.jsValue()
+        _indeterminate.listen { [weak self] in
+            self?.setAttribute("indeterminate", $0, .short)
         }
     }
     
     public required convenience init(_ checked: State<Bool>, indeterminate: State<Bool>? = nil) {
         self.init()
-        domElement.checked = checked.wrappedValue.jsValue()
+        setAttribute("checked", checked.wrappedValue, .short)
         _checked.wrappedValue = checked.wrappedValue
-        _checked.merge(with: checked, leftChanged: { new in
-            self.domElement.checked = new.jsValue()
-        }, rightChanged: { new in
-            self.domElement.checked = new.jsValue()
+        _checked.merge(with: checked, leftChanged: { [weak self] in
+            self?.setAttribute("checked", $0, .short)
+        }, rightChanged: { [weak self] in
+            self?.setAttribute("checked", $0, .short)
         })
         if let indeterminate = indeterminate {
-            domElement.indeterminate = indeterminate.wrappedValue.jsValue()
+            setAttribute("indeterminate", indeterminate.wrappedValue, .short)
             _indeterminate.wrappedValue = indeterminate.wrappedValue
-            _indeterminate.merge(with: indeterminate, leftChanged: { new in
-                self.domElement.indeterminate = new.jsValue()
-            }, rightChanged: { new in
-                self.domElement.indeterminate = new.jsValue()
+            _indeterminate.merge(with: indeterminate, leftChanged: { [weak self] in
+                self?.setAttribute("indeterminate", $0, .short)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("indeterminate", $0, .short)
             })
         }
     }

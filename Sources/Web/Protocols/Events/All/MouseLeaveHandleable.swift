@@ -28,6 +28,7 @@ extension MouseLeaveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseleave.asp)
     @discardableResult
     public func onMouseLeave(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _MouseLeaveHandleable else { return self }
         s.mouseLeaveClosure?.release()
         s.mouseLeaveClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension MouseLeaveHandleable {
         }
         s.domElement.onmouseleave = s.mouseLeaveClosure.jsValue()
         s.mouseLeaveHandler = handler
+        #endif
         return self
     }
     

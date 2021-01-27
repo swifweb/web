@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol RowsAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension RowsAttrable {
     @discardableResult
     public func rows(_ value: Int) -> Self {
         guard let s = self as? _RowsAttrable else { return self }
-        s.domElement.rows = value.jsValue()
+        s.setAttribute("rows", value)
         return self
     }
     

@@ -25,7 +25,11 @@ public final class SessionStorage {
     public static var length: Int { WebApp.shared.window.sessionStorage.length }
     
     init () {
+        #if arch(wasm32)
         domElement = JSObject.global[domElementName]
+        #else
+        domElement = JSValue("")
+        #endif
         update()
     }
     
@@ -52,7 +56,9 @@ public final class SessionStorage {
     }
     
     private func update() {
+        #if arch(wasm32)
         length = Int(domElement.length.number ?? 0)
+        #endif
     }
     
     /// Use this method to add/update value in the storage

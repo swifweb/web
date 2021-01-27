@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol CaptureAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension CaptureAttrable {
     @discardableResult
     public func capture(_ value: CaptureType) -> Self {
         guard let s = self as? _CaptureAttrable else { return self }
-        s.domElement.capture = value.value.jsValue()
+        s.setAttribute("capture", value.value)
         return self
     }
     

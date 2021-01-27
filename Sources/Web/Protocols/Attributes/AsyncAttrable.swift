@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol AsyncAttrable {
     @discardableResult
@@ -22,11 +21,11 @@ extension AsyncAttrable {
     ///
     /// Applicable to `<script>`
     ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/async)
+    /// [More info →](https://www.w3schools.com/tags/att_script_async.asp)
     @discardableResult
     public func async(_ value: Bool) -> Self {
         guard let s = self as? _AsyncAttrable else { return self }
-        s.domElement.async = value.jsValue()
+        s.setAttribute("async", value, .short)
         return self
     }
     

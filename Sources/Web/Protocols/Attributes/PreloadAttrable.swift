@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol PreloadAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension PreloadAttrable {
     @discardableResult
     public func preload(_ value: PreloadType) -> Self {
         guard let s = self as? _PreloadAttrable else { return self }
-        s.domElement.preload = value.value.jsValue()
+        s.setAttribute("preload", value.value)
         return self
     }
     

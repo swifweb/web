@@ -28,6 +28,7 @@ extension RateChangeHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onratechange.asp)
     @discardableResult
     public func onRateChange(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _RateChangeHandleable else { return self }
         s.rateChangeClosure?.release()
         s.rateChangeClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension RateChangeHandleable {
         }
         s.domElement.onratechange = s.rateChangeClosure.jsValue()
         s.rateChangeHandler = handler
+        #endif
         return self
     }
     

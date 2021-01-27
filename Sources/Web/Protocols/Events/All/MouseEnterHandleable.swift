@@ -28,6 +28,7 @@ extension MouseEnterHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseenter.asp)
     @discardableResult
     public func onMouseEnter(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _MouseEnterHandleable else { return self }
         s.mouseEnterClosure?.release()
         s.mouseEnterClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension MouseEnterHandleable {
         }
         s.domElement.onmouseenter = s.mouseEnterClosure.jsValue()
         s.mouseEnterHandler = handler
+        #endif
         return self
     }
     

@@ -28,6 +28,7 @@ extension PlayingHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onplaying.asp)
     @discardableResult
     public func onPlaying(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _PlayingHandleable else { return self }
         s.playingClosure?.release()
         s.playingClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension PlayingHandleable {
         }
         s.domElement.onplaying = s.playingClosure.jsValue()
         s.playingHandler = handler
+        #endif
         return self
     }
     

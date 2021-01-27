@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol LoadingAttrable {
     @discardableResult
@@ -27,7 +26,7 @@ extension LoadingAttrable {
     @discardableResult
     public func loading(_ value: LoadingType) -> Self {
         guard let s = self as? _LoadingAttrable else { return self }
-        s.domElement.loading = value.value.jsValue()
+        s.setAttribute("loading", value.value)
         return self
     }
     

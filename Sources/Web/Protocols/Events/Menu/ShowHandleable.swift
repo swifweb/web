@@ -28,6 +28,7 @@ extension ShowHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onshow.asp)
     @discardableResult
     public func onShow(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ShowHandleable else { return self }
         s.showClosure?.release()
         s.showClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension ShowHandleable {
         }
         s.domElement.onshow = s.showClosure.jsValue()
         s.showHandler = handler
+        #endif
         return self
     }
     

@@ -25,6 +25,7 @@ protocol _InputHandleable: _AnyElement, InputHandleable {
 
 extension _InputHandleable {
     func subscribeToInput() {
+        #if arch(wasm32)
         inputClosure?.release()
         inputClosure = JSClosure { event -> Void in
             let event = InputEvent(event.jsValue())
@@ -32,6 +33,7 @@ extension _InputHandleable {
             self.onInput(event)
         }
         domElement.oninput = inputClosure.jsValue()
+        #endif
     }
 }
 
@@ -47,6 +49,7 @@ extension InputHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oninput.asp)
     @discardableResult
     public func onInput(_ handler: @escaping (InputEvent, Self) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _InputHandleable else { return self }
         s.inputClosure?.release()
         s.inputClosure = JSClosure { event in
@@ -56,6 +59,7 @@ extension InputHandleable {
         s.inputHandler = {
             handler($0, self)
         }
+        #endif
         return self
     }
     

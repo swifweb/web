@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol FormMethodAttrable {
     @discardableResult
@@ -28,7 +27,7 @@ extension FormMethodAttrable {
     @discardableResult
     public func formMethod(_ value: MethodType) -> Self {
         guard let s = self as? _FormMethodAttrable else { return self }
-        s.domElement.formmethod = value.value.jsValue()
+        s.setAttribute("formmethod", value.value)
         return self
     }
     

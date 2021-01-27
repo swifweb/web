@@ -28,6 +28,7 @@ extension CopyHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncopy.asp)
     @discardableResult
     public func onCopy(_ handler: @escaping (ClipboardEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _CopyHandleable else { return self }
         s.copyClosure?.release()
         s.copyClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension CopyHandleable {
         }
         s.domElement.oncopy = s.copyClosure.jsValue()
         s.copyHandler = handler
+        #endif
         return self
     }
     

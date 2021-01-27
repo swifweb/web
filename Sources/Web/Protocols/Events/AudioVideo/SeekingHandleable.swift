@@ -28,6 +28,7 @@ extension SeekingHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onseeking.asp)
     @discardableResult
     public func onSeeking(_ handler: @escaping (HandledEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _SeekingHandleable else { return self }
         s.seekingClosure?.release()
         s.seekingClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension SeekingHandleable {
         }
         s.domElement.onseeking = s.seekingClosure.jsValue()
         s.seekingHandler = handler
+        #endif
         return self
     }
     

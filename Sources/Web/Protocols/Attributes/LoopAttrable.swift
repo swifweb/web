@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol LoopAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension LoopAttrable {
     @discardableResult
     public func loop(_ value: Bool) -> Self {
         guard let s = self as? _LoopAttrable else { return self }
-        s.domElement.loop = value.jsValue()
+        s.setAttribute("loop", value, .short)
         return self
     }
     

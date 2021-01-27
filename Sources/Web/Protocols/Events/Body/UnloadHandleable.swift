@@ -28,6 +28,7 @@ extension UnloadHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onunload.asp)
     @discardableResult
     public func onUnload(_ handler: @escaping (UIEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _UnloadHandleable else { return self }
         s.unloadClosure?.release()
         s.unloadClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension UnloadHandleable {
         }
         s.domElement.onunload = s.unloadClosure.jsValue()
         s.unloadHandler = handler
+        #endif
         return self
     }
     

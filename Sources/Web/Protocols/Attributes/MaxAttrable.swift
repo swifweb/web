@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol MaxAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension MaxAttrable {
     @discardableResult
     public func max(_ value: Double) -> Self {
         guard let s = self as? _MaxAttrable else { return self }
-        s.domElement.max = value.jsValue()
+        s.setAttribute("max", value)
         return self
     }
     
@@ -65,7 +64,7 @@ extension MaxDateAttrable {
     @discardableResult
     public func max(_ value: String) -> Self {
         guard let s = self as? _MaxDateAttrable else { return self }
-        s.domElement.max = value.jsValue()
+        s.setAttribute("max", value)
         return self
     }
     

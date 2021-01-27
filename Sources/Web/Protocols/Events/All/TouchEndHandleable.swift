@@ -28,6 +28,7 @@ extension TouchEndHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchend.asp)
     @discardableResult
     public func onTouchEnd(_ handler: @escaping (TouchEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _TouchEndHandleable else { return self }
         s.touchEndClosure?.release()
         s.touchEndClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension TouchEndHandleable {
         }
         s.domElement.ontouchend = s.touchEndClosure.jsValue()
         s.touchEndHandler = handler
+        #endif
         return self
     }
     

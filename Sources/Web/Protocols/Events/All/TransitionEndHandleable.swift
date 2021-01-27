@@ -28,6 +28,7 @@ extension TransitionEndHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_transitionend.asp)
     @discardableResult
     public func onTransitionEnd(_ handler: @escaping (TransitionEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _TransitionEndHandleable else { return self }
         s.transitionEndClosure?.release()
         s.transitionEndClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension TransitionEndHandleable {
         }
         s.domElement.ontransitionend = s.transitionEndClosure.jsValue()
         s.transitionEndHandler = handler
+        #endif
         return self
     }
     

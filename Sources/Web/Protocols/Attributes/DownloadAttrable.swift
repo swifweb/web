@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol DownloadAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension DownloadAttrable {
     @discardableResult
     public func download(_ value: Bool) -> Self {
         guard let s = self as? _DownloadAttrable else { return self }
-        s.domElement.download = value.jsValue()
+        s.setAttribute("download", value, .short)
         return self
     }
     

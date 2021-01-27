@@ -28,6 +28,7 @@ extension BeforeUnloadHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onbeforeunload.asp)
     @discardableResult
     public func onBeforeUnload(_ handler: @escaping (UIEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _BeforeUnloadHandleable else { return self }
         s.beforeUnloadClosure?.release()
         s.beforeUnloadClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension BeforeUnloadHandleable {
         }
         s.domElement.onbeforeunload = s.beforeUnloadClosure.jsValue()
         s.beforeUnloadHandler = handler
+        #endif
         return self
     }
     

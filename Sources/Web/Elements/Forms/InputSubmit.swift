@@ -20,6 +20,6 @@ open class InputSubmit: BaseActiveElement {
     
     public required init() {
         super.init()
-        domElement.type = "submit".jsValue()
+        setAttribute("type", "submit")
     }
 }

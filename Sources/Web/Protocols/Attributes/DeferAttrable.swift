@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol DeferAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension DeferAttrable {
     @discardableResult
     public func `defer`(_ value: Bool) -> Self {
         guard let s = self as? _DeferAttrable else { return self }
-        s.domElement.defer = value.jsValue()
+        s.setAttribute("defer", value, .short)
         return self
     }
     

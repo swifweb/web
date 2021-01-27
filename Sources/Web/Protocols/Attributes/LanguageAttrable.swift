@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol LanguageAttrable {
     @discardableResult
@@ -24,7 +23,7 @@ extension LanguageAttrable {
     @discardableResult
     public func language(_ value: String) -> Self {
         guard let s = self as? _LanguageAttrable else { return self }
-        s.domElement.language = value.jsValue()
+        s.setAttribute("language", value)
         return self
     }
     

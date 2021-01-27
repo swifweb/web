@@ -28,6 +28,7 @@ extension ContextMenuHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncontextmenu.asp)
     @discardableResult
     public func onContextMenu(_ handler: @escaping (MouseEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _ContextMenuHandleable else { return self }
         s.contextMenuClosure?.release()
         s.contextMenuClosure = JSClosure { event in
@@ -35,6 +36,7 @@ extension ContextMenuHandleable {
         }
         s.domElement.oncontextmenu = s.contextMenuClosure.jsValue()
         s.contextMenuHandler = handler
+        #endif
         return self
     }
     

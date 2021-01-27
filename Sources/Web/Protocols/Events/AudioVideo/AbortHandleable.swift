@@ -30,6 +30,7 @@ extension AbortHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onabort_media.asp)
     @discardableResult
     public func onAbort(_ handler: @escaping (UIEvent) -> Void) -> Self {
+        #if arch(wasm32)
         guard let s = self as? _AbortHandleable else { return self }
         s.abortClosure?.release()
         s.abortClosure = JSClosure { event in
@@ -37,6 +38,7 @@ extension AbortHandleable {
         }
         s.domElement.onabort = s.abortClosure.jsValue()
         s.abortHandler = handler
+        #endif
         return self
     }
     

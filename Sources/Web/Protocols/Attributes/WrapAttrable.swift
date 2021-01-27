@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol WrapAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension WrapAttrable {
     @discardableResult
     public func wrap(_ value: WrapType) -> Self {
         guard let s = self as? _WrapAttrable else { return self }
-        s.domElement.wrap = value.value.jsValue()
+        s.setAttribute("wrap", value.value)
         return self
     }
     

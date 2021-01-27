@@ -21,6 +21,6 @@ open class InputReset: BaseActiveElement {
     
     public required init() {
         super.init()
-        domElement.type = "reset".jsValue()
+        setAttribute("type", "reset")
     }
 }

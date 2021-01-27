@@ -29,6 +29,6 @@ open class InputImage: BaseActiveElement, _ErrorHandleable {
     
     public required init() {
         super.init()
-        domElement.type = "image".jsValue()
+        setAttribute("type", "image")
     }
 }

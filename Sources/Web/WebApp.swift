@@ -6,7 +6,17 @@ private var webapp: WebApp!
 open class WebApp {
     private var isStarted = false
     
-    public static var shared: WebApp { webapp }
+    public static var shared: WebApp {
+        #if !arch(wasm32)
+        guard webapp == nil else {
+            return webapp
+        }
+        webapp = WebApp.start()
+        return webapp
+        #else
+        return webapp
+        #endif
+    }
     public static var current: Self { shared as! Self }
     
     public private(set) lazy var window = Window()
@@ -56,13 +66,19 @@ open class WebApp {
         do {
             let response = try defaultResponder.respond(to: req)
             if let lastResponse = lastResponse {
+                #if arch(wasm32)
                 _ = document.domElement.body.removeChild(lastResponse.controller.view)
+                #endif
             }
+            #if arch(wasm32)
             let _ = document.domElement.body.appendChild(response.controller.view)
+            #endif
             lastResponse = response
         } catch {
             // TODO: use predefined beautiful error handler which should be customizable
+            #if arch(wasm32)
             document.domElement.body.object?.innerHTML = "\(error)".jsValue()
+            #endif
         }
     }
     

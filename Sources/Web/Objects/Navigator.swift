@@ -46,6 +46,7 @@ public final class Navigator: StateChangeable, Equatable {
     public let userAgent: String
     
     init () {
+        #if arch(wasm32)
         domElement = JSObject.global[domElementName]
         appCodeName = domElement.appCodeName.string ?? ""
         appName = domElement.appName.string ?? ""
@@ -55,6 +56,17 @@ public final class Navigator: StateChangeable, Equatable {
         platform = domElement.platform.string ?? ""
         product = domElement.product.string ?? ""
         userAgent = domElement.userAgent.string ?? ""
+        #else
+        domElement = JSValue("")
+        appCodeName = ""
+        appName = ""
+        appVersion = ""
+        cookieEnabled = false
+        language = ""
+        platform = ""
+        product = ""
+        userAgent = ""
+        #endif
         update()
         listenStates()
     }
@@ -76,7 +88,9 @@ public final class Navigator: StateChangeable, Equatable {
     private func update() {
         manualUpdateStarted()
 //        geolocation
+        #if arch(wasm32)
         onLine = domElement.onLine.boolean ?? false
+        #endif
         manualUpdateFinished()
     }
     

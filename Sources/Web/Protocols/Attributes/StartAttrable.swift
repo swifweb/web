@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol StartAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension StartAttrable {
     @discardableResult
     public func start(_ value: Int) -> Self {
         guard let s = self as? _StartAttrable else { return self }
-        s.domElement.start = value.jsValue()
+        s.setAttribute("start", value)
         return self
     }
     

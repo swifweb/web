@@ -11,6 +11,7 @@ protocol _PropertyValueInnerChangeable: class {
     var _changeHandler: () -> Void { get set }
 }
 
+public typealias WColor = Color
 open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashable {
     @State public var value: ColorType = .css(.black)
     

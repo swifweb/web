@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import JavaScriptKit
 
 public protocol HrefAttrable {
     @discardableResult
@@ -26,7 +25,7 @@ extension HrefAttrable {
     @discardableResult
     public func href<U: URLConformable>(_ value: U) -> Self {
         guard let s = self as? _HrefAttrable else { return self }
-        s.domElement.href = value.stringValue.jsValue()
+        s.setAttribute("href", value.stringValue)
         return self
     }
     

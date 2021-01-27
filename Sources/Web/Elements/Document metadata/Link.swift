@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias WLink = Link
+
 /// The HTML External Resource Link element `<link>`
 /// specifies relationships between the current document and an external resource.
 /// This element is most commonly used to link to stylesheets,
