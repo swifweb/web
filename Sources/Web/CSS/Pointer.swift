@@ -43,17 +43,8 @@ extension StaticPointerable {
     /// ```
     /// .intro
     /// ```
-    public static func `class`(_ name: String) -> Pointer {
-        .init(pointer.selector + "." + name)
-    }
-    
-    /// Selects all elements with class="intro"
-    ///
-    /// ```
-    /// .intro
-    /// ```
     public static func `class`(_ class: Class) -> Pointer {
-        Self.`class`(`class`.name)
+        .init(pointer.selector + `class`.pointer.selector)
     }
 
     /// Selects all elements with id="intro"
@@ -61,17 +52,8 @@ extension StaticPointerable {
     /// ```
     /// #intro
     /// ```
-    public static func id(_ id: String) -> Pointer {
-        .init(pointer.selector + "#" + id)
-    }
-    
-    /// Selects all elements with id="intro"
-    ///
-    /// ```
-    /// #intro
-    /// ```
     public static func id(_ id: Id) -> Pointer {
-        Self.id(id.name)
+        .init(pointer.selector + id.pointer.selector)
     }
 
 //    /// Selects all `<p>` elements
@@ -915,17 +897,8 @@ extension Pointerable {
     /// ```
     /// .intro
     /// ```
-    public func `class`(_ name: String) -> Pointer {
-        .init(pointer.selector + "." + name)
-    }
-    
-    /// Selects all elements with `class="intro"`
-    ///
-    /// ```
-    /// .intro
-    /// ```
     public func `class`(_ class: Class) -> Pointer {
-        self.class(`class`.name)
+        .init(pointer.selector + `class`.pointer.selector)
     }
 
     /// Selects all elements with id="intro"
@@ -933,17 +906,8 @@ extension Pointerable {
     /// ```
     /// #intro
     /// ```
-    public func id(_ id: String) -> Pointer {
-        .init(pointer.selector + "#" + id)
-    }
-    
-    /// Selects all elements with id="intro"
-    ///
-    /// ```
-    /// #intro
-    /// ```
     public func id(_ id: Id) -> Pointer {
-        self.id(id.name)
+        .init(pointer.selector + id.pointer.selector)
     }
 
     /// Selects all `<p>` elements

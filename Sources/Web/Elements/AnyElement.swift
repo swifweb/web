@@ -15,6 +15,7 @@ public protocol AnyElement: class {
 protocol _AnyElement: AnyElement, _PreviewRenderable, RenderBuilderContent {
     var uid: String { get }
     var _id: String { get set }
+    var _classes: Set<String> { get set }
     #if arch(wasm32)
     var domElement: JSValue { get set }
     #endif

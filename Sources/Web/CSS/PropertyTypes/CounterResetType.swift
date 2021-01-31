@@ -13,7 +13,7 @@ public struct CounterResetType: Noneable, Initialable, Inheritable, CustomString
     /// The id defines which counter to reset.
     /// The number sets the value the counter is reset to on each occurrence of the selector.
     /// The default number value is 0
-    public static func id(name: String, id: Int) -> Self { .init(name + " \(id)") }
+    public static func id(_ id: Id, index: Int) -> Self { .init(id.name + " \(index)") }
     
     public var description: String { value }
 }

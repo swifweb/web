@@ -9,9 +9,9 @@ import Foundation
 
 public protocol IdAttrable {
     @discardableResult
-    func id(_ value: String) -> Self
+    func id(_ value: Id) -> Self
     @discardableResult
-    func id<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
+    func id<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Id
 }
 
 protocol _IdAttrable: _AnyElement, IdAttrable {}
@@ -21,10 +21,10 @@ extension IdAttrable {
     ///
     /// [More info →](https://www.w3schools.com/tags/att_id.asp)
     @discardableResult
-    public func id(_ value: String) -> Self {
+    public func id(_ value: Id) -> Self {
         guard let s = self as? _IdAttrable else { return self }
-        s._id = value
-        s.setAttribute("id", value)
+        s._id = value.name
+        s.setAttribute("id", value.name)
         return self
     }
     
@@ -32,7 +32,7 @@ extension IdAttrable {
     ///
     /// [More info →](https://www.w3schools.com/tags/att_id.asp)
     @discardableResult
-    public func id<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+    public func id<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Id {
         id(value.stateValue.wrappedValue)
         value.stateValue.listen { self.id($0) }
         return self

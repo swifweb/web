@@ -7,12 +7,14 @@
 
 import Foundation
 
-open class Class: Pointerable {
+open class Class: Pointerable, ExpressibleByStringLiteral {
+    public typealias StringLiteralType = String
+    
     public var pointer: Pointer { .init("." + name) }
     
     public var name: String
     
-    public init (_ name: String) {
+    required public init (stringLiteral name: String) {
         self.name = name
     }
 }

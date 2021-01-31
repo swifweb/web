@@ -17,6 +17,7 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
     
     let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789=")
     lazy var _id = uid
+    lazy var _classes: Set<String> = []
 
     var subElements: [_AnyElement] = []
     #if !arch(wasm32)

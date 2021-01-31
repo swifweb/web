@@ -5,36 +5,6 @@
 //  Created by Mihael Isaev on 27.01.2021.
 //
 
-#if os(macOS) && canImport(SwiftUI) && DEBUG && !arch(wasm32)
-public enum AppStyles: _PreviewRenderable, RenderBuilderContent {
-    case all, enabled, disabled, ids([String]), id(String)
-    
-    public var renderBuilderContent: RenderBuilder.Item { .item(self) }
-    
-    func renderPreview() -> String {
-        guard previewMode == .static else { return "" }
-        WebApp.shared._previewStart()
-        let styles: [Stylesheet]
-        switch self {
-        case .all: styles = WebApp.shared.stylesheets
-        case .disabled: styles = WebApp.shared.stylesheets.filter { $0._disabled }
-        case .enabled: styles = WebApp.shared.stylesheets.filter { !$0._disabled }
-        case .ids(let ids): styles = WebApp.shared.stylesheets.filter { ids.contains($0._id) }
-        case .id(let id): styles = WebApp.shared.stylesheets.filter { $0._id == id }
-        }
-        var result = ""
-        for style in styles {
-            if previewMode == .dynamic {
-                style.processRules()
-            } else {
-                guard style._rules.count > 0 else { continue }
-                result.append("<style id=\"\(style._id)\">" + style._rules.map { $0.render() }.joined() + "</style>")
-            }
-        }
-        return result
-    }
-}
-#endif
 public protocol PreviewRenderable {}
 
 protocol _PreviewRenderable: PreviewRenderable {
