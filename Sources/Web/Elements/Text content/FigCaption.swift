@@ -7,10 +7,18 @@
 
 import Foundation
 
-/// The HTML <figcaption> or Figure Caption element represents a caption
+/// The HTML `<figcaption>` or Figure Caption element represents a caption
 /// or legend describing the rest of the contents of its parent figure element.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption)
-open class FigCaption: BaseActiveElement {
+open class FigCaption: BaseActiveElement, _StringInitializable {
+    var value: String {
+        get { innerText }
+        set { innerText = newValue }
+    }
     
+    required public convenience init (_ title: String) {
+        self.init()
+        value = title
+    }
 }

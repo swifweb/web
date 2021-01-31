@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// The HTML <figure> (Figure With Optional Caption) element
+/// The HTML `<figure>` (Figure With Optional Caption) element
 /// represents self-contained content, potentially with an optional caption,
 /// which is specified using the (figcaption) element.
 ///

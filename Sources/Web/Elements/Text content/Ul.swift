@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// The HTML <ul> element represents an unordered list of items,
+/// The HTML `<ul>` element represents an unordered list of items,
 /// typically rendered as a bulleted list.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul)

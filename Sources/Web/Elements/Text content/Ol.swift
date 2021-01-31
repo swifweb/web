@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// The HTML <ol> element represents an ordered list of items — typically rendered as a numbered list.
+/// The HTML `<ol>` element represents an ordered list of items — typically rendered as a numbered list.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol)
 open class Ol: BaseActiveElement, _ScrollHandleable {
