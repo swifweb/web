@@ -14,11 +14,12 @@ public protocol AnyElement: class {
 
 protocol _AnyElement: AnyElement, _PreviewRenderable, RenderBuilderContent {
     var uid: String { get }
+    var _id: String { get set }
     #if arch(wasm32)
     var domElement: JSValue { get set }
     #endif
-    #if !arch(wasm32)
     var subElements: [_AnyElement] { get set }
+    #if !arch(wasm32)
     var styles: [String: String] { get }
     var attributes: [String: String] { get set }
     #endif
@@ -90,14 +91,14 @@ extension _AnyElement {
             guard previewMode == .static else { return "" }
             var result = ""
             if s._rules.count > 0 {
-                result = "<style id=\"\(uid)\">" + s._rules.map { $0.render() }.joined() + "margin</style>"
+                result = "<style id=\"\(uid)\">" + s._rules.map { $0.render() }.joined() + "</style>"
             }
             return result
         } else if let s = self as? Style {
             guard previewMode == .static else { return "" }
             var result = ""
             if s._rules.count > 0 {
-                result = "<style id=\"\(uid)\">" + s._rules.map { $0.render() }.joined() + "margin</style>"
+                result = "<style id=\"\(uid)\">" + s._rules.map { $0.render() }.joined() + "</style>"
             }
             return result
         }
@@ -240,7 +241,7 @@ extension Optional: WebJSValue where Wrapped: WebJSValue {
     public var webValue: JSValue {
         switch self {
         case .none: return .null
-        case .some(let v): return v.jsValue()
+        case .some(let v): return v.webValue
         }
     }
     #else
@@ -486,8 +487,8 @@ extension _BaseContentElementable {
         case .elements(let elements):
             elements.forEach {
                 guard let element = $0 as? _AnyElement else { return }
-                #if !arch(wasm32)
                 subElements.append(element)
+                #if !arch(wasm32)
                 if previewMode == .dynamic {
                     appendChild(element)
                 }

@@ -3,7 +3,7 @@ import JavaScriptKit
 
 private var webapp: WebApp!
 
-open class WebApp {
+open class WebApp: _PreviewableApp {
     private var isStarted = false
     
     public static var shared: WebApp {
@@ -17,7 +17,7 @@ open class WebApp {
         return webapp
         #endif
     }
-    public static var current: Self { shared as! Self }
+    public class var current: Self { shared as! Self }
     
     public private(set) lazy var window = Window()
     public var document: Document { window.document }
@@ -33,7 +33,9 @@ open class WebApp {
         webapp = Self()
         guard !webapp.isStarted else { return webapp }
         webapp.isStarted = true
+        #if arch(wasm32)
         webapp.start()
+        #endif
         return webapp
     }
     
@@ -58,6 +60,14 @@ open class WebApp {
                 hash: location.hash
             ))
         }
+    }
+    
+    private var _previewStarted = false
+    
+    func _previewStart() {
+        guard !_previewStarted else { return }
+        _previewStarted = true
+        parseAppBuilderItem(body.appBuilderContent)
     }
     
     var lastResponse: Response?

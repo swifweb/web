@@ -16,9 +16,10 @@ open class BaseElement: _AnyElement, BodyBuilderContent, _AnimationEndHandleable
     public var bodyBuilderContent: BodyBuilderItem { .elements([self]) }
     
     let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789=")
+    lazy var _id = uid
 
-    #if !arch(wasm32)
     var subElements: [_AnyElement] = []
+    #if !arch(wasm32)
     var styles: [String: String] = [:]
     var attributes: [String: String] = [:]
     #endif

@@ -72,12 +72,6 @@ open class Stylesheet: BaseElement, AppBuilderContent {
             }
             #endif
         }
-        previewLiveView.executeJS("""
-        let div = document.createElement('div');
-        div.innerText = document.styleSheets[0].ownerNode.id;
-        document.styleSheets[0].insertRule('textarea{background-color:purple;}');
-        document.body.appendChild(div);
-        """)
     }
     
     override func didAddToDOM() {
@@ -133,7 +127,7 @@ open class Stylesheet: BaseElement, AppBuilderContent {
         get { sheet.type.string }
     }
     
-    private var _disabled = false
+    var _disabled = false
     
     /// Disables stylesheet
     @discardableResult

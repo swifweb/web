@@ -23,6 +23,7 @@ extension IdAttrable {
     @discardableResult
     public func id(_ value: String) -> Self {
         guard let s = self as? _IdAttrable else { return self }
+        s._id = value
         s.setAttribute("id", value)
         return self
     }
