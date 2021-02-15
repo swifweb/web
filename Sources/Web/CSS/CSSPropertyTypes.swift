@@ -1,5 +1,5 @@
 //
-//  PropertyType.swift
+//  CSSPropertyTypes.swift
 //  Web
 //
 //  Created by Mihael Isaev on 08.07.2020.
@@ -237,6 +237,7 @@ public enum PropertyType: String, CustomStringConvertible {
     
     public var description: String { rawValue }
 }
+
 public struct AlignContentType: Initialable, Inheritable, Autoable, CustomStringConvertible {
     public let value: String
 
@@ -265,6 +266,7 @@ public struct AlignContentType: Initialable, Inheritable, Autoable, CustomString
     
     public var description: String { value }
 }
+
 public struct AlignItemsType: Initialable, Inheritable, Autoable, CustomStringConvertible {
     public let value: String
     
@@ -287,6 +289,7 @@ public struct AlignItemsType: Initialable, Inheritable, Autoable, CustomStringCo
     
     public var description: String { value }
 }
+
 public struct AlignSelfType: Initialable, Inheritable, Autoable, CustomStringConvertible {
     public let value: String
     
@@ -309,6 +312,7 @@ public struct AlignSelfType: Initialable, Inheritable, Autoable, CustomStringCon
     
     public var description: String { value }
 }
+
 public struct AllType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -321,6 +325,7 @@ public struct AllType: Initialable, Inheritable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct AnimationDirectionType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -340,6 +345,7 @@ public struct AnimationDirectionType: Initialable, Inheritable, CustomStringConv
     
     public var description: String { value }
 }
+
 public struct AnimationFillModeType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -359,6 +365,7 @@ public struct AnimationFillModeType: Noneable, Initialable, Inheritable, CustomS
     
     public var description: String { value }
 }
+
 public struct AnimationPlayStateType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -372,6 +379,7 @@ public struct AnimationPlayStateType: Initialable, Inheritable, CustomStringConv
     
     public var description: String { value }
 }
+
 public struct AutoType: Initialable, Inheritable, Autoable, CustomStringConvertible {
     public let value: String
     
@@ -379,6 +387,7 @@ public struct AutoType: Initialable, Inheritable, Autoable, CustomStringConverti
     
     public var description: String { value }
 }
+
 public struct BackfaceVisibilityType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -392,6 +401,7 @@ public struct BackfaceVisibilityType: Initialable, Inheritable, CustomStringConv
     
     public var description: String { value }
 }
+
 public struct BackgroundAttachmentType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -408,6 +418,7 @@ public struct BackgroundAttachmentType: Initialable, Inheritable, CustomStringCo
     
     public var description: String { value }
 }
+
 public struct BackgroundBlendModeType: Valuable, CustomStringConvertible {
     public let value: String
     
@@ -445,6 +456,7 @@ public struct BackgroundBlendModeType: Valuable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct BackgroundClipType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -462,6 +474,7 @@ public struct BackgroundClipType: Initialable, Inheritable, CustomStringConverti
     
     public var description: String { value }
 }
+
 public struct BackgroundOriginType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -479,6 +492,7 @@ public struct BackgroundOriginType: Initialable, Inheritable, CustomStringConver
     
     public var description: String { value }
 }
+
 public struct BackgroundPositionType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -494,6 +508,7 @@ public struct BackgroundPositionType: Initialable, Inheritable, CustomStringConv
     
     public var description: String { value }
 }
+
 public struct BackgroundRepeatType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -523,6 +538,7 @@ public struct BackgroundRepeatType: Initialable, Inheritable, CustomStringConver
     
     public var description: String { value }
 }
+
 public final class BackgroundSizeType: Autoable, Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible, _PropertyValueInnerChangeable {
     @State public var value = ""
     
@@ -592,6 +608,7 @@ public final class BackgroundSizeType: Autoable, Initialable, Inheritable, Lengt
     
     public var description: String { value }
 }
+
 public struct BorderCollapseType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -607,6 +624,7 @@ public struct BorderCollapseType: Initialable, Inheritable, CustomStringConverti
     
     public var description: String { value }
 }
+
 public struct BorderImageOutsetType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -617,6 +635,7 @@ public struct BorderImageOutsetType: Initialable, Inheritable, Lengthable, Custo
     
     public var description: String { value }
 }
+
 public struct BorderImageRepeatType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -636,6 +655,7 @@ public struct BorderImageRepeatType: Initialable, Inheritable, CustomStringConve
     
     public var description: String { value }
 }
+
 public struct BorderImageSliceType: Initialable, Inheritable, Percentable, CustomStringConvertible {
     public let value: String
     
@@ -649,6 +669,7 @@ public struct BorderImageSliceType: Initialable, Inheritable, Percentable, Custo
     
     public var description: String { value }
 }
+
 public final class BorderRadiusType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible, _PropertyValueInnerChangeable {
     @State public var value: String
     
@@ -658,6 +679,7 @@ public final class BorderRadiusType: Initialable, Inheritable, Lengthable, Perce
     
     public var description: String { value }
 }
+
 public struct BorderStyleType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -692,6 +714,7 @@ public struct BorderStyleType: Noneable, Initialable, Inheritable, CustomStringC
     
     public var description: String { value }
 }
+
 public struct BorderWidthType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -708,6 +731,7 @@ public struct BorderWidthType: Initialable, Inheritable, Lengthable, CustomStrin
     
     public var description: String { value }
 }
+
 public struct BoxDecorationBreakType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -725,6 +749,7 @@ public struct BoxDecorationBreakType: Initialable, Inheritable, CustomStringConv
     
     public var description: String { value }
 }
+
 public struct BoxSizingType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -738,6 +763,7 @@ public struct BoxSizingType: Initialable, Inheritable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct BreakInsideType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -757,6 +783,7 @@ public struct BreakInsideType: Autoable, Initialable, Inheritable, CustomStringC
     
     public var description: String { value }
 }
+
 public struct BreakType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -803,6 +830,7 @@ public struct BreakType: Autoable, Initialable, Inheritable, CustomStringConvert
     
     public var description: String { value }
 }
+
 public struct CaptionSideType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -816,6 +844,7 @@ public struct CaptionSideType: Initialable, Inheritable, CustomStringConvertible
     
     public var description: String { value }
 }
+
 public struct ClearType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -832,6 +861,7 @@ public struct ClearType: Noneable, Initialable, Inheritable, CustomStringConvert
     
     public var description: String { value }
 }
+
 public enum ColorType: CustomStringConvertible {
     case css(CSSColor)
     case hex(Int)
@@ -857,6 +887,7 @@ public enum ColorType: CustomStringConvertible {
         }
     }
 }
+
 public struct ColumnFillType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -871,6 +902,7 @@ public struct ColumnFillType: Autoable, Initialable, Inheritable, CustomStringCo
     
     public var description: String { value }
 }
+
 public struct ColumnRuleStyleType: Initialable, Inheritable, Noneable, CustomStringConvertible {
     public let value: String
     
@@ -905,6 +937,7 @@ public struct ColumnRuleStyleType: Initialable, Inheritable, Noneable, CustomStr
     
     public var description: String { value }
 }
+
 public struct ColumnRuleWidthType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -921,6 +954,7 @@ public struct ColumnRuleWidthType: Initialable, Inheritable, Lengthable, CustomS
     
     public var description: String { value }
 }
+
 public struct ColumnSpanType: Initialable, Inheritable, Noneable, CustomStringConvertible {
     public let value: String
     
@@ -931,6 +965,7 @@ public struct ColumnSpanType: Initialable, Inheritable, Noneable, CustomStringCo
     
     public var description: String { value }
 }
+
 public struct ContentType: Initialable, Inheritable, Noneable, CustomStringConvertible {
     public let value: String
     
@@ -965,6 +1000,7 @@ public struct ContentType: Initialable, Inheritable, Noneable, CustomStringConve
     
     public var description: String { value }
 }
+
 public struct CounterResetType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -977,6 +1013,7 @@ public struct CounterResetType: Noneable, Initialable, Inheritable, CustomString
     
     public var description: String { value }
 }
+
 public struct CursorType: Autoable, Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1089,6 +1126,7 @@ public struct CursorType: Autoable, Noneable, Initialable, Inheritable, CustomSt
     
     public var description: String { value }
 }
+
 public struct DirectionType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1102,6 +1140,7 @@ public struct DirectionType: Initialable, Inheritable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct DisplayType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1169,6 +1208,7 @@ public struct DisplayType: Noneable, Initialable, Inheritable, CustomStringConve
     
     public var description: String { value }
 }
+
 public struct EmptyCellsType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1182,6 +1222,7 @@ public struct EmptyCellsType: Initialable, Inheritable, CustomStringConvertible 
     
     public var description: String { value }
 }
+
 public struct FilterType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1293,6 +1334,7 @@ public struct FilterType: Noneable, Initialable, Inheritable, CustomStringConver
     
     public var description: String { value }
 }
+
 public struct FlexDirectionType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1312,6 +1354,7 @@ public struct FlexDirectionType: Initialable, Inheritable, CustomStringConvertib
     
     public var description: String { value }
 }
+
 public struct FlexWrapType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1328,6 +1371,7 @@ public struct FlexWrapType: Initialable, Inheritable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct FloatType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1341,6 +1385,7 @@ public struct FloatType: Noneable, Initialable, Inheritable, CustomStringConvert
     
     public var description: String { value }
 }
+
 public struct FontFamilyType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
 
@@ -1416,6 +1461,7 @@ public struct FontFamilyType: Initialable, Inheritable, CustomStringConvertible 
     
     public var description: String { value }
 }
+
 public struct FontKerningType: Autoable, Noneable, CustomStringConvertible {
     public let value: String
     
@@ -1426,6 +1472,7 @@ public struct FontKerningType: Autoable, Noneable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct FontLanguageOverrideType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1444,6 +1491,7 @@ public struct FontLanguageOverrideType: Initialable, Inheritable, CustomStringCo
     
     public var description: String { value }
 }
+
 public struct FontSizeAdjustType: Noneable, CustomStringConvertible {
     public let value: String
     
@@ -1451,6 +1499,7 @@ public struct FontSizeAdjustType: Noneable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct FontSizeType: Initialable, Inheritable, Lengthable, Percentable, AbsoluteSizeable, RelativeSizeable, CustomStringConvertible {
     public let value: String
     
@@ -1458,6 +1507,7 @@ public struct FontSizeType: Initialable, Inheritable, Lengthable, Percentable, A
     
     public var description: String { value }
 }
+
 public struct FontStretchType: Percentable, CustomStringConvertible {
     public let value: String
     
@@ -1492,6 +1542,7 @@ public struct FontStretchType: Percentable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct FontStyleType: Valuable, CustomStringConvertible {
     public let value: String
     
@@ -1527,6 +1578,7 @@ public struct FontStyleType: Valuable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct FontSynthesisType: Noneable, CustomStringConvertible {
     public let value: String
     
@@ -1540,6 +1592,7 @@ public struct FontSynthesisType: Noneable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct FontType: Initialable, Inheritable {
     public let value: String
     
@@ -1563,6 +1616,7 @@ public struct FontType: Initialable, Inheritable {
     /// Uses the fonts that are used by the status bar
     public static var statusBar: Self { .init("status-bar") }
 }
+
 public protocol FontVariantAlternatable: Valuable {
     static var historicalForms: Self { get }
     static func stylistic(_ fontNameNumber: Int) -> Self
@@ -1621,6 +1675,7 @@ public struct FontVariantAlternatesType: FontVariantAlternatable, CustomStringCo
     
     public var description: String { value }
 }
+
 public protocol FontVariantCapsable: Valuable {
     static var smallCaps: Self { get }
     static var allSmallCaps: Self { get }
@@ -1667,6 +1722,7 @@ public struct FontVariantCapsType: FontVariantCapsable, CustomStringConvertible 
     
     public var description: String { value }
 }
+
 public protocol FontVariantEastAsianable: Valuable {
     static var ruby: Self { get }
     static var jis78: Self { get }
@@ -1719,6 +1775,7 @@ public struct FontVariantEastAsianType: FontVariantEastAsianable, CustomStringCo
     
     public var description: String { value }
 }
+
 public protocol FontVariantLigaturable: Valuable {
     static var commonLigatures: Self { get }
     static var noCommonLigatures: Self { get }
@@ -1781,6 +1838,7 @@ public struct FontVariantLigaturesType: Noneable, FontVariantLigaturable, Custom
     
     public var description: String { value }
 }
+
 public protocol FontVariantNumericable: Valuable {
     static var ordinal: Self { get }
     static var slashedZero: Self { get }
@@ -1842,6 +1900,7 @@ public struct FontVariantNumericType: Valuable, FontVariantNumericable, CustomSt
     
     public var description: String { value }
 }
+
 public struct FontVariantPositionType: Valuable, CustomStringConvertible {
     public let value: String
     
@@ -1862,6 +1921,7 @@ public struct FontVariantPositionType: Valuable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct FontVariantType: Noneable, FontVariantNumericable, FontVariantEastAsianable, FontVariantCapsable, FontVariantAlternatable, FontVariantLigaturable, CustomStringConvertible {
     public let value: String
     
@@ -1872,6 +1932,7 @@ public struct FontVariantType: Noneable, FontVariantNumericable, FontVariantEast
     
     public var description: String { value }
 }
+
 public struct FontWeightType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1891,6 +1952,7 @@ public struct FontWeightType: Initialable, Inheritable, CustomStringConvertible 
     
     public var description: String { value }
 }
+
 public struct GridAutoColumnsType: Autoable, Lengthable, Percentable, CustomStringConvertible {
     public let value: String
     
@@ -1915,6 +1977,7 @@ public struct GridAutoColumnsType: Autoable, Lengthable, Percentable, CustomStri
     
     public var description: String { value }
 }
+
 public struct GridAutoFlowType: Valuable, CustomStringConvertible {
     public let value: String
     
@@ -1937,6 +2000,7 @@ public struct GridAutoFlowType: Valuable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct GridAutoRowsType: Autoable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -1950,6 +2014,7 @@ public struct GridAutoRowsType: Autoable, Lengthable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct GridTemplateColumnsType: Noneable, Autoable, Initialable, Inheritable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -1963,6 +2028,7 @@ public struct GridTemplateColumnsType: Noneable, Autoable, Initialable, Inherita
     
     public var description: String { value }
 }
+
 public struct GridTemplateRowsType: Noneable, Autoable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -1976,6 +2042,7 @@ public struct GridTemplateRowsType: Noneable, Autoable, Lengthable, CustomString
     
     public var description: String { value }
 }
+
 public struct HangingPunctuationType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -1995,6 +2062,7 @@ public struct HangingPunctuationType: Noneable, Initialable, Inheritable, Custom
     
     public var description: String { value }
 }
+
 public struct HyphensType: Noneable, Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2005,6 +2073,7 @@ public struct HyphensType: Noneable, Autoable, Initialable, Inheritable, CustomS
     
     public var description: String { value }
 }
+
 public struct ImageRenderingType: Autoable, CustomStringConvertible {
     public let value: String
     
@@ -2024,6 +2093,7 @@ public struct ImageRenderingType: Autoable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct IsolationType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2034,6 +2104,7 @@ public struct IsolationType: Autoable, Initialable, Inheritable, CustomStringCon
     
     public var description: String { value }
 }
+
 public struct JustifyContentType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2056,6 +2127,7 @@ public struct JustifyContentType: Initialable, Inheritable, CustomStringConverti
     
     public var description: String { value }
 }
+
 public struct LetterSpacingType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -2066,6 +2138,7 @@ public struct LetterSpacingType: Initialable, Inheritable, Lengthable, CustomStr
     
     public var description: String { value }
 }
+
 public struct LineBreakType: Autoable, CustomStringConvertible {
     public let value: String
     
@@ -2092,6 +2165,7 @@ public struct LineBreakType: Autoable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct LineHeightType: Initialable, Inheritable, Numberable, Lengthable, Percentable, CustomStringConvertible {
     public let value: String
     
@@ -2102,6 +2176,7 @@ public struct LineHeightType: Initialable, Inheritable, Numberable, Lengthable, 
     
     public var description: String { value }
 }
+
 public struct ListStylePositionType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2115,6 +2190,7 @@ public struct ListStylePositionType: Initialable, Inheritable, CustomStringConve
     
     public var description: String { value }
 }
+
 public struct ListStyleTypeType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2185,6 +2261,7 @@ public struct ListStyleTypeType: Noneable, Initialable, Inheritable, CustomStrin
     
     public var description: String { value }
 }
+
 public struct MixBlendModeType: Valuable, CustomStringConvertible {
     public let value: String
     
@@ -2234,6 +2311,7 @@ public struct MixBlendModeType: Valuable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct ObjectFitType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2257,6 +2335,7 @@ public struct ObjectFitType: Noneable, Initialable, Inheritable, CustomStringCon
     
     public var description: String { value }
 }
+
 public struct ObjectPositionXType: Valuable, CustomStringConvertible {
     public let value: String
     
@@ -2268,6 +2347,7 @@ public struct ObjectPositionXType: Valuable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct ObjectPositionYType: Valuable, CustomStringConvertible {
     public let value: String
     
@@ -2279,6 +2359,7 @@ public struct ObjectPositionYType: Valuable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct OutlineStyleType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2313,6 +2394,7 @@ public struct OutlineStyleType: Noneable, Initialable, Inheritable, CustomString
     
     public var description: String { value }
 }
+
 public struct OutlineWidthType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -2329,6 +2411,7 @@ public struct OutlineWidthType: Initialable, Inheritable, Lengthable, CustomStri
     
     public var description: String { value }
 }
+
 public struct OverflowType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2345,6 +2428,7 @@ public struct OverflowType: Autoable, Initialable, Inheritable, CustomStringConv
     
     public var description: String { value }
 }
+
 public struct OverflowWrapType: Valuable, CustomStringConvertible {
     public let value: String
     
@@ -2368,6 +2452,7 @@ public struct OverflowWrapType: Valuable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct PageBreakAfterType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2387,6 +2472,7 @@ public struct PageBreakAfterType: Autoable, Initialable, Inheritable, CustomStri
     
     public var description: String { value }
 }
+
 public struct PageBreakBeforeType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2406,6 +2492,7 @@ public struct PageBreakBeforeType: Autoable, Initialable, Inheritable, CustomStr
     
     public var description: String { value }
 }
+
 public struct PageBreakInsideType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2416,6 +2503,7 @@ public struct PageBreakInsideType: Autoable, Initialable, Inheritable, CustomStr
     
     public var description: String { value }
 }
+
 public struct PointerEventsType: Noneable, Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2423,6 +2511,7 @@ public struct PointerEventsType: Noneable, Autoable, Initialable, Inheritable, C
     
     public var description: String { value }
 }
+
 public struct PositionType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2452,6 +2541,7 @@ public struct PositionType: Initialable, Inheritable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct QuotesType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2469,6 +2559,7 @@ public struct QuotesType: Noneable, Initialable, Inheritable, CustomStringConver
     
     public var description: String { value }
 }
+
 public struct ResizeType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2485,6 +2576,7 @@ public struct ResizeType: Noneable, Initialable, Inheritable, CustomStringConver
     
     public var description: String { value }
 }
+
 public struct ScrollBehaviorType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2495,11 +2587,13 @@ public struct ScrollBehaviorType: Autoable, Initialable, Inheritable, CustomStri
     
     public var description: String { value }
 }
+
 public enum StepsType: String, CustomStringConvertible {
     case start, end
     
     public var description: String { rawValue }
 }
+
 public struct TableLayoutType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2515,6 +2609,7 @@ public struct TableLayoutType: Autoable, Initialable, Inheritable, CustomStringC
     
     public var description: String { value }
 }
+
 public struct TabSizeType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -2525,6 +2620,7 @@ public struct TabSizeType: Initialable, Inheritable, Lengthable, CustomStringCon
     
     public var description: String { value }
 }
+
 public struct TextAlignLastType: Autoable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2552,6 +2648,7 @@ public struct TextAlignLastType: Autoable, Initialable, Inheritable, CustomStrin
     
     public var description: String { value }
 }
+
 public struct TextAlignType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2571,6 +2668,7 @@ public struct TextAlignType: Initialable, Inheritable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct TextCombineUprightType: Noneable, CustomStringConvertible {
     public let value: String
     
@@ -2590,6 +2688,7 @@ public struct TextCombineUprightType: Noneable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct TextDecorationLineType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2606,6 +2705,7 @@ public struct TextDecorationLineType: Noneable, Initialable, Inheritable, Custom
     
     public var description: String { value }
 }
+
 public struct TextDecorationStyleType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2628,6 +2728,7 @@ public struct TextDecorationStyleType: Initialable, Inheritable, CustomStringCon
     
     public var description: String { value }
 }
+
 public struct TextIndentType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
     public let value: String
     
@@ -2635,6 +2736,7 @@ public struct TextIndentType: Initialable, Inheritable, Lengthable, Percentable,
     
     public var description: String { value }
 }
+
 public struct TextJustifyType: Noneable, Autoable, CustomStringConvertible {
     public let value: String
     
@@ -2653,6 +2755,7 @@ public struct TextJustifyType: Noneable, Autoable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct TextOrientationType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2675,6 +2778,7 @@ public struct TextOrientationType: Initialable, Inheritable, CustomStringConvert
     
     public var description: String { value }
 }
+
 public struct TextOverflowType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2691,6 +2795,7 @@ public struct TextOverflowType: Initialable, Inheritable, CustomStringConvertibl
     
     public var description: String { value }
 }
+
 public struct TextShadowType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2706,6 +2811,7 @@ public struct TextShadowType: Noneable, Initialable, Inheritable, CustomStringCo
     
     public var description: String { value }
 }
+
 public struct TextTransformType: Noneable, Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2722,6 +2828,7 @@ public struct TextTransformType: Noneable, Initialable, Inheritable, CustomStrin
     
     public var description: String { value }
 }
+
 public struct TextUnderlinePositionType: Autoable, CustomStringConvertible {
     public let value: String
     
@@ -2759,6 +2866,7 @@ public struct TextUnderlinePositionType: Autoable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public final class TimeType: Initialable, Inheritable, CustomStringConvertible, _PropertyValueInnerChangeable {
     @State public var value = ""
     
@@ -2808,6 +2916,7 @@ public final class TimeType: Initialable, Inheritable, CustomStringConvertible, 
     
     public var description: String { value }
 }
+
 public struct TransformFunction: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2923,6 +3032,7 @@ public struct TransformFunction: Initialable, Inheritable, CustomStringConvertib
     
     public var description: String { value }
 }
+
 public struct TransformOriginType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2938,6 +3048,7 @@ public struct TransformOriginType: Initialable, Inheritable, CustomStringConvert
     
     public var description: String { value }
 }
+
 public struct TransformStyleType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2951,6 +3062,7 @@ public struct TransformStyleType: Initialable, Inheritable, CustomStringConverti
     
     public var description: String { value }
 }
+
 public struct TransitionPropertyType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -2974,6 +3086,7 @@ public struct TransitionPropertyType: Initialable, Inheritable, CustomStringConv
     
     public var description: String { value }
 }
+
 public struct TransitionTimingFunctionType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -3013,6 +3126,7 @@ public struct TransitionTimingFunctionType: Initialable, Inheritable, CustomStri
     
     public var description: String { value }
 }
+
 public struct UnicodeBidiType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -3036,6 +3150,7 @@ public struct UnicodeBidiType: Initialable, Inheritable, CustomStringConvertible
     
     public var description: String { value }
 }
+
 public struct UnitValueType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
     public let value: String
     
@@ -3046,6 +3161,7 @@ public struct UnitValueType: Initialable, Inheritable, Lengthable, Percentable, 
     
     public var description: String { value }
 }
+
 public enum UserSelectType: String, CustomStringConvertible {
     /// Default. Text can be selected if the browser allows it
     case auto
@@ -3061,6 +3177,7 @@ public enum UserSelectType: String, CustomStringConvertible {
     
     public var description: String { rawValue }
 }
+
 public struct VerticalAlignType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
     public let value: String
     
@@ -3092,6 +3209,7 @@ public struct VerticalAlignType: Initialable, Inheritable, Lengthable, Percentab
     
     public var description: String { value }
 }
+
 public struct VisibilityType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -3111,6 +3229,7 @@ public struct VisibilityType: Initialable, Inheritable, CustomStringConvertible 
     
     public var description: String { value }
 }
+
 public struct WhiteSpaceType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -3133,6 +3252,7 @@ public struct WhiteSpaceType: Initialable, Inheritable, CustomStringConvertible 
     
     public var description: String { value }
 }
+
 public struct WordBreakType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
     
@@ -3153,6 +3273,7 @@ public struct WordBreakType: Initialable, Inheritable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 public struct WordSpacingType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
     public let value: String
     
@@ -3163,6 +3284,7 @@ public struct WordSpacingType: Initialable, Inheritable, Lengthable, CustomStrin
     
     public var description: String { value }
 }
+
 public enum WordWrapType: String, CustomStringConvertible {
     /// Break words only at allowed break points
     case normal
@@ -3182,6 +3304,7 @@ public enum WordWrapType: String, CustomStringConvertible {
     
     public var description: String { rawValue }
 }
+
 public enum WritingModeType: String, CustomStringConvertible {
     /// Let the content flow horizontally from left to right, vertically from top to bottom
     case horizontalTb = "horizontal-tb"
@@ -3194,6 +3317,7 @@ public enum WritingModeType: String, CustomStringConvertible {
     
     public var description: String { rawValue }
 }
+
 /// Defines where the view is placed at the x-axis.
 public struct XAxis: Lengthable, Percentable, CustomStringConvertible {
     public let value: String
@@ -3206,6 +3330,7 @@ public struct XAxis: Lengthable, Percentable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 /// Defines where the view is placed at the y-axis.
 public struct YAxis: Lengthable, Percentable, CustomStringConvertible {
     public let value: String
@@ -3218,6 +3343,7 @@ public struct YAxis: Lengthable, Percentable, CustomStringConvertible {
     
     public var description: String { value }
 }
+
 /// Defines where the view is placed at the z-axis (for 3D transformations).
 public struct ZAxis: Lengthable, CustomStringConvertible {
     public let value: String
