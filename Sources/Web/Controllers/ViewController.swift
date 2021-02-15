@@ -17,9 +17,11 @@ open class ViewController: BaseContentElement, Response {
     
     @State public var title = ""
     
-    public required init () {
-        super.init()
+    open override func buildUI() {
+        super.buildUI()
         title = WebApp.shared.window.document.title
-        $title.listenOnlyIfChanged { WebApp.shared.window.document.title = $0 }
+        $title.listen {
+            WebApp.shared.window.document.title = $0
+        }
     }
 }
