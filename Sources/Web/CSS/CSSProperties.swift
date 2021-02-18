@@ -1588,7 +1588,19 @@ public struct BackgroundValue: CustomStringConvertible {
     }
 
     public init (color: ColorType? = nil, src: String? = nil, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil) {
-        value = [color?.description, src, position?.value, size?.value, `repeat`?.value, origin?.value, clip?.value, attachment?.value].compactMap { $0 }.joined(separator: " ")
+        value = [
+            color?.description,
+            src,
+            position?.value,
+            size?.value,
+            `repeat`?.value,
+            origin?.value,
+            clip?.value,
+            attachment?.value
+        ]
+        .compactMap { $0 }
+        .joined(separator: " ")
+    }
     
     public init (_ function: CSSFunction) {
         self.init(function.value)
@@ -15451,17 +15463,21 @@ extension CSSRulable {
 ///
 /// [Learn more](https://www.w3schools.com/cssref/pr_margin-bottom.asp)
 public class MarginBottomProperty: _Property {
-    public var propertyKey: PropertyKey<UnitValue> { .marginBottom }
-    public var propertyValue: UnitValue
-    var _content = _PropertyContent<UnitValue>()
+    public var propertyKey: PropertyKey<MarginSideValue> { .marginBottom }
+    public var propertyValue: MarginSideValue
+    var _content = _PropertyContent<MarginSideValue>()
 
-    public init<U: UnitValuable>(_ value: U) {
-        propertyValue = UnitValue(value.value.doubleValue, value.unit)
+    public init(_ value: MarginSideValue) {
+        propertyValue = value
+    }
+    
+    public convenience init<U: UnitValuable>(_ value: U) {
+        self.init(.init(UnitValue(value.value.doubleValue, value.unit)))
     }
 
     public convenience init <U: UnitValuable>(_ value: State<U>) {
         self.init(value.wrappedValue)
-        value.listen { self._changed(to: UnitValue($0.value.doubleValue, $0.unit)) }
+        value.listen { self._changed(to: .init(UnitValue($0.value.doubleValue, $0.unit))) }
     }
 
     public convenience init <V, U: UnitValuable>(_ value: ExpressableState<V, U>) {
@@ -15508,7 +15524,45 @@ public class MarginBottomProperty: _Property {
 }
 
 extension PropertyKey {
-    public static var marginBottom: PropertyKey<UnitValue> { "margin-bottom".propertyKey() }
+    public static var marginBottom: PropertyKey<MarginSideValue> { "margin-bottom".propertyKey() }
+}
+
+public final class MarginSideValue: Autoable, CustomStringConvertible, _PropertyValueInnerChangeable {
+    @State public var value = ""
+    
+    var _changeHandler = {}
+
+    public init (_ value: String) {
+        self.value = value
+        $value.listen {
+            self._changeHandler()
+        }
+    }
+    
+    public convenience init (_ type: UnitValueType) {
+        self.init(type.value)
+    }
+    
+    public convenience init (_ value: Double, _ unit: Unit) {
+        self.init("\(value)\(unit.rawValue)")
+    }
+    
+    public convenience init<U: UnitValuable>(_ value: U) {
+        self.init(value.value.doubleValue, value.unit)
+    }
+
+    public convenience init <U: UnitValuable>(_ value: State<U>) {
+        self.init(value.wrappedValue)
+        value.listen {
+            self.value = "\($0.value.doubleValue)\($0.unit.rawValue)"
+        }
+    }
+
+    public convenience init <V, U: UnitValuable>(_ value: ExpressableState<V, U>) {
+        self.init(value.unwrap())
+    }
+
+    public var description: String { value }
 }
 
 extension Stylesheet {
@@ -15518,8 +15572,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the bottom margin of an element
+    public func marginBottom(_ value: MarginSideValue) -> Self {
+        s?._addProperty(.marginBottom, value)
+        return self
+    }
+    
+    /// Sets the bottom margin of an element
     public func marginBottom<U: UnitValuable>(_ value: U) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value.value.doubleValue, value.unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value.value.doubleValue, value.unit)))
         return self
     }
 
@@ -15538,55 +15598,55 @@ extension CSSRulable {
 
     /// Sets the bottom margin of an element
     public func marginBottom(_ value: Double, _ unit: Unit) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
     public func marginBottom(_ value: State<Double>, _ unit: Unit) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
     public func marginBottom(_ value: Double, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
     public func marginBottom<V>(_ value: ExpressableState<V, Double>, _ unit: Unit) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
     public func marginBottom<V>(_ value: Double, _ unit: ExpressableState<V, Unit>) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
     public func marginBottom<V>(_ value: State<Double>, _ unit: ExpressableState<V, Unit>) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
     public func marginBottom<V>(_ value: ExpressableState<V, Double>, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
     public func marginBottom(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginBottom<V, U>(_ value: ExpressableState<V, Double>, _ unit: ExpressableState<U, Unit>) -> Self {
-        s?._addProperty(.marginBottom, UnitValue(value, unit))
+        s?._addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 }
@@ -15601,17 +15661,21 @@ extension CSSRulable {
 ///
 /// [Learn more](https://www.w3schools.com/cssref/pr_margin-left.asp)
 public class MarginLeftProperty: _Property {
-    public var propertyKey: PropertyKey<UnitValue> { .marginLeft }
-    public var propertyValue: UnitValue
-    var _content = _PropertyContent<UnitValue>()
+    public var propertyKey: PropertyKey<MarginSideValue> { .marginLeft }
+    public var propertyValue: MarginSideValue
+    var _content = _PropertyContent<MarginSideValue>()
 
-    public init<U: UnitValuable>(_ value: U) {
-        propertyValue = UnitValue(value.value.doubleValue, value.unit)
+    public init(_ value: MarginSideValue) {
+        propertyValue = value
+    }
+
+    public convenience init<U: UnitValuable>(_ value: U) {
+        self.init(.init(UnitValue(value.value.doubleValue, value.unit)))
     }
 
     public convenience init <U: UnitValuable>(_ value: State<U>) {
         self.init(value.wrappedValue)
-        value.listen { self._changed(to: UnitValue($0.value.doubleValue, $0.unit)) }
+        value.listen { self._changed(to: .init(UnitValue($0.value.doubleValue, $0.unit))) }
     }
 
     public convenience init <V, U: UnitValuable>(_ value: ExpressableState<V, U>) {
@@ -15658,7 +15722,7 @@ public class MarginLeftProperty: _Property {
 }
 
 extension PropertyKey {
-    public static var marginLeft: PropertyKey<UnitValue> { "margin-left".propertyKey() }
+    public static var marginLeft: PropertyKey<MarginSideValue> { "margin-left".propertyKey() }
 }
 
 extension Stylesheet {
@@ -15668,8 +15732,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the left margin of an element
+    public func marginLeft(_ value: MarginSideValue) -> Self {
+        s?._addProperty(.marginLeft, value)
+        return self
+    }
+    
+    /// Sets the left margin of an element
     public func marginLeft<U: UnitValuable>(_ value: U) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value.value.doubleValue, value.unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value.value.doubleValue, value.unit)))
         return self
     }
 
@@ -15688,55 +15758,55 @@ extension CSSRulable {
 
     /// Sets the left margin of an element
     public func marginLeft(_ value: Double, _ unit: Unit) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
     public func marginLeft(_ value: State<Double>, _ unit: Unit) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
     public func marginLeft(_ value: Double, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
     public func marginLeft<V>(_ value: ExpressableState<V, Double>, _ unit: Unit) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
     public func marginLeft<V>(_ value: Double, _ unit: ExpressableState<V, Unit>) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
     public func marginLeft<V>(_ value: State<Double>, _ unit: ExpressableState<V, Unit>) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
     public func marginLeft<V>(_ value: ExpressableState<V, Double>, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
     public func marginLeft(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
     public func marginLeft<V, U>(_ value: ExpressableState<V, Double>, _ unit: ExpressableState<U, Unit>) -> Self {
-        s?._addProperty(.marginLeft, UnitValue(value, unit))
+        s?._addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 }
@@ -15770,14 +15840,34 @@ public class MarginProperty: _Property {
     public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) {
         propertyValue = MarginValue(v: v, h: h)
     }
+    
+    public init <U2: UnitValuable>(v: MarginSideValue, h: U2) {
+        propertyValue = MarginValue(v: v, h: h)
+    }
+    
+    public init <U1: UnitValuable>(v: U1, h: MarginSideValue) {
+        propertyValue = MarginValue(v: v, h: h)
+    }
 
-    public convenience init <U1: UnitValuable, A>(v: A, h: U1) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <A, U2: UnitValuable>(v: A, h: U2) where A: StateConvertible, A.Value: UnitValuable {
+        let v = v.stateValue
+        self.init(v: v.wrappedValue, h: h)
+        v.listen { self._changed(to: MarginValue(v: $0, h: h)) }
+    }
+    
+    public convenience init <A>(v: A, h: MarginSideValue) where A: StateConvertible, A.Value: UnitValuable {
         let v = v.stateValue
         self.init(v: v.wrappedValue, h: h)
         v.listen { self._changed(to: MarginValue(v: $0, h: h)) }
     }
 
     public convenience init <U1: UnitValuable, B>(v: U1, h: B) where B: StateConvertible, B.Value: UnitValuable {
+        let h = h.stateValue
+        self.init(v: v, h: h.wrappedValue)
+        h.listen { self._changed(to: MarginValue(v: v, h: $0)) }
+    }
+    
+    public convenience init <B>(v: MarginSideValue, h: B) where B: StateConvertible, B.Value: UnitValuable {
         let h = h.stateValue
         self.init(v: v, h: h.wrappedValue)
         h.listen { self._changed(to: MarginValue(v: v, h: $0)) }
@@ -15796,8 +15886,18 @@ public class MarginProperty: _Property {
     public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) {
         propertyValue = MarginValue(top: top, h: h, bottom: bottom)
     }
+    
+    public init <U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3) {
+        propertyValue = MarginValue(top: top, h: h, bottom: bottom)
+    }
 
     public convenience init <U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) where A: StateConvertible, A.Value: UnitValuable {
+        let top = top.stateValue
+        self.init(top: top.wrappedValue, h: h, bottom: bottom)
+        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom)) }
+    }
+    
+    public convenience init <U3: UnitValuable, A>(top: A, h: MarginSideValue, bottom: U3) where A: StateConvertible, A.Value: UnitValuable {
         let top = top.stateValue
         self.init(top: top.wrappedValue, h: h, bottom: bottom)
         top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom)) }
@@ -15814,6 +15914,12 @@ public class MarginProperty: _Property {
         self.init(top: top, h: h, bottom: bottom.wrappedValue)
         bottom.listen { self._changed(to: MarginValue(top: top, h: h, bottom: $0)) }
     }
+    
+    public convenience init <U1: UnitValuable, C>(top: U1, h: MarginSideValue, bottom: C) where C: StateConvertible, C.Value: UnitValuable {
+        let bottom = bottom.stateValue
+        self.init(top: top, h: h, bottom: bottom.wrappedValue)
+        bottom.listen { self._changed(to: MarginValue(top: top, h: h, bottom: $0)) }
+    }
 
     public convenience init <U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let top = top.stateValue
@@ -15824,6 +15930,14 @@ public class MarginProperty: _Property {
     }
 
     public convenience init <U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let top = top.stateValue
+        let bottom = bottom.stateValue
+        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue)
+        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom.wrappedValue)) }
+        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: h, bottom: $0)) }
+    }
+    
+    public convenience init <A, C>(top: A, h: MarginSideValue, bottom: C) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let top = top.stateValue
         let bottom = bottom.stateValue
         self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue)
@@ -15999,6 +16113,14 @@ public class MarginValue: CustomStringConvertible, _PropertyValueInnerChangeable
             self._changeHandler()
         }
     }
+    
+    public convenience init <A>(all: A) where A: StateConvertible, A.Value: UnitValuable {
+        let all = all.stateValue
+        self.init(all: all.wrappedValue)
+        all.listen {
+            self.value = $0.description
+        }
+    }
 
     public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) {
         value = Self.values(v, h)
@@ -16006,8 +16128,29 @@ public class MarginValue: CustomStringConvertible, _PropertyValueInnerChangeable
             self._changeHandler()
         }
     }
+    
+    public init <U2: UnitValuable>(v: MarginSideValue, h: U2) {
+        value = Self.values(v, h)
+        $value.listen {
+            self._changeHandler()
+        }
+    }
+    
+    public init <U1: UnitValuable>(v: U1, h: MarginSideValue) {
+        value = Self.values(v, h)
+        $value.listen {
+            self._changeHandler()
+        }
+    }
 
     public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) {
+        value = Self.values(top, h, bottom)
+        $value.listen {
+            self._changeHandler()
+        }
+    }
+    
+    public init <U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3) {
         value = Self.values(top, h, bottom)
         $value.listen {
             self._changeHandler()
@@ -16032,13 +16175,13 @@ extension Stylesheet {
 extension CSSRulable {
     /// Sets all the margin properties in one declaration
     public func margin<U: UnitValuable>(all: U) -> Self {
-        s?._addProperty(MarginProperty(all: all))
+        s?._addProperty(.margin, MarginValue(all: all))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     public func margin<A>(all type: A) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        s?._addProperty(MarginProperty(all: type))
+        s?._addProperty(.margin, MarginValue(all: type))
         return self
     }
 
@@ -16046,7 +16189,19 @@ extension CSSRulable {
 
     /// Sets all the margin properties in one declaration
     public func margin<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) -> Self {
-        s?._addProperty(MarginProperty(v: v, h: h))
+        s?._addProperty(.margin, MarginValue(v: v, h: h))
+        return self
+    }
+    
+    /// Sets all the margin properties in one declaration
+    public func margin<U1: UnitValuable>(v: U1, h: MarginSideValue) -> Self {
+        s?._addProperty(.margin, MarginValue(v: v, h: h))
+        return self
+    }
+    
+    /// Sets all the margin properties in one declaration
+    public func margin<U2: UnitValuable>(v: MarginSideValue, h: U2) -> Self {
+        s?._addProperty(.margin, MarginValue(v: v, h: h))
         return self
     }
 
@@ -16055,9 +16210,21 @@ extension CSSRulable {
         s?._addProperty(MarginProperty(v: v, h: h))
         return self
     }
+    
+    /// Sets all the margin properties in one declaration
+    public func margin<A>(v: A, h: MarginSideValue) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        s?._addProperty(MarginProperty(v: v, h: h))
+        return self
+    }
 
     /// Sets all the margin properties in one declaration
     public func margin<U1: UnitValuable, B>(v: U1, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        s?._addProperty(MarginProperty(v: v, h: h))
+        return self
+    }
+    
+    /// Sets all the margin properties in one declaration
+    public func margin<B>(v: MarginSideValue, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
         s?._addProperty(MarginProperty(v: v, h: h))
         return self
     }
@@ -16075,9 +16242,21 @@ extension CSSRulable {
         s?._addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
+    
+    /// Sets all the margin properties in one declaration
+    public func margin<U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3) -> Self {
+        s?._addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+        return self
+    }
 
     /// Sets all the margin properties in one declaration
     public func margin<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        s?._addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+        return self
+    }
+    
+    /// Sets all the margin properties in one declaration
+    public func margin<U2: UnitValuable, A>(top: A, h: MarginSideValue, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
         s?._addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
@@ -16093,6 +16272,12 @@ extension CSSRulable {
         s?._addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
+    
+    /// Sets all the margin properties in one declaration
+    public func margin<U1: UnitValuable, C>(top: U1, h: MarginSideValue, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        s?._addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+        return self
+    }
 
     /// Sets all the margin properties in one declaration
     public func margin<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
@@ -16102,6 +16287,12 @@ extension CSSRulable {
 
     /// Sets all the margin properties in one declaration
     public func margin<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        s?._addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+        return self
+    }
+    
+    /// Sets all the margin properties in one declaration
+    public func margin<A, C>(top: A, h: MarginSideValue, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         s?._addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
@@ -16227,17 +16418,21 @@ extension CSSRulable {
 ///
 /// [Learn more](https://www.w3schools.com/cssref/pr_margin-right.asp)
 public class MarginRightProperty: _Property {
-    public var propertyKey: PropertyKey<UnitValue> { .marginRight }
-    public var propertyValue: UnitValue
-    var _content = _PropertyContent<UnitValue>()
+    public var propertyKey: PropertyKey<MarginSideValue> { .marginRight }
+    public var propertyValue: MarginSideValue
+    var _content = _PropertyContent<MarginSideValue>()
 
-    public init<U: UnitValuable>(_ value: U) {
-        propertyValue = UnitValue(value.value.doubleValue, value.unit)
+    public init(_ value: MarginSideValue) {
+        propertyValue = value
+    }
+
+    public convenience init<U: UnitValuable>(_ value: U) {
+        self.init(.init(UnitValue(value.value.doubleValue, value.unit)))
     }
 
     public convenience init <U: UnitValuable>(_ value: State<U>) {
         self.init(value.wrappedValue)
-        value.listen { self._changed(to: UnitValue($0.value.doubleValue, $0.unit)) }
+        value.listen { self._changed(to: .init(UnitValue($0.value.doubleValue, $0.unit))) }
     }
 
     public convenience init <V, U: UnitValuable>(_ value: ExpressableState<V, U>) {
@@ -16284,7 +16479,7 @@ public class MarginRightProperty: _Property {
 }
 
 extension PropertyKey {
-    public static var marginRight: PropertyKey<UnitValue> { "margin-right".propertyKey() }
+    public static var marginRight: PropertyKey<MarginSideValue> { "margin-right".propertyKey() }
 }
 
 extension Stylesheet {
@@ -16293,9 +16488,15 @@ extension Stylesheet {
 }
 
 extension CSSRulable {
+    /// Sets the top margin of an element
+    public func marginRight(_ value: MarginSideValue) -> Self {
+        s?._addProperty(.marginRight, value)
+        return self
+    }
+    
     /// Sets the right margin of an element
     public func marginRight<U: UnitValuable>(_ value: U) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value.value.doubleValue, value.unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value.value.doubleValue, value.unit)))
         return self
     }
 
@@ -16314,55 +16515,55 @@ extension CSSRulable {
 
     /// Sets the top margin of an element
     public func marginRight(_ value: Double, _ unit: Unit) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginRight(_ value: State<Double>, _ unit: Unit) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginRight(_ value: Double, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginRight<V>(_ value: ExpressableState<V, Double>, _ unit: Unit) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginRight<V>(_ value: Double, _ unit: ExpressableState<V, Unit>) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginRight<V>(_ value: State<Double>, _ unit: ExpressableState<V, Unit>) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginRight<V>(_ value: ExpressableState<V, Double>, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginRight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginRight<V, U>(_ value: ExpressableState<V, Double>, _ unit: ExpressableState<U, Unit>) -> Self {
-        s?._addProperty(.marginRight, UnitValue(value, unit))
+        s?._addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 }
@@ -16377,17 +16578,21 @@ extension CSSRulable {
 ///
 /// [Learn more](https://www.w3schools.com/cssref/pr_margin-top.asp)
 public class MarginTopProperty: _Property {
-    public var propertyKey: PropertyKey<UnitValue> { .marginTop }
-    public var propertyValue: UnitValue
-    var _content = _PropertyContent<UnitValue>()
+    public var propertyKey: PropertyKey<MarginSideValue> { .marginTop }
+    public var propertyValue: MarginSideValue
+    var _content = _PropertyContent<MarginSideValue>()
 
-    public init<U: UnitValuable>(_ value: U) {
-        propertyValue = UnitValue(value.value.doubleValue, value.unit)
+    public init(_ value: MarginSideValue) {
+        propertyValue = value
+    }
+
+    public convenience init<U: UnitValuable>(_ value: U) {
+        self.init(.init(UnitValue(value.value.doubleValue, value.unit)))
     }
 
     public convenience init <U: UnitValuable>(_ value: State<U>) {
         self.init(value.wrappedValue)
-        value.listen { self._changed(to: UnitValue($0.value.doubleValue, $0.unit)) }
+        value.listen { self._changed(to: .init(UnitValue($0.value.doubleValue, $0.unit))) }
     }
 
     public convenience init <V, U: UnitValuable>(_ value: ExpressableState<V, U>) {
@@ -16435,7 +16640,7 @@ public class MarginTopProperty: _Property {
 
 extension PropertyKey {
     /// Sets the top margin of an element
-    public static var marginTop: PropertyKey<UnitValue> { "margin-top".propertyKey() }
+    public static var marginTop: PropertyKey<MarginSideValue> { "margin-top".propertyKey() }
 }
 
 extension Stylesheet {
@@ -16445,8 +16650,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the top margin of an element
+    public func marginTop(_ value: MarginSideValue) -> Self {
+        s?._addProperty(.marginTop, value)
+        return self
+    }
+    
+    /// Sets the top margin of an element
     public func marginTop<U: UnitValuable>(_ value: U) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value.value.doubleValue, value.unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value.value.doubleValue, value.unit)))
         return self
     }
 
@@ -16465,55 +16676,55 @@ extension CSSRulable {
 
     /// Sets the top margin of an element
     public func marginTop(_ value: Double, _ unit: Unit) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginTop(_ value: State<Double>, _ unit: Unit) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginTop(_ value: Double, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginTop<V>(_ value: ExpressableState<V, Double>, _ unit: Unit) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginTop<V>(_ value: Double, _ unit: ExpressableState<V, Unit>) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginTop<V>(_ value: State<Double>, _ unit: ExpressableState<V, Unit>) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginTop<V>(_ value: ExpressableState<V, Double>, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginTop(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
     public func marginTop<V, U>(_ value: ExpressableState<V, Double>, _ unit: ExpressableState<U, Unit>) -> Self {
-        s?._addProperty(.marginTop, UnitValue(value, unit))
+        s?._addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 }
