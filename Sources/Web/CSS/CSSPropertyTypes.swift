@@ -869,6 +869,7 @@ public enum ColorType: CustomStringConvertible {
     case rgba(Int, Int, Int, Double)
     case hsl(Int, Int, Int)
     case hsla(Int, Int, Int, Double)
+    case custom(String)
     
     public var description: String {
         switch self {
@@ -884,6 +885,8 @@ public enum ColorType: CustomStringConvertible {
             return "hsl(\(hue), \(saturation)%, \(lightness)%)"
         case .hsla(let hue, let saturation, let lightness, let alpha):
             return "hsla(\(hue), \(saturation)%, \(lightness)%, \(alpha))"
+        case .custom(let value):
+            return value
         }
     }
 }
