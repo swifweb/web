@@ -72,7 +72,10 @@ class EventListener {
     @discardableResult
     init (object: String, event: String, _ handler: @escaping ([JSValue]) -> Void) {
         self.handler = handler
-        self.closure = .init(self.handler)
+        self.closure = .init {
+            handler($0)
+            return .boolean(true)
+        }
         self.object = object
         self.event = event
         #if arch(wasm32)
