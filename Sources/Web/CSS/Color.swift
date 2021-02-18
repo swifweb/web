@@ -229,3 +229,13 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
         hasher.combine(value.description)
     }
 }
+
+public final class StopColor: Color {
+    public convenience init (_ color: Color, _ stopPoint: Double) {
+        self.init(.custom("\(color) \(stopPoint)%"))
+    }
+}
+
+public func /(lhs: Color, rhs: Double) -> Color {
+    StopColor(lhs, rhs)
+}
