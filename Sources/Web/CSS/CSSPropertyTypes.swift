@@ -1392,7 +1392,26 @@ public struct FloatType: Noneable, Initialable, Inheritable, CustomStringConvert
 public struct FontFamilyType: Initialable, Inheritable, CustomStringConvertible {
     public let value: String
 
-    public init (_ value: String) { self.value = value }
+    public init (_ value: String) {
+        if value.hasPrefix(".") || value.contains(" ") {
+            self.value = "'" + value + "'"
+        } else {
+            self.value = value
+        }
+    }
+    
+    public init (_ types: [FontFamilyType]) {
+        self.value = types.map { $0.value }.joined(separator: ", ")
+        debugPrint("FontFamilyType: \(self.value)")
+    }
+    
+    public static var system: Self { .init("system") }
+    
+    public static var appleSystem: Self { .init("-apple-system") }
+    
+    public static func combined(_ types: FontFamilyType...) -> Self { combined(types) }
+    
+    public static func combined(_ types: [FontFamilyType]) -> Self { .init(types) }
     
     /// The name of a font family. For example, "Times" and "Helvetica" are font families.
     /// Font family names containing whitespace should be quoted.
