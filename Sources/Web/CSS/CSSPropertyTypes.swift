@@ -1402,7 +1402,6 @@ public struct FontFamilyType: Initialable, Inheritable, CustomStringConvertible 
     
     public init (_ types: [FontFamilyType]) {
         self.value = types.map { $0.value }.joined(separator: ", ")
-        debugPrint("FontFamilyType: \(self.value)")
     }
     
     public static var system: Self { .init("system") }
