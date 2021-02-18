@@ -3151,13 +3151,10 @@ public struct UnicodeBidiType: Initialable, Inheritable, CustomStringConvertible
     public var description: String { value }
 }
 
-public struct UnitValueType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
+public struct UnitValueType: Autoable, Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
     public let value: String
     
     public init (_ value: String) { self.value = value }
-    
-    /// Default value. The browser calculates the width
-    public static var auto: Self { .init("auto") }
     
     public var description: String { value }
 }
