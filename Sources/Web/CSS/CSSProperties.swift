@@ -1355,6 +1355,10 @@ public class BackgroundImageProperty: _Property {
     public init (_ src: String) {
         propertyValue = "url(\(src)"
     }
+    
+    public convenience init (_ function: CSSFunction) {
+        self.init(function.value)
+    }
 
     public convenience init (_ type: State<String>) {
         self.init(type.wrappedValue)
@@ -1381,6 +1385,10 @@ extension CSSRulable {
     public func backgroundImage(_ type: String) -> Self {
         s?._addProperty(.backgroundImage, type)
         return self
+    }
+    
+    public func backgroundImage(_ function: CSSFunction) -> Self {
+        backgroundImage(function.value)
     }
 
     /// Specifies one or more background images for an element
@@ -1557,6 +1565,14 @@ public class BackgroundProperty: _Property {
             attachment: attachment
         )
     }
+    
+    public convenience init (_ src: String) {
+        self.init(BackgroundValue(src))
+    }
+    
+    public convenience init (_ function: CSSFunction) {
+        self.init(function.value)
+    }
 }
 
 extension PropertyKey {
@@ -1566,9 +1582,16 @@ extension PropertyKey {
 
 public struct BackgroundValue: CustomStringConvertible {
     public let value: String
+    
+    init(_ value: String) {
+        self.value = value
+    }
 
     public init (color: ColorType? = nil, src: String? = nil, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil) {
         value = [color?.description, src, position?.value, size?.value, `repeat`?.value, origin?.value, clip?.value, attachment?.value].compactMap { $0 }.joined(separator: " ")
+    
+    public init (_ function: CSSFunction) {
+        self.init(function.value)
     }
 
     public var description: String { value }
@@ -1636,6 +1659,14 @@ extension CSSRulable {
             clip: clip,
             attachment: attachment
         ))
+    }
+    
+    public func background(_ src: String) -> Self {
+        background(BackgroundValue(src))
+    }
+    
+    public func background(_ function: CSSFunction) -> Self {
+        background(BackgroundValue(function.value))
     }
 }
 
