@@ -18,11 +18,13 @@ public class Document: AnyElement {
     var scripts: [(Script, JSValue)] = []
     
     @State public var title = ""
+    @State public var metaDescription = ""
     @State public internal(set) var isVisible = false
     @State public internal(set) var isInForeground = false
     @State public internal(set) var isActive = false
     
     lazy var titleElement = Title(in: self)
+    lazy var metaDescriptionElement = Meta(in: self)
     
     #if arch(wasm32)
     public lazy var head = Head(domElement: domElement.head)
@@ -48,6 +50,7 @@ public class Document: AnyElement {
         #endif
         self.window = window
         setupTitle()
+        setupMetaDescription()
         window.$isInForeground.merge(with: $isInForeground)
         window.$isActive.merge(with: $isActive)
         $isVisible.listen { old, new in
@@ -62,6 +65,27 @@ public class Document: AnyElement {
             guard old != new else { return }
             Dispatch.async {
                 self.titleElement.value = new
+            }
+        }
+    }
+    
+    private func setupMetaDescription() {
+        // remove already existing metaDescription node
+        var predefinedMetaDescription = ""
+        if let existingMetaDescription = domElement.querySelector.function?.callAsFunction(this: domElement.object, "meta[name=\"description\"]"),
+           !existingMetaDescription.isNull,
+           !existingMetaDescription.isUndefined {
+            predefinedMetaDescription = existingMetaDescription.content.string ?? ""
+            head.domElement.removeChild.function?.callAsFunction(this: head.domElement.object, existingMetaDescription)
+        }
+        // set same content in the new metaDescription node
+        metaDescriptionElement.name = "description"
+        metaDescriptionElement.content = predefinedMetaDescription
+        head.appendChild(metaDescriptionElement)
+        $metaDescription.listen { old, new in
+            guard old != new else { return }
+            Dispatch.async {
+                self.metaDescriptionElement.content = new
             }
         }
     }

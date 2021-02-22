@@ -315,7 +315,15 @@ open class Link: BaseActiveElement, _ErrorHandleable, _LoadHandleable {
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta)
 open class Meta: BaseElement {
+    public var name: String {
+        get { domElement.name.string ?? "" }
+        set { domElement.name = newValue.jsValue() }
+    }
     
+    public var content: String {
+        get { domElement.content.string ?? "" }
+        set { domElement.content = newValue.jsValue() }
+    }
 }
 
 /// The HTML `<style>` element contains style information for a document, or part of a document.

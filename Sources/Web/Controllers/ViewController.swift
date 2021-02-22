@@ -16,12 +16,17 @@ open class ViewController: BaseContentElement, Response {
     public var view: JSValue { domElement }
     
     @State public var title = ""
+    @State public var metaDescription = ""
     
     open override func buildUI() {
         super.buildUI()
         title = WebApp.shared.window.document.title
         $title.listen {
             WebApp.shared.window.document.title = $0
+        }
+        metaDescription = WebApp.shared.window.document.metaDescription
+        $metaDescription.listen {
+            WebApp.shared.window.document.metaDescription = $0
         }
     }
 }
