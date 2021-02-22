@@ -45,6 +45,8 @@ public class Document: AnyElement {
     init (_ window: Window) {
         #if arch(wasm32)
         domElement = JSObject.global.document
+        // reset body
+        domElement.body.object?.innerHTML = "";
         #else
         domElement = JSValue("")
         #endif
