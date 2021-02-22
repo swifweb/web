@@ -1,3 +1,10 @@
+//
+//  WebApp.swift
+//
+//
+//  Created by Mihael Isaev on 15.11.2020.
+//
+
 import Foundation
 import JavaScriptKit
 
@@ -111,12 +118,3 @@ open class WebApp: _PreviewableApp {
         }
     }
 }
-
-//class Script {
-//    fileprivate(set) var code = ""
-//    
-//    init () {}
-//    
-//    func addedToDocument() {}
-//}
-//
