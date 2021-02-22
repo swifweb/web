@@ -4,6 +4,10 @@ import JavaScriptKit
 private var webapp: WebApp!
 
 open class WebApp: _PreviewableApp {
+    public static func main() {
+        Self.start()
+    }
+    
     private var isStarted = false
     
     public static var shared: WebApp {
@@ -28,6 +32,7 @@ open class WebApp: _PreviewableApp {
     
     deinit {}
     
+    @discardableResult
     public static func start() -> WebApp {
         guard webapp == nil else { return webapp }
         webapp = Self()
