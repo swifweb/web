@@ -33,6 +33,7 @@ extension VolumeChangeHandleable {
         s.volumeChangeClosure?.release()
         s.volumeChangeClosure = JSClosure { event in
             s.volumeChangeHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onvolumechange = s.volumeChangeClosure.jsValue()
         s.volumeChangeHandler = handler

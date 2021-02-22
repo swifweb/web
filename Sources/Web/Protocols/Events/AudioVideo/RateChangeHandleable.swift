@@ -33,6 +33,7 @@ extension RateChangeHandleable {
         s.rateChangeClosure?.release()
         s.rateChangeClosure = JSClosure { event in
             s.rateChangeHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onratechange = s.rateChangeClosure.jsValue()
         s.rateChangeHandler = handler

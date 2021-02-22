@@ -33,6 +33,7 @@ extension CopyHandleable {
         s.copyClosure?.release()
         s.copyClosure = JSClosure { event in
             s.copyHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.oncopy = s.copyClosure.jsValue()
         s.copyHandler = handler

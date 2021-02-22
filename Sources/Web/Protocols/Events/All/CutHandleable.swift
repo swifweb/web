@@ -33,6 +33,7 @@ extension CutHandleable {
         s.cutClosure?.release()
         s.cutClosure = JSClosure { event in
             s.cutHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.oncut = s.cutClosure.jsValue()
         s.cutHandler = handler

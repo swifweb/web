@@ -33,6 +33,7 @@ extension LoadedMetadataHandleable {
         s.loadedMetadataClosure?.release()
         s.loadedMetadataClosure = JSClosure { event in
             s.loadedMetadataHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onloadedmetadata = s.loadedMetadataClosure.jsValue()
         s.loadedMetadataHandler = handler

@@ -33,6 +33,7 @@ extension MouseMoveHandleable {
         s.mouseMoveClosure?.release()
         s.mouseMoveClosure = JSClosure { event in
             s.mouseMoveHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onmousemove = s.mouseMoveClosure.jsValue()
         s.mouseMoveHandler = handler

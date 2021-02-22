@@ -34,6 +34,7 @@ extension LoadedDataHandleable {
         s.loadedDataClosure?.release()
         s.loadedDataClosure = JSClosure { event in
             s.loadedDataHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onloadeddata = s.loadedDataClosure.jsValue()
         s.loadedDataHandler = handler

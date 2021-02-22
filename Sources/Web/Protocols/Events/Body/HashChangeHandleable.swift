@@ -33,6 +33,7 @@ extension HashChangeHandleable {
         s.hashChangeClosure?.release()
         s.hashChangeClosure = JSClosure { event in
             s.hashChangeHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onhashchange = s.hashChangeClosure.jsValue()
         s.hashChangeHandler = handler

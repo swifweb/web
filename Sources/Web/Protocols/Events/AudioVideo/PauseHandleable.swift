@@ -31,6 +31,7 @@ extension PauseHandleable {
         s.pauseClosure?.release()
         s.pauseClosure = JSClosure { event in
             s.pauseHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onpause = s.pauseClosure.jsValue()
         s.pauseHandler = handler

@@ -33,6 +33,7 @@ extension TouchEndHandleable {
         s.touchEndClosure?.release()
         s.touchEndClosure = JSClosure { event in
             s.touchEndHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ontouchend = s.touchEndClosure.jsValue()
         s.touchEndHandler = handler

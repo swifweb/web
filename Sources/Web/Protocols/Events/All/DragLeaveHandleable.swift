@@ -33,6 +33,7 @@ extension DragLeaveHandleable {
         s.dragLeaveClosure?.release()
         s.dragLeaveClosure = JSClosure { event in
             s.dragLeaveHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ondragleave = s.dragLeaveClosure.jsValue()
         s.dragLeaveHandler = handler

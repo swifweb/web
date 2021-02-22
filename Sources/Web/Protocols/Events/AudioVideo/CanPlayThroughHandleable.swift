@@ -34,6 +34,7 @@ extension CanPlayThroughHandleable {
         s.canPlayThroughClosure?.release()
         s.canPlayThroughClosure = JSClosure { event in
             s.canPlayThroughHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.oncanplaythrough = s.canPlayThroughClosure.jsValue()
         s.canPlayThroughHandler = handler

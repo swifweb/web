@@ -35,6 +35,7 @@ extension ScrollHandleable {
         s.scrollClosure?.release()
         s.scrollClosure = JSClosure { event in
             s.scrollHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onscroll = s.scrollClosure.jsValue()
         s.scrollHandler = handler

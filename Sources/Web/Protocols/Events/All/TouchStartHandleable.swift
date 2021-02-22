@@ -33,6 +33,7 @@ extension TouchStartHandleable {
         s.touchStartClosure?.release()
         s.touchStartClosure = JSClosure { event in
             s.touchStartHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ontouchstart = s.touchStartClosure.jsValue()
         s.touchStartHandler = handler

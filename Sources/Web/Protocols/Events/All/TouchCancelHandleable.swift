@@ -33,6 +33,7 @@ extension TouchCancelHandleable {
         s.touchCancelClosure?.release()
         s.touchCancelClosure = JSClosure { event in
             s.touchCancelHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ontouchcancel = s.touchCancelClosure.jsValue()
         s.touchCancelHandler = handler

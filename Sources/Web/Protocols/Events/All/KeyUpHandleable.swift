@@ -33,6 +33,7 @@ extension KeyUpHandleable {
         s.keyUpClosure?.release()
         s.keyUpClosure = JSClosure { event in
             s.keyUpHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onkeyup = s.keyUpClosure.jsValue()
         s.keyUpHandler = handler

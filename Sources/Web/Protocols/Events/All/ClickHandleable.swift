@@ -685,6 +685,7 @@ extension ClickHandleable {
         s.clickClosure?.release()
         s.clickClosure = JSClosure { event in
             s.clickHandler(MouseEvent(event.jsValue()))
+            return .null
         }
         s.domElement.onclick = s.clickClosure.jsValue()
         s.clickHandler = handler

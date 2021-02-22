@@ -35,6 +35,7 @@ extension AnimationIterationHandleable {
         s.animationIterationClosure?.release()
         s.animationIterationClosure = JSClosure { event in
             s.animationIterationHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onanimationiteration = s.animationIterationClosure.jsValue()
         s.animationIterationHandler = handler

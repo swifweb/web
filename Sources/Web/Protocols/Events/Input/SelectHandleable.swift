@@ -33,6 +33,7 @@ extension SelectHandleable {
         s.selectClosure?.release()
         s.selectClosure = JSClosure { event in
             s.selectHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onselect = s.selectClosure.jsValue()
         s.selectHandler = {

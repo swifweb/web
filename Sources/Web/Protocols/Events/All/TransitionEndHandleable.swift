@@ -33,6 +33,7 @@ extension TransitionEndHandleable {
         s.transitionEndClosure?.release()
         s.transitionEndClosure = JSClosure { event in
             s.transitionEndHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ontransitionend = s.transitionEndClosure.jsValue()
         s.transitionEndHandler = handler

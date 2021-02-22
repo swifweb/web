@@ -33,6 +33,7 @@ extension DragOverHandleable {
         s.dragOverClosure?.release()
         s.dragOverClosure = JSClosure { event in
             s.dragOverHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ondragover = s.dragOverClosure.jsValue()
         s.dragOverHandler = handler

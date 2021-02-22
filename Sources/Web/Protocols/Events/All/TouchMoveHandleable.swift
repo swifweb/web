@@ -33,6 +33,7 @@ extension TouchMoveHandleable {
         s.touchMoveClosure?.release()
         s.touchMoveClosure = JSClosure { event in
             s.touchMoveHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ontouchmove = s.touchMoveClosure.jsValue()
         s.touchMoveHandler = handler

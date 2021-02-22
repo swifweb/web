@@ -33,6 +33,7 @@ extension CanPlayHandleable {
         s.canPlayClosure?.release()
         s.canPlayClosure = JSClosure { event in
             s.canPlayHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.oncanplay = s.canPlayClosure.jsValue()
         s.canPlayHandler = handler

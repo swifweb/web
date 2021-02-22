@@ -33,6 +33,7 @@ extension FullScreenErrorHandleable {
         s.fullScreenErrorClosure?.release()
         s.fullScreenErrorClosure = JSClosure { event in
             s.fullScreenErrorHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onfullscreenerror = s.fullScreenErrorClosure.jsValue()
         s.fullScreenErrorHandler = handler

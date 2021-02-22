@@ -33,6 +33,7 @@ extension FocusHandleable {
         s.focusClosure?.release()
         s.focusClosure = JSClosure { event in
             s.focusHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onfocus = s.focusClosure.jsValue()
         s.focusHandler = handler

@@ -33,6 +33,7 @@ extension MouseOverHandleable {
         s.mouseOverClosure?.release()
         s.mouseOverClosure = JSClosure { event in
             s.mouseOverHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onmouseover = s.mouseOverClosure.jsValue()
         s.mouseOverHandler = handler

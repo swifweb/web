@@ -27,10 +27,11 @@ extension _InputHandleable {
     func subscribeToInput() {
         #if arch(wasm32)
         inputClosure?.release()
-        inputClosure = JSClosure { event -> Void in
+        inputClosure = JSClosure { event -> JSValue in
             let event = InputEvent(event.jsValue())
             self.inputHandler(event)
             self.onInput(event)
+            return .null
         }
         domElement.oninput = inputClosure.jsValue()
         #endif
@@ -54,6 +55,7 @@ extension InputHandleable {
         s.inputClosure?.release()
         s.inputClosure = JSClosure { event in
             s.inputHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.oninput = s.inputClosure.jsValue()
         s.inputHandler = {

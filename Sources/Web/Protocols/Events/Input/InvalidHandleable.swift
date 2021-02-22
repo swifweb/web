@@ -33,6 +33,7 @@ extension InvalidHandleable {
         s.invalidClosure?.release()
         s.invalidClosure = JSClosure { event in
             s.invalidHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.oninvalid = s.invalidClosure.jsValue()
         s.invalidHandler = {

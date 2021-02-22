@@ -33,6 +33,7 @@ extension OnlineHandleable {
         s.onlineClosure?.release()
         s.onlineClosure = JSClosure { event in
             s.onlineHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ononline = s.onlineClosure.jsValue()
         s.onlineHandler = handler

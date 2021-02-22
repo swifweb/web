@@ -27,10 +27,11 @@ extension _ChangeHandleable {
     func subscribeToChanges() {
         #if arch(wasm32)
         changeClosure?.release()
-        changeClosure = JSClosure { event -> Void in
+        changeClosure = JSClosure { event -> JSValue in
             let event = HandledEvent(event.jsValue())
             self.onChange(event)
             self.changeHandler(event)
+            return .null
         }
         domElement.onchange = changeClosure.jsValue()
         #endif

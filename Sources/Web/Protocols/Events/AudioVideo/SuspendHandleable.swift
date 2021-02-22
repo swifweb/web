@@ -33,6 +33,7 @@ extension SuspendHandleable {
         s.suspendClosure?.release()
         s.suspendClosure = JSClosure { event in
             s.suspendHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onsuspend = s.suspendClosure.jsValue()
         s.suspendHandler = handler

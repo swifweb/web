@@ -36,6 +36,7 @@ extension AnimationEndHandleable {
         s.animationEndClosure?.release()
         s.animationEndClosure = JSClosure { event in
             s.animationEndHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onanimationend = s.animationEndClosure.jsValue()
         s.animationEndHandler = handler

@@ -33,6 +33,7 @@ extension WaitingHandleable {
         s.waitingClosure?.release()
         s.waitingClosure = JSClosure { event in
             s.waitingHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onwaiting = s.waitingClosure.jsValue()
         s.waitingHandler = handler

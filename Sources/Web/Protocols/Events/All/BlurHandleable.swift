@@ -33,6 +33,7 @@ extension BlurHandleable {
         s.blurClosure?.release()
         s.blurClosure = JSClosure { event in
             s.blurHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onblur = s.blurClosure.jsValue()
         s.blurHandler = handler

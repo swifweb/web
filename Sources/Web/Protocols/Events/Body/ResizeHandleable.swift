@@ -33,6 +33,7 @@ extension ResizeHandleable {
         s.resizeClosure?.release()
         s.resizeClosure = JSClosure { event in
             s.resizeHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onresize = s.resizeClosure.jsValue()
         s.resizeHandler = handler

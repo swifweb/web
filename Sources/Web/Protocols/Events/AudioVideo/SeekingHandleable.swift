@@ -33,6 +33,7 @@ extension SeekingHandleable {
         s.seekingClosure?.release()
         s.seekingClosure = JSClosure { event in
             s.seekingHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onseeking = s.seekingClosure.jsValue()
         s.seekingHandler = handler

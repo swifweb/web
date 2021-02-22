@@ -33,6 +33,7 @@ extension UnloadHandleable {
         s.unloadClosure?.release()
         s.unloadClosure = JSClosure { event in
             s.unloadHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onunload = s.unloadClosure.jsValue()
         s.unloadHandler = handler

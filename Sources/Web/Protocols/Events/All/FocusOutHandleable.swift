@@ -33,6 +33,7 @@ extension FocusOutHandleable {
         s.focusOutClosure?.release()
         s.focusOutClosure = JSClosure { event in
             s.focusOutHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onfocusout = s.focusOutClosure.jsValue()
         s.focusOutHandler = handler

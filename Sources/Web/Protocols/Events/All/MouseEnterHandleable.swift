@@ -33,6 +33,7 @@ extension MouseEnterHandleable {
         s.mouseEnterClosure?.release()
         s.mouseEnterClosure = JSClosure { event in
             s.mouseEnterHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onmouseenter = s.mouseEnterClosure.jsValue()
         s.mouseEnterHandler = handler

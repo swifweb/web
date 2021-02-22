@@ -33,6 +33,7 @@ extension LoadHandleable {
         s.loadClosure?.release()
         s.loadClosure = JSClosure { event in
             s.loadHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onload = s.loadClosure.jsValue()
         s.loadHandler = handler

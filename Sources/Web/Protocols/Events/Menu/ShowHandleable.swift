@@ -33,6 +33,7 @@ extension ShowHandleable {
         s.showClosure?.release()
         s.showClosure = JSClosure { event in
             s.showHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onshow = s.showClosure.jsValue()
         s.showHandler = handler

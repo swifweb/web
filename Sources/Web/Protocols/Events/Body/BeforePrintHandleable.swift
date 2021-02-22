@@ -33,6 +33,7 @@ extension BeforePrintHandleable {
         s.beforePrintClosure?.release()
         s.beforePrintClosure = JSClosure { event in
             s.beforePrintHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onbeforeprint = s.beforePrintClosure.jsValue()
         s.beforePrintHandler = handler

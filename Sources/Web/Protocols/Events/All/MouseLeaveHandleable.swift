@@ -33,6 +33,7 @@ extension MouseLeaveHandleable {
         s.mouseLeaveClosure?.release()
         s.mouseLeaveClosure = JSClosure { event in
             s.mouseLeaveHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onmouseleave = s.mouseLeaveClosure.jsValue()
         s.mouseLeaveHandler = handler

@@ -33,6 +33,7 @@ extension DragEnterHandleable {
         s.dragEnterClosure?.release()
         s.dragEnterClosure = JSClosure { event in
             s.dragEnterHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ondragenter = s.dragEnterClosure.jsValue()
         s.dragEnterHandler = handler

@@ -33,6 +33,7 @@ extension SearchHandleable {
         s.searchClosure?.release()
         s.searchClosure = JSClosure { event in
             s.searchHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onsearch = s.searchClosure.jsValue()
         s.searchHandler = {

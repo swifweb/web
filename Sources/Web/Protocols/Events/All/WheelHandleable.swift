@@ -33,6 +33,7 @@ extension WheelHandleable {
         s.wheelClosure?.release()
         s.wheelClosure = JSClosure { event in
             s.wheelHandler(WheelEvent(event.jsValue()))
+            return .null
         }
         s.domElement.onwheel = s.wheelClosure.jsValue()
         s.wheelHandler = handler

@@ -33,6 +33,7 @@ extension FullScreenChangeHandleable {
         s.fullScreenChangeClosure?.release()
         s.fullScreenChangeClosure = JSClosure { event in
             s.fullScreenChangeHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onfullscreenchange = s.fullScreenChangeClosure.jsValue()
         s.fullScreenChangeHandler = handler

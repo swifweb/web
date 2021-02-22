@@ -33,6 +33,7 @@ extension DblClickHandleable {
         s.dblClickClosure?.release()
         s.dblClickClosure = JSClosure { event in
             s.dblClickHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ondblclick = s.dblClickClosure.jsValue()
         s.dblClickHandler = handler

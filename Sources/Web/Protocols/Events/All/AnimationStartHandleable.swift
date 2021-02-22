@@ -33,6 +33,7 @@ extension AnimationStartHandleable {
         s.animationStartClosure?.release()
         s.animationStartClosure = JSClosure { event in
             s.animationStartHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onanimationstart = s.animationStartClosure.jsValue()
         s.animationStartHandler = handler

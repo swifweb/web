@@ -13,8 +13,9 @@ class DarkModeDetector {
     
     init (_ handler: @escaping (Bool) -> Void) {
         #if arch(wasm32)
-        closure = .init { v -> Void in
+        closure = .init { v -> JSValue in
             handler(v.first?.matches.boolean == true)
+            return .null
         }
         setJSValue(this: mediaQuery.object!, name: "onchange", value: closure.jsValue())
         handler(mediaQuery.matches.boolean == true)

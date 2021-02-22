@@ -33,6 +33,7 @@ extension PasteHandleable {
         s.pasteClosure?.release()
         s.pasteClosure = JSClosure { event in
             s.pasteHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onpaste = s.pasteClosure.jsValue()
         s.pasteHandler = handler

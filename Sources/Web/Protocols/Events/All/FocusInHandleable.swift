@@ -33,6 +33,7 @@ extension FocusInHandleable {
         s.focusInClosure?.release()
         s.focusInClosure = JSClosure { event in
             s.focusInHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onfocusin = s.focusInClosure.jsValue()
         s.focusInHandler = handler

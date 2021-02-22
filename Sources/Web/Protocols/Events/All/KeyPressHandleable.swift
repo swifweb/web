@@ -33,6 +33,7 @@ extension KeyPressHandleable {
         s.keyPressClosure?.release()
         s.keyPressClosure = JSClosure { event in
             s.keyPressHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onkeypress = s.keyPressClosure.jsValue()
         s.keyPressHandler = handler

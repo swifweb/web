@@ -35,6 +35,7 @@ extension AbortHandleable {
         s.abortClosure?.release()
         s.abortClosure = JSClosure { event in
             s.abortHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onabort = s.abortClosure.jsValue()
         s.abortHandler = handler

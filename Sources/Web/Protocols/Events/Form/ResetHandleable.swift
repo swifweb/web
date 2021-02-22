@@ -33,6 +33,7 @@ extension ResetHandleable {
         s.resetClosure?.release()
         s.resetClosure = JSClosure { event in
             s.resetHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onreset = s.resetClosure.jsValue()
         s.resetHandler = handler

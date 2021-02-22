@@ -33,6 +33,7 @@ extension TimeUpdateHandleable {
         s.timeUpdateClosure?.release()
         s.timeUpdateClosure = JSClosure { event in
             s.timeUpdateHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ontimeupdate = s.timeUpdateClosure.jsValue()
         s.timeUpdateHandler = handler

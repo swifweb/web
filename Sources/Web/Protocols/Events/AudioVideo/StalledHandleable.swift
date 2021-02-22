@@ -33,6 +33,7 @@ extension StalledHandleable {
         s.stalledClosure?.release()
         s.stalledClosure = JSClosure { event in
             s.stalledHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onstalled = s.stalledClosure.jsValue()
         s.stalledHandler = handler

@@ -33,6 +33,7 @@ extension ProgressHandleable {
         s.progressClosure?.release()
         s.progressClosure = JSClosure { event in
             s.progressHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onprogress = s.progressClosure.jsValue()
         s.progressHandler = handler

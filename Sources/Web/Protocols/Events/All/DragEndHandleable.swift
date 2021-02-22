@@ -33,6 +33,7 @@ extension DragEndHandleable {
         s.dragEndClosure?.release()
         s.dragEndClosure = JSClosure { event in
             s.dragEndHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ondragend = s.dragEndClosure.jsValue()
         s.dragEndHandler = handler

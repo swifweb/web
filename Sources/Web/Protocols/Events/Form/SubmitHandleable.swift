@@ -33,6 +33,7 @@ extension SubmitHandleable {
         s.submitClosure?.release()
         s.submitClosure = JSClosure { event in
             s.submitHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onsubmit = s.submitClosure.jsValue()
         s.submitHandler = handler

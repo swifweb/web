@@ -33,6 +33,7 @@ extension AfterPrintHandleable {
         s.afterPrintClosure?.release()
         s.afterPrintClosure = JSClosure { event in
             s.afterPrintHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onafterprint = s.afterPrintClosure.jsValue()
         s.afterPrintHandler = handler

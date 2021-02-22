@@ -33,6 +33,7 @@ extension MouseDownHandleable {
         s.mouseDownClosure?.release()
         s.mouseDownClosure = JSClosure { event in
             s.mouseDownHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onmousedown = s.mouseDownClosure.jsValue()
         s.mouseDownHandler = handler

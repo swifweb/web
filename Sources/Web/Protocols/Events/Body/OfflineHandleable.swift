@@ -33,6 +33,7 @@ extension OfflineHandleable {
         s.offlineClosure?.release()
         s.offlineClosure = JSClosure { event in
             s.offlineHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onoffline = s.offlineClosure.jsValue()
         s.offlineHandler = handler

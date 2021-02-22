@@ -39,6 +39,7 @@ extension MessageHandleable {
         s.messageClosure?.release()
         s.messageClosure = JSClosure { event in
             s.messageHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onmessage = s.messageClosure.jsValue()
         s.messageHandler = handler

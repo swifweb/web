@@ -33,6 +33,7 @@ extension MouseOutHandleable {
         s.mouseOutClosure?.release()
         s.mouseOutClosure = JSClosure { event in
             s.mouseOutHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onmouseout = s.mouseOutClosure.jsValue()
         s.mouseOutHandler = handler

@@ -33,6 +33,7 @@ extension ContextMenuHandleable {
         s.contextMenuClosure?.release()
         s.contextMenuClosure = JSClosure { event in
             s.contextMenuHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.oncontextmenu = s.contextMenuClosure.jsValue()
         s.contextMenuHandler = handler

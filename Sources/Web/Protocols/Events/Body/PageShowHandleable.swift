@@ -33,6 +33,7 @@ extension PageShowHandleable {
         s.pageShowClosure?.release()
         s.pageShowClosure = JSClosure { event in
             s.pageShowHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onpageshow = s.pageShowClosure.jsValue()
         s.pageShowHandler = handler

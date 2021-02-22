@@ -33,6 +33,7 @@ extension OpenHandleable {
         s.openClosure?.release()
         s.openClosure = JSClosure { event in
             s.openHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onopen = s.openClosure.jsValue()
         s.openHandler = handler

@@ -33,6 +33,7 @@ extension DropHandleable {
         s.dropClosure?.release()
         s.dropClosure = JSClosure { event in
             s.dropHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ondrop = s.dropClosure.jsValue()
         s.dropHandler = handler

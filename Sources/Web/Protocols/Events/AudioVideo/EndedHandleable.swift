@@ -33,6 +33,7 @@ extension EndedHandleable {
         s.endedClosure?.release()
         s.endedClosure = JSClosure { event in
             s.endedHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onended = s.endedClosure.jsValue()
         s.endedHandler = handler

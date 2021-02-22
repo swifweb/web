@@ -33,6 +33,7 @@ extension PageHideHandleable {
         s.pageHideClosure?.release()
         s.pageHideClosure = JSClosure { event in
             s.pageHideHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onpagehide = s.pageHideClosure.jsValue()
         s.pageHideHandler = handler

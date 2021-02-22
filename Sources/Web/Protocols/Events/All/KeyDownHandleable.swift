@@ -33,6 +33,7 @@ extension KeyDownHandleable {
         s.keyDownClosure?.release()
         s.keyDownClosure = JSClosure { event in
             s.keyDownHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onkeydown = s.keyDownClosure.jsValue()
         s.keyDownHandler = handler

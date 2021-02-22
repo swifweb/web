@@ -21,10 +21,11 @@ public struct Dispatch {
         #if arch(wasm32)
         let uid = String.shuffledAlphabet(8)
         var function: JSClosure!
-        function = .init { _ -> Void in
+        function = .init { _ -> JSValue in
             closure()
             function.release()
             dispatch.functions[uid] = nil
+            return .null
         }
         dispatch.functions[uid] = function
         _ = JSObject.global.setTimeout!(function, time * 1_000)

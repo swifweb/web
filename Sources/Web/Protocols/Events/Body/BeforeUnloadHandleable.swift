@@ -33,6 +33,7 @@ extension BeforeUnloadHandleable {
         s.beforeUnloadClosure?.release()
         s.beforeUnloadClosure = JSClosure { event in
             s.beforeUnloadHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onbeforeunload = s.beforeUnloadClosure.jsValue()
         s.beforeUnloadHandler = handler

@@ -33,6 +33,7 @@ extension DurationChangeHandleable {
         s.durationChangeClosure?.release()
         s.durationChangeClosure = JSClosure { event in
             s.durationChangeHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ondurationchange = s.durationChangeClosure.jsValue()
         s.durationChangeHandler = handler

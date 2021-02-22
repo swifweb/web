@@ -33,6 +33,7 @@ extension MouseUpHandleable {
         s.mouseUpClosure?.release()
         s.mouseUpClosure = JSClosure { event in
             s.mouseUpHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onmouseup = s.mouseUpClosure.jsValue()
         s.mouseUpHandler = handler

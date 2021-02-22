@@ -33,6 +33,7 @@ extension ToggleHandleable {
         s.toggleClosure?.release()
         s.toggleClosure = JSClosure { event in
             s.toggleHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.ontoggle = s.toggleClosure.jsValue()
         s.toggleHandler = handler

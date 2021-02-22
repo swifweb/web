@@ -33,6 +33,7 @@ extension PlayingHandleable {
         s.playingClosure?.release()
         s.playingClosure = JSClosure { event in
             s.playingHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onplaying = s.playingClosure.jsValue()
         s.playingHandler = handler

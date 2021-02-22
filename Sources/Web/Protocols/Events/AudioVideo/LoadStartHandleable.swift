@@ -34,6 +34,7 @@ extension LoadStartHandleable {
         s.loadStartClosure?.release()
         s.loadStartClosure = JSClosure { event in
             s.loadStartHandler(.init(event.jsValue()))
+            return .null
         }
         s.domElement.onloadstart = s.loadStartClosure.jsValue()
         s.loadStartHandler = handler
