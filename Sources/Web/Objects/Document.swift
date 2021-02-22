@@ -62,8 +62,20 @@ public class Document: AnyElement {
     }
     
     private func setupTitle() {
+        // remove already existing title node
+        var predefinedTitle = ""
+        if let titles = domElement.getElementsByTagName.function?.callAsFunction(this: domElement.object, "title") {
+            if let existingTitle = titles.item.function?.callAsFunction(this: titles.object, 0),
+               !existingTitle.isNull,
+               !existingTitle.isUndefined {
+                predefinedTitle = existingTitle.innerText.string ?? ""
+                head.domElement.removeChild.function?.callAsFunction(this: head.domElement.object, existingTitle)
+            }
+        }
+        // set same title in the new title node
+        titleElement.value = predefinedTitle
         head.appendChild(titleElement)
-        $title.listen {old, new in
+        $title.listen { old, new in
             guard old != new else { return }
             Dispatch.async {
                 self.titleElement.value = new
