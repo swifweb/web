@@ -133,16 +133,6 @@ open class CSSRule: RulesContent, CSSRulable {
         #endif
     }
     
-    // MARK: _CSSRulable
-    
-    func _removeProperty(_ key: String) {
-        remove(key)
-    }
-    
-    func _setProperty(_ key: String, _ value: String) {
-        set(key, value)
-    }
-    
     public func render() -> String {
         var result = _pointers.map { $0.pointer.selector }.joined(separator: ",")
         result.append("{")
@@ -187,10 +177,14 @@ extension CSSRulable {
     }
     
     func _removeProperty(_ key: String) {
-        guard let s = self as? DOMElement else { return }
         #if arch(wasm32)
-        s.domElement.style.object?[key] = .null
+        if let s = self as? CSSRule {
+            s.remove(key)
+        } else if let s = self as? DOMElement {
+            s.domElement.style.object?[key] = .null
+        }
         #else
+        guard let s = self as? DOMElement else { return }
         switch GlobalContext[PreviewMode.self] {
         case .static:
             s.properties.styles.removeValue(forKey: key)
@@ -204,10 +198,14 @@ extension CSSRulable {
     }
 
     func _setProperty(_ key: String, _ value: String) {
-        guard let s = self as? DOMElement else { return }
         #if arch(wasm32)
-        s.domElement.style.object?[key] = value.jsValue()
+        if let s = self as? CSSRule {
+            s.set(key, value)
+        } else if let s = self as? DOMElement {
+            s.domElement.style.object?[key] = value.jsValue()
+        }
         #else
+        guard let s = self as? DOMElement else { return }
         switch GlobalContext[PreviewMode.self] {
         case .static:
             s.properties.styles[key] = value
