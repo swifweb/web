@@ -1,12 +1,11 @@
 //
 //  WebApp.swift
-//
+//  Web
 //
 //  Created by Mihael Isaev on 15.11.2020.
 //
 
-import Foundation
-import JavaScriptKit
+import CSS
 
 private var webapp: WebApp!
 
@@ -30,7 +29,7 @@ open class WebApp: _PreviewableApp {
     }
     public class var current: Self { shared as! Self }
     
-    public private(set) lazy var window = Window()
+    public private(set) lazy var window = Window.shared
     public var document: Document { window.document }
     lazy var defaultResponder = DefaultResponder(routes: routes)
     public internal(set) lazy var routes: RoutesStorage = .init()

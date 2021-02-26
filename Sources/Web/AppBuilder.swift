@@ -5,13 +5,21 @@
 //  Created by Mihael Isaev on 14.11.2020.
 //
 
+import CSS
+
 public protocol AppBuilderContent {
     var appBuilderContent: AppBuilder.Item { get }
+}
+
+extension WindowLifecycle: AppBuilderContent {
+    public var appBuilderContent: AppBuilder.Item { .lifecycle(self) }
 }
 
 struct _AppContent: AppBuilder.Content {
     let appBuilderContent: AppBuilder.Item
 }
+
+public typealias Lifecycle = WindowLifecycle
 
 @_functionBuilder public struct AppBuilder {
     public typealias Block = () -> AppBuilderContent
@@ -19,7 +27,7 @@ struct _AppContent: AppBuilder.Content {
     
     public enum Item {
         case none
-        case lifecycle(LifecycleBuilderProtocol)
+        case lifecycle(Lifecycle)
         case routes(Routes)
         case stylesheet(Stylesheet)
     //    case router(Router)

@@ -1,0 +1,42 @@
+//
+//  DeferAttrable.swift
+//  DOM
+//
+//  Created by Mihael Isaev on 19.12.2020.
+//
+
+import Foundation
+
+public protocol DeferAttrable: DOMElement {
+    @discardableResult
+    func `defer`(_ value: Bool) -> Self
+    @discardableResult
+    func `defer`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool
+}
+
+extension DeferAttrable {
+    /// Indicates that the script should be executed after the page has been parsed.
+    ///
+    /// Applicable to `<script>`
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_defer.asp)
+    @discardableResult
+    public func `defer`(_ value: Bool) -> Self {
+        setAttribute("defer", value, .short)
+        return self
+    }
+    
+    /// Indicates that the script should be executed after the page has been parsed.
+    ///
+    /// Applicable to `<script>`
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_defer.asp)
+    @discardableResult
+    public func `defer`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
+        `defer`(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.`defer`($0) }
+        return self
+    }
+}
+
+extension Script: DeferAttrable {}

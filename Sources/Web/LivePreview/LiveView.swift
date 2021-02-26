@@ -1,6 +1,6 @@
 //
 //  LiveView.swift
-//  Web
+//  LivePreview
 //
 //  Created by Mihael Isaev on 31.01.2021.
 //
@@ -11,7 +11,7 @@ import WebKit
 #endif
 
 #if !arch(wasm32)
-public final class LiveView {
+public final class LiveView: PreviewLiveviewable {
     let webView: WKWebView
     
     public init () {
@@ -43,9 +43,9 @@ public final class LiveView {
         """, baseURL: nil)
     }
     
-    var updateHandler: () -> [PreviewRenderable] = { [H1("no html")] }
+    var updateHandler: () -> [PreviewRenderable] = { [] }
     
-    func executeJS(_ js: String) {
+    public func executeJS(_ js: String) {
         guard previewMode == .dynamic else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.webView.evaluateJavaScript("""

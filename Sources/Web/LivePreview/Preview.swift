@@ -5,9 +5,17 @@
 //  Created by Mihael Isaev on 29.11.2020.
 //
 
+import WebFoundation
+
 #if !arch(wasm32)
-var previewMode: PreviewMode = .static
-var previewLiveView: LiveView!
+var previewMode: PreviewMode {
+    get { GlobalContext[PreviewMode.self] ?? .static }
+    set { GlobalContext[PreviewMode.self] = newValue }
+}
+var previewLiveView: LiveView {
+    get { GlobalContext[PreviewLiveViewKey.self] as! LiveView }
+    set { GlobalContext[PreviewLiveViewKey.self] = newValue }
+}
 #endif
 
 #if os(macOS) && canImport(SwiftUI) && DEBUG && !arch(wasm32)
