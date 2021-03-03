@@ -7,9 +7,19 @@
 
 import JavaScriptKit
 
+public protocol AnyEvent: class {
+    var jsEvent: JSValue { get }
+    var type: EventName { get }
+    
+    init (_ jsEvent: JSValue)
+}
+
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Event)
-open class Event {
-    let jsEvent: JSValue
+open class Event: AnyEvent {
+    public let jsEvent: JSValue
+    
+    /// The name of the event
+    public let type: EventName
     
     /// Returns whether or not a specific event is a bubbling event
     public let bubbles: Bool
@@ -66,11 +76,9 @@ open class Event {
     /// Returns the time (in milliseconds relative to the epoch) at which the event was created
     public let timeStamp: Int
     
-    /// Returns the name of the event
-    public let type: String
-    
     public required init (_ event: JSValue) {
-        self.jsEvent = event
+        jsEvent = event
+        type = .init(stringLiteral: event.type.string ?? "")
         bubbles = event.bubbles.boolean ?? false
         cancelBubble = event.cancelBubble.boolean ?? false
         cancelable = event.cancelable.boolean ?? false
@@ -79,6 +87,5 @@ open class Event {
         eventPhase = HandledEventPhase(rawValue: Int(event.eventPhase.number ?? 0)) ?? .none
         isTrusted = event.isTrusted.boolean ?? false
         timeStamp = Int(event.timeStamp.number ?? 0)
-        type = event.type.string ?? ""
     }
 }

@@ -1,11 +1,11 @@
 //
 //  Manifest.swift
-//  Service
+//  ServiceWorker
 //
 //  Created by Mihael Isaev on 22.02.2021.
 //
 
-import Foundation
+import WebFoundation
 
 open class Manifest: Codable, ServiceBuilderContent {
     public var serviceBuilderContent: ServiceBuilder.Item { .manifest(self) }
@@ -204,7 +204,7 @@ open class Manifest: Codable, ServiceBuilderContent {
     
     // MARK: Theme color
     
-    public var themeColor: String?
+    public var themeColor: String = "white"
     
     /// Defines the default theme color for the application.
     ///

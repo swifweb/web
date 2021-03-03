@@ -1,6 +1,6 @@
 //
-//  Manifest+Dir.swift
-//  ServiceWorker
+//  Dir.swift
+//  WebFoundation
 //
 //  Created by Mihael Isaev on 22.02.2021.
 //

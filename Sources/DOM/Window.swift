@@ -10,7 +10,10 @@ import Events
 
 private var _shared: Window?
 
-public class Window: EventListenerCompatibleObject {
+public class Window: EventListenerCompatibleObject, EventTarget {
+    public lazy var storage: Storage = .init()
+    public var jsValue: JSValue { domElement }
+    
     public static var shared: Window {
         guard let shared = _shared else {
             let shared = Window()
@@ -47,7 +50,7 @@ public class Window: EventListenerCompatibleObject {
     /// Position on screen
     @State public private(set) var point: Point = Point.zero
     
-    /// The length property returns the number of <iframe> elements in the current window.
+    /// The length property returns the number of `<iframe>` elements in the current window.
     @State public private(set) var length: Double = 0
     
     /// Track this variable to know wether browser is online or not

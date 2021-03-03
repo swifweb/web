@@ -1,3 +1,10 @@
+//
+//  ServiceWorker.swift
+//  ServiceWorker
+//
+//  Created by Mihael Isaev on 12.02.2021.
+//
+
 import Foundation
 import JavaScriptKit
 
@@ -31,6 +38,12 @@ open class ServiceWorker {
     private var syncPromiseClosure: JSClosure?
     
     required public init () {
+        #if arch(wasm32)
+        setupPromises()
+        #endif
+    }
+    
+    private func setupPromises() {
         activatePromiseClosure = JSClosure { args in // [object ExtendableEvent]
             JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._activate?() }
@@ -169,6 +182,8 @@ open class ServiceWorker {
         JSObject.global["push"] = pushPromiseClosure?.jsValue() ?? .null
         JSObject.global["pushSubscriptionChange"] = pushSubscriptionChangePromiseClosure?.jsValue() ?? .null
         JSObject.global["sync"] = syncPromiseClosure?.jsValue() ?? .null
+        #else
+        printManifestData()
         #endif
     }
     
@@ -185,6 +200,20 @@ open class ServiceWorker {
         case .lifecycle(let v): lifeCycles.append(v)
         case .manifest(let v): manifest = v
         default: break
+        }
+    }
+    
+    private func printManifestData() {
+        let m = manifest ?? Manifest()
+        do {
+            let data = try JSONEncoder().encode(m)
+            guard let string = String(data: data, encoding: .utf8) else {
+                fatalError("Unable print manifest data")
+            }
+            print(string)
+            exit(0)
+        } catch {
+            fatalError("Unable to encode manifest: \(error)")
         }
     }
 }

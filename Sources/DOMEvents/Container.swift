@@ -24,12 +24,6 @@ class Container<Event: AnyEvent>: GenericContainer {
     }
 }
 
-protocol AnyEvent {
-    init (_ event: JSValue)
-}
-
-extension Event: AnyEvent {}
-
 protocol AnyContainer: class {
     var isAddedToDOM: Bool { get set }
     var closure: JSClosure { get }
@@ -58,6 +52,7 @@ extension Storageable {
             container.handlers.append(handler)
         } else {
             container = GC.Value(handler)
+            storage[GC.self] = container
         }
         return container
     }

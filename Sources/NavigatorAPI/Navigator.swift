@@ -7,24 +7,24 @@
 
 import WebFoundation
 
-private var _shared: Navigator?
+var _sharedNavigator: Navigator?
 
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Navigator)
 public final class Navigator: InnerStateChangeable, Equatable {
     public static var shared: Navigator {
-        guard let shared = _shared else {
+        guard let shared = _sharedNavigator else {
             let shared = Navigator()
-            _shared = shared
+            _sharedNavigator = shared
             return shared
         }
         return shared
     }
     
     /// Name of the element inside DOM
-    let domElementName = "navigator"
+    let jsObjectName = "navigator"
     
     /// Reference to DOM-object
-    let domElement: JSValue
+    let jsValue: JSValue
     
     /// Returns the code name of the browser
     public let appCodeName: String
@@ -42,7 +42,7 @@ public final class Navigator: InnerStateChangeable, Equatable {
     @State public internal(set) var geolocation: NavigatorGeolocation? = nil
     
     /// Returns the language of the browser
-    public let language: String
+    public let language: String?
     
     /// Determines whether the browser is online
     @State public var onLine = false
@@ -56,19 +56,21 @@ public final class Navigator: InnerStateChangeable, Equatable {
     /// Returns the user-agent header sent by the browser to the server
     public let userAgent: String
     
+    public lazy var serviceWorker = ServiceWorkerContainer(self)
+    
     private init () {
         #if arch(wasm32)
-        domElement = JSObject.global[domElementName]
-        appCodeName = domElement.appCodeName.string ?? ""
-        appName = domElement.appName.string ?? ""
-        appVersion = domElement.appVersion.string ?? ""
-        cookieEnabled = domElement.cookieEnabled.boolean ?? false
-        language = domElement.language.string ?? ""
-        platform = domElement.platform.string ?? ""
-        product = domElement.product.string ?? ""
-        userAgent = domElement.userAgent.string ?? ""
+        jsValue = JSObject.global[jsObjectName]
+        appCodeName = jsValue.appCodeName.string ?? ""
+        appName = jsValue.appName.string ?? ""
+        appVersion = jsValue.appVersion.string ?? ""
+        cookieEnabled = jsValue.cookieEnabled.boolean ?? false
+        language = jsValue.language.string
+        platform = jsValue.platform.string ?? ""
+        product = jsValue.product.string ?? ""
+        userAgent = jsValue.userAgent.string ?? ""
         #else
-        domElement = JSValue("")
+        jsValue = JSValue("")
         appCodeName = ""
         appName = ""
         appVersion = ""
@@ -83,7 +85,7 @@ public final class Navigator: InnerStateChangeable, Equatable {
     }
     
     public init(original: Navigator) {
-        domElement = original.domElement
+        jsValue = original.jsValue
         appCodeName = original.appCodeName
         appName = original.appName
         appVersion = original.appVersion
@@ -100,7 +102,7 @@ public final class Navigator: InnerStateChangeable, Equatable {
         innerStatesManualUpdateStarted()
 //        geolocation
         #if arch(wasm32)
-        onLine = domElement.onLine.boolean ?? false
+        onLine = jsValue.onLine.boolean ?? false
         #endif
         innerStatesManualUpdateFinished()
     }

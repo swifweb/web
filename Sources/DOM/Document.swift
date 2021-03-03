@@ -7,8 +7,9 @@
 
 import WebFoundation
 
-public class Document: DOMElement {
+public class Document: DOMElement, EventTarget {
     public lazy var storage: Storage = .init()
+    public var jsValue: JSValue { domElement }
     
     public private(set) lazy var properties: DOMElementProperties = .init()
     
@@ -112,4 +113,6 @@ public class Document: DOMElement {
         isVisible = domElement.visibilityState.string == "visible"
         #endif
     }
+    
+    // TODO: func querySelector
 }

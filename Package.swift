@@ -56,12 +56,16 @@ let package = Package(
         .library(name: "DOM", targets: ["DOM"]),
         .library(name: "CSS", targets: ["CSS"]),
         .library(name: "Web", targets: ["Web"]),
+        .library(name: "ServiceWorker", targets: ["ServiceWorker"]),
+        .library(name: "Worker", targets: ["Worker"]),
+        .library(name: "SharedWorker", targets: ["SharedWorker"]),
         .library(name: "BeaconAPI", targets: ["BeaconAPI"]),
         .library(name: "BluetoothAPI", targets: ["BluetoothAPI"]),
         .library(name: "BroadcastChannelAPI", targets: ["BroadcastChannelAPI"]),
         .library(name: "CanvasAPI", targets: ["CanvasAPI"]),
         .library(name: "ChannelMessagingAPI", targets: ["ChannelMessagingAPI"]),
         .library(name: "ClipboardAPI", targets: ["ClipboardAPI"]),
+        .library(name: "ContentIndexAPI", targets: ["ContentIndexAPI"]),
         .library(name: "FullscreenAPI", targets: ["FullscreenAPI"]),
         .library(name: "GamepadAPI", targets: ["GamepadAPI"]),
         .library(name: "GeolocationAPI", targets: ["GeolocationAPI"]),
@@ -79,7 +83,7 @@ let package = Package(
         .library(name: "PictureInPictureAPI", targets: ["PictureInPictureAPI"]),
         .library(name: "PushAPI", targets: ["PushAPI"]),
         .library(name: "StorageAPI", targets: ["StorageAPI"]),
-        .library(name: "ServiceWorker", targets: ["ServiceWorker"]),
+        .library(name: "WorkersAPI", targets: ["WorkersAPI"]),
     ],
     dependencies: deps.map { $0.package },
     targets: [
@@ -110,6 +114,20 @@ let package = Package(
             .target(name: "DOMEvents"),
             .target(name: "CSS")
         ]),
+        .target(name: "ServiceWorker", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "WorkersAPI")
+        ]),
+        .target(name: "Worker", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "WorkersAPI"),
+            .target(name: "ChannelMessagingAPI")
+        ]),
+        .target(name: "SharedWorker", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "WorkersAPI"),
+            .target(name: "ChannelMessagingAPI")
+        ]),
         .target(name: "BeaconAPI", dependencies: [
             .target(name: "WebFoundation")
         ]),
@@ -123,9 +141,13 @@ let package = Package(
             .target(name: "WebFoundation")
         ]),
         .target(name: "ChannelMessagingAPI", dependencies: [
-            .target(name: "WebFoundation")
+            .target(name: "WebFoundation"),
+            .target(name: "Events")
         ]),
         .target(name: "ClipboardAPI", dependencies: [
+            .target(name: "WebFoundation")
+        ]),
+        .target(name: "ContentIndexAPI", dependencies: [
             .target(name: "WebFoundation")
         ]),
         .target(name: "FullscreenAPI", dependencies: [
@@ -160,7 +182,12 @@ let package = Package(
             .target(name: "WebFoundation")
         ]),
         .target(name: "NavigatorAPI", dependencies: [
-            .target(name: "WebFoundation")
+            .target(name: "WebFoundation"),
+            .target(name: "Events"),
+            .target(name: "ContentIndexAPI"),
+            .target(name: "NotificationsAPI"),
+            .target(name: "PushAPI"),
+            .target(name: "WorkersAPI")
         ]),
         .target(name: "NotificationsAPI", dependencies: [
             .target(name: "WebFoundation")
@@ -177,11 +204,12 @@ let package = Package(
         .target(name: "PushAPI", dependencies: [
             .target(name: "WebFoundation")
         ]),
-        .target(name: "ServiceWorker", dependencies: [
-            .target(name: "WebFoundation")
-        ]),
         .target(name: "StorageAPI", dependencies: [
             .target(name: "WebFoundation")
+        ]),
+        .target(name: "WorkersAPI", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "ChannelMessagingAPI")
         ]),
         .testTarget(name: "WebTests", dependencies: [
             .target(name: "Web")

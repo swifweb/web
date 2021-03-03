@@ -1,13 +1,14 @@
 //
 //  Notification.swift
-//  ServiceWorker
+//  NotificationsAPI
 //
-//  Created by Mihael Isaev on 23.02.2021.
+//  Created by Mihael Isaev on 01.03.2021.
 //
 
-import JavaScriptKit
+import WebFoundation
 
-open class Notification {
+/// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Notification)
+open class Notification: ConvertibleToJSValue {
     public enum Permission: String {
         /// The user has explicitly granted permission
         /// for the current origin to display system notifications.
@@ -56,10 +57,15 @@ open class Notification {
         }
     }
     
-    let jsValue: JSValue?
+    let _jsValue: JSValue
+    public func jsValue() -> JSValue { _jsValue }
+    
+    public init (_ value: JSValue) {
+        _jsValue = value
+    }
     
     /// Creates a new Notification object instance, which represents a user notification.
-    /// 
+    ///
     /// - Parameters:
     ///   - title: Title for the notification, which is shown at the top of the notification window.
     ///   - body: Body text of the notification, which is displayed below the title.
@@ -114,7 +120,7 @@ open class Notification {
         if let vibrate = vibrate { options["vibrate"] = vibrate.jsValue() }
         if let silent = silent { options["silent"] = silent }
         if let timestamp = timestamp { options["timestamp"] = timestamp / 1_000 }
-        jsValue = JSObject.global.Notification.function?.new(title, options).jsValue()
+        _jsValue = JSObject.global.Notification.function?.new(title, options).jsValue() ?? .undefined
     }
     
     /// Used to close/remove a previously displayed notification.
@@ -126,6 +132,7 @@ open class Notification {
     /// (e.g. the user already read the notification on the webpage in the case of a messaging app
     /// or the following song is already playing in a music app).
     func close() {
-        jsValue?.close.function?.callAsFunction(this: jsValue?.object)
+        guard !_jsValue.isNull, !_jsValue.isUndefined else { return }
+        _jsValue.close.function?.callAsFunction(this: _jsValue.object)
     }
 }

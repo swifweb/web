@@ -6,9 +6,16 @@
 //
 
 import Foundation
+import JavaScriptKit
 
-public protocol URLConformable {
+public protocol URLConformable: ConvertibleToJSValue {
     var stringValue: String { get }
+}
+
+extension URLConformable {
+    public func jsValue() -> JSValue {
+        stringValue.jsValue()
+    }
 }
 
 extension String: URLConformable {

@@ -8,10 +8,11 @@
 import WebFoundation
 import Events
 
-open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope {
+open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget {
     // MARK: Storageable
     
     public lazy var storage: Storage = .init()
+    public var jsValue: JSValue { domElement }
     
     public private(set) lazy var properties: DOMElementProperties = .init()
     

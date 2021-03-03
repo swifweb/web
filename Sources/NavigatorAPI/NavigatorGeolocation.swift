@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class NavigatorGeolocation: Equatable {
+public final class NavigatorGeolocation: Equatable {
     public static func == (lhs: NavigatorGeolocation, rhs: NavigatorGeolocation) -> Bool {
         true
     }

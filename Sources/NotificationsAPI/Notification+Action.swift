@@ -1,6 +1,6 @@
 //
 //  Notification+Action.swift
-//  ServiceWorker
+//  NotificationsAPI
 //
 //  Created by Mihael Isaev on 23.02.2021.
 //

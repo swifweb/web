@@ -10,7 +10,7 @@ import Foundation
 private var localization = Localization()
 
 public class Localization {
-    let currentLocaleIdentifier = WebApp.shared.window.navigator.language.replacingOccurrences(of: "-", with: "_")
+    let currentLocaleIdentifier = WebApp.shared.window.navigator.language?.replacingOccurrences(of: "-", with: "_") ?? "en_US"
     
     var defaultLanguage: Language = .en
     
