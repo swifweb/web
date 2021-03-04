@@ -91,7 +91,7 @@ extension BaseContentElementable {
         return self
     }
     
-    public func innerText(_ value: UState<String>) -> Self {
+    public func innerText(_ value: State<String>) -> Self {
         self.innerText = value.wrappedValue
         value.listen {
             self.innerText = $0
@@ -108,7 +108,7 @@ extension BaseContentElementable {
         return self
     }
     
-    public func innerHTML(_ value: UState<String>) -> Self {
+    public func innerHTML(_ value: State<String>) -> Self {
         self.innerHTML = value.wrappedValue
         value.listen {
             self.innerHTML = $0

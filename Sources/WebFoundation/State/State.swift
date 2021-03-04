@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 16.11.2020.
 //
 
-public typealias UState = State
+public typealias WState = State
 
 public protocol StateConvertible {
     associatedtype Value
