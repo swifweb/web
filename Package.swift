@@ -48,7 +48,7 @@ deps.append(.github("swiftwasm/JavaScriptKit", "0.9.0"), .product("JavaScriptKit
 // MARK: - Package
 
 let package = Package(
-    name: "Web",
+    name: "web",
     products: [
         .library(name: "WebFoundation", targets: ["WebFoundation"]),
         .library(name: "Events", targets: ["Events"]),
