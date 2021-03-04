@@ -63,6 +63,13 @@ public final class ServiceWorkerContainer {
     
     /// Creates or updates a `ServiceWorkerRegistration` for the given scriptURL.
     ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register)
+    public func register(_ scriptURL: URLConformable) {
+        register(scriptURL) { _ in }
+    }
+    
+    /// Creates or updates a `ServiceWorkerRegistration` for the given scriptURL.
+    ///
     /// - Parameters:
     ///   - scriptURL: The URL of the service worker script.
     ///   The registered service worker file needs to have a valid
