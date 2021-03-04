@@ -12,10 +12,6 @@ import WorkersAPI
 import PushAPI
 import Events
 
-//if ('serviceWorker' in navigator) {
-//    navigator.serviceWorker.register('./\(swJS)');
-//}
-
 /// Provides an object representing the service worker
 /// as an overall unit in the network ecosystem, including facilities
 /// to register, unregister and update service workers,

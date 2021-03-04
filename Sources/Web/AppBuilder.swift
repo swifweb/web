@@ -30,11 +30,6 @@ public typealias Lifecycle = WindowLifecycle
         case lifecycle(Lifecycle)
         case routes(Routes)
         case stylesheet(Stylesheet)
-    //    case router(Router)
-    //    case document(Document)
-    //    case mainScene(BaseApp.MainScene)
-    //    case scene(BaseApp.Scene)
-    //    case shortcuts(BaseApp.Shortcuts)
         case items([Item])
     }
 
