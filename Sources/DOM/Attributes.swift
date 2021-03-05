@@ -728,8 +728,8 @@ extension ClassAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
     @discardableResult
     private func `class`(value: Class) -> Self {
-        setAttribute("class", value.name)
         properties._classes.insert(value.name)
+        setAttribute("className", properties._classes.joined(separator: ","))
         return self
     }
     
@@ -738,9 +738,10 @@ extension ClassAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
     @discardableResult
     public func `class`(_ value: [Class]) -> Self {
-        let value = value.map { $0.name }.joined(separator: ",")
-        setAttribute("class", value)
-        properties._classes.insert(value)
+        value.map { $0.name }.forEach {
+            properties._classes.insert($0)
+        }
+        setAttribute("className", properties._classes.joined(separator: ","))
         return self
     }
     
