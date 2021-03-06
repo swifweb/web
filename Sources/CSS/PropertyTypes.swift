@@ -1274,10 +1274,10 @@ public struct FilterType: Noneable, Initialable, Inheritable, CustomStringConver
     public static func dropShadow<H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: ColorType? = nil) -> Self {
         var elements: [String] = [h.description, v.description]
         if let blur = blur {
-            elements.append(blur.numericValue)
+            elements.append(blur.numericValue + "px")
         }
         if let spread = spread {
-            elements.append(spread.numericValue)
+            elements.append(spread.numericValue + "px")
         }
         if let color = color {
             elements.append(color.description)
