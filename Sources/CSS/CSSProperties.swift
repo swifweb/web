@@ -5699,11 +5699,24 @@ public class BoxShadowProperty: _Property {
         propertyValue = BoxShadowValue(h: h, v: v, blur: blur, inset: inset)
     }
     
+    public convenience init<H, V, B>(h: H, v: V, blur: B)
+    where H: UniValue, V: UniValue, B: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable {
+        self.init(h: h, v: v, blur: blur, inset: false)
+    }
+    
     public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
         propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, inset: inset)
+    }
+    
+    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        self.init(h: h, v: v, blur: blur, spread: spread, inset: false)
     }
     
     public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I)
@@ -5713,11 +5726,25 @@ public class BoxShadowProperty: _Property {
         propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
     }
     
+    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+    }
+    
     public init<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+    }
+    
+    public convenience init<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color {
+        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
     }
     
     public init<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I)
@@ -5727,11 +5754,25 @@ public class BoxShadowProperty: _Property {
         propertyValue = BoxShadowValue(h: h, v: v, spread: spread, color: color, inset: inset)
     }
     
+    public convenience init<H, V, S>(h: H, v: V, spread: S, color: Color)
+    where H: UniValue, V: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        self.init(h: h, v: v, spread: spread, color: color, inset: false)
+    }
+    
     public init<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I)
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         propertyValue = BoxShadowValue(h: h, v: v, spread: spread, color: color, inset: inset)
+    }
+    
+    public convenience init<H, V, S, C>(h: H, v: V, spread: S, color: C)
+    where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color {
+        self.init(h: h, v: v, spread: spread, color: color, inset: false)
     }
     
     public init<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I)
@@ -5741,11 +5782,25 @@ public class BoxShadowProperty: _Property {
         propertyValue = BoxShadowValue(h: h, v: v, blur: blur, color: color, inset: inset)
     }
     
+    public convenience init<H, V, B>(h: H, v: V, blur: B, color: Color)
+    where H: UniValue, V: UniValue, B: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable {
+        self.init(h: h, v: v, blur: blur, color: color, inset: false)
+    }
+    
     public init<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I)
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         propertyValue = BoxShadowValue(h: h, v: v, blur: blur, color: color, inset: inset)
+    }
+    
+    public convenience init<H, V, B, C>(h: H, v: V, blur: B, color: C)
+    where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, C.Value == Color {
+        self.init(h: h, v: v, blur: blur, color: color, inset: false)
     }
     
     public init<H, V, I>(h: H, v: V, color: Color, inset: I)
@@ -5754,10 +5809,22 @@ public class BoxShadowProperty: _Property {
         propertyValue = BoxShadowValue(h: h, v: v, color: color, inset: inset)
     }
     
+    public convenience init<H, V>(h: H, v: V, color: Color)
+    where H: UniValue, V: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable {
+        self.init(h: h, v: v, color: color, inset: false)
+    }
+    
     public init<H, V, C, I>(h: H, v: V, color: C, inset: I)
     where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         propertyValue = BoxShadowValue(h: h, v: v, color: color, inset: inset)
+    }
+    
+    public convenience init<H, V, C>(h: H, v: V, color: C)
+    where H: UniValue, V: UniValue, C: StateConvertible,
+          H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color {
+        self.init(h: h, v: v, color: color, inset: false)
     }
 }
 
@@ -5866,6 +5933,12 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
         }
     }
     
+    public convenience init<H, V, B>(h: H, v: V, blur: B)
+    where H: UniValue, V: UniValue, B: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable {
+        self.init(h: h, v: v, blur: blur, inset: false)
+    }
+    
     public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
@@ -5893,6 +5966,13 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
         }
     }
     
+    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        self.init(h: h, v: v, blur: blur, spread: spread, inset: false)
+    }
+    
     public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
@@ -5918,6 +5998,13 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
             self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: $0)
             self._changeHandler()
         }
+    }
+    
+    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
     }
     
     public init<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I)
@@ -5952,6 +6039,13 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
         }
     }
     
+    public convenience init<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color {
+        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+    }
+    
     public init<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I)
     where H: UniValue, V: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
@@ -5973,6 +6067,13 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
             self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: $0)
             self._changeHandler()
         }
+    }
+    
+    public convenience init<H, V, S>(h: H, v: V, spread: S, color: Color)
+    where H: UniValue, V: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        self.init(h: h, v: v, spread: spread, color: color, inset: false)
     }
     
     public init<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I)
@@ -6003,6 +6104,13 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
         }
     }
     
+    public convenience init<H, V, S, C>(h: H, v: V, spread: S, color: C)
+    where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color {
+        self.init(h: h, v: v, spread: spread, color: color, inset: false)
+    }
+    
     public init<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I)
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
@@ -6024,6 +6132,13 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
             self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: $0)
             self._changeHandler()
         }
+    }
+    
+    public convenience init<H, V, B>(h: H, v: V, blur: B, color: Color)
+    where H: UniValue, V: UniValue, B: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable {
+        self.init(h: h, v: v, blur: blur, color: color, inset: false)
     }
     
     public init<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I)
@@ -6054,6 +6169,13 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
         }
     }
     
+    public convenience init<H, V, B, C>(h: H, v: V, blur: B, color: C)
+    where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, C.Value == Color {
+        self.init(h: h, v: v, blur: blur, color: color, inset: false)
+    }
+    
     public init<H, V, I>(h: H, v: V, color: Color, inset: I)
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
@@ -6070,6 +6192,12 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
             self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: color, inset: $0)
             self._changeHandler()
         }
+    }
+    
+    public convenience init<H, V>(h: H, v: V, color: Color)
+    where H: UniValue, V: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable {
+        self.init(h: h, v: v, color: color, inset: false)
     }
     
     public init<H, V, C, I>(h: H, v: V, color: C, inset: I)
@@ -6093,6 +6221,12 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
             self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: $0)
             self._changeHandler()
         }
+    }
+    
+    public convenience init<H, V, C>(h: H, v: V, color: C)
+    where H: UniValue, V: UniValue, C: StateConvertible,
+          H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color {
+        self.init(h: h, v: v, color: color, inset: false)
     }
 
     public var description: String { value }
@@ -6138,12 +6272,25 @@ extension CSSRulable {
         return self
     }
     
+    public func boxShadow<H, V, B>(h: H, v: V, blur: B) -> Self
+    where H: UniValue, V: UniValue, B: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable {
+        boxShadow(h: h, v: v, blur: blur, inset: false)
+    }
+    
     public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, inset: inset))
         return self
+    }
+    
+    public func boxShadow<H, V, B, S>(h: H, v: V, blur: B, spread: S) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, inset: false)
     }
     
     public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I) -> Self
@@ -6154,12 +6301,26 @@ extension CSSRulable {
         return self
     }
     
+    public func boxShadow<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+    }
+    
     public func boxShadow<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
+    }
+    
+    public func boxShadow<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color {
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
     }
     
     public func boxShadow<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I) -> Self
@@ -6170,12 +6331,26 @@ extension CSSRulable {
         return self
     }
     
+    public func boxShadow<H, V, S>(h: H, v: V, spread: S, color: Color) -> Self
+    where H: UniValue, V: UniValue, S: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable {
+        boxShadow(h: h, v: v, spread: spread, color: color, inset: false)
+    }
+    
     public func boxShadow<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I) -> Self
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset))
         return self
+    }
+    
+    public func boxShadow<H, V, S, C>(h: H, v: V, spread: S, color: C) -> Self
+    where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color {
+        boxShadow(h: h, v: v, spread: spread, color: color, inset: false)
     }
     
     public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I) -> Self
@@ -6186,12 +6361,26 @@ extension CSSRulable {
         return self
     }
     
+    public func boxShadow<H, V, B>(h: H, v: V, blur: B, color: Color) -> Self
+    where H: UniValue, V: UniValue, B: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable {
+        boxShadow(h: h, v: v, blur: blur, color: color, inset: false)
+    }
+    
     public func boxShadow<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset))
         return self
+    }
+    
+    public func boxShadow<H, V, B, C>(h: H, v: V, blur: B, color: C) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, C.Value == Color {
+        boxShadow(h: h, v: v, blur: blur, color: color, inset: false)
     }
     
     public func boxShadow<H, V, I>(h: H, v: V, color: Color, inset: I) -> Self
@@ -6201,11 +6390,23 @@ extension CSSRulable {
         return self
     }
     
+    public func boxShadow<H, V>(h: H, v: V, color: Color) -> Self
+    where H: UniValue, V: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable {
+        boxShadow(h: h, v: v, color: color, inset: false)
+    }
+    
     public func boxShadow<H, V, C, I>(h: H, v: V, color: C, inset: I) -> Self
     where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset))
         return self
+    }
+    
+    public func boxShadow<H, V, C>(h: H, v: V, color: C) -> Self
+    where H: UniValue, V: UniValue, C: StateConvertible,
+          H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color {
+        boxShadow(h: h, v: v, color: color, inset: false)
     }
 }
 
