@@ -1275,19 +1275,6 @@ public class BackgroundColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -1326,16 +1313,6 @@ extension CSSRulable {
     public func backgroundColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(BackgroundColorProperty(type.stateValue))
         return self
-    }
-
-    /// Specifies the background color of an element
-    public func backgroundColor(_ type: Int) -> Self {
-        backgroundColor(.hex(type))
-    }
-
-    /// Specifies the background color of an element
-    public func backgroundColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        backgroundColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -1546,7 +1523,7 @@ public class BackgroundProperty: _Property {
     }
 
     public init (
-        color: ColorType? = nil,
+        color: Color? = nil,
         src: String? = nil,
         position: BackgroundPositionType? = nil,
         size: BackgroundSizeType? = nil,
@@ -1588,7 +1565,7 @@ public struct BackgroundValue: CustomStringConvertible {
         self.value = value
     }
 
-    public init (color: ColorType? = nil, src: String? = nil, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil) {
+    public init (color: Color? = nil, src: String? = nil, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil) {
         value = [
             color?.description,
             src,
@@ -1640,30 +1617,7 @@ extension CSSRulable {
         attachment: BackgroundAttachmentType? = nil
     ) -> Self {
         background(.init(
-            color: color?.value,
-            src: src,
-            position: position,
-            size: size,
-            repeat: `repeat`,
-            origin: origin,
-            clip: clip,
-            attachment: attachment
-        ))
-    }
-
-    /// A shorthand property for all the background-* properties
-    public func background(
-        color: Int,
-        src: String? = nil,
-        position: BackgroundPositionType? = nil,
-        size: BackgroundSizeType? = nil,
-        repeat: BackgroundRepeatType? = nil,
-        origin: BackgroundOriginType? = nil,
-        clip: BackgroundClipType? = nil,
-        attachment: BackgroundAttachmentType? = nil
-    ) -> Self {
-        background(.init(
-            color: Color.hex(color).value,
+            color: color,
             src: src,
             position: position,
             size: size,
@@ -1961,19 +1915,6 @@ public class BorderBottomColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -2012,16 +1953,6 @@ extension CSSRulable {
     public func borderBottomColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(BorderBottomColorProperty(type.stateValue))
         return self
-    }
-
-    /// Sets the color of the bottom border
-    public func borderBottomColor(_ type: Int) -> Self {
-        borderBottomColor(.hex(type))
-    }
-
-    /// Sets the color of the bottom border
-    public func borderBottomColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        borderBottomColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -2186,19 +2117,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
-    public func borderBottom(width: BorderWidthType? = nil, style: BorderStyleType, color: Int) -> Self {
-        borderBottom(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     public func borderBottom<A>(width: A, style: BorderStyleType, color: Color? = nil) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
-    public func borderBottom<A>(width: A, style: BorderStyleType, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
-        borderBottom(width: width, style: style, color: .hex(color))
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
@@ -2208,19 +2129,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
-    public func borderBottom<B>(width: BorderWidthType? = nil, style: B, color: Int) -> Self where B: StateConvertible, B.Value == BorderStyleType {
-        borderBottom(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     public func borderBottom<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
-    public func borderBottom<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Int {
-        borderBottom(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
@@ -2230,19 +2141,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
-    public func borderBottom<A, B>(width: A, style: B, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType {
-        borderBottom(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     public func borderBottom<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
-    public func borderBottom<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Int {
-        borderBottom(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
@@ -2252,19 +2153,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
-    public func borderBottom<B, C>(width: BorderWidthType, style: B, color: C) -> Self where B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        borderBottom(width: width, style: style, color: color.stateValue.map { .hex($0) })
-    }
-
-    /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     public func borderBottom<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
-    public func borderBottom<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        borderBottom(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 }
 
@@ -2556,19 +2447,6 @@ public class BorderColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -2607,16 +2485,6 @@ extension CSSRulable {
     public func borderColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(BorderColorProperty(type.stateValue))
         return self
-    }
-
-    /// Sets the color of the four borders
-    public func borderColor(_ type: Int) -> Self {
-        borderColor(.hex(type))
-    }
-
-    /// Sets the color of the four borders
-    public func borderColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        borderColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -3044,19 +2912,6 @@ public class BorderLeftColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -3095,16 +2950,6 @@ extension CSSRulable {
     public func borderLeftColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(BorderLeftColorProperty(type.stateValue))
         return self
-    }
-
-    /// Sets the color of the left border
-    public func borderLeftColor(_ type: Int) -> Self {
-        borderLeftColor(.hex(type))
-    }
-
-    /// Sets the color of the left border
-    public func borderLeftColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        borderLeftColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -3197,19 +3042,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the border-left-* properties
-    public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: Int) -> Self {
-        borderLeft(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for all the border-left-* properties
     public func borderLeft<A>(width: A, style: BorderStyleType, color: Color? = nil) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for all the border-left-* properties
-    public func borderLeft<A>(width: A, style: BorderStyleType, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
-        borderLeft(width: width, style: style, color: .hex(color))
     }
 
     /// A shorthand property for all the border-left-* properties
@@ -3219,19 +3054,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the border-left-* properties
-    public func borderLeft<B>(width: BorderWidthType? = nil, style: B, color: Int) -> Self where B: StateConvertible, B.Value == BorderStyleType {
-        borderLeft(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for all the border-left-* properties
     public func borderLeft<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for all the border-left-* properties
-    public func borderLeft<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Int {
-        borderLeft(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for all the border-left-* properties
@@ -3241,19 +3066,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the border-left-* properties
-    public func borderLeft<A, B>(width: A, style: B, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType {
-        borderLeft(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for all the border-left-* properties
     public func borderLeft<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for all the border-left-* properties
-    public func borderLeft<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Int {
-        borderLeft(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for all the border-left-* properties
@@ -3263,19 +3078,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the border-left-* properties
-    public func borderLeft<B, C>(width: BorderWidthType, style: B, color: C) -> Self where B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        borderLeft(width: width, style: style, color: color.stateValue.map { .hex($0) })
-    }
-
-    /// A shorthand property for all the border-left-* properties
     public func borderLeft<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for all the border-left-* properties
-    public func borderLeft<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        borderLeft(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 }
 
@@ -3507,19 +3312,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-width, border-style and border-color
-    public func border(width: BorderWidthType? = nil, style: BorderStyleType, color: Int) -> Self {
-        border(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-width, border-style and border-color
     public func border<A>(width: A, style: BorderStyleType, color: Color? = nil) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-width, border-style and border-color
-    public func border<A>(width: A, style: BorderStyleType, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
-        border(width: width, style: style, color: .hex(color))
     }
 
     /// A shorthand property for border-width, border-style and border-color
@@ -3529,19 +3324,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-width, border-style and border-color
-    public func border<B>(width: BorderWidthType? = nil, style: B, color: Int) -> Self where B: StateConvertible, B.Value == BorderStyleType {
-        border(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-width, border-style and border-color
     public func border<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-width, border-style and border-color
-    public func border<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Int {
-        border(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for border-width, border-style and border-color
@@ -3551,19 +3336,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-width, border-style and border-color
-    public func border<A, B>(width: A, style: B, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType {
-        border(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-width, border-style and border-color
     public func border<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-width, border-style and border-color
-    public func border<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Int {
-        border(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for border-width, border-style and border-color
@@ -3573,19 +3348,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-width, border-style and border-color
-    public func border<B, C>(width: BorderWidthType, style: B, color: C) -> Self where B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        border(width: width, style: style, color: color.stateValue.map { .hex($0) })
-    }
-
-    /// A shorthand property for border-width, border-style and border-color
     public func border<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-width, border-style and border-color
-    public func border<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        border(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 }
 
@@ -4556,19 +4321,6 @@ public class BorderRightColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -4607,16 +4359,6 @@ extension CSSRulable {
     public func borderRightColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(BorderRightColorProperty(type.stateValue))
         return self
-    }
-
-    /// Sets the color of the right border
-    public func borderRightColor(_ type: Int) -> Self {
-        borderRightColor(.hex(type))
-    }
-
-    /// Sets the color of the right border
-    public func borderRightColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        borderRightColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -4709,19 +4451,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the border-right-* properties
-    public func borderRight(width: BorderWidthType? = nil, style: BorderStyleType, color: Int) -> Self {
-        borderRight(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for all the border-right-* properties
     public func borderRight<A>(width: A, style: BorderStyleType, color: Color? = nil) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for all the border-right-* properties
-    public func borderRight<A>(width: A, style: BorderStyleType, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
-        borderRight(width: width, style: style, color: .hex(color))
     }
 
     /// A shorthand property for all the border-right-* properties
@@ -4731,19 +4463,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the border-right-* properties
-    public func borderRight<B>(width: BorderWidthType? = nil, style: B, color: Int) -> Self where B: StateConvertible, B.Value == BorderStyleType {
-        borderRight(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for all the border-right-* properties
     public func borderRight<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for all the border-right-* properties
-    public func borderRight<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Int {
-        borderRight(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for all the border-right-* properties
@@ -4753,19 +4475,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the border-right-* properties
-    public func borderRight<A, B>(width: A, style: B, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType {
-        borderRight(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for all the border-right-* properties
     public func borderRight<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for all the border-right-* properties
-    public func borderRight<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Int {
-        borderRight(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for all the border-right-* properties
@@ -4775,19 +4487,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the border-right-* properties
-    public func borderRight<B, C>(width: BorderWidthType, style: B, color: C) -> Self where B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        borderRight(width: width, style: style, color: color.stateValue.map { .hex($0) })
-    }
-
-    /// A shorthand property for all the border-right-* properties
     public func borderRight<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for all the border-right-* properties
-    public func borderRight<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        borderRight(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 }
 
@@ -5161,19 +4863,6 @@ public class BorderTopColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -5212,16 +4901,6 @@ extension CSSRulable {
     public func borderTopColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(BorderTopColorProperty(type.stateValue))
         return self
-    }
-
-    /// Sets the color of the top border
-    public func borderTopColor(_ type: Int) -> Self {
-        borderTopColor(.hex(type))
-    }
-
-    /// Sets the color of the top border
-    public func borderTopColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        borderTopColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -5386,19 +5065,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
-    public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: Int) -> Self {
-        borderTop(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-top-width, border-top-style and border-top-color
     public func borderTop<A>(width: A, style: BorderStyleType, color: Color? = nil) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-top-width, border-top-style and border-top-color
-    public func borderTop<A>(width: A, style: BorderStyleType, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType> {
-        borderTop(width: width, style: style, color: .hex(color))
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
@@ -5408,19 +5077,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
-    public func borderTop<B>(width: BorderWidthType? = nil, style: B, color: Int) -> Self where B: StateConvertible, B.Value == BorderStyleType {
-        borderTop(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-top-width, border-top-style and border-top-color
     public func borderTop<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-top-width, border-top-style and border-top-color
-    public func borderTop<C>(width: BorderWidthType? = nil, style: BorderStyleType, color: C) -> Self where C: StateConvertible, C.Value == Int {
-        borderTop(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
@@ -5430,19 +5089,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
-    public func borderTop<A, B>(width: A, style: B, color: Int) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType {
-        borderTop(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for border-top-width, border-top-style and border-top-color
     public func borderTop<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-top-width, border-top-style and border-top-color
-    public func borderTop<A, C>(width: A, style: BorderStyleType, color: C) -> Self where A: StateConvertible, A.Value == BorderWidthType, C: StateConvertible, C.Value == Int {
-        borderTop(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
@@ -5452,19 +5101,9 @@ extension CSSRulable {
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
-    public func borderTop<B, C>(width: BorderWidthType, style: B, color: C) -> Self where B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        borderTop(width: width, style: style, color: color.stateValue.map { .hex($0) })
-    }
-
-    /// A shorthand property for border-top-width, border-top-style and border-top-color
     public func borderTop<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Optional<Color> {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for border-top-width, border-top-style and border-top-color
-    public func borderTop<A, B, C>(width: A, style: B, color: C) -> Self where A: StateConvertible, A.Value == Optional<BorderWidthType>, B: StateConvertible, B.Value == BorderStyleType, C: StateConvertible, C.Value == Int {
-        borderTop(width: width, style: style, color: color.stateValue.map { .hex($0) })
     }
 }
 
@@ -6885,19 +6524,6 @@ public class CaretColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -6936,16 +6562,6 @@ extension CSSRulable {
     public func caretColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(CaretColorProperty(type.stateValue))
         return self
-    }
-
-    /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
-    public func caretColor(_ type: Int) -> Self {
-        caretColor(.hex(type))
-    }
-
-    /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
-    public func caretColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        caretColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -7515,19 +7131,6 @@ public class ColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -7566,16 +7169,6 @@ extension CSSRulable {
     public func color<S>(_ color: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(ColorProperty(color.stateValue))
         return self
-    }
-
-    /// Sets the color of text
-    public func color(_ color: Int) -> Self {
-        self.color(.hex(color))
-    }
-
-    /// Sets the color of text
-    public func color<S>(_ color: S) -> Self where S: StateConvertible, S.Value == Int {
-        self.color(color.stateValue.map { .hex($0) })
     }
 }
 
@@ -7875,19 +7468,6 @@ public class ColumnRuleColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -7926,16 +7506,6 @@ extension CSSRulable {
     public func columnRuleColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(ColumnRuleColorProperty(type.stateValue))
         return self
-    }
-
-    /// Specifies the color of the rule between columns
-    public func columnRuleColor(_ type: Int) -> Self {
-        columnRuleColor(.hex(type))
-    }
-
-    /// Specifies the color of the rule between columns
-    public func columnRuleColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        columnRuleColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -7986,18 +7556,8 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the column-rule-* properties
-    public func columnRule(width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Int) -> Self {
-        columnRule(width: width, style: style, color: .hex(color))
-    }
-
-    /// A shorthand property for all the column-rule-* properties
     public func columnRule<W: UnitValuable>(width: W, style: ColumnRuleStyleType, color: Color) -> Self {
         columnRule(width: .length(width), style: style, color: color)
-    }
-
-    /// A shorthand property for all the column-rule-* properties
-    public func columnRule<W: UnitValuable>(width: W, style: ColumnRuleStyleType, color: Int) -> Self {
-        columnRule(width: .length(width), style: style, color: .hex(color))
     }
 }
 
@@ -16727,19 +16287,6 @@ public class OutlineColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -16778,16 +16325,6 @@ extension CSSRulable {
     public func outlineColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(OutlineColorProperty(type.stateValue))
         return self
-    }
-
-    /// Sets the color of an outline
-    public func outlineColor(_ type: Int) -> Self {
-        outlineColor(.hex(type))
-    }
-
-    /// Sets the color of an outline
-    public func outlineColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        outlineColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -16991,11 +16528,6 @@ extension CSSRulable {
     public func outline<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color) -> Self {
         _addProperty(OutlineProperty(width: width, style: style, color: color))
         return self
-    }
-
-    /// A shorthand property for the outline-width, outline-style, and the outline-color properties
-    public func outline<U: UnitValuable>(width: U, style: OutlineStyleType, color: Int) -> Self {
-        outline(width: width, style: style, color: .hex(color))
     }
 }
 
@@ -19785,19 +19317,6 @@ public class TextDecorationColorProperty: _Property {
         self.init(color.unwrap())
     }
 
-    public convenience init(_ hex: Int) {
-        self.init(.hex(hex))
-    }
-
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen { self.propertyValue = .hex($0) }
-    }
-
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
-    }
-
     public convenience init (r: Int, g: Int, b: Int, a: Double) {
         self.init(.rgba(r: r, g: g, b: b, a: a))
     }
@@ -19836,16 +19355,6 @@ extension CSSRulable {
     public func textDecorationColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(TextDecorationColorProperty(type.stateValue))
         return self
-    }
-
-    /// Specifies the color of the text-decoration
-    public func textDecorationColor(_ type: Int) -> Self {
-        textDecorationColor(.hex(type))
-    }
-
-    /// Specifies the color of the text-decoration
-    public func textDecorationColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Int {
-        textDecorationColor(type.stateValue.map { .hex($0) })
     }
 }
 
@@ -19982,12 +19491,6 @@ extension CSSRulable {
     /// Specifies the decoration added to text
     public func textDecoration(_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) -> Self {
         _addProperty(TextDecorationProperty(line, color, style))
-        return self
-    }
-
-    /// Specifies the decoration added to text
-    public func textDecoration(_ line: TextDecorationLineType, _ color: Int, _ style: TextDecorationStyleType) -> Self {
-        _addProperty(TextDecorationProperty(line, .hex(color), style))
         return self
     }
 }

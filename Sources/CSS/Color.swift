@@ -12,13 +12,17 @@ protocol _PropertyValueInnerChangeable: class {
 }
 
 public typealias WColor = Color
-open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashable {
+open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashable, ExpressibleByIntegerLiteral {
     @State public var value: ColorType = .css(.black)
     
     var _changeHandler = {}
     
     public init (_ value: ColorType) {
         self.value = value
+    }
+    
+    public required convenience init(integerLiteral value: IntegerLiteralType) {
+        self.init(value)
     }
     
     public convenience init (_ value: State<ColorType>) {

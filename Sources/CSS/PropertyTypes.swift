@@ -2824,7 +2824,7 @@ public struct TextShadowType: Noneable, Initialable, Inheritable, CustomStringCo
     
     public init (_ value: String) { self.value = value }
     
-    public static func value<H: UnitValuable, V: UnitValuable, B: UnitValuable>(_ hShadow: H, _ vShadow: V, _ blurRadius: B, _ color: ColorType) -> TextShadowType {
+    public static func value<H: UnitValuable, V: UnitValuable, B: UnitValuable>(_ hShadow: H, _ vShadow: V, _ blurRadius: B, _ color: Color) -> TextShadowType {
         .init(buildValue(h: hShadow.description, v: vShadow.description, blur: blurRadius.description, color: color.description))
     }
     
