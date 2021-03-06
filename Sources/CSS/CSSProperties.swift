@@ -6034,234 +6034,91 @@ public class BoxShadowProperty: _Property {
     var _content = _PropertyContent<BoxShadowValue>()
 
     /// Use it for multiple shadows
-    public init (_ values: [BoxShadowValue]) {
+    public init <U>(_ values: [U]) where U: UniValue, U.UniValue == BoxShadowValue {
         propertyValue = BoxShadowValue(values)
     }
 
-    /// Use it for multiple shadows
-    public init (_ values: BoxShadowValue...) {
+    public init <U>(_ values: U...) where U: UniValue, U.UniValue == BoxShadowValue {
         propertyValue = BoxShadowValue(values)
     }
-
-    /// Use it for multiple shadows
-    public init <V>(_ values: V) where V: StateConvertible, V.Value == [BoxShadowValue] {
-        propertyValue = BoxShadowValue(values)
+    
+    public init<H, V, I>(h: H, v: V, inset: I)
+    where H: UniValue, V: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, inset: inset)
     }
-
-    public init <V>(_ values: V) where V: StateConvertible, V.Value == BoxShadowValue {
-        propertyValue = BoxShadowValue(values)
+    
+    public convenience init<H, V>(h: H, v: V)
+    where H: UniValue, V: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable {
+        self.init(h: h, v: v, inset: false)
     }
-
-    public init<H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) {
+    
+    public init<H, V, B, I>(h: H, v: V, blur: B, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, inset: inset)
+    }
+    
+    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, inset: inset)
+    }
+    
+    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
         propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
     }
-
-    // MARK: A
-    public init <A, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable {
+    
+    public init<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
     }
-    public init <A, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I)
+    where H: UniValue, V: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, spread: spread, color: color, inset: inset)
     }
-
-    // MARK: B
-    public init <B, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I)
+    where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, spread: spread, color: color, inset: inset)
     }
-    public init <B, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) where B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, color: color, inset: inset)
     }
-
-    // MARK: C
-    public init <C, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where C: StateConvertible, C.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, color: color, inset: inset)
     }
-    public init <C, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) where C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, I>(h: H, v: V, color: Color, inset: I)
+    where H: UniValue, V: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, color: color, inset: inset)
     }
-
-    // MARK: D
-    public init <D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) where D: StateConvertible, D.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) where D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: E
-    public init <E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) where E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) where E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A B
-    public init <A, B>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, B, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A C
-    public init <A, C, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, C, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A D
-    public init <A, D, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, D, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A E
-    public init <A, E, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, E, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: B C
-    public init <B, C, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <B, C, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: B D
-    public init <B, D, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <B, D, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: B E
-    public init <B, E, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <B, E, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: C D
-    public init <C, D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: D, color: Color? = nil, inset: Bool = false) where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <C, D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: D, color: Color? = nil, inset: I) where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: C E
-    public init <C, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <C, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: D E
-    public init <D, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: Bool = false) where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <D, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: I) where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A B C
-    public init <A, B, C>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, B, C, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A B D
-    public init <A, B, D>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, B, D, I>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A B E
-    public init <A, B, E>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, B, E, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: B C D
-    public init <B, C, D, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: Color? = nil, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <B, C, D, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: Color? = nil, inset: I) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: B C E
-    public init <B, C, E, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <B, C, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A C D
-    public init <A, C, D, V: UnitValuable>(h: A, v: V, blur: C, spread: D, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, C, D, V: UnitValuable, I>(h: A, v: V, blur: C, spread: D, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A C E
-    public init <A, C, E, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, C, E, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A B C D
-    public init <A, B, C, D>(h: A, v: B, blur: C, spread: D, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, B, C, D, I>(h: A, v: B, blur: C, spread: D, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A B C E
-    public init <A, B, C, E>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, B, C, E, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: B C D E
-    public init <B, C, D, E, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: E, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <B, C, D, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: E, inset: I) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A B C D E
-    public init <A, B, C, D, E>(h: A, v: B, blur: C, spread: D, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-    public init <A, B, C, D, E, I>(h: A, v: B, blur: C, spread: D, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, C, I>(h: H, v: V, color: C, inset: I)
+    where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
+          H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        propertyValue = BoxShadowValue(h: h, v: v, color: color, inset: inset)
     }
 }
 
@@ -6274,14 +6131,14 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
     public var value: String
 
     var _changeHandler = {}
-
-    private static func makeValue<H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool) -> String {
-        var elements: [String] = [h.description, v.description]
+    
+    private static func makeValue(h: String, v: String, blur: String? = nil, spread: String? = nil, color: Color? = nil, inset: Bool) -> String {
+        var elements: [String] = [h, v]
         if let blur = blur {
-            elements.append(blur.numericValue)
+            elements.append(blur)
         }
         if let spread = spread {
-            elements.append(spread.numericValue)
+            elements.append(spread)
         }
         if let color = color {
             elements.append(color.description)
@@ -6297,1002 +6154,304 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
     }
 
     /// Use it for multiple shadows
-    public init (_ values: [BoxShadowValue]) {
-        value = Self.makeMultiple(values)
+    public init <U>(_ values: [U]) where U: UniValue, U.UniValue == BoxShadowValue {
+        let unwrappedValues = values.map { $0.uniValue }
+        self.value = Self.makeMultiple(unwrappedValues)
+        values.compactMap { $0.uniStateValue }.forEach {
+            $0.listen {
+                self.value = Self.makeMultiple(unwrappedValues)
+                self._changeHandler()
+            }
+        }
     }
-
+    
     /// Use it for multiple shadows
-    public convenience init (_ values: BoxShadowValue...) {
-        self.init(values)
-    }
-
-    /// Use it for multiple shadows
-    public convenience init <V>(_ values: V) where V: StateConvertible, V.Value == [BoxShadowValue] {
-        let values = values.stateValue
-        self.init(values.wrappedValue)
-        values.listen {
-            self.value = Self.makeMultiple($0)
-            self._changeHandler()
+    public init <U>(_ values: U...) where U: UniValue, U.UniValue == BoxShadowValue {
+        let unwrappedValues = values.map { $0.uniValue }
+        self.value = Self.makeMultiple(unwrappedValues)
+        values.forEach {
+            $0.uniStateValue?.listen {
+                self.value = Self.makeMultiple(unwrappedValues)
+                self._changeHandler()
+            }
+            $0.uniValue._changeHandler = {
+                self.value = Self.makeMultiple(unwrappedValues)
+                self._changeHandler()
+            }
         }
     }
-
-    public convenience init <V>(_ values: V) where V: StateConvertible, V.Value == BoxShadowValue {
-        let values = values.stateValue
-        self.init(values.wrappedValue)
-        values.listen {
-            self.value = Self.makeMultiple([$0])
+    
+    public init<H, V, I>(h: H, v: V, inset: I)
+    where H: UniValue, V: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-
-    public init<H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) {
-        value = Self.makeValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
-    }
-
-    // MARK: A
-    public convenience init <A, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable {
-        let h = h.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur, spread: spread, color: color, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur, spread: spread, color: color, inset: inset)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, inset: $0)
             self._changeHandler()
         }
     }
-    public convenience init <A, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur, spread: spread, color: color, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur, spread: spread, color: color, inset: inset.wrappedValue)
+    
+    public convenience init<H, V>(h: H, v: V)
+    where H: UniValue, V: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable {
+        self.init(h: h, v: v, inset: false)
+    }
+    
+    public init<H, V, B, I>(h: H, v: V, blur: B, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable, I.UniValue == Bool {
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: inset.uniValue)
             self._changeHandler()
         }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur, spread: spread, color: color, inset: $0)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        blur.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: $0)
             self._changeHandler()
         }
     }
-
-    // MARK: B
-    public convenience init <B, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable {
-        let v = v.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur, spread: spread, color: color, inset: inset)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        blur.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        spread.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: $0)
             self._changeHandler()
         }
     }
-    public convenience init <B, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) where B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        let v = v.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur, spread: spread, color: color, inset: inset.wrappedValue)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur, spread: spread, color: color, inset: inset.wrappedValue)
+    
+    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur, spread: spread, color: color, inset: $0)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-
-    // MARK: C
-    public convenience init <C, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where C: StateConvertible, C.Value == Optional<NumericValue> {
-        let blur = blur.stateValue
-        self.init(h: h, v: v, blur: blur.wrappedValue, spread: spread, color: color, inset: inset)
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: $0, spread: spread, color: color, inset: inset)
+        blur.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-    public convenience init <C, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) where C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let blur = blur.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v, blur: blur.wrappedValue, spread: spread, color: color, inset: inset.wrappedValue)
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: $0, spread: spread, color: color, inset: inset.wrappedValue)
+        spread.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur.wrappedValue, spread: spread, color: color, inset: $0)
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: $0)
             self._changeHandler()
         }
     }
-
-    // MARK: D
-    public convenience init <D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) where D: StateConvertible, D.Value == Optional<NumericValue> {
-        let spread = spread.stateValue
-        self.init(h: h, v: v, blur: blur, spread: spread.wrappedValue, color: color, inset: inset)
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: $0, color: color, inset: inset)
+    
+    public init<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        let colorState = color.stateValue
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        blur.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        spread.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        colorState.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: $0, inset: inset.uniValue)
+            self._changeHandler()
+        }
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: $0)
             self._changeHandler()
         }
     }
-    public convenience init <D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) where D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let spread = spread.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v, blur: blur, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: $0, color: color, inset: inset.wrappedValue)
+    
+    public init<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I)
+    where H: UniValue, V: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: spread.wrappedValue, color: color, inset: $0)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-
-    // MARK: E
-    public convenience init <E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) where E: StateConvertible, E.Value == Optional<Color> {
-        let color = color.stateValue
-        self.init(h: h, v: v, blur: blur, spread: spread, color: color.wrappedValue, inset: inset)
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: spread, color: $0, inset: inset)
+        spread.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: $0.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-    public convenience init <E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) where E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v, blur: blur, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: spread, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: spread, color: color.wrappedValue, inset: $0)
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: $0)
             self._changeHandler()
         }
     }
-
-    // MARK: A B
-    public convenience init <A, B>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        let h = h.stateValue
-        let v = v.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread, color: color, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I)
+    where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        let colorState = color.stateValue
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
             self._changeHandler()
         }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur, spread: spread, color: color, inset: inset)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-    public convenience init <A, B, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let v = v.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread, color: color, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur, spread: spread, color: color, inset: inset.wrappedValue)
+        spread.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: $0.description, color: colorState.wrappedValue, inset: inset.uniValue)
             self._changeHandler()
         }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur, spread: spread, color: color, inset: inset.wrappedValue)
+        colorState.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: $0, inset: inset.uniValue)
             self._changeHandler()
         }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread, color: color, inset: $0)
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: $0)
             self._changeHandler()
         }
     }
-
-    // MARK: A C
-    public convenience init <A, C, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        let h = h.stateValue
-        let blur = blur.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread, color: color, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur.wrappedValue, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, I.UniValue == Bool {
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: $0, spread: spread, color: color, inset: inset)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-    public convenience init <A, C, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let blur = blur.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread, color: color, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur.wrappedValue, spread: spread, color: color, inset: inset.wrappedValue)
+        blur.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: $0, spread: spread, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread, color: color, inset: $0)
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: $0)
             self._changeHandler()
         }
     }
-
-    // MARK: A D
-    public convenience init <A, D, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        let h = h.stateValue
-        let spread = spread.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur, spread: spread.wrappedValue, color: color, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur, spread: spread.wrappedValue, color: color, inset: inset)
+    
+    public init<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I)
+    where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        let colorState = color.stateValue
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
             self._changeHandler()
         }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur, spread: $0, color: color, inset: inset)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-    public convenience init <A, D, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let spread = spread.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
+        blur.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, color: colorState.wrappedValue, inset: inset.uniValue)
             self._changeHandler()
         }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur, spread: $0, color: color, inset: inset.wrappedValue)
+        colorState.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: $0, inset: inset.uniValue)
             self._changeHandler()
         }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur, spread: spread.wrappedValue, color: color, inset: $0)
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: $0)
             self._changeHandler()
         }
     }
-
-    // MARK: A E
-    public convenience init <A, E, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        let h = h.stateValue
-        let color = color.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur, spread: spread, color: color.wrappedValue, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur, spread: spread, color: color.wrappedValue, inset: inset)
+    
+    public init<H, V, I>(h: H, v: V, color: Color, inset: I)
+    where H: UniValue, V: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: color, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur, spread: spread, color: $0, inset: inset)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, color: color, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-    public convenience init <A, E, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur, spread: spread, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur, spread: spread, color: color.wrappedValue, inset: $0)
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: color, inset: $0)
             self._changeHandler()
         }
     }
-
-    // MARK: B C
-    public convenience init <B, C, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        let v = v.stateValue
-        let blur = blur.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color, inset: inset)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur.wrappedValue, spread: spread, color: color, inset: inset)
+    
+    public init<H, V, C, I>(h: H, v: V, color: C, inset: I)
+    where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
+          H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        let colorState = color.stateValue
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+        h.uniStateValue?.listen {
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
             self._changeHandler()
         }
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: $0, spread: spread, color: color, inset: inset)
+        v.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, color: colorState.wrappedValue, inset: inset.uniValue)
             self._changeHandler()
         }
-    }
-    public convenience init <B, C, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color, inset: inset.wrappedValue)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur.wrappedValue, spread: spread, color: color, inset: inset.wrappedValue)
+        colorState.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: $0, inset: inset.uniValue)
             self._changeHandler()
         }
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: $0, spread: spread, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: B D
-    public convenience init <B, D, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        let v = v.stateValue
-        let spread = spread.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur, spread: spread.wrappedValue, color: color, inset: inset)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur, spread: $0, color: color, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <B, D, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let v = v.stateValue
-        let spread = spread.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur, spread: $0, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur, spread: spread.wrappedValue, color: color, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: B E
-    public convenience init <B, E, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        let v = v.stateValue
-        let color = color.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur, spread: spread, color: color.wrappedValue, inset: inset)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur, spread: spread, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <B, E, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let v = v.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur, spread: spread, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur, spread: spread, color: color.wrappedValue, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: C D
-    public convenience init <C, D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: D, color: Color? = nil, inset: Bool = false) where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        self.init(h: h, v: v, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset)
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: $0, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur.wrappedValue, spread: $0, color: color, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <C, D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: D, color: Color? = nil, inset: I) where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: $0, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur.wrappedValue, spread: $0, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: C E
-    public convenience init <C, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        let blur = blur.stateValue
-        let color = color.stateValue
-        self.init(h: h, v: v, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset)
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: $0, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur.wrappedValue, spread: spread, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <C, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let blur = blur.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: $0, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur.wrappedValue, spread: spread, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: D E
-    public convenience init <D, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: Bool = false) where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        let spread = spread.stateValue
-        let color = color.stateValue
-        self.init(h: h, v: v, blur: blur, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset)
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: $0, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: spread.wrappedValue, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <D, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: I) where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let spread = spread.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v, blur: blur, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset.wrappedValue)
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: $0, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: spread.wrappedValue, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v, blur: blur, spread: spread.wrappedValue, color: color.wrappedValue, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: A B C
-    public convenience init <A, B, C>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        let h = h.stateValue
-        let v = v.stateValue
-        let blur = blur.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color, inset: inset)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur.wrappedValue, spread: spread, color: color, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: $0, spread: spread, color: color, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <A, B, C, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur.wrappedValue, spread: spread, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: $0, spread: spread, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: A B D
-    public convenience init <A, B, D>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        let h = h.stateValue
-        let v = v.stateValue
-        let spread = spread.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread.wrappedValue, color: color, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: $0, color: color, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <A, B, D, I>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let v = v.stateValue
-        let spread = spread.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: $0, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread.wrappedValue, color: color, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: A B E
-    public convenience init <A, B, E>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        let h = h.stateValue
-        let v = v.stateValue
-        let color = color.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread, color: color.wrappedValue, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <A, B, E, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let v = v.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur, spread: spread, color: color.wrappedValue, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: B C D
-    public convenience init <B, C, D, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: Color? = nil, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: $0, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: $0, color: color, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <B, C, D, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: Color? = nil, inset: I) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: $0, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: $0, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: B C E
-    public convenience init <B, C, E, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let color = color.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: $0, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <B, C, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: $0, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: A C D
-    public convenience init <A, C, D, V: UnitValuable>(h: A, v: V, blur: C, spread: D, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        let h = h.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: $0, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: $0, color: color, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <A, C, D, V: UnitValuable, I>(h: A, v: V, blur: C, spread: D, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: $0, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: $0, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: A C E
-    public convenience init <A, C, E, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        let h = h.stateValue
-        let blur = blur.stateValue
-        let color = color.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: $0, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <A, C, E, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let blur = blur.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: $0, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: A B C D
-    public convenience init <A, B, C, D>(h: A, v: B, blur: C, spread: D, color: Color? = nil, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        let h = h.stateValue
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: $0, spread: spread.wrappedValue, color: color, inset: inset)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: $0, color: color, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <A, B, C, D, I>(h: A, v: B, blur: C, spread: D, color: Color? = nil, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: $0, spread: spread.wrappedValue, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: $0, color: color, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: A B C E
-    public convenience init <A, B, C, E>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        let h = h.stateValue
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let color = color.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: $0, spread: spread, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <A, B, C, E, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: $0, spread: spread, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread, color: color.wrappedValue, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: B C D E
-    public convenience init <B, C, D, E, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: E, inset: Bool = false) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        let color = color.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: $0, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: $0, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <B, C, D, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: E, inset: I) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset.wrappedValue)
-        v.listen {
-            self.value = Self.makeValue(h: h, v: $0, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: $0, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: $0, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: $0)
-            self._changeHandler()
-        }
-    }
-
-    // MARK: A B C D E
-    public convenience init <A, B, C, D, E>(h: A, v: B, blur: C, spread: D, color: E, inset: Bool = false) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        let h = h.stateValue
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        let color = color.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: $0, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: $0, color: color.wrappedValue, inset: inset)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: $0, inset: inset)
-            self._changeHandler()
-        }
-    }
-    public convenience init <A, B, C, D, E, I>(h: A, v: B, blur: C, spread: D, color: E, inset: I) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        let h = h.stateValue
-        let v = v.stateValue
-        let blur = blur.stateValue
-        let spread = spread.stateValue
-        let color = color.stateValue
-        let inset = inset.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset.wrappedValue)
-        h.listen {
-            self.value = Self.makeValue(h: $0, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        v.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: $0, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        blur.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: $0, spread: spread.wrappedValue, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        spread.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: $0, color: color.wrappedValue, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        color.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: $0, inset: inset.wrappedValue)
-            self._changeHandler()
-        }
-        inset.listen {
-            self.value = Self.makeValue(h: h.wrappedValue, v: v.wrappedValue, blur: blur.wrappedValue, spread: spread.wrappedValue, color: color.wrappedValue, inset: $0)
+        inset.uniStateValue?.listen {
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: $0)
             self._changeHandler()
         }
     }
@@ -7307,583 +6466,107 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Use it for multiple shadows
-    public func boxShadow(_ values: [BoxShadowValue]) -> Self {
+    public func boxShadow<U>(_ values: [U]) -> Self where U: UniValue, U.UniValue == BoxShadowValue {
         _addProperty(BoxShadowProperty(values))
         return self
     }
 
     /// Use it for multiple shadows
-    public func boxShadow(_ values: BoxShadowValue...) -> Self {
-        _addProperty(BoxShadowProperty(values))
-        return self
-    }
-
-    /// Use it for multiple shadows
-    public func boxShadow<V>(_ values: V) -> Self where V: StateConvertible, V.Value == [BoxShadowValue] {
-        _addProperty(BoxShadowProperty(values))
-        return self
-    }
-
-    public func boxShadow<V>(_ values: V) -> Self where V: StateConvertible, V.Value == BoxShadowValue {
+    public func boxShadow<U>(_ values: U...) -> Self where U: UniValue, U.UniValue == BoxShadowValue {
         _addProperty(BoxShadowProperty(values))
         return self
     }
 
     /// Attaches one shadow to an element
-    public func boxShadow<H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self {
+    public func boxShadow<H, V, I>(h: H, v: V, inset: I) -> Self
+    where H: UniValue, V: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, inset: inset))
+        return self
+    }
+    
+    public func boxShadow<H, V>(h: H, v: V) -> Self
+    where H: UniValue, V: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable {
+        _addProperty(BoxShadowProperty(h: h, v: v, inset: false))
+        return self
+    }
+    
+    public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, inset: I) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, inset: inset))
+        return self
+    }
+    
+    public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, inset: inset))
+        return self
+    }
+    
+    public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
     }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: A
-    /// Attaches one shadow to an element
-    public func boxShadow<A, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable {
+    
+    public func boxShadow<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
     }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
+    
+    public func boxShadow<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I) -> Self
+    where H: UniValue, V: UniValue, S: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset))
         return self
     }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: B
-    /// Attaches one shadow to an element
-    public func boxShadow<B, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
+    
+    public func boxShadow<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I) -> Self
+    where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset))
         return self
     }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<B, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
+    
+    public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset))
         return self
     }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: C
-    /// Attaches one shadow to an element
-    public func boxShadow<C, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
+    
+    public func boxShadow<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I) -> Self
+    where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable,
+              B.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset))
         return self
     }
-    /// Attaches one shadow to an element
-    public func boxShadow<C, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<C, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
+    
+    public func boxShadow<H, V, I>(h: H, v: V, color: Color, inset: I) -> Self
+    where H: UniValue, V: UniValue, I: UniValue,
+              H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset))
         return self
     }
-    /// Attaches one shadow to an element
-    public func boxShadow<C, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: Int, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: D
-    /// Attaches one shadow to an element
-    public func boxShadow<D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) -> Self where D: StateConvertible, D.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
+    
+    public func boxShadow<H, V, C, I>(h: H, v: V, color: C, inset: I) -> Self
+    where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
+          H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
+        _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset))
         return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Int, inset: Bool = false) -> Self where D: StateConvertible, D.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: Int, inset: I) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: E
-    /// Attaches one shadow to an element
-    public func boxShadow<E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: A B
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: A C
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: A D
-    /// Attaches one shadow to an element
-    public func boxShadow<A, D, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, D, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, D, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, D, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: D, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: A E
-    /// Attaches one shadow to an element
-    public func boxShadow<A, E, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, E, V: UnitValuable>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, E, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, E, V: UnitValuable, I>(h: A, v: V, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: B C
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: Int, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: B D
-    /// Attaches one shadow to an element
-    public func boxShadow<B, D, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, D, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Int, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<B, D, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, D, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: D, color: Int, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: B E
-    /// Attaches one shadow to an element
-    public func boxShadow<B, E, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, E, H: UnitValuable>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<B, E, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, E, H: UnitValuable, I>(h: H, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: C D
-    /// Attaches one shadow to an element
-    public func boxShadow<C, D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: D, color: Color? = nil, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<C, D, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: D, color: Int, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<C, D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: D, color: Color? = nil, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<C, D, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: D, color: Int, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: C E
-    /// Attaches one shadow to an element
-    public func boxShadow<C, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<C, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<C, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<C, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: D E
-    /// Attaches one shadow to an element
-    public func boxShadow<D, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: Bool = false) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<D, E, H: UnitValuable, V: UnitValuable>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: Bool = false) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<D, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: I) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<D, E, H: UnitValuable, V: UnitValuable, I>(h: H, v: V, blur: NumericValue? = nil, spread: D, color: E, inset: I) -> Self where D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: A B C
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: A B D
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, D>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, D>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, D, I>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, D, I>(h: A, v: B, blur: NumericValue? = nil, spread: D, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: A B E
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, E>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, E>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, E, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, E, I>(h: A, v: B, blur: NumericValue? = nil, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: B C D
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, D, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: Color? = nil, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, D, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: Int, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, D, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: Color? = nil, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, D, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: Int, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: B C E
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, E, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, E, H: UnitValuable>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: A C D
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, D, V: UnitValuable>(h: A, v: V, blur: C, spread: D, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, D, V: UnitValuable>(h: A, v: V, blur: C, spread: D, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, D, V: UnitValuable, I>(h: A, v: V, blur: C, spread: D, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, D, V: UnitValuable, I>(h: A, v: V, blur: C, spread: D, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: A C E
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, E, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, E, V: UnitValuable>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, E, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, C, E, V: UnitValuable, I>(h: A, v: V, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: A B C D
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, D>(h: A, v: B, blur: C, spread: D, color: Color? = nil, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, D>(h: A, v: B, blur: C, spread: D, color: Int, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue> {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, D, I>(h: A, v: B, blur: C, spread: D, color: Color? = nil, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, D, I>(h: A, v: B, blur: C, spread: D, color: Int, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: .hex(color), inset: inset)
-    }
-
-    // MARK: A B C E
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, E>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, E>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, E, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, E, I>(h: A, v: B, blur: C, spread: NumericValue? = nil, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: B C D E
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, D, E, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, D, E, H: UnitValuable>(h: H, v: B, blur: C, spread: D, color: E, inset: Bool = false) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, D, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<B, C, D, E, H: UnitValuable, I>(h: H, v: B, blur: C, spread: D, color: E, inset: I) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    // MARK: A B C D E
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, D, E>(h: A, v: B, blur: C, spread: D, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color> {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, D, E>(h: A, v: B, blur: C, spread: D, color: E, inset: Bool = false) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
-    }
-
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, D, E, I>(h: A, v: B, blur: C, spread: D, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Optional<Color>, I: StateConvertible, I.Value == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
-        return self
-    }
-    /// Attaches one shadow to an element
-    public func boxShadow<A, B, C, D, E, I>(h: A, v: B, blur: C, spread: D, color: E, inset: I) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value == Optional<NumericValue>, D: StateConvertible, D.Value == Optional<NumericValue>, E: StateConvertible, E.Value == Int, I: StateConvertible, I.Value == Bool {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color.stateValue.map { .hex($0) }, inset: inset)
     }
 }
 
