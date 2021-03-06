@@ -226,7 +226,7 @@ public typealias WLink = Link
 /// ```swift
 /// Link()
 ///     .href("/media/examples/link-element-example.css")
-///     .rel("stylesheet")
+///     .rel(.stylesheet)
 /// ```
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link)
