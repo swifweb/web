@@ -16,9 +16,13 @@ public protocol UnitValuable: AnyUnitValuable {
     var unit: Unit { get }
 }
 
-public class UnitValue: UnitValuable, _PropertyValueInnerChangeable {
+public class UnitValue: UnitValuable, UniValue, _PropertyValueInnerChangeable {
     @State public var value: Double = 0
     @State public var unit: Unit = .px
+    
+    public typealias UniValue = UnitValue
+    public var uniValue: UnitValue { self }
+    public var uniStateValue: State<UnitValue>? { nil }
     
     var _changeHandler = {}
     

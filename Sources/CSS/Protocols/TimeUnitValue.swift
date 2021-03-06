@@ -14,9 +14,13 @@ public protocol TimeUnitValue: CustomStringConvertible {
     var timeUnit: TimeUnit { get }
 }
 
-public class TimeUnitValueContainer: TimeUnitValue, CustomStringConvertible, _PropertyValueInnerChangeable {
+public class TimeUnitValueContainer: TimeUnitValue, UniValue, CustomStringConvertible, _PropertyValueInnerChangeable {
     @State public var value: Double = 0
     @State public var timeUnit: TimeUnit = .ms
+    
+    public typealias UniValue = TimeUnitValueContainer
+    public var uniValue: TimeUnitValueContainer { self }
+    public var uniStateValue: State<TimeUnitValueContainer>? { nil }
     
     var _changeHandler = {}
     

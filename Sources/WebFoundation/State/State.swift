@@ -7,10 +7,15 @@
 
 public typealias WState = State
 
-public protocol StateConvertible {
+public protocol StateConvertible: UniValue {
     associatedtype Value
     
     var stateValue: State<Value> { get }
+}
+
+extension StateConvertible {
+    public var uniValue: Value { stateValue.wrappedValue }
+    public var uniStateValue: State<Value>? { stateValue }
 }
 
 @propertyWrapper
@@ -144,4 +149,38 @@ extension State where Value: Equatable {
             listener(new)
         }
     }
+}
+
+/// Universal value, could be simple value or State value
+public protocol UniValue {
+    associatedtype UniValue
+    
+    var uniValue: UniValue { get }
+    var uniStateValue: State<UniValue>? { get }
+}
+
+extension String: UniValue {
+    public var uniValue: String { self }
+    public var uniStateValue: State<String>? { nil }
+}
+
+extension Int: UniValue {
+    public typealias UniValue = Int
+    
+    public var uniValue: Int { self }
+    public var uniStateValue: State<Int>? { nil }
+}
+
+extension Double: UniValue {
+    public typealias UniValue = Double
+    
+    public var uniValue: UniValue { self }
+    public var uniStateValue: State<UniValue>? { nil }
+}
+
+extension Bool: UniValue {
+    public typealias UniValue = Bool
+    
+    public var uniValue: UniValue { self }
+    public var uniStateValue: State<UniValue>? { nil }
 }

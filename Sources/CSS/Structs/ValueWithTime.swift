@@ -5,7 +5,9 @@
 //  Created by Mihael Isaev on 08.07.2020.
 //
 
-public struct ValueWithTimeUnit<V: Doubleable>: TimeUnitValue {
+import WebFoundation
+
+public struct ValueWithTimeUnit<V: Doubleable>: TimeUnitValue, UniValue {
     public let value: V
     public let timeUnit: TimeUnit
     
@@ -13,4 +15,8 @@ public struct ValueWithTimeUnit<V: Doubleable>: TimeUnitValue {
         self.value = value
         self.timeUnit = timeUnit
     }
+    
+    public typealias UniValue = TimeUnitValueContainer
+    public var uniValue: TimeUnitValueContainer { TimeUnitValueContainer(value.doubleValue, timeUnit) }
+    public var uniStateValue: State<TimeUnitValueContainer>? { nil }
 }
