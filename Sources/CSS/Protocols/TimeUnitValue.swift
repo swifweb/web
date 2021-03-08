@@ -18,65 +18,42 @@ public class TimeUnitValueContainer: TimeUnitValue, UniValue, CustomStringConver
     @State public var value: Double = 0
     @State public var timeUnit: TimeUnit = .ms
     
-    public typealias UniValue = TimeUnitValueContainer
     public var uniValue: TimeUnitValueContainer { self }
-    public var uniStateValue: State<TimeUnitValueContainer>? { nil }
+    public lazy var uniStateValue: State<TimeUnitValueContainer>? = .init(wrappedValue: self)
     
     var _changeHandler = {}
     
-    init (_ value: Double, _ timeUnit: TimeUnit) {
-        self.value = value
-        self.timeUnit = timeUnit
-        $value.listen {
-            self._changeHandler()
+    init <D, T>(_ value: D, _ timeUnit: T) where D: UniValue, D.UniValue == Double, T: UniValue, T.UniValue == TimeUnit {
+        self.value = value.uniValue
+        self.timeUnit = timeUnit.uniValue
+        if let state = value.uniStateValue {
+            $value.merge(with: state, leftChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }, rightChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            })
+        } else {
+            $value.listen {
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }
         }
-        $timeUnit.listen {
-            self._changeHandler()
+        if let state = timeUnit.uniStateValue {
+            $timeUnit.merge(with: state, leftChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }, rightChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            })
+        } else {
+            $timeUnit.listen {
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }
         }
-    }
-    
-    convenience init (_ value: State<Double>, _ timeUnit: TimeUnit) {
-        self.init(value.wrappedValue, timeUnit)
-        value.listen {
-            self.value = $0
-        }
-    }
-    
-    convenience init (_ value: Double, _ timeUnit: State<TimeUnit>) {
-        self.init(value, timeUnit.wrappedValue)
-        timeUnit.listen {
-            self.timeUnit = $0
-        }
-    }
-    
-    convenience init (_ value: State<Double>, _ timeUnit: State<TimeUnit>) {
-        self.init(value.wrappedValue, timeUnit.wrappedValue)
-        value.listen {
-            self.value = $0
-        }
-        timeUnit.listen {
-            self.timeUnit = $0
-        }
-    }
-    
-    convenience init <V>(_ value: ExpressableState<V, Double>, _ timeUnit: TimeUnit) {
-        self.init(value.unwrap(), timeUnit)
-    }
-    
-    convenience init <V>(_ value: ExpressableState<V, Double>, _ timeUnit: State<TimeUnit>) {
-        self.init(value.unwrap(), timeUnit)
-    }
-    
-    convenience init <V>(_ value: Double, _ timeUnit: ExpressableState<V, TimeUnit>) {
-        self.init(value, timeUnit.unwrap())
-    }
-    
-    convenience init <V>(_ value: State<Double>, _ timeUnit: ExpressableState<V, TimeUnit>) {
-        self.init(value, timeUnit.unwrap())
-    }
-    
-    convenience init <V, U>(_ value: ExpressableState<V, Double>, _ timeUnit: ExpressableState<U, TimeUnit>) {
-        self.init(value.unwrap(), timeUnit.unwrap())
     }
     
     public var description: String { "\(value)\(timeUnit.rawValue)" }

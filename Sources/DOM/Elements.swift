@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WebFoundation
 
 // MARK: - Content sectioning
 
@@ -45,9 +46,14 @@ open class H1: BaseActiveElement, ScrollHandleable, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -61,9 +67,14 @@ open class H2: BaseActiveElement, ScrollHandleable, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -77,9 +88,14 @@ open class H3: BaseActiveElement, ScrollHandleable, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -93,9 +109,14 @@ open class H4: BaseActiveElement, ScrollHandleable, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -109,9 +130,14 @@ open class H5: BaseActiveElement, ScrollHandleable, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -125,9 +151,14 @@ open class H6: BaseActiveElement, ScrollHandleable, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -274,9 +305,14 @@ open class Title: BaseContentElement, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -397,9 +433,14 @@ open class Button: BaseActiveElement, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -478,38 +519,38 @@ open class InputCheckbox: BaseActiveElement, ChangeHandleable, InvalidHandleable
         setAttribute("type", "checkbox")
     }
 
-    public required convenience init(_ checked: Bool, indeterminate: Bool = false) {
+    public required convenience init<C, I>(_ checked: C, indeterminate: I) where C: UniValue, C.UniValue == Bool, I: UniValue, I.UniValue == Bool {
         self.init()
-        setAttribute("checked", checked, .short)
-        setAttribute("indeterminate", indeterminate, .short)
-        self.checked = checked
-        self.indeterminate = indeterminate
-        _checked.listen { [weak self] in
-            self?.setAttribute("checked", $0, .short)
+        setAttribute("checked", checked.uniValue, .short)
+        setAttribute("indeterminate", indeterminate.uniValue, .short)
+        self.checked = checked.uniValue
+        self.indeterminate = indeterminate.uniValue
+        if let state = checked.uniStateValue {
+            _checked.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("checked", $0, .short)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("checked", $0, .short)
+            })
+        } else {
+            _checked.listen { [weak self] in
+                self?.setAttribute("checked", $0, .short)
+            }
         }
-        _indeterminate.listen { [weak self] in
-            self?.setAttribute("indeterminate", $0, .short)
-        }
-    }
-
-    public required convenience init(_ checked: State<Bool>, indeterminate: State<Bool>? = nil) {
-        self.init()
-        setAttribute("checked", checked.wrappedValue, .short)
-        _checked.wrappedValue = checked.wrappedValue
-        _checked.merge(with: checked, leftChanged: { [weak self] in
-            self?.setAttribute("checked", $0, .short)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("checked", $0, .short)
-        })
-        if let indeterminate = indeterminate {
-            setAttribute("indeterminate", indeterminate.wrappedValue, .short)
-            _indeterminate.wrappedValue = indeterminate.wrappedValue
-            _indeterminate.merge(with: indeterminate, leftChanged: { [weak self] in
+        if let state = indeterminate.uniStateValue {
+            _indeterminate.merge(with: state, leftChanged: { [weak self] in
                 self?.setAttribute("indeterminate", $0, .short)
             }, rightChanged: { [weak self] in
                 self?.setAttribute("indeterminate", $0, .short)
             })
+        } else {
+            _indeterminate.listen { [weak self] in
+                self?.setAttribute("indeterminate", $0, .short)
+            }
         }
+    }
+    
+    public required convenience init<C>(_ checked: C) where C: UniValue, C.UniValue == Bool {
+        self.init(checked, indeterminate: false)
     }
 
     /// Convenience method to toggle checkbox
@@ -560,25 +601,24 @@ open class InputColor: BaseActiveElement, ChangeHandleable, InvalidHandleable, I
         setAttribute("type", "color")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -621,25 +661,24 @@ open class InputDate: BaseActiveElement, _StringInitializable, ChangeHandleable,
         setAttribute("type", "date")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 
     /// The HTMLInputElement.stepUp() method increments the value
@@ -701,25 +740,24 @@ open class InputDateTime: BaseActiveElement, _StringInitializable, ChangeHandlea
         setAttribute("type", "datetime-local")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 
     /// The HTMLInputElement.stepUp() method increments the value
@@ -782,25 +820,24 @@ open class InputEmail: BaseActiveElement, _StringInitializable, ChangeHandleable
         setAttribute("type", "email")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -887,25 +924,24 @@ open class InputHidden: BaseActiveElement {
         setAttribute("type", "hidden")
         setAttribute("value", value)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.value = value
-        _value.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.value = value.uniValue
+        if let state = value.uniStateValue {
+            _value.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _value.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _value.wrappedValue = value.wrappedValue
-        _value.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -984,25 +1020,24 @@ open class InputMonth: BaseActiveElement, _StringInitializable, ChangeHandleable
         setAttribute("type", "text")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 
     /// The HTMLInputElement.stepUp() method increments the value
@@ -1066,24 +1101,23 @@ open class InputNumber: BaseActiveElement, ChangeHandleable, InvalidHandleable, 
         setAttribute("value", text)
     }
 
-    public required convenience init(_ value: String) {
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        domElement.value = value.wrappedValue.jsValue()
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 
     /// The HTMLInputElement.stepUp() method increments the value
@@ -1145,25 +1179,24 @@ open class InputPassword: BaseActiveElement, _StringInitializable, ChangeHandlea
         setAttribute("type", "password")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -1192,24 +1225,23 @@ open class InputRadio: BaseActiveElement, ChangeHandleable, InvalidHandleable, S
         setAttribute("type", "radio")
     }
 
-    public required convenience init(_ checked: Bool) {
+    /// Bool initializer
+    /// - Parameter value: Pass `Bool` or `State<Bool>`
+    public required convenience init<U>(_ checked: U) where U: UniValue, U.UniValue == Bool {
         self.init()
-        setAttribute("checked", checked, .short)
-        self.checked = checked
-        _checked.listen { [weak self] in
-            self?.setAttribute("checked", $0, .short)
+        setAttribute("checked", checked.uniValue, .short)
+        self.checked = checked.uniValue
+        if let state = checked.uniStateValue {
+            _checked.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("checked", $0, .short)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("checked", $0, .short)
+            })
+        } else {
+            _checked.listen { [weak self] in
+                self?.setAttribute("checked", $0, .short)
+            }
         }
-    }
-
-    public required convenience init(_ checked: State<Bool>) {
-        self.init()
-        setAttribute("checked", checked.wrappedValue, .short)
-        _checked.wrappedValue = checked.wrappedValue
-        _checked.merge(with: checked, leftChanged: { [weak self] in
-            self?.setAttribute("checked", $0, .short)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("checked", $0, .short)
-        })
     }
 }
 
@@ -1254,19 +1286,23 @@ open class InputRange: BaseActiveElement, ChangeHandleable, InputHandleable, Inv
         setAttribute("type", "range")
     }
 
-    public required convenience init(_ value: Double) {
+    /// Double initializer
+    /// - Parameter value: Pass `Double` or `State<Double>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == Double {
         self.init()
-        setAttribute("value", value)
-        self.value = value
-    }
-
-    public required convenience init(_ value: State<Double>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _value.wrappedValue = value.wrappedValue
-        _value.merge(with: value, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
+        setAttribute("value", value.uniValue)
+        self.value = value.uniValue
+        if let state = value.uniStateValue {
+            _value.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _value.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
+        }
     }
 
     /// The HTMLInputElement.stepUp() method increments the value
@@ -1353,25 +1389,24 @@ open class InputSearch: BaseActiveElement, _StringInitializable, ChangeHandleabl
         setAttribute("type", "search")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -1418,7 +1453,6 @@ open class InputTel: BaseActiveElement, _StringInitializable, ChangeHandleable, 
         self.text = value
     }
 
-
     public required init() {
         super.init()
         onChange { [self] in
@@ -1432,25 +1466,24 @@ open class InputTel: BaseActiveElement, _StringInitializable, ChangeHandleable, 
         setAttribute("type", "tel")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -1493,25 +1526,24 @@ open class InputText: BaseActiveElement, _StringInitializable, ChangeHandleable,
         setAttribute("type", "text")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -1553,25 +1585,24 @@ open class InputTime: BaseActiveElement, _StringInitializable, ChangeHandleable,
         setAttribute("type", "time")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 
     /// The HTMLInputElement.stepUp() method increments the value
@@ -1636,25 +1667,24 @@ open class InputURL: BaseActiveElement, _StringInitializable, ChangeHandleable, 
         setAttribute("type", "url")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -1696,25 +1726,24 @@ open class InputWeek: BaseActiveElement, _StringInitializable, ChangeHandleable,
         setAttribute("type", "week")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 
     /// The HTMLInputElement.stepUp() method increments the value
@@ -1744,25 +1773,24 @@ public typealias WLabel = Label
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label)
 open class Label: BaseActiveElement, _StringInitializable {
     @State public var text: String = ""
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        self.value = value
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        self.value = value.wrappedValue
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.value = $0
-        }, rightChanged: { [weak self] in
-            self?.value = $0
-        })
-    }
-
-    public required convenience init <V>(_ value: ExpressableState<V, String>) {
-        self.init(value.unwrap())
+        self.value = value.uniValue
+        _text.wrappedValue = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.value = $0
+            }, rightChanged: { [weak self] in
+                self?.value = $0
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.value = $0
+            }
+        }
     }
 }
 
@@ -1771,21 +1799,24 @@ open class Label: BaseActiveElement, _StringInitializable {
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/legend)
 open class Legend: BaseActiveElement, _StringInitializable {
     @State public var text: String = ""
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        self.value = value
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        self.value = value.wrappedValue
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.value = $0
-        }, rightChanged: { [weak self] in
-            self?.value = $0
-        })
+        self.value = value.uniValue
+        _text.wrappedValue = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.value = $0
+            }, rightChanged: { [weak self] in
+                self?.value = $0
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.value = $0
+            }
+        }
     }
 }
 
@@ -1799,47 +1830,38 @@ open class Meter: BaseActiveElement {
     @State public var value: Double = 0
     @State public var shadowText: String = ""
 
-    public required convenience init(_ value: Double, _ shadowText: String? = nil) {
+    public required convenience init<V, S>(_ value: V, _ shadowText: S) where V: UniValue, V.UniValue == Double, S: UniValue, S.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.value = value
-        _value.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.value = value.uniValue
+        if let state = value.uniStateValue {
+            _value.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _value.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-        let shadowText = shadowText ?? String(value)
-        innerText = shadowText
-        self.shadowText = shadowText
-        _shadowText.listen { [weak self] in
-            self?.innerText = $0
-        }
-    }
-
-    public required convenience init(_ value: State<Double>, _ shadowText: State<String>? = nil) {
-        self.init(value.wrappedValue, shadowText?.wrappedValue)
-        _value.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
-        if let shadowText = shadowText {
-            _shadowText.merge(with: shadowText, leftChanged: { [weak self] in
+        innerText = shadowText.uniValue
+        self.shadowText = shadowText.uniValue
+        if let state = shadowText.uniStateValue {
+            _shadowText.merge(with: state, leftChanged: { [weak self] in
                 self?.innerText = $0
             }, rightChanged: { [weak self] in
                 self?.innerText = $0
             })
+        } else {
+            _shadowText.listen { [weak self] in
+                self?.innerText = $0
+            }
         }
     }
-
-    public required convenience init <V>(_ value: State<Double>, _ shadowText: ExpressableState<V, String>) {
-        self.init(value, shadowText.unwrap())
-    }
-
-    public required convenience init <V>(_ value: ExpressableState<V, Double>, _ shadowText: State<String>? = nil) {
-        self.init(value.unwrap(), shadowText)
-    }
-
-    public required convenience init <V1, V2>(_ value: ExpressableState<V1, Double>, _ shadowText: ExpressableState<V2, String>) {
-        self.init(value.unwrap(), shadowText.unwrap())
+    
+    public required convenience init<V>(_ value: V) where V: UniValue, V.UniValue == Double {
+        self.init(value, String(value.uniValue))
     }
 }
 
@@ -1848,43 +1870,33 @@ open class Meter: BaseActiveElement {
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/optgroup)
 open class OptGroup: BaseActiveElement {
     @State public var label: String = ""
-
-    public required convenience init(_ label: String) {
+    
+    /// String initializer
+    /// - Parameter label: Pass `String` or `State<String>`
+    public required convenience init<U>(_ label: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("label", label)
-        self.label = label
-        _label.listen { [weak self] in
-            self?.setAttribute("label", $0)
+        setAttribute("label", label.uniValue)
+        self.label = label.uniValue
+        if let state = label.uniStateValue {
+            _label.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("label", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("label", $0)
+            })
+        } else {
+            _label.listen { [weak self] in
+                self?.setAttribute("label", $0)
+            }
         }
     }
-
-    public convenience init(_ label: String, @DOM content: @escaping DOM.Block) {
+    
+    /// Convenient initializer with DOM body
+    /// - Parameters:
+    ///   - label: Pass `String` or `State<String>`
+    ///   - content: DOM body
+    public convenience init<U>(_ label: U, @DOM content: @escaping DOM.Block) where U: UniValue, U.UniValue == String {
         self.init(label)
         parseDOMItem(content().domContentItem)
-    }
-
-    public required convenience init(_ label: State<String>) {
-        self.init()
-        self.label = label.wrappedValue
-        _label.wrappedValue = label.wrappedValue
-        _label.merge(with: label, leftChanged: { [weak self] in
-            self?.setAttribute("label", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("label", $0)
-        })
-    }
-
-    public convenience init(_ label: State<String>, @DOM content: @escaping DOM.Block) {
-        self.init(label)
-        parseDOMItem(content().domContentItem)
-    }
-
-    public required convenience init <V>(_ value: ExpressableState<V, String>) {
-        self.init(value.unwrap())
-    }
-
-    public required convenience init <V>(_ value: ExpressableState<V, String>, @DOM content: @escaping DOM.Block) {
-        self.init(value.unwrap(), content: content)
     }
 }
 
@@ -1895,25 +1907,24 @@ open class OptGroup: BaseActiveElement {
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option)
 open class Option: BaseActiveElement, _StringInitializable {
     @State public var text: String = ""
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        self.value = value
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        self.value = value.wrappedValue
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.value = $0
-        }, rightChanged: { [weak self] in
-            self?.value = $0
-        })
-    }
-
-    public required convenience init <V>(_ value: ExpressableState<V, String>) {
-        self.init(value.unwrap())
+        self.value = value.uniValue
+        _text.wrappedValue = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.value = $0
+            }, rightChanged: { [weak self] in
+                self?.value = $0
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.value = $0
+            }
+        }
     }
 }
 
@@ -1940,48 +1951,39 @@ public typealias WProgress = Progress
 open class Progress: BaseActiveElement {
     @State public var value: Double = 0
     @State public var shadowText: String = ""
-
-    public required convenience init(_ value: Double, _ shadowText: String? = nil) {
+    
+    public required convenience init<V, S>(_ value: V, _ shadowText: S) where V: UniValue, V.UniValue == Double, S: UniValue, S.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.value = value
-        _value.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.value = value.uniValue
+        if let state = value.uniStateValue {
+            _value.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _value.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-        let shadowText = shadowText ?? String(value)
-        innerText = shadowText
-        self.shadowText = shadowText
-        _shadowText.listen { [weak self] in
-            self?.innerText = $0
-        }
-    }
-
-    public required convenience init(_ value: State<Double>, _ shadowText: State<String>? = nil) {
-        self.init(value.wrappedValue, shadowText?.wrappedValue)
-        _value.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
-        if let shadowText = shadowText {
-            _shadowText.merge(with: shadowText, leftChanged: { [weak self] in
+        innerText = shadowText.uniValue
+        self.shadowText = shadowText.uniValue
+        if let state = shadowText.uniStateValue {
+            _shadowText.merge(with: state, leftChanged: { [weak self] in
                 self?.innerText = $0
             }, rightChanged: { [weak self] in
                 self?.innerText = $0
             })
+        } else {
+            _shadowText.listen { [weak self] in
+                self?.innerText = $0
+            }
         }
     }
-
-    public required convenience init <V>(_ value: State<Double>, _ shadowText: ExpressableState<V, String>) {
-        self.init(value, shadowText.unwrap())
-    }
-
-    public required convenience init <V>(_ value: ExpressableState<V, Double>, _ shadowText: State<String>? = nil) {
-        self.init(value.unwrap(), shadowText)
-    }
-
-    public required convenience init <V1, V2>(_ value: ExpressableState<V1, Double>, _ shadowText: ExpressableState<V2, String>) {
-        self.init(value.unwrap(), shadowText.unwrap())
+    
+    public required convenience init<V>(_ value: V) where V: UniValue, V.UniValue == Double {
+        self.init(value, String(value.uniValue))
     }
 }
 
@@ -2027,32 +2029,30 @@ open class Select: BaseActiveElement, ChangeHandleable, ScrollHandleable {
         domElement.value.string ?? ""
     }
 
-    public required convenience init(_ value: String) {
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
     }
-
-    public convenience init(_ value: String, @DOM content: @escaping DOM.Block) {
-        self.init(value)
-        parseDOMItem(content().domContentItem)
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
-    }
-
-    public convenience init(_ value: State<String>, @DOM content: @escaping DOM.Block) {
+    
+    /// Convenience initializer
+    /// - Parameters:
+    ///   - value: Pass `String` or `State<String>`
+    ///   - content: DOM closure
+    public convenience init<U>(_ value: U, @DOM content: @escaping DOM.Block) where U: UniValue, U.UniValue == String {
         self.init(value)
         parseDOMItem(content().domContentItem)
     }
@@ -2099,25 +2099,24 @@ open class TextArea: BaseActiveElement, _StringInitializable, ChangeHandleable, 
         setAttribute("type", "text")
         setAttribute("value", text)
     }
-
-    public required convenience init(_ value: String) {
+    
+    /// String initializer
+    /// - Parameter value: Pass `String` or `State<String>`
+    public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value)
-        self.text = value
-        _text.listen { [weak self] in
-            self?.setAttribute("value", $0)
+        setAttribute("value", value.uniValue)
+        self.text = value.uniValue
+        if let state = value.uniStateValue {
+            _text.merge(with: state, leftChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            }, rightChanged: { [weak self] in
+                self?.setAttribute("value", $0)
+            })
+        } else {
+            _text.listen { [weak self] in
+                self?.setAttribute("value", $0)
+            }
         }
-    }
-
-    public required convenience init(_ value: State<String>) {
-        self.init()
-        setAttribute("value", value.wrappedValue)
-        _text.wrappedValue = value.wrappedValue
-        _text.merge(with: value, leftChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        }, rightChanged: { [weak self] in
-            self?.setAttribute("value", $0)
-        })
     }
 }
 
@@ -3234,9 +3233,14 @@ open class BlockQuote: BaseActiveElement, _StringInitializable, ScrollHandleable
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -3250,9 +3254,14 @@ open class Dd: BaseActiveElement, _StringInitializable, ScrollHandleable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -3268,9 +3277,14 @@ open class Div: BaseActiveElement, _StringInitializable, ScrollHandleable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -3294,9 +3308,14 @@ open class Dt: BaseActiveElement, _StringInitializable, ScrollHandleable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -3310,9 +3329,14 @@ open class FigCaption: BaseActiveElement, _StringInitializable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -3343,9 +3367,14 @@ open class Li: BaseActiveElement, _StringInitializable, ScrollHandleable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -3365,9 +3394,14 @@ open class P: BaseActiveElement, _StringInitializable, ScrollHandleable {
         set { innerText = newValue }
     }
 
-    required public convenience init (_ title: String) {
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 
@@ -3380,10 +3414,15 @@ open class Pre: BaseActiveElement, _StringInitializable, ScrollHandleable {
         get { innerText }
         set { innerText = newValue }
     }
-
-    required public convenience init (_ title: String) {
+    
+    /// String initializer
+    /// - Parameter title: Pass `String` or `State<String>`
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
-        value = title
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
     }
 }
 

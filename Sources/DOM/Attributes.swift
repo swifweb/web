@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WebFoundation
 
 // MARK: - AcceptAttrable
 
@@ -2741,11 +2742,7 @@ extension InputRange: MinAttrable {}
 
 public protocol MinDateAttrable: DOMElement {
     @discardableResult
-    func min(_ value: String) -> Self
-    @discardableResult
-    func min(_ value: State<String>) -> Self
-    @discardableResult
-    func min<V>(_ expressable: ExpressableState<V, String>) -> Self
+    func min<U>(_ value: U) -> Self where U: UniValue, U.UniValue == String
 }
 
 extension MinDateAttrable {
@@ -2755,30 +2752,12 @@ extension MinDateAttrable {
     ///
     /// [More info →](https://www.w3schools.com/tags/att_min.asp)
     @discardableResult
-    public func min(_ value: String) -> Self {
-        setAttribute("min", value)
+    public func min<U>(_ value: U) -> Self where U: UniValue, U.UniValue == String {
+        setAttribute("min", value.uniValue)
+        value.uniStateValue?.listen {
+            self.setAttribute("min", $0)
+        }
         return self
-    }
-    
-    /// Indicates the minimum value allowed.
-    ///
-    /// Applicable to `<input>`, `<meter>`
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_min.asp)
-    @discardableResult
-    public func min(_ value: State<String>) -> Self {
-        value.listen { self.min($0) }
-        return self
-    }
-    
-    /// Indicates the minimum value allowed.
-    ///
-    /// Applicable to `<input>`, `<meter>`
-    ///
-    /// [More info →](https://www.w3schools.com/tags/att_min.asp)
-    @discardableResult
-    public func min<V>(_ expressable: ExpressableState<V, String>) -> Self {
-        min(expressable.unwrap())
     }
 }
 extension InputDateTime: MinDateAttrable {}
@@ -3842,7 +3821,7 @@ extension SizesAttrable {
     @discardableResult
     public func sizes<W, H>(_ w: W, _ h: H) -> Self where W: StateConvertible, W.Value == Int, H: StateConvertible, H.Value == Int {
         sizes(w.stateValue.wrappedValue, h.stateValue.wrappedValue)
-        w.stateValue.and(h.stateValue).listen { self.sizes($0.left, $0.right) }
+        w.stateValue.and(h.stateValue).listen { self.sizes($0, $1) }
         return self
     }
 }

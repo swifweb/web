@@ -20,14 +20,9 @@ public class NumericValueContainer: CustomStringConvertible, _PropertyValueInner
     
     var _changeHandler = {}
     
-    public init (_ value: NumericValue) {
-        self.value = value.numericValue
-    }
-    
-    public convenience init <N>(_ value: N) where N: StateConvertible, N.Value: NumericValue {
-        let value = value.stateValue
-        self.init(value.wrappedValue)
-        value.listen {
+    public init<N> (_ value: N) where N: UniValue, N.UniValue: NumericValue {
+        self.value = value.uniValue.numericValue
+        value.uniStateValue?.listen {
             self.value = $0.numericValue
             self._changeHandler()
         }

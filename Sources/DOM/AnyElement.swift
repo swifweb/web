@@ -86,38 +86,24 @@ extension BaseContentElementable {
     }
     #endif
     
-    public func innerText(_ value: String) -> Self {
-        self.innerText = value
-        return self
-    }
-    
-    public func innerText(_ value: State<String>) -> Self {
-        self.innerText = value.wrappedValue
-        value.listen {
+    /// Inner text setter
+    /// - Parameter value: Pass `String` or `State<String>`
+    public func innerText<U>(_ value: U) -> Self where U: UniValue, U.UniValue == String {
+        self.innerText = value.uniValue
+        value.uniStateValue?.listen {
             self.innerText = $0
         }
         return self
     }
     
-    public func innerText <V>(_ value: ExpressableState<V, String>) -> Self {
-        innerText (value.unwrap())
-    }
-    
-    public func innerHTML(_ value: String) -> Self {
-        self.innerHTML = value
-        return self
-    }
-    
-    public func innerHTML(_ value: State<String>) -> Self {
-        self.innerHTML = value.wrappedValue
-        value.listen {
+    /// Inner HTML setter
+    /// - Parameter value: Pass `String` or `State<String>`
+    public func innerHTML<U>(_ value: U) -> Self where U: UniValue, U.UniValue == String {
+        self.innerHTML = value.uniValue
+        value.uniStateValue?.listen {
             self.innerHTML = $0
         }
         return self
-    }
-    
-    public func innerHTML<V>(_ value: ExpressableState<V, String>) -> Self {
-        innerHTML(value.unwrap())
     }
 }
 

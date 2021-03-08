@@ -16,7 +16,6 @@ public struct ValueWithTimeUnit<V: Doubleable>: TimeUnitValue, UniValue {
         self.timeUnit = timeUnit
     }
     
-    public typealias UniValue = TimeUnitValueContainer
     public var uniValue: TimeUnitValueContainer { TimeUnitValueContainer(value.doubleValue, timeUnit) }
     public var uniStateValue: State<TimeUnitValueContainer>? { nil }
 }

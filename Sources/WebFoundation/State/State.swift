@@ -27,26 +27,91 @@ open class State<Value>: Stateable {
         set {
             let oldValue = _wrappedValue
             _wrappedValue = newValue
-            beginTriggers.forEach { $0() }
-            listeners.forEach { $0(oldValue, newValue) }
-            endTriggers.forEach { $0() }
+            for trigger in beginTriggers {
+                trigger()
+            }
+            for listener in listeners {
+                listener(oldValue, newValue)
+            }
+            for trigger in endTriggers {
+                trigger()
+            }
         }
     }
     
     public var projectedValue: State<Value> { self }
 
+    init (_ stateA: AnyState, _ stateB: AnyState, _ expression: @escaping () -> Value) {
+        let value = expression()
+        _originalValue = value
+        _wrappedValue = value
+        stateA.listen {
+            self.wrappedValue = expression()
+        }
+        stateB.listen {
+            self.wrappedValue = expression()
+        }
+    }
+    
+    init <A, B>(_ stateA: State<A>, _ stateB: State<B>, _ expression: @escaping (A, B) -> Value) {
+        let value = expression(stateA.wrappedValue, stateB.wrappedValue)
+        _originalValue = value
+        _wrappedValue = value
+        stateA.listen {
+            self.wrappedValue = expression(stateA.wrappedValue, stateB.wrappedValue)
+        }
+        stateB.listen {
+            self.wrappedValue = expression(stateA.wrappedValue, stateB.wrappedValue)
+        }
+    }
+    
+    init <A, B>(_ stateA: State<A>, _ stateB: State<B>, _ expression: @escaping (CombinedDeprecatedResult<A, B>) -> Value) {
+        let value = expression(.init(left: stateA.wrappedValue, right: stateB.wrappedValue))
+        _originalValue = value
+        _wrappedValue = value
+        stateA.listen {
+            self.wrappedValue = expression(.init(left: stateA.wrappedValue, right: stateB.wrappedValue))
+        }
+        stateB.listen {
+            self.wrappedValue = expression(.init(left: stateA.wrappedValue, right: stateB.wrappedValue))
+        }
+    }
+    
     public init(wrappedValue value: Value) {
         _originalValue = value
         _wrappedValue = value
-        (self as? InnerStateChangeableObserver)?.innerStateChangeableSetup()
+    }
+    
+    init (_ stateA: AnyState, _ expression: @escaping () -> Value) {
+        let value = expression()
+        _originalValue = value
+        _wrappedValue = value
+        stateA.listen {
+            self.wrappedValue = expression()
+        }
+    }
+    
+    init <A>(_ stateA: State<A>, _ expression: @escaping (A) -> Value) {
+        let value = expression(stateA.wrappedValue)
+        _originalValue = value
+        _wrappedValue = value
+        stateA.listen {
+            self.wrappedValue = expression(stateA.wrappedValue)
+        }
     }
     
     public func reset() {
         let oldValue = _wrappedValue
         _wrappedValue = _originalValue
-        beginTriggers.forEach { $0() }
-        listeners.forEach { $0(oldValue, _wrappedValue) }
-        endTriggers.forEach { $0() }
+        for trigger in beginTriggers {
+            trigger()
+        }
+        for listener in listeners {
+            listener(oldValue, _wrappedValue)
+        }
+        for trigger in endTriggers {
+            trigger()
+        }
     }
     
     public func removeAllListeners() {
@@ -61,7 +126,15 @@ open class State<Value>: Stateable {
     
     private var beginTriggers: [Trigger] = []
     private var endTriggers: [Trigger] = []
-    private var listeners: [Listener] = []
+    fileprivate var listeners: [Listener] = []
+    
+    public func manualChangeNotify() {
+        beginTriggers.forEach { $0() }
+        listeners.forEach {
+            $0(_wrappedValue, _wrappedValue)
+        }
+        endTriggers.forEach { $0() }
+    }
     
     public func beginTrigger(_ trigger: @escaping Trigger) {
         beginTriggers.append(trigger)
@@ -103,28 +176,8 @@ open class State<Value>: Stateable {
         }
     }
     
-    // MARK: Experimental part
-    
-    public struct CombinedStateResult<A, B> {
-        public let left: A
-        public let right: B
-    }
-    
-    /// Merging two states into one combined state which could be used as expressable state
-    public func and<V>(_ state: State<V>) -> State<CombinedStateResult<Value, V>> {
-        let stateA = self
-        let stateB = state
-        let combinedValue = {
-            return CombinedStateResult(left: stateA.wrappedValue, right: stateB.wrappedValue)
-        }
-        let resultState = State<CombinedStateResult<Value, V>>(wrappedValue: combinedValue())
-        stateA.listen {
-            resultState.wrappedValue = combinedValue()
-        }
-        stateB.listen {
-            resultState.wrappedValue = combinedValue()
-        }
-        return resultState
+    public func and<V>(_ state: State<V>) -> CombinedState<Value, V> {
+        CombinedState(left: projectedValue, right: state)
     }
 }
 
@@ -150,6 +203,53 @@ extension State where Value: Equatable {
         }
     }
 }
+
+public class CombinedState<A, B> {
+    let _left: State<A>
+    let _right: State<B>
+    public var left: A { _left.wrappedValue }
+    public var right: B { _right.wrappedValue }
+    
+    init (left: State<A>, right: State<B>) {
+        self._left = left
+        self._right = right
+    }
+    
+    public func map<Result>(_ expression: @escaping () -> Result) -> State<Result> {
+        .init(_left, _right, expression)
+    }
+    
+    public func map<Result>(_ expression: @escaping (A, B) -> Result) -> State<Result> {
+        .init(_left, _right, expression)
+    }
+    
+    @available(*, deprecated, message: "🧨 This method will be removed soon. Please switch to `.map { left, right in }`.")
+    public func map<Result>(_ expression: @escaping (CombinedDeprecatedResult<A, B>) -> Result) -> State<Result> {
+        .init(_left, _right, expression)
+    }
+    
+    public func listen(_ listener: @escaping (_ left: A, _ right: B) -> Void) {
+        _left.listeners.append({ _, new in listener(new, self._right.wrappedValue) })
+        _right.listeners.append({ _, new in listener(self._left.wrappedValue, new) })
+    }
+    
+    public func listen(_ listener: @escaping () -> Void) {
+        _left.listeners.append({ _,_ in listener() })
+        _right.listeners.append({ _,_ in listener() })
+    }
+}
+
+public struct CombinedDeprecatedResult<A, B> {
+    public let left: A
+    public let right: B
+}
+
+
+
+
+
+
+
 
 /// Universal value, could be simple value or State value
 public protocol UniValue {

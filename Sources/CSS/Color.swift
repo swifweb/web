@@ -21,10 +21,6 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
         self.value = value
     }
     
-    public required convenience init(integerLiteral value: IntegerLiteralType) {
-        self.init(value)
-    }
-    
     public convenience init (_ value: State<ColorType>) {
         self.init(value.wrappedValue)
         value.listen {
@@ -33,47 +29,83 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
         }
     }
     
-    public convenience init<V>(_ value: ExpressableState<V, ColorType>) {
-        self.init(value.unwrap())
+    public required convenience init(integerLiteral value: IntegerLiteralType) {
+        self.init(value)
     }
     
-    public init(_ hex: Int) {
-        value = .hex(hex)
-    }
-    
-    public convenience init(_ hex: State<Int>) {
-        self.init(hex.wrappedValue)
-        hex.listen {
+    public init<I>(_ hex: I) where I: UniValue, I.UniValue == Int {
+        value = .hex(hex.uniValue)
+        hex.uniStateValue?.listen {
             self.value = .hex($0)
             self._changeHandler()
         }
     }
     
-    public convenience init<V>(_ hex: ExpressableState<V, Int>) {
-        self.init(hex.unwrap())
+    public init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
+              R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
+        value = .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue)
+        r.uniStateValue?.listen { [weak self] in
+            self?.value = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
+        }
+        g.uniStateValue?.listen { [weak self] in
+            self?.value = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
+        }
+        b.uniStateValue?.listen { [weak self] in
+            self?.value = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
+        }
+        a.uniStateValue?.listen { [weak self] in
+            self?.value = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
+        }
     }
     
-    public init (r: Int, g: Int, b: Int, a: Double) {
-        value = .rgba(r, g, b, a)
-    }
-    
-    public convenience init (r: Int, g: Int, b: Int) {
+    public convenience init <R, G, B>(r: R, g: G, b: B)
+    where R: UniValue, G: UniValue, B: UniValue,
+              R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
         self.init(r: r, g:g, b: b, a: 1)
     }
     
-    public init (h: Int, s: Int, l: Int, a: Double) {
-        value = .hsla(h, s, l, a)
+    public init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
+              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+        value = .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue)
+        h.uniStateValue?.listen { [weak self] in
+            self?.value = .rgba($0, s.uniValue, l.uniValue, a.uniValue)
+        }
+        s.uniStateValue?.listen { [weak self] in
+            self?.value = .rgba(h.uniValue, $0, l.uniValue, a.uniValue)
+        }
+        l.uniStateValue?.listen { [weak self] in
+            self?.value = .rgba(h.uniValue, s.uniValue, $0, a.uniValue)
+        }
+        a.uniStateValue?.listen { [weak self] in
+            self?.value = .rgba(h.uniValue, s.uniValue, l.uniValue, $0)
+        }
     }
     
-    public convenience init (h: Int, s: Int, l: Int) {
+    public convenience init <H, S, L>(h: H, s: S, l: L)
+    where H: UniValue, S: UniValue, L: UniValue,
+              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
         self.init(h: h, s: s, l: l, a: 1)
     }
     
-    public static func hex(_ value: Int) -> Color { .init(value) }
-    public static func rgb(r: Int, g: Int, b: Int) -> Color { .init(r: r, g: g, b: b) }
-    public static func rgba(r: Int, g: Int, b: Int, a: Double) -> Color { .init(r: r, g: g, b: b, a: a) }
-    public static func hsl(h: Int, s: Int, l: Int) -> Color { .init(h: h, s: s, l: l) }
-    public static func hsla(h: Int, s: Int, l: Int, a: Double) -> Color { .init(h: h, s: s, l: l, a: a) }
+    public static func hex<I>(_ value: I) -> Color where I: UniValue, I.UniValue == Int { .init(value) }
+    public static func rgb<R, G, B>(r: R, g: G, b: B) -> Color
+    where R: UniValue, G: UniValue, B: UniValue,
+              R.UniValue == Int, G.UniValue == Int, B.UniValue == Int
+              { .init(r: r, g: g, b: b) }
+    public static func rgba<R, G, B, A>(r: R, g: G, b: B, a: A) -> Color
+    where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
+              R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double
+              { .init(r: r, g: g, b: b, a: a) }
+    public static func hsl<H, S, L>(h: H, s: S, l: L) -> Color
+    where H: UniValue, S: UniValue, L: UniValue,
+              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int
+              { .init(h: h, s: s, l: l) }
+    public static func hsla<H, S, L, A>(h: H, s: S, l: L, a: A) -> Color
+    where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
+              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double
+              { .init(h: h, s: s, l: l, a: a) }
     
     public static var aliceBlue: Color { .init(.css(.aliceBlue)) }
     public static var antiqueWhite: Color { .init(.css(.antiqueWhite)) }

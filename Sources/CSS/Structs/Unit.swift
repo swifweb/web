@@ -5,6 +5,8 @@
 //  Created by Mihael Isaev on 08.07.2020.
 //
 
+import WebFoundation
+
 /// CSS has several different units for expressing a length.
 /// Many CSS properties take "length" values, such as width, margin, padding, font-size, etc.
 /// Length is a number followed by a length unit, such as 10px, 2em, etc.
@@ -13,7 +15,7 @@
 /// There are two types of length units: absolute and relative.
 ///
 /// [Learn more](https://www.w3schools.com/cssref/css_units.asp)
-public enum Unit: String {
+public enum Unit: String, UniValue {
     /// `Absolute Lengths`
     /// The absolute length units are fixed and a length expressed in any of these will appear as exactly that size.
     ///
@@ -71,4 +73,7 @@ public enum Unit: String {
     
     /// Relative to the parent element
     case percent = "%"
+    
+    public var uniValue: Unit { self }
+    public var uniStateValue: State<Unit>? { nil }
 }

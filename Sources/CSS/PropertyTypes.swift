@@ -546,59 +546,27 @@ public final class BackgroundSizeType: Autoable, Initialable, Inheritable, Lengt
     
     var _changeHandler = {}
     
-    required public init (_ value: String) {
-        self.value = value
-        $value.listen {
-            self._changeHandler()
+    required public init <S>(_ value: S) where S: UniValue, S.UniValue == String {
+        self.value = value.uniValue
+        if let state = value.uniStateValue {
+            $value.merge(with: state, leftChanged: { _ in
+                self._changeHandler()
+            }, rightChanged: { _ in
+                self._changeHandler()
+            })
+        } else {
+            $value.listen {
+                self._changeHandler()
+            }
         }
     }
     
-    convenience init (_ value: Double, _ unit: Unit) {
+    convenience init <D>(_ value: D, _ unit: Unit) where D: UniValue, D.UniValue == Double {
         self.init(UnitValue(value, unit).description)
     }
     
-    convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(value.wrappedValue, unit)
-        value.listen {
-            self.value = UnitValue($0.value, unit).description
-        }
-    }
-    
-    convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(value, unit.wrappedValue)
-        unit.listen {
-            self.value = UnitValue(value, $0).description
-        }
-    }
-    
-    convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(value.wrappedValue, unit.wrappedValue)
-        value.listen {
-            self.value = UnitValue($0.value, unit.wrappedValue).description
-        }
-        unit.listen {
-            self.value = UnitValue(value.wrappedValue, $0).description
-        }
-    }
-    
-    convenience init <V>(_ value: ExpressableState<V, Double>, _ unit: Unit) {
-        self.init(value.unwrap(), unit)
-    }
-    
-    convenience init <V>(_ value: ExpressableState<V, Double>, _ unit: State<Unit>) {
-        self.init(value.unwrap(), unit)
-    }
-    
-    convenience init <V>(_ value: Double, _ unit: ExpressableState<V, Unit>) {
-        self.init(value, unit.unwrap())
-    }
-    
-    convenience init <V>(_ value: State<Double>, _ unit: ExpressableState<V, Unit>) {
-        self.init(value, unit.unwrap())
-    }
-    
-    convenience init <V, U>(_ value: ExpressableState<V, Double>, _ unit: ExpressableState<U, Unit>) {
-        self.init(value.unwrap(), unit.unwrap())
+    convenience init <D>(_ value: D, _ unit: State<Unit>) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value, unit).description)
     }
     
     /// Resize the background image to cover the entire container,
@@ -1515,8 +1483,10 @@ public struct FontLanguageOverrideType: Initialable, Inheritable, CustomStringCo
     public var description: String { value }
 }
 
-public struct FontSizeAdjustType: Noneable, CustomStringConvertible {
+public struct FontSizeAdjustType: Noneable, CustomStringConvertible, ExpressibleByStringLiteral {
     public let value: String
+    
+    public init(stringLiteral value: StringLiteralType) { self.value = value }
     
     public init (_ value: String) { self.value = value }
     
@@ -2919,22 +2889,22 @@ public final class TimeType: Initialable, Inheritable, CustomStringConvertible, 
     
     /// Specifies how many seconds or milliseconds a transition effect takes to complete.
     /// Default value is 0s, meaning there will be no effect
-    public static func seconds(_ v: Double) -> Self { .init(TimeUnitValueContainer(v, .s)) }
+    public static func seconds(_ v: Double) -> Self { .init(TimeUnitValueContainer(v, TimeUnit.s)) }
     
     /// Specifies how many seconds or milliseconds a transition effect takes to complete.
     /// Default value is 0s, meaning there will be no effect
     public static func seconds<A>(_ v: A) -> Self where A: StateConvertible, A.Value == Double {
-        self.init(TimeUnitValueContainer(v.stateValue, .s))
+        self.init(TimeUnitValueContainer(v.stateValue, TimeUnit.s))
     }
     
     /// Specifies how many seconds or milliseconds a transition effect takes to complete.
     /// Default value is 0s, meaning there will be no effect
-    public static func milliseconds(_ v: Double) -> Self { .init(TimeUnitValueContainer(v, .ms)) }
+    public static func milliseconds(_ v: Double) -> Self { .init(TimeUnitValueContainer(v, TimeUnit.ms)) }
     
     /// Specifies how many seconds or milliseconds a transition effect takes to complete.
     /// Default value is 0s, meaning there will be no effect
     public static func milliseconds<A>(_ v: A) -> Self where A: StateConvertible, A.Value == Double {
-        self.init(TimeUnitValueContainer(v.stateValue, .ms))
+        self.init(TimeUnitValueContainer(v.stateValue, TimeUnit.ms))
     }
     
     public var description: String { value }

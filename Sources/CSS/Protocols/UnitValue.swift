@@ -16,69 +16,48 @@ public protocol UnitValuable: AnyUnitValuable {
     var unit: Unit { get }
 }
 
-public class UnitValue: UnitValuable, UniValue, _PropertyValueInnerChangeable {
+public class UnitValue: UnitValuable, UniValue, _PropertyValueInnerChangeable, CustomStringConvertible {
     @State public var value: Double = 0
     @State public var unit: Unit = .px
     
-    public typealias UniValue = UnitValue
+    public var description: String { "\(value)\(unit.rawValue)" }
+    
     public var uniValue: UnitValue { self }
-    public var uniStateValue: State<UnitValue>? { nil }
+    public lazy var uniStateValue: State<UnitValue>? = .init(wrappedValue: self)
     
     var _changeHandler = {}
     
-    public init (_ value: Double, _ unit: Unit) {
-        self.value = value
-        self.unit = unit
-        $value.listen {
-            self._changeHandler()
+    public init <D, U>(_ value: D, _ unit: U) where D: UniValue, D.UniValue == Double, U: UniValue, U.UniValue == Unit {
+        self.value = value.uniValue
+        self.unit = unit.uniValue
+        if let state = value.uniStateValue {
+            $value.merge(with: state, leftChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }, rightChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            })
+        } else {
+            $value.listen {
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }
         }
-        $unit.listen {
-            self._changeHandler()
+        if let state = unit.uniStateValue {
+            $unit.merge(with: state, leftChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }, rightChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            })
+        } else {
+            $unit.listen {
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }
         }
-    }
-    
-    convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(value.wrappedValue, unit)
-        value.listen {
-            self.value = $0
-        }
-    }
-    
-    convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(value, unit.wrappedValue)
-        unit.listen {
-            self.unit = $0
-        }
-    }
-    
-    convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(value.wrappedValue, unit.wrappedValue)
-        value.listen {
-            self.value = $0
-        }
-        unit.listen {
-            self.unit = $0
-        }
-    }
-    
-    convenience init <V>(_ value: ExpressableState<V, Double>, _ unit: Unit) {
-        self.init(value.unwrap(), unit)
-    }
-    
-    convenience init <V>(_ value: ExpressableState<V, Double>, _ unit: State<Unit>) {
-        self.init(value.unwrap(), unit)
-    }
-    
-    convenience init <V>(_ value: Double, _ unit: ExpressableState<V, Unit>) {
-        self.init(value, unit.unwrap())
-    }
-    
-    convenience init <V>(_ value: State<Double>, _ unit: ExpressableState<V, Unit>) {
-        self.init(value, unit.unwrap())
-    }
-    
-    convenience init <V, U>(_ value: ExpressableState<V, Double>, _ unit: ExpressableState<U, Unit>) {
-        self.init(value.unwrap(), unit.unwrap())
     }
 }
 
