@@ -23,13 +23,7 @@ Go to [webber](https://github.com/swifweb/webber) repository and install it.
 
 # Usage
 
-Create a new project
-
-single page app
-`webber new spa MyApp`
-
-progressive web app
-`webber new pwa MyApp`
+Clone [spa](https://github.com/swifweb/spa-template) or [pwa](https://github.com/swifweb/pwa-template) template
 
 Go to the project folder and open `Package.swift` to explore the code.
 
