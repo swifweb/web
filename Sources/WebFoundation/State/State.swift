@@ -27,15 +27,9 @@ open class State<Value>: Stateable {
         set {
             let oldValue = _wrappedValue
             _wrappedValue = newValue
-            for trigger in beginTriggers {
-                trigger()
-            }
-            for listener in listeners {
-                listener(oldValue, newValue)
-            }
-            for trigger in endTriggers {
-                trigger()
-            }
+            beginTriggers.forEach { $0() }
+            listeners.forEach { $0(oldValue, newValue) }
+            endTriggers.forEach { $0() }
         }
     }
     
@@ -45,59 +39,49 @@ open class State<Value>: Stateable {
         let value = expression()
         _originalValue = value
         _wrappedValue = value
-        stateA.listen {
-            self.wrappedValue = expression()
-        }
-        stateB.listen {
-            self.wrappedValue = expression()
-        }
+        stateA.listen { self.wrappedValue = expression() }
+        stateB.listen { self.wrappedValue = expression() }
+        (self as? InnerStateChangeableObserver)?.innerStateChangeableSetup()
     }
     
     init <A, B>(_ stateA: State<A>, _ stateB: State<B>, _ expression: @escaping (A, B) -> Value) {
         let value = expression(stateA.wrappedValue, stateB.wrappedValue)
         _originalValue = value
         _wrappedValue = value
-        stateA.listen {
-            self.wrappedValue = expression(stateA.wrappedValue, stateB.wrappedValue)
-        }
-        stateB.listen {
-            self.wrappedValue = expression(stateA.wrappedValue, stateB.wrappedValue)
-        }
+        stateA.listen { self.wrappedValue = expression(stateA.wrappedValue, stateB.wrappedValue) }
+        stateB.listen { self.wrappedValue = expression(stateA.wrappedValue, stateB.wrappedValue) }
+        (self as? InnerStateChangeableObserver)?.innerStateChangeableSetup()
     }
     
     init <A, B>(_ stateA: State<A>, _ stateB: State<B>, _ expression: @escaping (CombinedDeprecatedResult<A, B>) -> Value) {
         let value = expression(.init(left: stateA.wrappedValue, right: stateB.wrappedValue))
         _originalValue = value
         _wrappedValue = value
-        stateA.listen {
-            self.wrappedValue = expression(.init(left: stateA.wrappedValue, right: stateB.wrappedValue))
-        }
-        stateB.listen {
-            self.wrappedValue = expression(.init(left: stateA.wrappedValue, right: stateB.wrappedValue))
-        }
+        stateA.listen { self.wrappedValue = expression(.init(left: stateA.wrappedValue, right: stateB.wrappedValue)) }
+        stateB.listen { self.wrappedValue = expression(.init(left: stateA.wrappedValue, right: stateB.wrappedValue)) }
+        (self as? InnerStateChangeableObserver)?.innerStateChangeableSetup()
     }
     
     public init(wrappedValue value: Value) {
         _originalValue = value
         _wrappedValue = value
+        (self as? InnerStateChangeableObserver)?.innerStateChangeableSetup()
     }
     
     init (_ stateA: AnyState, _ expression: @escaping () -> Value) {
         let value = expression()
         _originalValue = value
         _wrappedValue = value
-        stateA.listen {
-            self.wrappedValue = expression()
-        }
+        stateA.listen { self.wrappedValue = expression() }
+        (self as? InnerStateChangeableObserver)?.innerStateChangeableSetup()
     }
     
     init <A>(_ stateA: State<A>, _ expression: @escaping (A) -> Value) {
         let value = expression(stateA.wrappedValue)
         _originalValue = value
         _wrappedValue = value
-        stateA.listen {
-            self.wrappedValue = expression(stateA.wrappedValue)
-        }
+        stateA.listen { self.wrappedValue = expression(stateA.wrappedValue) }
+        (self as? InnerStateChangeableObserver)?.innerStateChangeableSetup()
     }
     
     public func reset() {
