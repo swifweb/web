@@ -35,23 +35,9 @@ extension DOMElement {
     public func appendChild(_ element: DOMElement) {
         #if arch(wasm32)
         _ = domElement.appendChild(element.domElement)
-        #else
-        if element === self {
-            GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-            let el = document.createElement('\(element.name)');
-            el.id = '\(element.properties._id)';
-            el.style.backgroundColor = 'red';
-            document.body.appendChild(el);
-            """)
-        } else {
-            GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-            if (!document.getElementById('\(element.properties._id)')) {
-                let el = document.createElement('\(element.name)');
-                el.id = '\(element.properties._id)';
-                document.getElementById('\(properties._id)').appendChild(el);
-            }
-            """)
-        }
+        #endif
+        #if WEBPREVIEW
+        properties.subElements.append(element)
         #endif
         element.didAddToDOM()
     }
@@ -72,6 +58,7 @@ extension DOMElement {
         #if arch(wasm32)
         _setAttribute(key, value.jsValue(), wasmPlain)
         #else
+        #if WEBPREVIEW
         let stringValue: String?
         switch mode {
         case .full: stringValue = value ? "true" : "false"
@@ -79,19 +66,12 @@ extension DOMElement {
         case .modern: stringValue = value ? "yes" : "no"
         case .short: stringValue = value ? "" : nil
         }
-        switch GlobalContext[PreviewMode.self] {
-        case .static:
-            if let value = stringValue {
-                properties.attributes[key] = value
-            } else {
-                properties.attributes.removeValue(forKey: key)
-            }
-        case .dynamic:
-            GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-            document.getElementById('\(properties._id)').\(key) = '\(value ? "true" : "false")';
-            """)
-        case .none: break
+        if let value = stringValue {
+            properties.attributes[key] = value
+        } else {
+            properties.attributes.removeValue(forKey: key)
         }
+        #endif
         #endif
     }
     
@@ -119,15 +99,9 @@ extension DOMElement {
         #if arch(wasm32)
         _setAttribute(key, value.jsValue(), wasmPlain)
         #else
-        switch GlobalContext[PreviewMode.self] {
-        case .static:
-            properties.attributes[key] = value
-        case .dynamic:
-            GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-            document.getElementById('\(properties._id)').\(key) = '\(value)';
-            """)
-        case .none: break
-        }
+        #if WEBPREVIEW
+        properties.attributes[key] = value
+        #endif
         #endif
     }
     
@@ -138,19 +112,6 @@ extension DOMElement {
         } else {
             // TODO: implement global function calling?
 //            domElement[dynamicMember: name].function?.callAsFunction(arguments: args.map { $0.webValue })
-        }
-        #else
-        switch GlobalContext[PreviewMode.self] {
-        case .static: break
-        case .dynamic:
-            if this {
-                GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-                document.getElementById('\(properties._id)').\(name)(\(args.map { $0.webValue }.joined(separator: ", ")));
-                """)
-            } else {
-                // TODO: implement global function calling?
-            }
-        case .none: break
         }
         #endif
     }
@@ -163,12 +124,12 @@ extension DOMElement {
 }
 
 public final class DOMElementProperties {
-    let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789=")
+    let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789")
     
     public lazy var _id = uid
     public lazy var _classes: Set<String> = []
 
-    public private(set) var subElements: [DOMElement] = []
+    public internal(set) var subElements: [DOMElement] = []
     #if !arch(wasm32)
     public var styles: [String: String] = [:]
     public var attributes: [String: String] = [:]

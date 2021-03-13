@@ -5,6 +5,7 @@
 //  Created by Mihael Isaev on 15.11.2020.
 //
 
+import Foundation
 import CSS
 
 private var webapp: WebApp!
@@ -17,7 +18,7 @@ open class WebApp: _PreviewableApp {
     private var isStarted = false
     
     public static var shared: WebApp {
-        #if !arch(wasm32)
+        #if WEBPREVIEW
         guard webapp == nil else {
             return webapp
         }
@@ -44,11 +45,75 @@ open class WebApp: _PreviewableApp {
         webapp = Self()
         guard !webapp.isStarted else { return webapp }
         webapp.isStarted = true
-        #if arch(wasm32)
+        #if WEBPREVIEW
+        webapp.previewStart()
+        #else
         webapp.start()
         #endif
         return webapp
     }
+    
+    #if !arch(wasm32)
+    private func previewStart() {
+        var args = CommandLine.arguments
+        guard args.contains("--previews") else {
+            fatalError("Missing --previews argument")
+        }
+        struct PassedPreview {
+            let module, `class`: String
+        }
+        var passedPreviews: [PassedPreview] = []
+        while args.count > 0 {
+            guard args.removeFirst() == "--previews", args.count > 0 else { continue }
+            let rawValue = args.removeFirst()
+            for p in rawValue.components(separatedBy: ",") {
+                let values = p.components(separatedBy: "/")
+                guard values.count == 2 else {
+                    fatalError("Wrong --previews value: \(rawValue)")
+                }
+                passedPreviews.append(.init(module: values[0], class: values[1]))
+            }
+            break
+        }
+        class Result: Encodable {
+            struct Preview: Encodable {
+                let width, height: UInt
+                let title, module, `class`, html: String
+            }
+            var previews: [Preview] = []
+            init () {}
+        }
+        let result = Result()
+        for passedPreview in passedPreviews {
+            let className = [passedPreview.module, passedPreview.class].joined(separator: ".") + "_Preview"
+            guard let classType = Bundle.main.classNamed(className) as? WebPreview.Type else {
+                fatalError("Class \(className) doesn't conform to WebberPreview")
+            }
+            Localization.shared.defaultLanguage = classType.language
+            Localization.shared.currentLanguage = classType.language
+            guard let b64html = classType.html.data(using: .utf8)?.base64EncodedString() else {
+                fatalError("Unable to encode into b64html")
+            }
+            result.previews.append(.init(
+                width: classType.width,
+                height: classType.height,
+                title: classType.title,
+                module: passedPreview.module,
+                class: passedPreview.class,
+                html: b64html
+            ))
+        }
+        do {
+            guard let res = String(data: try JSONEncoder().encode(result), encoding: .utf8) else {
+                fatalError("Unable to encode result")
+            }
+            print(res)
+        } catch {
+            fatalError("\(error)")
+        }
+        exit(0)
+    }
+    #endif
     
     private func start() {
         parseAppBuilderItem(body.appBuilderContent)

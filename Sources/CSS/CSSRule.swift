@@ -113,23 +113,15 @@ open class CSSRule: RulesContent, CSSRulable {
     
     func set(_ key: String, _ value: String) {
         _properties[key] = value
-        #if arch(wasm32)
+        #if !WEBPREVIEW
         domElement?.style.object?[key] = value.jsValue()
-        #else // not supported, might be removed
-//        previewLiveView.executeJS("""
-//        document.getElementById('\(DOMProperties.in(self)._id)').style.\(key) = '\(value)';
-//        """)
         #endif
     }
     
     func remove(_ key: String) {
         _properties.removeValue(forKey: key)
-        #if arch(wasm32)
+        #if !WEBPREVIEW
         domElement?.style.object?[key] = JSValue.null
-        #else // not supported, might be removed
-//        previewLiveView.executeJS("""
-//        document.getElementById('\(DOMProperties.in(self)._id)').style.\(key) = null;
-//        """)
         #endif
     }
     
@@ -184,16 +176,10 @@ extension CSSRulable {
             s.domElement.style.object?[key] = .null
         }
         #else
+        #if WEBPREVIEW
         guard let s = self as? DOMElement else { return }
-        switch GlobalContext[PreviewMode.self] {
-        case .static:
-            s.properties.styles.removeValue(forKey: key)
-        case .dynamic:
-            GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-            document.getElementById('\(s.properties._id)').style.\(key) = null;
-            """)
-        case .none: break
-        }
+        s.properties.styles.removeValue(forKey: key)
+        #endif
         #endif
     }
 
@@ -205,16 +191,13 @@ extension CSSRulable {
             s.domElement.style.object?[key] = value.jsValue()
         }
         #else
-        guard let s = self as? DOMElement else { return }
-        switch GlobalContext[PreviewMode.self] {
-        case .static:
+        #if WEBPREVIEW
+        if let s = self as? CSSRule {
+            s.set(key, value)
+        } else if let s = self as? DOMElement {
             s.properties.styles[key] = value
-        case .dynamic:
-            GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-            document.getElementById('\(s.properties._id)').style.\(key) = '\(value)';
-            """)
-        case .none: break
         }
+        #endif
         #endif
     }
 }

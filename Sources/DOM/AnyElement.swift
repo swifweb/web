@@ -24,7 +24,7 @@ public protocol BaseContentElementable: DOMElement {
 protocol _BaseContentElementable: BaseContentElementable {
     func postBuildUI()
     func parseDOMItem(_ item: DOMItem)
-    #if !arch(wasm32)
+    #if WEBPREVIEW
     var __innerText: String { get set }
     #endif
 }
@@ -42,6 +42,7 @@ extension BaseContentElementable {
         s?.parseDOMItem(content().domContentItem)
         return self
     }
+    
     #if arch(wasm32)
     public var innerText: String {
         get { s?.domElement.innerText.string ?? "" }
@@ -55,34 +56,21 @@ extension BaseContentElementable {
     #else
     public var innerText: String {
         get {
-            guard let s = s else { return "" }
-            switch GlobalContext[PreviewMode.self] {
-            case .dynamic: return ""
-            case .static: return s.__innerText
-            case .none: return ""
-            }
+            #if WEBPREVIEW
+            return s?.__innerText ?? ""
+            #else
+            return ""
+            #endif
         }
         set {
-            guard let s = s else { return }
-            switch GlobalContext[PreviewMode.self] {
-            case .dynamic:
-                GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-                document.getElementById('\(s.properties._id)').innerText = '\(newValue)';
-                """)
-            case .static:
-                s.__innerText = newValue
-            case .none: break
-            }
+            #if WEBPREVIEW
+            s?.__innerText = newValue
+            #endif
         }
     }
     public var innerHTML: String {
         get { "" }
-        set {
-            guard let s = s else { return }
-            GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-            document.getElementById('\(s.properties._id)').innerHTML = '\(newValue)';
-            """)
-        }
+        set {}
     }
     #endif
     
@@ -114,18 +102,7 @@ extension _BaseContentElementable {
     
     func parseDOMItem(_ item: DOMItem) {
         switch item {
-        case .elements(let elements):
-            elements.forEach {
-//                guard let element = $0 as? _AnyElement else { return }
-                appendChild($0)
-                #if arch(wasm32)
-                appendChild($0)
-//                #else
-//                if previewMode == .dynamic {
-//                    appendChild(element)
-//                }
-                #endif
-            }
+        case .elements(let elements): elements.forEach { appendChild($0) }
         case .items(let items): items.forEach { parseDOMItem($0) }
         case .none: break
         }

@@ -5,27 +5,23 @@
 //  Created by Mihael Isaev on 27.01.2021.
 //
 
-public protocol PreviewRenderable {}
-
-protocol _PreviewRenderable: PreviewRenderable {
-    func renderPreview() -> String
-}
+import WebFoundation
 
 public protocol RenderBuilderContent {
-    var renderBuilderContent: RenderBuilder.Item { get }
+    var renderBuilderContent: Preview.Item { get }
 }
 
-struct _RenderBuilderContent: RenderBuilder.Content {
-    let renderBuilderContent: RenderBuilder.Item
+struct _RenderBuilderContent: Preview.Content {
+    let renderBuilderContent: Preview.Item
 }
 
-@_functionBuilder public struct RenderBuilder {
+@_functionBuilder public struct Preview {
     public typealias Block = () -> RenderBuilderContent
     public typealias Content = RenderBuilderContent
     
     public enum Item {
         case none
-        case item(PreviewRenderable)
+        case item(WebPreviewRenderable)
         case items([Item])
     }
 

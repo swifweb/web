@@ -5,16 +5,16 @@
 //  Created by Mihael Isaev on 31.01.2021.
 //
 
+import WebFoundation
 import CSS
 
-#if os(macOS) && canImport(SwiftUI) && DEBUG && !arch(wasm32)
-public enum AppStyles: _PreviewRenderable, RenderBuilderContent {
+public enum AppStyles: WebPreviewRenderable, RenderBuilderContent {
     case all, enabled, disabled, ids([Id]), id(Id), classes([Class]), `class`(Class)
     
-    public var renderBuilderContent: RenderBuilder.Item { .item(self) }
+    public var renderBuilderContent: Preview.Item { .item(self) }
     
-    func renderPreview() -> String {
-        guard previewMode == .static else { return "" }
+    public func renderPreview() -> String {
+        #if WEBPREVIEW
         WebApp.shared._previewStart()
         let styles: [Stylesheet]
         switch self {
@@ -28,14 +28,12 @@ public enum AppStyles: _PreviewRenderable, RenderBuilderContent {
         }
         var result = ""
         for style in styles {
-            if previewMode == .dynamic {
-                style.processRules()
-            } else {
-                guard style._rules.count > 0 else { continue }
-                result.append("<style id=\"\(style.properties._id)\">" + style._rules.map { $0.render() }.joined() + "</style>")
-            }
+            guard style._rules.count > 0 else { continue }
+            result.append("<style id=\"\(style.properties._id)\">" + style._rules.map { $0.render() }.joined() + "</style>")
         }
         return result
+        #else
+        return ""
+        #endif
     }
 }
-#endif

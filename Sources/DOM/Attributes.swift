@@ -544,9 +544,8 @@ extension BufferedAttrable {
     public var buffered: TimeInterval {
         #if arch(wasm32)
         return domElement.buffered.jsValue().number ?? 0
-        #else
-        return 0
         #endif
+        return 0
     }
 }
 

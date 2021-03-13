@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  
+//  Web
 //
 //  Created by Mihael Isaev on 20.11.2020.
 //

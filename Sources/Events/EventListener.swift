@@ -26,10 +26,6 @@ public class EventListener {
         #if arch(wasm32)
         JSObject.global[object].object!["removeEventListener"].function!.callAsFunction(event, closure)
         closure.release()
-        #else
-        GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-        \(object).removeEventListener('\(event)')
-        """)
         #endif
     }
     

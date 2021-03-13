@@ -47,27 +47,9 @@ open class Stylesheet: BaseElement {
     public func processRules() {
         _rules.enumerated().forEach { i, rule in
             let cssText = rule.render()
-            #if arch(wasm32)
+            #if !WEBPREVIEW
             guard let index = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number else { return }
             rule.domElement = sheet.rules.item.function?.callAsFunction(this: sheet.rules.object, Int(index))
-            #else
-            if GlobalContext[PreviewMode.self] == .dynamic {
-                GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-                let sheet = (()=> {
-                    for (let i=0; i < document.styleSheets.length; i++) {
-                        if (document.styleSheets[i].ownerNode.id == '\(properties._id)') {
-                                return document.styleSheets[i];
-                            } else {
-                                return null;
-                            }
-                        }
-                    }
-                )();
-                if (sheet) {
-                    sheet.insertRule('\(cssText)');
-                }
-                """)
-            }
             #endif
         }
     }
@@ -130,24 +112,8 @@ open class Stylesheet: BaseElement {
     /// Disables stylesheet
     @discardableResult
     public func disabled(_ value: Bool) -> Self {
-        #if arch(wasm32)
+        #if !WEBPREVIEW
         domElement.disabled = value.jsValue()
-        #else
-        GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-        let sheet = (()=> {
-            for (let i=0; i < document.styleSheets.length; i++) {
-                if (document.styleSheets[i].ownerNode.id == '\(properties._id)') {
-                        return document.styleSheets[i];
-                    } else {
-                        return null;
-                    }
-                }
-            }
-        )();
-        if (sheet) {
-            sheet.disabled = \(value ? "true" : "false");
-        }
-        """)
         #endif
         _disabled = value
         return self

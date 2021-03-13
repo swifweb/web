@@ -32,7 +32,7 @@ public class Document: DOMElement, EventTarget {
     
     #if arch(wasm32)
     public lazy var head = Head(domElement.head)
-    public lazy var body = Body( domElement.body)
+    public lazy var body = Body(domElement.body)
     #else
     public lazy var head = Head(JSValue(""))
     public lazy var body = Body(JSValue(""))
@@ -55,6 +55,7 @@ public class Document: DOMElement, EventTarget {
         domElement = JSValue("")
         #endif
         self.window = window
+        #if !WEBPREVIEW
         setupTitle()
         setupMetaDescription()
         window.$isInForeground.merge(with: $isInForeground)
@@ -63,6 +64,7 @@ public class Document: DOMElement, EventTarget {
             guard old != new else { return }
             self.isInForeground = new
         }
+        #endif
     }
     
     private func setupTitle() {

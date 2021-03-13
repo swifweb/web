@@ -29,18 +29,6 @@ extension DOMEventable {
             // TODO: implement global function calling?
 //            domElement[dynamicMember: name].function?.callAsFunction(arguments: args.map { $0.webValue })
         }
-        #else
-//        switch GlobalContext[PreviewMode.self] {
-//        case .static: break
-//        case .dynamic:
-//            if this {
-//                GlobalContext[PreviewLiveViewKey.self]?.executeJS("""
-//                document.getElementById('\(properties._id)').\(name)(\(args.map { $0.webValue }.joined(separator: ", ")));
-//                """)
-//            } else {
-//                // TODO: implement global function calling?
-//            }
-//        }
         #endif
     }
 }

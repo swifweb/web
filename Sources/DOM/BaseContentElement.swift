@@ -11,9 +11,6 @@ import JavaScriptKit
 open class BaseContentElement: BaseElement, _BaseContentElementable {
     required public init() {
         super.init()
-//        #if !arch(wasm32)
-//        appendChild(self) // TODO: forgot what this line means.. it's a bad sign :D
-//        #endif
     }
     
     public convenience init (in document: Document) {
