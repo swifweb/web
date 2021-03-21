@@ -32,4 +32,10 @@ Then take a look at the hidden `.webber` folder, you will find the `entrypoint/d
 
 To release the project just call `webber release` or `webber release -t pwa -s Service` for pwa, and then grab production files from `.webber/release` folder.
 
-// TODO: to be continued
+# Optimization
+
+Lighthouse gives it **100 points** and search engine crawlers works well with it too!
+
+![Lighthouse](https://user-images.githubusercontent.com/1272610/111917255-735bf300-8a98-11eb-87a2-ca45e16d0711.gif)
+
+// TODO: to be continued soon
