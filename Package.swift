@@ -85,6 +85,7 @@ let package = Package(
         .library(name: "PushAPI", targets: ["PushAPI"]),
         .library(name: "StorageAPI", targets: ["StorageAPI"]),
         .library(name: "StreamsAPI", targets: ["StreamsAPI"]),
+        .library(name: "WebSocketAPI", targets: ["WebSocketAPI"]),
         .library(name: "WorkersAPI", targets: ["WorkersAPI"]),
         .library(name: "XMLHttpRequest", targets: ["XMLHttpRequest"]),
     ],
@@ -117,6 +118,7 @@ let package = Package(
             .target(name: "DOMEvents"),
             .target(name: "CSS"),
             .target(name: "FetchAPI"),
+            .target(name: "WebSocketAPI"),
             .target(name: "XMLHttpRequest")
         ]),
         .target(name: "ServiceWorker", dependencies: [
@@ -218,6 +220,11 @@ let package = Package(
         ]),
         .target(name: "StreamsAPI", dependencies: [
             .target(name: "WebFoundation")
+        ]),
+        .target(name: "WebSocketAPI", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "Events"),
+            .target(name: "ChannelMessagingAPI"),
         ]),
         .target(name: "WorkersAPI", dependencies: [
             .target(name: "WebFoundation"),
