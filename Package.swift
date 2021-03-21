@@ -86,6 +86,7 @@ let package = Package(
         .library(name: "StorageAPI", targets: ["StorageAPI"]),
         .library(name: "StreamsAPI", targets: ["StreamsAPI"]),
         .library(name: "WorkersAPI", targets: ["WorkersAPI"]),
+        .library(name: "XMLHttpRequest", targets: ["XMLHttpRequest"]),
     ],
     dependencies: deps.map { $0.package },
     targets: [
@@ -116,6 +117,7 @@ let package = Package(
             .target(name: "DOMEvents"),
             .target(name: "CSS"),
             .target(name: "FetchAPI"),
+            .target(name: "XMLHttpRequest")
         ]),
         .target(name: "ServiceWorker", dependencies: [
             .target(name: "WebFoundation"),
@@ -220,6 +222,10 @@ let package = Package(
         .target(name: "WorkersAPI", dependencies: [
             .target(name: "WebFoundation"),
             .target(name: "ChannelMessagingAPI")
+        ]),
+        .target(name: "XMLHttpRequest", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "Events")
         ]),
         .testTarget(name: "WebTests", dependencies: [
             .target(name: "Web")
