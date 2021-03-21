@@ -1,3 +1,5 @@
+[![SwifWeb](https://user-images.githubusercontent.com/1272610/111916973-f5e3b300-8a96-11eb-8ab3-ac8e3a6b9f6f.png)](http://swifweb.com)
+
 <p align="center">
     <a href="LICENSE">
         <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT License">
@@ -9,9 +11,6 @@
         <img src="https://img.shields.io/discord/612561840765141005" alt="Swift.Stream">
     </a>
 </p>
-
-
-# Web
 
 This library provides DOM, CSS and all possible web APIs beautifully wrapped into Swift ❤️
 
