@@ -83,6 +83,7 @@ let package = Package(
         .library(name: "PictureInPictureAPI", targets: ["PictureInPictureAPI"]),
         .library(name: "PushAPI", targets: ["PushAPI"]),
         .library(name: "StorageAPI", targets: ["StorageAPI"]),
+        .library(name: "StreamsAPI", targets: ["StreamsAPI"]),
         .library(name: "WorkersAPI", targets: ["WorkersAPI"]),
     ],
     dependencies: deps.map { $0.package },
@@ -205,6 +206,9 @@ let package = Package(
             .target(name: "WebFoundation")
         ]),
         .target(name: "StorageAPI", dependencies: [
+            .target(name: "WebFoundation")
+        ]),
+        .target(name: "StreamsAPI", dependencies: [
             .target(name: "WebFoundation")
         ]),
         .target(name: "WorkersAPI", dependencies: [
