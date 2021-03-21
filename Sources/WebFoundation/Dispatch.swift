@@ -13,10 +13,16 @@ private var dispatch = Dispatch()
 public struct Dispatch {
     fileprivate var functions: [String: JSClosure] = [:]
     
+    /// Set timeout JavaScript function which executes after 0 seconds.
+    /// - Parameter closure: Closure to execute.
     public static func async(_ closure: @escaping () -> Void) {
         asyncAfter(0, closure)
     }
     
+    /// Set timeout JavaScript function
+    /// - Parameters:
+    ///   - time: Time in seconds.
+    ///   - closure: Closure to execute.
     public static func asyncAfter(_ time: Double, _ closure: @escaping () -> Void) {
         #if arch(wasm32)
         let uid = String.shuffledAlphabet(8)
