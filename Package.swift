@@ -66,6 +66,7 @@ let package = Package(
         .library(name: "ChannelMessagingAPI", targets: ["ChannelMessagingAPI"]),
         .library(name: "ClipboardAPI", targets: ["ClipboardAPI"]),
         .library(name: "ContentIndexAPI", targets: ["ContentIndexAPI"]),
+        .library(name: "FetchAPI", targets: ["FetchAPI"]),
         .library(name: "FullscreenAPI", targets: ["FullscreenAPI"]),
         .library(name: "GamepadAPI", targets: ["GamepadAPI"]),
         .library(name: "GeolocationAPI", targets: ["GeolocationAPI"]),
@@ -113,7 +114,8 @@ let package = Package(
             .target(name: "WebFoundation"),
             .target(name: "DOM"),
             .target(name: "DOMEvents"),
-            .target(name: "CSS")
+            .target(name: "CSS"),
+            .target(name: "FetchAPI"),
         ]),
         .target(name: "ServiceWorker", dependencies: [
             .target(name: "WebFoundation"),
@@ -150,6 +152,10 @@ let package = Package(
         ]),
         .target(name: "ContentIndexAPI", dependencies: [
             .target(name: "WebFoundation")
+        ]),
+        .target(name: "FetchAPI", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "StreamsAPI")
         ]),
         .target(name: "FullscreenAPI", dependencies: [
             .target(name: "WebFoundation")
