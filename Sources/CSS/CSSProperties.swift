@@ -13061,7 +13061,7 @@ public struct ListStyleValue: CustomStringConvertible {
     let value: String
 
     public init (_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue) {
-        value = [type.value, position.value, url.urlValue].joined(separator: " ")
+        value = [type.value, position.value, url.cssURLValue].joined(separator: " ")
     }
 
     public var description: String { value }
