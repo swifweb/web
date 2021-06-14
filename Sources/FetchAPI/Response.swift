@@ -8,7 +8,7 @@
 import WebFoundation
 import StreamsAPI
 
-/// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Response/Response)
+/// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Response)
 public class Response: Bodyable {
     public let jsValue: JSValue
     
@@ -33,6 +33,7 @@ public class Response: Bodyable {
     /// The URL of the response.
     public let url: String
     
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Response/Response)
     public init (_ jsValue: JSValue) {
         self.jsValue = jsValue
         status = Int(jsValue.status.number ?? -1)
