@@ -939,10 +939,14 @@ public struct ColumnSpanType: Initialable, Inheritable, Noneable, CustomStringCo
     public var description: String { value }
 }
 
-public struct ContentType: Initialable, Inheritable, Noneable, CustomStringConvertible {
+public struct ContentType: Initialable, Inheritable, Noneable, CustomStringConvertible, ExpressibleByStringLiteral {
     public let value: String
     
     public init (_ value: String) { self.value = value }
+    
+    public init (stringLiteral value: String) {
+        self.value = "\"\(value)\""
+    }
     
     /// Default value. Sets the content, if specified, to normal, which default is "none" (which is nothing)
     public static var normal: Self { .init("normal") }
