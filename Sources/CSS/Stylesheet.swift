@@ -17,6 +17,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     lazy var sheet: JSValue = domElement.sheet
     
     public private(set) var _rules: [CSSRule] = []
+    public private(set) var _keyframes: [Keyframes] = []
     
     public convenience init(@Rules content: @escaping Rules.Block) {
         self.init()
@@ -42,6 +43,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
         switch item {
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): _rules.append(v)
+        case .keyframes(let v): _keyframes.append(v)
         case .none: break
         }
     }
@@ -52,6 +54,13 @@ open class Stylesheet: BaseElement, Stylesheetable {
             #if !WEBPREVIEW
             guard let index = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number else { return }
             rule.domElement = sheet.rules.item.function?.callAsFunction(this: sheet.rules.object, Int(index))
+            #endif
+        }
+        _keyframes.enumerated().forEach { i, kf in
+            let cssText = kf.render()
+            #if !WEBPREVIEW
+            guard let index = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number else { return }
+            kf.domElement = sheet.rules.item.function?.callAsFunction(this: sheet.rules.object, Int(index))
             #endif
         }
     }
@@ -135,10 +144,11 @@ open class RulesGroup: RulesContent, Stylesheetable {
     public typealias RuleItems = Rules.Content
     
     public var rulesContent: Rules.Item {
-        .items(_rules.map { .rule($0) } + [rules.rulesContent])
+        .items(_rules.map { .rule($0) } + [rules.rulesContent] + _keyframes.map { .keyframes($0) })
     }
     
     public private(set) var _rules: [CSSRule] = []
+    public private(set) var _keyframes: [Keyframes] = []
     
     public init () {}
     
@@ -157,6 +167,7 @@ open class RulesGroup: RulesContent, Stylesheetable {
         switch item {
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): _rules.append(v)
+        case .keyframes(let v): _keyframes.append(v)
         case .none: break
         }
     }

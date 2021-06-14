@@ -20,6 +20,7 @@ struct _RulesContent: Rules.Content {
     public enum Item {
         case none
         case rule(CSSRule)
+        case keyframes(Keyframes)
         case items([Item])
     }
 
