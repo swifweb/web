@@ -254,6 +254,7 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
     public static var whiteSmoke: Color { .init(.css(.whiteSmoke)) }
     public static var yellow: Color { .init(.css(.yellow)) }
     public static var yellowGreen: Color { .init(.css(.yellowGreen)) }
+    public static var transparent: Color { .init(.css(.transparent)) }
     
     public var description: String { value.description }
     
