@@ -16,6 +16,6 @@ extension FormData {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData)
     public convenience init (_ form: Form) {
-        self.init(form.domElement)
+        self.init(jsForm: form.jsValue)
     }
 }

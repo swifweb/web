@@ -11,8 +11,18 @@ import JavaScriptKit
 public class FormData {
     public let jsValue: JSValue
     
-    public init (_ jsValue: JSValue) {
+    public static func jsValue(_ jsValue: JSValue) -> FormData { .init(jsValue) }
+    
+    private init (_ jsValue: JSValue) {
         self.jsValue = jsValue
+    }
+    
+    public init (jsForm: JSValue) {
+        self.jsValue = JSObject.global.FormData.function!.new(jsForm).jsValue()
+    }
+    
+    public init () {
+        self.jsValue = JSObject.global.FormData.function!.new().jsValue()
     }
     
     /// Appends a new value onto an existing key inside a `FormData` object, or adds the key if it does not already exist.

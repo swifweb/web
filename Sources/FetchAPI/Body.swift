@@ -81,7 +81,7 @@ extension Bodyable {
     public func formData(_ closure: @escaping (Result<FormData, Error>) -> Void) {
         guard let promise = jsValue.formData.function?.callAsFunction(this: jsValue.object).object else { return }
         JSPromise(promise)?.then(success: { value in
-            closure(.success(.init(value)))
+            closure(.success(.jsValue(value)))
             return JSValue.undefined
         }, failure: { error in
             closure(.failure(error))
