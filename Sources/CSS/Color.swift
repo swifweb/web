@@ -29,8 +29,8 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
         }
     }
     
-    public required convenience init(integerLiteral value: IntegerLiteralType) {
-        self.init(value)
+    public required init(integerLiteral value: IntegerLiteralType) {
+        self.value = .hex(value)
     }
     
     public init<I>(_ hex: I) where I: UniValue, I.UniValue == Int {
