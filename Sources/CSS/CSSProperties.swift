@@ -18657,7 +18657,7 @@ public class TextDecorationProperty: _Property {
     public var propertyValue: TextDecorationValue
     var _content = _PropertyContent<TextDecorationValue>()
 
-    public init (_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) {
+    public init (_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil) {
         propertyValue = TextDecorationValue(line, color, style)
     }
 }
@@ -18668,17 +18668,17 @@ extension PropertyKey {
 
 public struct TextDecorationValue: CustomStringConvertible {
     let line: TextDecorationLineType
-    let color: Color
-    let style: TextDecorationStyleType
+    let color: Color?
+    let style: TextDecorationStyleType?
 
-    public init (_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) {
+    public init (_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil) {
         self.line = line
         self.color = color
         self.style = style
     }
 
     public var description: String {
-        [line.value, color.description, style.value].joined(separator: " ")
+        [line.value, color?.description, style?.value].compactMap { $0 }.joined(separator: " ")
     }
 }
 
@@ -18690,7 +18690,7 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies the decoration added to text
     @discardableResult
-    public func textDecoration(_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) -> Self {
+    public func textDecoration(_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil) -> Self {
         _addProperty(TextDecorationProperty(line, color, style))
         return self
     }
