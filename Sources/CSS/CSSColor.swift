@@ -153,4 +153,5 @@ public enum CSSColor: String {
     case whiteSmoke
     case yellow
     case yellowGreen
+    case transparent
 }
