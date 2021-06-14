@@ -1336,8 +1336,18 @@ public struct BackgroundValue: CustomStringConvertible {
         .joined(separator: " ")
     }
 
-    public init (_ function: CSSFunction) {
-        self.init(function.value)
+    public init (_ function: CSSFunction, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil) {
+        value = [
+            function.value,
+            position?.value,
+            size?.value,
+            `repeat`?.value,
+            origin?.value,
+            clip?.value,
+            attachment?.value
+        ]
+        .compactMap { $0 }
+        .joined(separator: " ")
     }
 
     public var description: String { value }
@@ -1393,8 +1403,24 @@ extension CSSRulable {
     }
     
     @discardableResult
-    public func background(_ function: CSSFunction) -> Self {
-        background(BackgroundValue(function.value))
+    public func background(
+        _ function: CSSFunction,
+        position: BackgroundPositionType? = nil,
+        size: BackgroundSizeType? = nil,
+        repeat: BackgroundRepeatType? = nil,
+        origin: BackgroundOriginType? = nil,
+        clip: BackgroundClipType? = nil,
+        attachment: BackgroundAttachmentType? = nil
+    ) -> Self {
+        background(BackgroundValue(
+                    function,
+                    position: position,
+                    size: size,
+                    repeat: `repeat`,
+                    origin: origin,
+                    clip: clip,
+                    attachment: attachment
+        ))
     }
 }
 
