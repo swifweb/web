@@ -35,8 +35,27 @@ public protocol StaticPointerable: Pointerable {
     init ()
 }
 
-extension BaseElement: StaticPointerable {
+extension BaseElement {
+    public static var pointer: Pointer { .init(Self.name) }
     public var pointer: Pointer { .init(Self.name) }
+    
+    /// Selects all elements with class="intro"
+    ///
+    /// ```
+    /// .intro
+    /// ```
+    public static func `class`(_ class: Class) -> Pointer {
+        .init(pointer.selector + `class`.pointer.selector)
+    }
+
+    /// Selects all elements with id="intro"
+    ///
+    /// ```
+    /// #intro
+    /// ```
+    public static func id(_ id: Id) -> Pointer {
+        .init(pointer.selector + id.pointer.selector)
+    }
 }
 
 extension StaticPointerable {
