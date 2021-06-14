@@ -27,12 +27,12 @@ public final class CSSFunction: CustomStringConvertible {
     }
     
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient())
-    public static func linearGradient<A: AngleValue>(_ angle: A, _ colors: Color...) -> CSSFunction {
-        .linearGradient(angle, colors)
+    public static func linearGradient<A: AngleValue>(angle: A, _ colors: Color...) -> CSSFunction {
+        .linearGradient(angle: angle, colors)
     }
     
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient())
-    public static func linearGradient<A: AngleValue>(_ angle: A, _ colors: [Color]) -> CSSFunction {
+    public static func linearGradient<A: AngleValue>(angle: A, _ colors: [Color]) -> CSSFunction {
         .linearGradient(angle, colors.map { $0.description })
     }
     
