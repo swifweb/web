@@ -44,12 +44,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
+    @discardableResult
     public func alignContent(_ type: AlignContentType) -> Self {
         _addProperty(.alignContent, type)
         return self
     }
 
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
+    @discardableResult
     public func alignContent(_ type: State<AlignContentType>) -> Self {
         _addProperty(AlignContentProperty(type))
         return self
@@ -92,12 +94,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the alignment for items inside a flexible container
+    @discardableResult
     public func alignItems(_ type: AlignItemsType) -> Self {
         _addProperty(.alignItems, type)
         return self
     }
 
     /// Specifies the alignment for items inside a flexible container
+    @discardableResult
     public func alignItems(_ type: State<AlignItemsType>) -> Self {
         _addProperty(AlignItemsProperty(type))
         return self
@@ -140,12 +144,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the alignment for selected items inside a flexible container
+    @discardableResult
     public func alignSelf(_ type: AlignSelfType) -> Self {
         _addProperty(.alignSelf, type)
         return self
     }
 
     /// Specifies the alignment for selected items inside a flexible container
+    @discardableResult
     public func alignSelf(_ type: State<AlignSelfType>) -> Self {
         _addProperty(AlignSelfProperty(type))
         return self
@@ -188,12 +194,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Resets all properties (except unicode-bidi and direction)
+    @discardableResult
     public func all(_ type: AllType) -> Self {
         _addProperty(.all, type)
         return self
     }
 
     /// Resets all properties (except unicode-bidi and direction)
+    @discardableResult
     public func all(_ type: State<AllType>) -> Self {
         _addProperty(AllProperty(type))
         return self
@@ -244,6 +252,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies a delay for the start of an animation
+    @discardableResult
     public func animationDelay<U>(_ value: U) -> Self where U: UniValue, U.UniValue: TimeUnitValue {
         _addProperty(AnimationDelayProperty(value))
         return self
@@ -252,12 +261,14 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies a delay for the start of an animation
+    @discardableResult
     public func animationDelay<D>(_ value: D, _ timeUnit: TimeUnit) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(.animationDelay, TimeUnitValueContainer(value, timeUnit))
         return self
     }
     
     /// Specifies a delay for the start of an animation
+    @discardableResult
     public func animationDelay<D>(_ value: D, _ timeUnit: State<TimeUnit>) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(.animationDelay, TimeUnitValueContainer(value, timeUnit))
         return self
@@ -300,12 +311,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether an animation should be played forwards, backwards or in alternate cycles
+    @discardableResult
     public func animationDirection(_ type: AnimationDirectionType) -> Self {
         _addProperty(.animationDirection, type)
         return self
     }
 
     /// Specifies whether an animation should be played forwards, backwards or in alternate cycles
+    @discardableResult
     public func animationDirection(_ type: State<AnimationDirectionType>) -> Self {
         _addProperty(AnimationDirectionProperty(type))
         return self
@@ -354,6 +367,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how long an animation should take to complete one cycle
+    @discardableResult
     public func animationDuration<U>(_ value: U) -> Self where U: UniValue, U.UniValue: TimeUnitValue {
         _addProperty(AnimationDurationProperty(value))
         return self
@@ -362,12 +376,14 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies how long an animation should take to complete one cycle
+    @discardableResult
     public func animationDuration<D>(_ value: D, _ timeUnit: TimeUnit) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(.animationDuration, TimeUnitValueContainer(value, timeUnit))
         return self
     }
     
     /// Specifies how long an animation should take to complete one cycle
+    @discardableResult
     public func animationDuration<D>(_ value: D, _ timeUnit: State<TimeUnit>) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(.animationDuration, TimeUnitValueContainer(value, timeUnit))
         return self
@@ -410,12 +426,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies a style for the element when the animation is not playing (before it starts, after it ends, or both)
+    @discardableResult
     public func animationFillMode(_ type: AnimationFillModeType) -> Self {
         _addProperty(.animationFillMode, type)
         return self
     }
 
     /// Specifies a style for the element when the animation is not playing (before it starts, after it ends, or both)
+    @discardableResult
     public func animationFillMode(_ type: State<AnimationFillModeType>) -> Self {
         _addProperty(AnimationFillModeProperty(type))
         return self
@@ -454,6 +472,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the number of times an animation should be played
+    @discardableResult
     public func animationIterationCount<N>(_ n: N) -> Self where N: UniValue, N.UniValue == Int {
         _addProperty(AnimationIterationCountProperty(n))
         return self
@@ -492,6 +511,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies a name for the @keyframes animation
+    @discardableResult
     public func animationName<S>(_ type: S) -> Self where S: UniValue, S.UniValue == String {
         _addProperty(AnimationNameProperty(type))
         return self
@@ -534,12 +554,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether the animation is running or paused
+    @discardableResult
     public func animationPlayState(_ type: AnimationPlayStateType) -> Self {
         _addProperty(.animationPlayState, type)
         return self
     }
 
     /// Specifies whether the animation is running or paused
+    @discardableResult
     public func animationPlayState(_ type: State<AnimationPlayStateType>) -> Self {
         _addProperty(AnimationPlayStateProperty(type))
         return self
@@ -638,18 +660,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for all the animation-* properties
+    @discardableResult
     public func animation(_ type: AnimationValue) -> Self {
         _addProperty(.animation, type)
         return self
     }
 
     /// A shorthand property for all the animation-* properties
+    @discardableResult
     public func animation(_ type: State<AnimationValue>) -> Self {
         _addProperty(AnimationProperty(type))
         return self
     }
 
     /// A shorthand property for all the animation-* properties
+    @discardableResult
     public func animation<D1: TimeUnitValue, D2: TimeUnitValue>(
         name: String? = nil,
         duration: D1? = nil,
@@ -710,12 +735,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the speed curve of an animation
+    @discardableResult
     public func animationTimingFunction(_ type: TransitionTimingFunctionType) -> Self {
         _addProperty(.animationTimingFunction, type)
         return self
     }
 
     /// Specifies the speed curve of an animation
+    @discardableResult
     public func animationTimingFunction(_ type: State<TransitionTimingFunctionType>) -> Self {
         _addProperty(AnimationTimingFunctionProperty(type))
         return self
@@ -758,12 +785,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines whether or not the back face of an element should be visible when facing the user
+    @discardableResult
     public func backfaceVisibility(_ type: BackfaceVisibilityType) -> Self {
         _addProperty(.backfaceVisibility, type)
         return self
     }
 
     /// Defines whether or not the back face of an element should be visible when facing the user
+    @discardableResult
     public func backfaceVisibility(_ type: State<BackfaceVisibilityType>) -> Self {
         _addProperty(BackfaceVisibilityProperty(type))
         return self
@@ -806,12 +835,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets whether a background image scrolls with the rest of the page, or is fixed
+    @discardableResult
     public func backgroundAttachment(_ type: BackgroundAttachmentType) -> Self {
         _addProperty(.backgroundAttachment, type)
         return self
     }
 
     /// Sets whether a background image scrolls with the rest of the page, or is fixed
+    @discardableResult
     public func backgroundAttachment(_ type: State<BackgroundAttachmentType>) -> Self {
         _addProperty(BackgroundAttachmentProperty(type))
         return self
@@ -854,12 +885,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the blending mode of each background layer (color/image)
+    @discardableResult
     public func backgroundBlendMode(_ type: BackgroundBlendModeType) -> Self {
         _addProperty(.backgroundBlendMode, type)
         return self
     }
 
     /// Specifies the blending mode of each background layer (color/image)
+    @discardableResult
     public func backgroundBlendMode(_ type: State<BackgroundBlendModeType>) -> Self {
         _addProperty(BackgroundBlendModeProperty(type))
         return self
@@ -902,12 +935,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines how far the background (color or image) should extend within an element
+    @discardableResult
     public func backgroundClip(_ type: BackgroundClipType) -> Self {
         _addProperty(.backgroundClip, type)
         return self
     }
 
     /// Defines how far the background (color or image) should extend within an element
+    @discardableResult
     public func backgroundClip(_ type: State<BackgroundClipType>) -> Self {
         _addProperty(BackgroundClipProperty(type))
         return self
@@ -1017,18 +1052,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the background color of an element
+    @discardableResult
     public func backgroundColor(_ type: Color) -> Self {
         _addProperty(.backgroundColor, type)
         return self
     }
 
     /// Specifies the background color of an element
+    @discardableResult
     public func backgroundColor(_ type: State<Color>) -> Self {
         _addProperty(BackgroundColorProperty(type))
         return self
     }
     
     /// Specifies the background color of an element
+    @discardableResult
     public func backgroundColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -1037,6 +1075,7 @@ extension CSSRulable {
     }
 
     /// Specifies the background color of an element
+    @discardableResult
     public func backgroundColor <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -1045,6 +1084,7 @@ extension CSSRulable {
     }
 
     /// Specifies the background color of an element
+    @discardableResult
     public func backgroundColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -1053,6 +1093,7 @@ extension CSSRulable {
     }
 
     /// Specifies the background color of an element
+    @discardableResult
     public func backgroundColor <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -1097,11 +1138,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies one or more background images for an element
+    @discardableResult
     public func backgroundImage<S>(_ src: S) -> Self where S: UniValue, S.UniValue == String {
         _addProperty(BackgroundImageProperty(src))
         return self
     }
-
+    
+    /// Specifies one or more background images for an element
+    @discardableResult
     public func backgroundImage(_ function: CSSFunction) -> Self {
         backgroundImage(function.value)
     }
@@ -1143,12 +1187,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the origin position of a background image
+    @discardableResult
     public func backgroundOrigin(_ type: BackgroundOriginType) -> Self {
         _addProperty(.backgroundOrigin, type)
         return self
     }
 
     /// Specifies the origin position of a background image
+    @discardableResult
     public func backgroundOrigin(_ type: State<BackgroundOriginType>) -> Self {
         _addProperty(BackgroundOriginProperty(type))
         return self
@@ -1191,12 +1237,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the position of a background image
+    @discardableResult
     public func backgroundPosition(_ type: BackgroundPositionType) -> Self {
         _addProperty(.backgroundPosition, type)
         return self
     }
 
     /// Specifies the position of a background image
+    @discardableResult
     public func backgroundPosition(_ type: State<BackgroundPositionType>) -> Self {
         _addProperty(BackgroundPositionProperty(type))
         return self
@@ -1298,18 +1346,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for all the background-* properties
+    @discardableResult
     public func background(_ type: BackgroundValue) -> Self {
         _addProperty(.background, type)
         return self
     }
 
     /// A shorthand property for all the background-* properties
+    @discardableResult
     public func background(_ type: State<BackgroundValue>) -> Self {
         _addProperty(BackgroundProperty(type))
         return self
     }
 
     /// A shorthand property for all the background-* properties
+    @discardableResult
     public func background(
         color: Color? = nil,
         src: String? = nil,
@@ -1331,11 +1382,13 @@ extension CSSRulable {
             attachment: attachment
         ))
     }
-
+    
+    @discardableResult
     public func background(_ src: String) -> Self {
         background(BackgroundValue(src))
     }
-
+    
+    @discardableResult
     public func background(_ function: CSSFunction) -> Self {
         background(BackgroundValue(function.value))
     }
@@ -1377,12 +1430,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets if/how a background image will be repeated
+    @discardableResult
     public func backgroundRepeat(_ type: BackgroundRepeatType) -> Self {
         _addProperty(.backgroundRepeat, type)
         return self
     }
 
     /// Sets if/how a background image will be repeated
+    @discardableResult
     public func backgroundRepeat(_ type: State<BackgroundRepeatType>) -> Self {
         _addProperty(BackgroundRepeatProperty(type))
         return self
@@ -1570,18 +1625,21 @@ extension CSSRulable {
     // MARK: All
 
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize(all: BackgroundSizeType) -> Self {
         _addProperty(.backgroundSize, .init(all: all))
         return self
     }
 
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize(all value: State<BackgroundSizeType>) -> Self {
         _addProperty(BackgroundSizeProperty(all: value))
         return self
     }
 
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize<L>(all length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BackgroundSizeProperty(all: length))
         return self
@@ -1590,42 +1648,49 @@ extension CSSRulable {
     // MARK: H/V
 
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize(h: BackgroundSizeType, v: BackgroundSizeType) -> Self {
         _addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
     
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize <H>(h: H, v: BackgroundSizeType) -> Self where H: UniValue, H.UniValue: UnitValuable {
         _addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
     
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize <V>(h: BackgroundSizeType, v: V) -> Self where V: UniValue, V.UniValue: UnitValuable {
         _addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
     
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize <H, V>(h: H, v: V) -> Self where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
         _addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
 
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize(h: State<BackgroundSizeType>, v: BackgroundSizeType) -> Self {
         _addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
 
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize(h: BackgroundSizeType, v: State<BackgroundSizeType>) -> Self {
         _addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
     }
 
     /// Specifies the size of the background images
+    @discardableResult
     public func backgroundSize(h: State<BackgroundSizeType>, v: State<BackgroundSizeType>) -> Self {
         _addProperty(BackgroundSizeProperty(h: h, v: v))
         return self
@@ -1735,18 +1800,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the color of the bottom border
+    @discardableResult
     public func borderBottomColor(_ type: Color) -> Self {
         _addProperty(.borderBottomColor, type)
         return self
     }
 
     /// Sets the color of the bottom border
+    @discardableResult
     public func borderBottomColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(BorderBottomColorProperty(type.stateValue))
         return self
     }
     
     /// Sets the color of the bottom border
+    @discardableResult
     public func borderBottomColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -1755,6 +1823,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the bottom border
+    @discardableResult
     public func borderBottomColor <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -1763,6 +1832,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the bottom border
+    @discardableResult
     public func borderBottomColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -1771,6 +1841,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the bottom border
+    @discardableResult
     public func borderBottomColor <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -1820,18 +1891,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines the radius of the border of the bottom-left corner
+    @discardableResult
     public func borderBottomLeftRadius(_ type: BorderRadiusType) -> Self {
         _addProperty(.borderBottomLeftRadius, type)
         return self
     }
 
     /// Defines the radius of the border of the bottom-left corner
+    @discardableResult
     public func borderBottomLeftRadius(_ type: State<BorderRadiusType>) -> Self {
         _addProperty(BorderBottomLeftRadiusProperty(type))
         return self
     }
 
     /// Defines the radius of the border of the bottom-left corner
+    @discardableResult
     public func borderBottomLeftRadius<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderBottomLeftRadiusProperty(length))
         return self
@@ -1909,48 +1983,56 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
+    @discardableResult
     public func borderBottom(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderBottomProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
+    @discardableResult
     public func borderBottom(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderBottomProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
+    @discardableResult
     public func borderBottom(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderBottomProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
+    @discardableResult
     public func borderBottom(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderBottomProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
+    @discardableResult
     public func borderBottom(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderBottomProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
+    @discardableResult
     public func borderBottom(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderBottomProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
+    @discardableResult
     public func borderBottom(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderBottomProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
+    @discardableResult
     public func borderBottom(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderBottomProperty(width: width, style: style, color: color))
         return self
@@ -1998,18 +2080,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines the radius of the border of the bottom-right corner
+    @discardableResult
     public func borderBottomRightRadius(_ type: BorderRadiusType) -> Self {
         _addProperty(.borderBottomRightRadius, type)
         return self
     }
 
     /// Defines the radius of the border of the bottom-right corner
+    @discardableResult
     public func borderBottomRightRadius(_ type: State<BorderRadiusType>) -> Self {
         _addProperty(BorderBottomRightRadiusProperty(type))
         return self
     }
 
     /// Defines the radius of the border of the bottom-right corner
+    @discardableResult
     public func borderBottomRightRadius<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderBottomRightRadiusProperty(length))
         return self
@@ -2052,12 +2137,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the style of the bottom border
+    @discardableResult
     public func borderBottomStyle(_ type: BorderStyleType) -> Self {
         _addProperty(.borderBottomStyle, type)
         return self
     }
 
     /// Sets the style of the bottom border
+    @discardableResult
     public func borderBottomStyle(_ type: State<BorderStyleType>) -> Self {
         _addProperty(BorderBottomStyleProperty(type))
         return self
@@ -2105,18 +2192,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the width of the bottom border
+    @discardableResult
     public func borderBottomWidth(_ type: BorderWidthType) -> Self {
         _addProperty(.borderBottomWidth, type)
         return self
     }
 
     /// Sets the width of the bottom border
+    @discardableResult
     public func borderBottomWidth(_ type: State<BorderWidthType>) -> Self {
         _addProperty(BorderBottomWidthProperty(type))
         return self
     }
 
     /// Sets the width of the bottom border
+    @discardableResult
     public func borderBottomWidth<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderBottomWidthProperty(length))
         return self
@@ -2159,12 +2249,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets whether table borders should collapse into a single border or be separated
+    @discardableResult
     public func borderCollapse(_ type: BorderCollapseType) -> Self {
         _addProperty(.borderCollapse, type)
         return self
     }
 
     /// Sets whether table borders should collapse into a single border or be separated
+    @discardableResult
     public func borderCollapse(_ type: State<BorderCollapseType>) -> Self {
         _addProperty(BorderCollapseProperty(type))
         return self
@@ -2274,18 +2366,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the color of the four borders
+    @discardableResult
     public func borderColor(_ type: Color) -> Self {
         _addProperty(.borderColor, type)
         return self
     }
 
     /// Sets the color of the four borders
+    @discardableResult
     public func borderColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(BorderColorProperty(type.stateValue))
         return self
     }
     
     /// Sets the color of the four borders
+    @discardableResult
     public func borderColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -2294,6 +2389,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the four borders
+    @discardableResult
     public func borderColor <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -2302,6 +2398,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the four borders
+    @discardableResult
     public func borderColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -2310,6 +2407,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the four borders
+    @discardableResult
     public func borderColor <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -2359,18 +2457,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the amount by which the border image area extends beyond the border box
+    @discardableResult
     public func borderImageOutset(_ type: BorderImageOutsetType) -> Self {
         _addProperty(.borderImageOutset, type)
         return self
     }
 
     /// Specifies the amount by which the border image area extends beyond the border box
+    @discardableResult
     public func borderImageOutset(_ type: State<BorderImageOutsetType>) -> Self {
         _addProperty(BorderImageOutsetProperty(type))
         return self
     }
 
     /// Specifies the amount by which the border image area extends beyond the border box
+    @discardableResult
     public func borderImageOutset<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderImageOutsetProperty(length))
         return self
@@ -2438,18 +2539,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for all the border-image-* properties
+    @discardableResult
     public func borderImage(_ type: BorderImageValue) -> Self {
         _addProperty(.borderImage, type)
         return self
     }
 
     /// A shorthand property for all the border-image-* properties
+    @discardableResult
     public func borderImage(_ type: State<BorderImageValue>) -> Self {
         _addProperty(BorderImageProperty(type))
         return self
     }
 
     /// A shorthand property for all the border-image-* properties
+    @discardableResult
     public func borderImage(
         source: String,
         slice: BorderImageSliceType? = nil,
@@ -2498,12 +2602,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether the border image should be repeated, rounded or stretched
+    @discardableResult
     public func borderImageRepeat(_ type: BorderImageRepeatType) -> Self {
         _addProperty(.borderImageRepeat, type)
         return self
     }
 
     /// Specifies whether the border image should be repeated, rounded or stretched
+    @discardableResult
     public func borderImageRepeat(_ type: State<BorderImageRepeatType>) -> Self {
         _addProperty(BorderImageRepeatProperty(type))
         return self
@@ -2546,12 +2652,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how to slice the border image
+    @discardableResult
     public func borderImageSlice(_ type: BorderImageSliceType) -> Self {
         _addProperty(.borderImageSlice, type)
         return self
     }
 
     /// Specifies how to slice the border image
+    @discardableResult
     public func borderImageSlice(_ type: State<BorderImageSliceType>) -> Self {
         _addProperty(BorderImageSliceProperty(type))
         return self
@@ -2591,6 +2699,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the path to the image to be used as a border
+    @discardableResult
     public func borderImageSource<S>(_ type: S) -> Self where S: UniValue, S.UniValue == String {
         _addProperty(BorderImageSourceProperty(type))
         return self
@@ -2633,12 +2742,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the width of the border image
+    @discardableResult
     public func borderImageWidth(_ type: BorderWidthType) -> Self {
         _addProperty(.borderImageWidth, type)
         return self
     }
 
     /// Specifies the width of the border image
+    @discardableResult
     public func borderImageWidth(_ type: State<BorderWidthType>) -> Self {
         _addProperty(BorderImageWidthProperty(type))
         return self
@@ -2748,18 +2859,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the color of the left border
+    @discardableResult
     public func borderLeftColor(_ type: Color) -> Self {
         _addProperty(.borderLeftColor, type)
         return self
     }
 
     /// Sets the color of the left border
+    @discardableResult
     public func borderLeftColor(_ type: State<Color>) -> Self {
         _addProperty(BorderLeftColorProperty(type))
         return self
     }
     
     /// Sets the color of the left border
+    @discardableResult
     public func borderLeftColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -2768,6 +2882,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the left border
+    @discardableResult
     public func borderLeftColor <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -2776,6 +2891,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the left border
+    @discardableResult
     public func borderLeftColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -2784,6 +2900,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the left border
+    @discardableResult
     public func borderLeftColor <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -2863,48 +2980,56 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for border-left-width, border-left-style and border-left-color
+    @discardableResult
     public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderLeftProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
+    @discardableResult
     public func borderLeft(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderLeftProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
+    @discardableResult
     public func borderLeft(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderLeftProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
+    @discardableResult
     public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderLeftProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
+    @discardableResult
     public func borderLeft(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderLeftProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
+    @discardableResult
     public func borderLeft(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderLeftProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
+    @discardableResult
     public func borderLeft(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderLeftProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
+    @discardableResult
     public func borderLeft(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderLeftProperty(width: width, style: style, color: color))
         return self
@@ -2947,12 +3072,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the style of the left border
+    @discardableResult
     public func borderLeftStyle(_ type: BorderStyleType) -> Self {
         _addProperty(.borderLeftStyle, type)
         return self
     }
 
     /// Sets the style of the left border
+    @discardableResult
     public func borderLeftStyle(_ type: State<BorderStyleType>) -> Self {
         _addProperty(BorderLeftStyleProperty(type))
         return self
@@ -3000,18 +3127,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the width of the left border
+    @discardableResult
     public func borderLeftWidth(_ type: BorderWidthType) -> Self {
         _addProperty(.borderLeftWidth, type)
         return self
     }
 
     /// Sets the width of the left border
+    @discardableResult
     public func borderLeftWidth(_ type: State<BorderWidthType>) -> Self {
         _addProperty(BorderLeftWidthProperty(type))
         return self
     }
 
     /// Sets the width of the left border
+    @discardableResult
     public func borderLeftWidth<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderLeftWidthProperty(length))
         return self
@@ -3099,48 +3229,56 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for border-width, border-style and border-color
+    @discardableResult
     public func border(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderProperty(width: width, style: style, color: color))
         return self
     }
     
     /// A shorthand property for border-width, border-style and border-color
+    @discardableResult
     public func border(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
+    @discardableResult
     public func border(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
+    @discardableResult
     public func border(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
+    @discardableResult
     public func border(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
+    @discardableResult
     public func border(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
+    @discardableResult
     public func border(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
+    @discardableResult
     public func border(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderProperty(width: width, style: style, color: color))
         return self
@@ -3821,18 +3959,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the four border-*-radius properties
+    @discardableResult
     public func borderRadius(all: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(all: all))
         return self
     }
 
     /// A shorthand property for the four border-*-radius properties
+    @discardableResult
     public func borderRadius(all type: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(all: type))
         return self
     }
 
     /// A shorthand property for the four border-*-radius properties
+    @discardableResult
     public func borderRadius<L>(all: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(all: all))
         return self
@@ -3841,46 +3982,55 @@ extension CSSRulable {
     // MARK: TL/BR
 
     /// A shorthand property for the four border-*-radius properties
+    @discardableResult
     public func borderRadius(topLeft: BorderRadiusType, bottomRight: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, bottomRight: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, bottomRight: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
+    @discardableResult
     public func borderRadius <TL, BR>(topLeft: TL, bottomRight: BR) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, bottomRight: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, bottomRight: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, bottomRight: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, bottomRight: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
         return self
@@ -3889,121 +4039,145 @@ extension CSSRulable {
     // MARK: TL/TR/BL
 
     /// A shorthand property for the four border-*-radius properties
+    @discardableResult
     public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, TR>(topLeft: TL, topRight: TR, bottomLeft: BorderRadiusType) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomLeft: BL) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <TL, TR, BL>(topLeft: TL, topRight: TR, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
         return self
@@ -4012,281 +4186,337 @@ extension CSSRulable {
     // MARK: TL/TR/BR/BL
 
     /// A shorthand property for the four border-*-radius properties
+    @discardableResult
     public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, TR>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, BR>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BorderRadiusType) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TR, BR>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <BR, BL>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL) -> Self where BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, TR, BR>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, TR, BL>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, BR, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TR, BR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BL) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius <TL, TR, BR, BL>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
     
+    @discardableResult
     public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
     }
-
+    
+    @discardableResult
     public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
         _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
         return self
@@ -4396,18 +4626,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the color of the right border
+    @discardableResult
     public func borderRightColor(_ type: Color) -> Self {
         _addProperty(.borderRightColor, type)
         return self
     }
 
     /// Sets the color of the right border
+    @discardableResult
     public func borderRightColor(_ type: State<Color>) -> Self {
         _addProperty(BorderRightColorProperty(type))
         return self
     }
     
     /// Sets the color of the right border
+    @discardableResult
     public func borderRightColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -4416,6 +4649,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the right border
+    @discardableResult
     public func borderRightColor <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -4424,6 +4658,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the right border
+    @discardableResult
     public func borderRightColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -4432,6 +4667,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the right border
+    @discardableResult
     public func borderRightColor <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -4511,48 +4747,56 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for border-right-width, border-right-style and border-right-color
+    @discardableResult
     public func borderRight(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderRightProperty(width: width, style: style, color: color))
         return self
     }
     
     /// A shorthand property for border-right-width, border-right-style and border-right-color
+    @discardableResult
     public func borderRight(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderRightProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
+    @discardableResult
     public func borderRight(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderRightProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
+    @discardableResult
     public func borderRight(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderRightProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
+    @discardableResult
     public func borderRight(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderRightProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
+    @discardableResult
     public func borderRight(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderRightProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
+    @discardableResult
     public func borderRight(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderRightProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
+    @discardableResult
     public func borderRight(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderRightProperty(width: width, style: style, color: color))
         return self
@@ -4595,12 +4839,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the style of the right border
+    @discardableResult
     public func borderRightStyle(_ type: BorderStyleType) -> Self {
         _addProperty(.borderRightStyle, type)
         return self
     }
 
     /// Sets the style of the right border
+    @discardableResult
     public func borderRightStyle(_ type: State<BorderStyleType>) -> Self {
         _addProperty(BorderRightStyleProperty(type))
         return self
@@ -4648,18 +4894,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the width of the right border
+    @discardableResult
     public func borderRightWidth(_ type: BorderWidthType) -> Self {
         _addProperty(.borderRightWidth, type)
         return self
     }
 
     /// Sets the width of the right border
+    @discardableResult
     public func borderRightWidth(_ type: State<BorderWidthType>) -> Self {
         _addProperty(BorderRightWidthProperty(type))
         return self
     }
 
     /// Sets the width of the right border
+    @discardableResult
     public func borderRightWidth<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderRightWidthProperty(length))
         return self
@@ -4733,6 +4982,7 @@ extension CSSRulable {
     // MARK: All
 
     /// Sets the distance between the borders of adjacent cells
+    @discardableResult
     public func borderSpacing<A>(all: A) -> Self where A: UniValue, A.UniValue: UnitValuable {
         _addProperty(BorderSpacingProperty(all: all))
         return self
@@ -4741,6 +4991,7 @@ extension CSSRulable {
     // MARK: H/V
 
     /// Sets the distance between the borders of adjacent cells
+    @discardableResult
     public func borderSpacing<H, V>(h: H, v: V) -> Self where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
         _addProperty(BorderSpacingProperty(h: h, v: v))
         return self
@@ -4817,36 +5068,42 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the style of the four borders
+    @discardableResult
     public func borderStyle (_ type: BorderStyleType...) -> Self {
         _addProperty(BorderStyleProperty(type))
         return self
     }
 
     /// Sets the style of the four borders
+    @discardableResult
     public func borderStyle (_ type: [BorderStyleType]) -> Self {
         _addProperty(BorderStyleProperty(type))
         return self
     }
 
     /// Sets the style of the four borders
+    @discardableResult
     public func borderStyle (_ types: [State<BorderStyleType>]) -> Self {
         _addProperty(BorderStyleProperty(types))
         return self
     }
     
     /// Sets the style of the four borders
+    @discardableResult
     public func borderStyle (_ types: State<BorderStyleType>...) -> Self {
         _addProperty(BorderStyleProperty(types))
         return self
     }
 
     /// Sets the style of the four borders
+    @discardableResult
     public func borderStyle <U>(mixed types: [U]) -> Self where U: UniValue, U.UniValue == BorderStyleType {
         _addProperty(BorderStyleProperty(mixed: types))
         return self
     }
     
     /// Sets the style of the four borders
+    @discardableResult
     public func borderStyle <U>(mixed types: U...) -> Self where U: UniValue, U.UniValue == BorderStyleType {
         _addProperty(BorderStyleProperty(mixed: types))
         return self
@@ -4956,18 +5213,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the color of the top border
+    @discardableResult
     public func borderTopColor(_ type: Color) -> Self {
         _addProperty(.borderTopColor, type)
         return self
     }
 
     /// Sets the color of the top border
+    @discardableResult
     public func borderTopColor(_ type: State<Color>) -> Self {
         _addProperty(BorderTopColorProperty(type))
         return self
     }
     
     /// Sets the color of the top border
+    @discardableResult
     public func borderTopColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -4976,6 +5236,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the top border
+    @discardableResult
     public func borderTopColor <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -4984,6 +5245,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the top border
+    @discardableResult
     public func borderTopColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -4992,6 +5254,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of the top border
+    @discardableResult
     public func borderTopColor <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -5041,18 +5304,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines the radius of the border of the top-left corner
+    @discardableResult
     public func borderTopLeftRadius(_ type: BorderRadiusType) -> Self {
         _addProperty(.borderTopLeftRadius, type)
         return self
     }
 
     /// Defines the radius of the border of the top-left corner
+    @discardableResult
     public func borderTopLeftRadius(_ type: State<BorderRadiusType>) -> Self {
         _addProperty(BorderTopLeftRadiusProperty(type))
         return self
     }
 
     /// Defines the radius of the border of the top-left corner
+    @discardableResult
     public func borderTopLeftRadius<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderTopLeftRadiusProperty(length))
         return self
@@ -5130,48 +5396,56 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    @discardableResult
     public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    @discardableResult
     public func borderTop(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    @discardableResult
     public func borderTop(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    @discardableResult
     public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    @discardableResult
     public func borderTop(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    @discardableResult
     public func borderTop(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    @discardableResult
     public func borderTop(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
+    @discardableResult
     public func borderTop(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
         _addProperty(BorderTopProperty(width: width, style: style, color: color))
         return self
@@ -5219,18 +5493,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines the radius of the border of the top-right corner
+    @discardableResult
     public func borderTopRightRadius(_ type: BorderRadiusType) -> Self {
         _addProperty(.borderTopRightRadius, type)
         return self
     }
 
     /// Defines the radius of the border of the top-right corner
+    @discardableResult
     public func borderTopRightRadius(_ type: State<BorderRadiusType>) -> Self {
         _addProperty(BorderTopRightRadiusProperty(type))
         return self
     }
 
     /// Defines the radius of the border of the top-right corner
+    @discardableResult
     public func borderTopRightRadius<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderTopRightRadiusProperty(length))
         return self
@@ -5273,12 +5550,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the style of the top border
+    @discardableResult
     public func borderTopStyle(_ type: BorderStyleType) -> Self {
         _addProperty(.borderTopStyle, type)
         return self
     }
 
     /// Sets the style of the top border
+    @discardableResult
     public func borderTopStyle(_ type: State<BorderStyleType>) -> Self {
         _addProperty(BorderTopStyleProperty(type))
         return self
@@ -5326,18 +5605,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the width of the top border
+    @discardableResult
     public func borderTopWidth(_ type: BorderWidthType) -> Self {
         _addProperty(.borderTopWidth, type)
         return self
     }
 
     /// Sets the width of the top border
+    @discardableResult
     public func borderTopWidth(_ type: State<BorderWidthType>) -> Self {
         _addProperty(BorderTopWidthProperty(type))
         return self
     }
 
     /// Sets the width of the top border
+    @discardableResult
     public func borderTopWidth<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(BorderTopWidthProperty(length))
         return self
@@ -5415,35 +5697,41 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the width of the four borders
+    @discardableResult
     public func borderWidth(_ type: BorderWidthType...) -> Self {
         borderWidth(type)
     }
 
     /// Sets the width of the four borders
+    @discardableResult
     public func borderWidth(_ type: [BorderWidthType]) -> Self {
         _addProperty(BorderWidthProperty(type))
         return self
     }
 
     /// Sets the width of the four borders
+    @discardableResult
     public func borderWidth (_ types: [State<BorderWidthType>]) -> Self {
         _addProperty(BorderWidthProperty(types))
         return self
     }
     
     /// Sets the width of the four borders
+    @discardableResult
     public func borderWidth (_ types: State<BorderWidthType>...) -> Self {
         _addProperty(BorderWidthProperty(types))
         return self
     }
 
     /// Sets the width of the four borders
+    @discardableResult
     public func borderWidth <A>(mixed types: [A]) -> Self where A: UniValue, A.UniValue == BorderWidthType {
         _addProperty(BorderWidthProperty(mixed: types))
         return self
     }
     
     /// Sets the width of the four borders
+    @discardableResult
     public func borderWidth <A>(mixed types: A...) -> Self where A: UniValue, A.UniValue == BorderWidthType {
         _addProperty(BorderWidthProperty(mixed: types))
         return self
@@ -5495,18 +5783,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the elements position, from the bottom of its parent element
+    @discardableResult
     public func bottom<U>(_ value: U) -> Self where U: UniValue, U.UniValue: UnitValuable {
         _addProperty(BottomProperty(value))
         return self
     }
 
     // MARK: Extended
-
+    
+    @discardableResult
     public func bottom <D>(_ value: D, _ unit: Unit) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(BottomProperty(value, unit))
         return self
     }
     
+    @discardableResult
     public func bottom <D>(_ value: D, _ unit: State<Unit>) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(BottomProperty(value, unit))
         return self
@@ -5551,12 +5842,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the behavior of the background and border of an element at page-break, or, for in-line elements, at line-break.
+    @discardableResult
     public func boxDecorationBreak(_ type: BoxDecorationBreakType) -> Self {
         _addProperty(.boxDecorationBreak, type)
         return self
     }
 
     /// Sets the behavior of the background and border of an element at page-break, or, for in-line elements, at line-break.
+    @discardableResult
     public func boxDecorationBreak(_ type: State<BoxDecorationBreakType>) -> Self {
         _addProperty(BoxDecorationBreakProperty(type))
         return self
@@ -6192,45 +6485,52 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Use it for multiple shadows
+    @discardableResult
     public func boxShadow<U>(_ values: [U]) -> Self where U: UniValue, U.UniValue == BoxShadowValue {
         _addProperty(BoxShadowProperty(values))
         return self
     }
 
     /// Use it for multiple shadows
+    @discardableResult
     public func boxShadow<U>(_ values: U...) -> Self where U: UniValue, U.UniValue == BoxShadowValue {
         _addProperty(BoxShadowProperty(values))
         return self
     }
 
     /// Attaches one shadow to an element
+    @discardableResult
     public func boxShadow<H, V, I>(h: H, v: V, inset: I) -> Self
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V>(h: H, v: V) -> Self
     where H: UniValue, V: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable {
         _addProperty(BoxShadowProperty(h: h, v: v, inset: false))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B>(h: H, v: V, blur: B) -> Self
     where H: UniValue, V: UniValue, B: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable {
         boxShadow(h: h, v: v, blur: blur, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
@@ -6238,14 +6538,16 @@ extension CSSRulable {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, S>(h: H, v: V, blur: B, spread: S) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
         boxShadow(h: h, v: v, blur: blur, spread: spread, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
@@ -6253,14 +6555,16 @@ extension CSSRulable {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
         boxShadow(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
@@ -6268,14 +6572,16 @@ extension CSSRulable {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color {
         boxShadow(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I) -> Self
     where H: UniValue, V: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
@@ -6283,14 +6589,16 @@ extension CSSRulable {
         _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, S>(h: H, v: V, spread: S, color: Color) -> Self
     where H: UniValue, V: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
         boxShadow(h: h, v: v, spread: spread, color: color, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I) -> Self
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
@@ -6298,14 +6606,16 @@ extension CSSRulable {
         _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, S, C>(h: H, v: V, spread: S, color: C) -> Self
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color {
         boxShadow(h: h, v: v, spread: spread, color: color, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
@@ -6313,14 +6623,16 @@ extension CSSRulable {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B>(h: H, v: V, blur: B, color: Color) -> Self
     where H: UniValue, V: UniValue, B: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable {
         boxShadow(h: h, v: v, blur: blur, color: color, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I) -> Self
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
@@ -6328,34 +6640,39 @@ extension CSSRulable {
         _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, B, C>(h: H, v: V, blur: B, color: C) -> Self
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color {
         boxShadow(h: h, v: v, blur: blur, color: color, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, I>(h: H, v: V, color: Color, inset: I) -> Self
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V>(h: H, v: V, color: Color) -> Self
     where H: UniValue, V: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable {
         boxShadow(h: h, v: v, color: color, inset: false)
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, C, I>(h: H, v: V, color: C, inset: I) -> Self
     where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset))
         return self
     }
-
+    
+    @discardableResult
     public func boxShadow<H, V, C>(h: H, v: V, color: C) -> Self
     where H: UniValue, V: UniValue, C: StateConvertible,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color {
@@ -6399,12 +6716,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines how the width and height of an element are calculated: should they include padding and borders, or not
+    @discardableResult
     public func boxSizing(_ type: BoxSizingType) -> Self {
         _addProperty(.boxSizing, type)
         return self
     }
 
     /// Defines how the width and height of an element are calculated: should they include padding and borders, or not
+    @discardableResult
     public func boxSizing(_ type: State<BoxSizingType>) -> Self {
         _addProperty(BoxSizingProperty(type))
         return self
@@ -6447,12 +6766,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not a page-, column-, or region-break should occur after the specified element
+    @discardableResult
     public func breakAfter(_ type: BreakType) -> Self {
         _addProperty(.breakAfter, type)
         return self
     }
 
     /// Specifies whether or not a page-, column-, or region-break should occur after the specified element
+    @discardableResult
     public func breakAfter(_ type: State<BreakType>) -> Self {
         _addProperty(BreakAfterProperty(type))
         return self
@@ -6495,12 +6816,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not a page-, column-, or region-break should occur before the specified element
+    @discardableResult
     public func breakBefore(_ type: BreakType) -> Self {
         _addProperty(.breakBefore, type)
         return self
     }
 
     /// Specifies whether or not a page-, column-, or region-break should occur before the specified element
+    @discardableResult
     public func breakBefore(_ type: State<BreakType>) -> Self {
         _addProperty(BreakBeforeProperty(type))
         return self
@@ -6543,12 +6866,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not a page-, column-, or region-break should occur inside the specified element
+    @discardableResult
     public func breakInside(_ type: BreakInsideType) -> Self {
         _addProperty(.breakInside, type)
         return self
     }
 
     /// Specifies whether or not a page-, column-, or region-break should occur inside the specified element
+    @discardableResult
     public func breakInside(_ type: State<BreakInsideType>) -> Self {
         _addProperty(BreakInsideProperty(type))
         return self
@@ -6591,12 +6916,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the placement of a table caption
+    @discardableResult
     public func captionSide(_ type: CaptionSideType) -> Self {
         _addProperty(.captionSide, type)
         return self
     }
 
     /// Specifies the placement of a table caption
+    @discardableResult
     public func captionSide(_ type: State<CaptionSideType>) -> Self {
         _addProperty(CaptionSideProperty(type))
         return self
@@ -6706,18 +7033,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
+    @discardableResult
     public func caretColor(_ type: Color) -> Self {
         _addProperty(.caretColor, type)
         return self
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
+    @discardableResult
     public func caretColor(_ type: State<Color>) -> Self {
         _addProperty(CaretColorProperty(type))
         return self
     }
     
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
+    @discardableResult
     public func caretColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -6726,6 +7056,7 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
+    @discardableResult
     public func caretColor <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -6734,6 +7065,7 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
+    @discardableResult
     public func caretColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -6742,6 +7074,7 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
+    @discardableResult
     public func caretColor <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -6786,12 +7119,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies on which sides of an element floating elements are not allowed to float
+    @discardableResult
     public func clear(_ type: ClearType) -> Self {
         _addProperty(.clear, type)
         return self
     }
 
     /// Specifies on which sides of an element floating elements are not allowed to float
+    @discardableResult
     public func clear(_ type: State<ClearType>) -> Self {
         _addProperty(ClearProperty(type))
         return self
@@ -7089,12 +7424,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U: UnitValuable>(all: U) -> Self {
         _addProperty(ClipProperty(all: all))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<A>(all type: A) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(ClipProperty(all: type))
         return self
@@ -7103,24 +7440,28 @@ extension CSSRulable {
     // MARK: V/H
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) -> Self {
         _addProperty(ClipProperty(v: v, h: h))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, A>(v: A, h: U1) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(ClipProperty(v: v, h: h))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, B>(v: U1, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(ClipProperty(v: v, h: h))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<A, B>(v: A, h: B) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(ClipProperty(v: v, h: h))
         return self
@@ -7129,48 +7470,56 @@ extension CSSRulable {
     // MARK: Top/H/Bottom
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) -> Self {
         _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<A, B, C>(top: A, h: B, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
         return self
@@ -7179,96 +7528,112 @@ extension CSSRulable {
     // MARK: Top/Right/Bottom/Left
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) -> Self {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) -> Self where C: StateConvertible, C.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) -> Self where D: StateConvertible, D.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Clips an absolutely positioned element
+    @discardableResult
     public func clip<A, B, C, D>(top: A, right: B, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
         return self
@@ -7380,18 +7745,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the color of text
+    @discardableResult
     public func color(_ color: Color) -> Self {
         _addProperty(.color, color)
         return self
     }
 
     /// Sets the color of text
+    @discardableResult
     public func color(_ color: State<Color>) -> Self {
         _addProperty(ColorProperty(color))
         return self
     }
     
     /// Sets the color of text
+    @discardableResult
     public func color <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -7400,6 +7768,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of text
+    @discardableResult
     public func color <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -7408,6 +7777,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of text
+    @discardableResult
     public func color <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -7416,6 +7786,7 @@ extension CSSRulable {
     }
 
     /// Sets the color of text
+    @discardableResult
     public func color <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -7458,6 +7829,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the number of columns an element should be divided into
+    @discardableResult
     public func columnCount<U>(_ n: U) -> Self where U: UniValue, U.UniValue == Int {
         _addProperty(ColumnCountProperty(n))
         return self
@@ -7501,12 +7873,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how to fill columns, balanced or not
+    @discardableResult
     public func columnFill(_ type: ColumnFillType) -> Self {
         _addProperty(.columnFill, type)
         return self
     }
 
     /// Specifies how to fill columns, balanced or not
+    @discardableResult
     public func columnFill(_ type: State<ColumnFillType>) -> Self {
         _addProperty(ColumnFillProperty(type))
         return self
@@ -7558,6 +7932,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the gap between the columns
+    @discardableResult
     public func columnGap <U>(_ value: U) -> Self where U: UniValue, U.UniValue: UnitValuable {
         _addProperty(ColumnGapProperty(value))
         return self
@@ -7566,12 +7941,14 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies the gap between the columns
+    @discardableResult
     public func columnGap <D>(_ value: D, _ unit: Unit) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(ColumnGapProperty(value, unit))
         return self
     }
     
     /// Specifies the gap between the columns
+    @discardableResult
     public func columnGap <D>(_ value: D, _ unit: State<Unit>) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(ColumnGapProperty(value, unit))
         return self
@@ -7681,18 +8058,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the color of the rule between columns
+    @discardableResult
     public func columnRuleColor(_ type: Color) -> Self {
         _addProperty(.columnRuleColor, type)
         return self
     }
 
     /// Specifies the color of the rule between columns
+    @discardableResult
     public func columnRuleColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(ColumnRuleColorProperty(type.stateValue))
         return self
     }
     
     /// Specifies the color of the rule between columns
+    @discardableResult
     public func columnRuleColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
@@ -7701,6 +8081,7 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the rule between columns
+    @discardableResult
     public func columnRuleColor <R, G, B>(r: R, g: G, b: B) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
@@ -7709,6 +8090,7 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the rule between columns
+    @discardableResult
     public func columnRuleColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
@@ -7717,6 +8099,7 @@ extension CSSRulable {
     }
 
     /// Specifies the color of the rule between columns
+    @discardableResult
     public func columnRuleColor <H, S, L>(h: H, s: S, l: L) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
@@ -7766,12 +8149,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for all the column-rule-* properties
+    @discardableResult
     public func columnRule(width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Color) -> Self {
         _addProperty(ColumnRuleProperty(width: width, style: style, color: color))
         return self
     }
 
     /// A shorthand property for all the column-rule-* properties
+    @discardableResult
     public func columnRule<W: UnitValuable>(width: W, style: ColumnRuleStyleType, color: Color) -> Self {
         columnRule(width: .length(width), style: style, color: color)
     }
@@ -7813,12 +8198,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the style of the rule between columns
+    @discardableResult
     public func columnRuleStyle(_ type: ColumnRuleStyleType) -> Self {
         _addProperty(.columnRuleStyle, type)
         return self
     }
 
     /// Specifies the style of the rule between columns
+    @discardableResult
     public func columnRuleStyle(_ type: State<ColumnRuleStyleType>) -> Self {
         _addProperty(ColumnRuleStyleProperty(type))
         return self
@@ -7861,12 +8248,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the width of the rule between columns
+    @discardableResult
     public func columnRuleWidth(_ type: ColumnRuleWidthType) -> Self {
         _addProperty(.columnRuleWidth, type)
         return self
     }
 
     /// Specifies the width of the rule between columns
+    @discardableResult
     public func columnRuleWidth(_ type: State<ColumnRuleWidthType>) -> Self {
         _addProperty(ColumnRuleWidthProperty(type))
         return self
@@ -7909,12 +8298,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how many columns an element should span across
+    @discardableResult
     public func columnSpan(_ type: ColumnSpanType) -> Self {
         _addProperty(.columnSpan, type)
         return self
     }
 
     /// Specifies how many columns an element should span across
+    @discardableResult
     public func columnSpan(_ type: State<ColumnSpanType>) -> Self {
         _addProperty(ColumnSpanProperty(type))
         return self
@@ -7963,6 +8354,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for column-width and column-count
+    @discardableResult
     public func columns<W, C>(width: W, count: C) -> Self where W: UniValue, W.UniValue: UnitValuable, C: UniValue, C.UniValue == Int {
         _addProperty(ColumnsProperty(width: width, count: count))
         return self
@@ -8014,6 +8406,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the column width
+    @discardableResult
     public func columnWidth <U>(_ value: U) -> Self where U: UniValue, U.UniValue: UnitValuable {
         _addProperty(ColumnWidthProperty(value))
         return self
@@ -8070,12 +8463,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Used with the :before and :after pseudo-elements, to insert generated content
+    @discardableResult
     public func content(_ type: ContentType) -> Self {
         _addProperty(.content, type)
         return self
     }
 
     /// Used with the :before and :after pseudo-elements, to insert generated content
+    @discardableResult
     public func content(_ type: State<ContentType>) -> Self {
         _addProperty(ContentProperty(type))
         return self
@@ -8118,12 +8513,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Increases or decreases the value of one or more CSS counters
+    @discardableResult
     public func counterIncrement(_ type: CounterResetType) -> Self {
         _addProperty(.counterIncrement, type)
         return self
     }
 
     /// Increases or decreases the value of one or more CSS counters
+    @discardableResult
     public func counterIncrement(_ type: State<CounterResetType>) -> Self {
         _addProperty(CounterIncrementProperty(type))
         return self
@@ -8166,12 +8563,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Creates or resets one or more CSS counters
+    @discardableResult
     public func counterReset(_ type: CounterResetType) -> Self {
         _addProperty(.counterReset, type)
         return self
     }
 
     /// Creates or resets one or more CSS counters
+    @discardableResult
     public func counterReset(_ type: State<CounterResetType>) -> Self {
         _addProperty(CounterResetProperty(type))
         return self
@@ -8214,12 +8613,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the mouse cursor to be displayed when pointing over an element
+    @discardableResult
     public func cursor(_ type: CursorType) -> Self {
         _addProperty(.cursor, type)
         return self
     }
 
     /// Specifies the mouse cursor to be displayed when pointing over an element
+    @discardableResult
     public func cursor(_ type: State<CursorType>) -> Self {
         _addProperty(CursorProperty(type))
         return self
@@ -8262,12 +8663,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the text direction/writing direction
+    @discardableResult
     public func direction(_ type: DirectionType) -> Self {
         _addProperty(.direction, type)
         return self
     }
 
     /// Specifies the text direction/writing direction
+    @discardableResult
     public func direction(_ type: State<DirectionType>) -> Self {
         _addProperty(DirectionProperty(type))
         return self
@@ -8310,12 +8713,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how a certain HTML element should be displayed
+    @discardableResult
     public func display(_ type: DisplayType) -> Self {
         _addProperty(.display, type)
         return self
     }
 
     /// Specifies how a certain HTML element should be displayed
+    @discardableResult
     public func display(_ type: State<DisplayType>) -> Self {
         _addProperty(DisplayProperty(type))
         return self
@@ -8358,12 +8763,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not to display borders and background on empty cells in a table
+    @discardableResult
     public func emptyCells(_ type: EmptyCellsType) -> Self {
         _addProperty(.emptyCells, type)
         return self
     }
 
     /// Specifies whether or not to display borders and background on empty cells in a table
+    @discardableResult
     public func emptyCells(_ type: State<EmptyCellsType>) -> Self {
         _addProperty(EmptyCellsProperty(type))
         return self
@@ -8406,12 +8813,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines effects (e.g. blurring or color shifting) on an element before the element is displayed
+    @discardableResult
     public func filter(_ type: FilterType) -> Self {
         _addProperty(.filter, type)
         return self
     }
 
     /// Defines effects (e.g. blurring or color shifting) on an element before the element is displayed
+    @discardableResult
     public func filter(_ type: State<FilterType>) -> Self {
         _addProperty(FilterProperty(type))
         return self
@@ -8463,6 +8872,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the initial length of a flexible item
+    @discardableResult
     public func flexBasis<U>(_ value: U) -> Self where U: UniValue, U.UniValue: UnitValuable {
         _addProperty(FlexBasisProperty(value))
         return self
@@ -8471,12 +8881,14 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies the initial length of a flexible item
+    @discardableResult
     public func flexBasis <D>(_ value: D, _ unit: Unit) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(FlexBasisProperty(value, unit))
         return self
     }
     
     /// Specifies the initial length of a flexible item
+    @discardableResult
     public func flexBasis <D>(_ value: D, _ unit: State<Unit>) -> Self where D: UniValue, D.UniValue == Double {
         _addProperty(FlexBasisProperty(value, unit))
         return self
@@ -8519,12 +8931,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the direction of the flexible items
+    @discardableResult
     public func flexDirection(_ type: FlexDirectionType) -> Self {
         _addProperty(.flexDirection, type)
         return self
     }
 
     /// Specifies the direction of the flexible items
+    @discardableResult
     public func flexDirection(_ type: State<FlexDirectionType>) -> Self {
         _addProperty(FlexDirectionProperty(type))
         return self
@@ -8614,24 +9028,28 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the flex-direction and the flex-wrap properties
+    @discardableResult
     public func flexFlow(direction: FlexDirectionType, wrap: FlexWrapType) -> Self {
         _addProperty(FlexFlowProperty(direction: direction, wrap: wrap))
         return self
     }
 
     /// A shorthand property for the flex-direction and the flex-wrap properties
+    @discardableResult
     public func flexFlow(direction: State<FlexDirectionType>, wrap: FlexWrapType) -> Self {
         _addProperty(FlexFlowProperty(direction: direction, wrap: wrap))
         return self
     }
 
     /// A shorthand property for the flex-direction and the flex-wrap properties
+    @discardableResult
     public func flexFlow(direction: FlexDirectionType, wrap: State<FlexWrapType>) -> Self {
         _addProperty(FlexFlowProperty(direction: direction, wrap: wrap))
         return self
     }
 
     /// A shorthand property for the flex-direction and the flex-wrap properties
+    @discardableResult
     public func flexFlow(direction: State<FlexDirectionType>, wrap: State<FlexWrapType>) -> Self {
         _addProperty(FlexFlowProperty(direction: direction, wrap: wrap))
         return self
@@ -8669,6 +9087,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how much the item will grow relative to the rest
+    @discardableResult
     public func flexGrow<N>(_ n: N) -> Self where N: UniValue, N.UniValue: NumericValue {
         _addProperty(FlexGrowProperty(n))
         return self
@@ -8724,6 +9143,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the flex-grow, flex-shrink, and the flex-basis properties
+    @discardableResult
     public func flex<G, S, B>(grow: G, shrink: S, basis: B) -> Self where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
         _addProperty(FlexProperty(grow: grow, shrink: shrink, basis: basis))
         return self
@@ -8776,6 +9196,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how the item will shrink relative to the rest
+    @discardableResult
     public func flexShrink<N>(_ n: N) -> Self where N: UniValue, N.UniValue: NumericValue {
         _addProperty(FlexShrinkProperty(n))
         return self
@@ -8818,12 +9239,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether the flexible items should wrap or not
+    @discardableResult
     public func flexWrap(_ type: FlexWrapType) -> Self {
         _addProperty(.flexWrap, type)
         return self
     }
 
     /// Specifies whether the flexible items should wrap or not
+    @discardableResult
     public func flexWrap(_ type: State<FlexWrapType>) -> Self {
         _addProperty(FlexWrapProperty(type))
         return self
@@ -8866,12 +9289,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not a box should float
+    @discardableResult
     public func float(_ type: FloatType) -> Self {
         _addProperty(.float, type)
         return self
     }
 
     /// Specifies whether or not a box should float
+    @discardableResult
     public func float(_ type: State<FloatType>) -> Self {
         _addProperty(FloatProperty(type))
         return self
@@ -8972,35 +9397,41 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the font family for text
+    @discardableResult
     public func fontFamily(_ types: [FontFamilyType]) -> Self {
         _addProperty(FontFamilyProperty(types))
         return self
     }
 
     /// Specifies the font family for text
+    @discardableResult
     public func fontFamily(_ types: FontFamilyType...) -> Self {
         fontFamily(types)
     }
 
     /// Specifies the font family for text
+    @discardableResult
     public func fontFamily (_ types: [State<FontFamilyType>]) -> Self {
         _addProperty(FontFamilyProperty(types))
         return self
     }
     
     /// Specifies the font family for text
+    @discardableResult
     public func fontFamily (_ types: State<FontFamilyType>...) -> Self {
         _addProperty(FontFamilyProperty(types))
         return self
     }
 
     /// Specifies the font family for text
+    @discardableResult
     public func fontFamily <T>(mixed types: [T]) -> Self where T: UniValue, T.UniValue == FontFamilyType {
         _addProperty(FontFamilyProperty(mixed: types))
         return self
     }
     
     /// Specifies the font family for text
+    @discardableResult
     public func fontFamily <T>(mixed types: T...) -> Self where T: UniValue, T.UniValue == FontFamilyType {
         _addProperty(FontFamilyProperty(mixed: types))
         return self
@@ -9045,12 +9476,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls the usage of the kerning information (how letters are spaced)
+    @discardableResult
     public func fontKerning(_ type: FontKerningType) -> Self {
         _addProperty(.fontKerning, type)
         return self
     }
 
     /// Controls the usage of the kerning information (how letters are spaced)
+    @discardableResult
     public func fontKerning(_ type: State<FontKerningType>) -> Self {
         _addProperty(FontKerningProperty(type))
         return self
@@ -9102,12 +9535,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls the usage of language-specific glyphs in a typeface
+    @discardableResult
     public func fontLanguageOverride(_ type: FontLanguageOverrideType) -> Self {
         _addProperty(.fontLanguageOverride, type)
         return self
     }
 
     /// Controls the usage of language-specific glyphs in a typeface
+    @discardableResult
     public func fontLanguageOverride(_ type: State<FontLanguageOverrideType>) -> Self {
         _addProperty(FontLanguageOverrideProperty(type))
         return self
@@ -9224,18 +9659,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
+    @discardableResult
     public func font(_ type: FontType) -> Self {
         _addProperty(FontProperty(type))
         return self
     }
 
     /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
+    @discardableResult
     public func font(_ type: State<FontType>) -> Self {
         _addProperty(FontProperty(type))
         return self
     }
 
     /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
+    @discardableResult
     public func font<F: UnitValuable, L: UnitValuable>(
         style: FontStyleType? = nil,
         variant: FontVariantType? = nil,
@@ -9324,18 +9762,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Preserves the readability of text when font fallback occurs
+    @discardableResult
     public func fontSizeAdjust(_ type: FontSizeAdjustType) -> Self {
         _addProperty(FontSizeAdjustProperty(type))
         return self
     }
 
     /// Preserves the readability of text when font fallback occurs
+    @discardableResult
     public func fontSizeAdjust (_ type: State<FontSizeAdjustType>) -> Self {
         _addProperty(FontSizeAdjustProperty(type))
         return self
     }
 
     /// Preserves the readability of text when font fallback occurs
+    @discardableResult
     public func fontSizeAdjust <N>(_ numeric: N) -> Self where N: UniValue, N.UniValue: NumericValue {
         _addProperty(FontSizeAdjustProperty(numeric))
         return self
@@ -9406,18 +9847,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the font size of text
+    @discardableResult
     public func fontSize(_ type: FontSizeType) -> Self {
         _addProperty(.fontSize, type)
         return self
     }
 
     /// Specifies the font size of text
+    @discardableResult
     public func fontSize(_ type: State<FontSizeType>) -> Self {
         _addProperty(FontSizeProperty(type))
         return self
     }
 
     /// Specifies the font size of text
+    @discardableResult
     public func fontSize<L>(_ length: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
         _addProperty(FontSizeProperty(length))
         return self
@@ -9474,12 +9918,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Selects a normal, condensed, or expanded face from a font family
+    @discardableResult
     public func fontStretch(_ type: FontStretchType) -> Self {
         _addProperty(.fontStretch, type)
         return self
     }
 
     /// Selects a normal, condensed, or expanded face from a font family
+    @discardableResult
     public func fontStretch(_ type: State<FontStretchType>) -> Self {
         _addProperty(FontStretchProperty(type))
         return self
@@ -9525,12 +9971,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the font style for text
+    @discardableResult
     public func fontStyle(_ type: FontStyleType) -> Self {
         _addProperty(.fontStyle, type)
         return self
     }
 
     /// Specifies the font style for text
+    @discardableResult
     public func fontStyle(_ type: State<FontStyleType>) -> Self {
         _addProperty(FontStyleProperty(type))
         return self
@@ -9576,12 +10024,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls which missing typefaces (bold or italic) may be synthesized by the browser
+    @discardableResult
     public func fontSynthesis(_ type: FontSynthesisType) -> Self {
         _addProperty(.fontSynthesis, type)
         return self
     }
 
     /// Controls which missing typefaces (bold or italic) may be synthesized by the browser
+    @discardableResult
     public func fontSynthesis(_ type: State<FontSynthesisType>) -> Self {
         _addProperty(FontSynthesisProperty(type))
         return self
@@ -9688,34 +10138,40 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    @discardableResult
     public func fontVariantAlternates(_ types: [FontVariantAlternatesType]) -> Self {
         _addProperty(FontVariantAlternatesProperty(types))
         return self
     }
 
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    @discardableResult
     public func fontVariantAlternates(_ types: FontVariantAlternatesType...) -> Self {
         fontVariantAlternates(types)
     }
 
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    @discardableResult
     public func fontVariantAlternates (_ types: [State<FontVariantAlternatesType>]) -> Self {
         _addProperty(FontVariantAlternatesProperty(types))
         return self
     }
     
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    @discardableResult
     public func fontVariantAlternates (_ types: State<FontVariantAlternatesType>...) -> Self {
         fontVariantAlternates(types)
     }
 
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    @discardableResult
     public func fontVariantAlternates <T>(mixed types: [T]) -> Self where T: UniValue, T.UniValue == FontVariantAlternatesType {
         _addProperty(FontVariantAlternatesProperty(mixed: types))
         return self
     }
     
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    @discardableResult
     public func fontVariantAlternates <T>(mixed types: T...) -> Self where T: UniValue, T.UniValue == FontVariantAlternatesType {
         fontVariantAlternates(mixed: types)
     }
@@ -9816,34 +10272,40 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls the usage of alternate glyphs for capital letters
+    @discardableResult
     public func fontVariantCaps(_ types: [FontVariantCapsType]) -> Self {
         _addProperty(FontVariantCapsProperty(types))
         return self
     }
 
     /// Controls the usage of alternate glyphs for capital letters
+    @discardableResult
     public func fontVariantCaps(_ types: FontVariantCapsType...) -> Self {
         fontVariantCaps(types)
     }
 
     /// Controls the usage of alternate glyphs for capital letters
+    @discardableResult
     public func fontVariantCaps (_ types: [State<FontVariantCapsType>]) -> Self {
         _addProperty(FontVariantCapsProperty(types))
         return self
     }
     
     /// Controls the usage of alternate glyphs for capital letters
+    @discardableResult
     public func fontVariantCaps (_ types: State<FontVariantCapsType>...) -> Self {
         fontVariantCaps(types)
     }
 
     /// Controls the usage of alternate glyphs for capital letters
+    @discardableResult
     public func fontVariantCaps <T>(mixed types: [T]) -> Self where T: UniValue, T.UniValue == FontVariantCapsType {
         _addProperty(FontVariantCapsProperty(mixed: types))
         return self
     }
     
     /// Controls the usage of alternate glyphs for capital letters
+    @discardableResult
     public func fontVariantCaps <T>(mixed types: T...) -> Self where T: UniValue, T.UniValue == FontVariantCapsType {
         fontVariantCaps(mixed: types)
     }
@@ -9948,34 +10410,40 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
+    @discardableResult
     public func fontVariantEastAsian(_ types: [FontVariantEastAsianType]) -> Self {
         _addProperty(FontVariantEastAsianProperty(types))
         return self
     }
 
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
+    @discardableResult
     public func fontVariantEastAsian(_ types: FontVariantEastAsianType...) -> Self {
         fontVariantEastAsian(types)
     }
 
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
+    @discardableResult
     public func fontVariantEastAsian (_ types: [State<FontVariantEastAsianType>]) -> Self {
         _addProperty(FontVariantEastAsianProperty(types))
         return self
     }
     
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
+    @discardableResult
     public func fontVariantEastAsian (_ types: State<FontVariantEastAsianType>...) -> Self {
         fontVariantEastAsian(types)
     }
 
-    /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)s
+    /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
+    @discardableResult
     public func fontVariantEastAsian <T>(mixed types: [T]) -> Self where T: UniValue, T.UniValue == FontVariantEastAsianType {
         _addProperty(FontVariantEastAsianProperty(mixed: types))
         return self
     }
     
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
+    @discardableResult
     public func fontVariantEastAsian <T>(mixed types: T...) -> Self where T: UniValue, T.UniValue == FontVariantEastAsianType {
         fontVariantEastAsian(mixed: types)
     }
@@ -10073,23 +10541,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
+    @discardableResult
     public func fontVariantLigatures(_ types: [FontVariantLigaturesType]) -> Self {
         _addProperty(FontVariantLigaturesProperty(types))
         return self
     }
 
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
+    @discardableResult
     public func fontVariantLigatures(_ types: FontVariantLigaturesType...) -> Self {
         fontVariantLigatures(types)
     }
 
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
+    @discardableResult
     public func fontVariantLigatures<V>(_ types: V) -> Self where V: StateConvertible, V.Value == [FontVariantLigaturesType] {
         _addProperty(FontVariantLigaturesProperty(types))
         return self
     }
 
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
+    @discardableResult
     public func fontVariantLigatures<V>(_ types: V) -> Self where V: StateConvertible, V.Value == FontVariantLigaturesType {
         _addProperty(FontVariantLigaturesProperty(types))
         return self
@@ -10188,23 +10660,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    @discardableResult
     public func fontVariantNumeric(_ types: [FontVariantNumericType]) -> Self {
         _addProperty(FontVariantNumericProperty(types))
         return self
     }
 
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    @discardableResult
     public func fontVariantNumeric(_ types: FontVariantNumericType...) -> Self {
         fontVariantNumeric(types)
     }
 
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    @discardableResult
     public func fontVariantNumeric<V>(_ types: V) -> Self where V: StateConvertible, V.Value == [FontVariantNumericType] {
         _addProperty(FontVariantNumericProperty(types))
         return self
     }
 
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
+    @discardableResult
     public func fontVariantNumeric<V>(_ types: V) -> Self where V: StateConvertible, V.Value == FontVariantNumericType {
         _addProperty(FontVariantNumericProperty(types))
         return self
@@ -10249,12 +10725,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls the usage of alternate glyphs of smaller size positioned as superscript or subscript regarding the baseline of the font
+    @discardableResult
     public func fontVariantPosition(_ type: FontVariantPositionType) -> Self {
         _addProperty(.fontVariantPosition, type)
         return self
     }
 
     /// Controls the usage of alternate glyphs of smaller size positioned as superscript or subscript regarding the baseline of the font
+    @discardableResult
     public func fontVariantPosition(_ type: State<FontVariantPositionType>) -> Self {
         _addProperty(FontVariantPositionProperty(type))
         return self
@@ -10345,23 +10823,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not a text should be displayed in a small-caps font
+    @discardableResult
     public func fontVariant(_ types: [FontVariantType]) -> Self {
         _addProperty(FontVariantProperty(types))
         return self
     }
 
     /// Specifies whether or not a text should be displayed in a small-caps font
+    @discardableResult
     public func fontVariant(_ types: FontVariantType...) -> Self {
         fontVariant(types)
     }
 
     /// Specifies whether or not a text should be displayed in a small-caps font
+    @discardableResult
     public func fontVariant<V>(_ types: V) -> Self where V: StateConvertible, V.Value == [FontVariantType] {
         _addProperty(FontVariantProperty(types))
         return self
     }
 
     /// Specifies whether or not a text should be displayed in a small-caps font
+    @discardableResult
     public func fontVariant<V>(_ types: V) -> Self where V: StateConvertible, V.Value == FontVariantType {
         _addProperty(FontVariantProperty(types))
         return self
@@ -10445,24 +10927,28 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the weight of a font
+    @discardableResult
     public func fontWeight(_ type: FontWeightType) -> Self {
         _addProperty(FontWeightProperty(type))
         return self
     }
 
     /// Specifies the weight of a font
+    @discardableResult
     public func fontWeight<F>(_ type: F) -> Self where F: StateConvertible, F.Value == FontWeightType {
         _addProperty(FontWeightProperty(type))
         return self
     }
 
     /// Specifies the weight of a font
+    @discardableResult
     public func fontWeight(_ n: Int) -> Self {
         _addProperty(FontWeightProperty(n))
         return self
     }
 
     /// Specifies the weight of a font
+    @discardableResult
     public func fontWeight<V>(_ n: V) -> Self where V: StateConvertible, V.Value == Int {
         _addProperty(FontWeightProperty(n))
         return self
@@ -10530,6 +11016,7 @@ extension Stylesheet {
 extension CSSRulable {
     /// Either specifies a name for the grid item, or this property is a shorthand property
     /// for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties
+    @discardableResult
     public func gridArea(rowStart: GridRowStartValue, columnStart: GridColumnStartValue, rowEnd: GridRowEndValue, columnEnd: GridColumnEndValue) -> Self {
         _addProperty(GridAreaProperty(rowStart: rowStart, columnStart: columnStart, rowEnd: rowEnd, columnEnd: columnEnd))
         return self
@@ -10537,6 +11024,7 @@ extension CSSRulable {
 
     /// Either specifies a name for the grid item, or this property is a shorthand property
     /// for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties
+    @discardableResult
     public func gridArea(_ area: String) -> Self {
         _addProperty(GridAreaProperty(area))
         return self
@@ -10544,6 +11032,7 @@ extension CSSRulable {
 
     /// Either specifies a name for the grid item, or this property is a shorthand property
     /// for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties
+    @discardableResult
     public func gridArea<S>(_ area: S) -> Self where S: StateConvertible, S.Value == String {
         _addProperty(GridAreaProperty(area))
         return self
@@ -10610,44 +11099,52 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies a default column size
+    @discardableResult
     public func gridAutoColumns(_ type: [GridAutoColumnsType]) -> Self {
         _addProperty(.gridAutoColumns, .init(type))
         return self
     }
 
     /// Specifies a default column size
+    @discardableResult
     public func gridAutoColumns(_ type: GridAutoColumnsType...) -> Self {
         gridAutoColumns(type)
     }
 
     /// Specifies a default column size
+    @discardableResult
     public func gridAutoColumns<U: UnitValuable>(_ type: [U]) -> Self {
         gridAutoColumns(type.map { .length($0) })
     }
 
     /// Specifies a default column size
+    @discardableResult
     public func gridAutoColumns<U: UnitValuable>(_ type: U...) -> Self {
         gridAutoColumns(type.map { .length($0) })
     }
 
     /// Specifies a default column size
+    @discardableResult
     public func gridAutoColumns(_ type: State<[GridAutoColumnsType]>) -> Self {
         _addProperty(GridAutoColumnsProperty(type))
         return self
     }
 
     /// Specifies a default column size
+    @discardableResult
     public func gridAutoColumns<U: UnitValuable>(_ type: State<[U]>) -> Self {
         gridAutoColumns(type.map { $0.map { .length($0) } })
     }
 
     /// Specifies a default column size
+    @discardableResult
     public func gridAutoColumns(_ type: State<GridAutoColumnsType>) -> Self {
         _addProperty(GridAutoColumnsProperty(type))
         return self
     }
 
     /// Specifies a default column size
+    @discardableResult
     public func gridAutoColumns<U: UnitValuable>(_ type: State<U>) -> Self {
         gridAutoColumns(type.map { .length($0) })
     }
@@ -10689,12 +11186,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how auto-placed items are inserted in the grid
+    @discardableResult
     public func gridAutoFlow(_ type: GridAutoFlowType) -> Self {
         _addProperty(.gridAutoFlow, type)
         return self
     }
 
     /// Specifies how auto-placed items are inserted in the grid
+    @discardableResult
     public func gridAutoFlow(_ type: State<GridAutoFlowType>) -> Self {
         _addProperty(GridAutoFlowProperty(type))
         return self
@@ -10737,23 +11236,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies a default row size
+    @discardableResult
     public func gridAutoRows(_ type: GridAutoRowsType) -> Self {
         _addProperty(.gridAutoRows, type)
         return self
     }
 
     /// Specifies a default row size
+    @discardableResult
     public func gridAutoRows(_ type: State<GridAutoRowsType>) -> Self {
         _addProperty(GridAutoRowsProperty(type))
         return self
     }
 
     /// Specifies a default row size
+    @discardableResult
     public func gridAutoRows<U: UnitValuable>(_ type: U) -> Self {
         gridAutoRows(.length(type))
     }
 
     /// Specifies a default row size
+    @discardableResult
     public func gridAutoRows<U: UnitValuable>(_ type: State<U>) -> Self {
         gridAutoRows(type.map { .length($0) })
     }
@@ -10857,30 +11360,35 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridColumnEnd() -> Self {
         _addProperty(GridColumnEndProperty())
         return self
     }
 
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridColumnEnd(columnLine: Int) -> Self {
         _addProperty(GridColumnEndProperty(columnLine: columnLine))
         return self
     }
 
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridColumnEnd<V>(columnLine: V) -> Self where V: StateConvertible, V.Value == Int {
         _addProperty(GridColumnEndProperty(columnLine: columnLine))
         return self
     }
 
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridColumnEnd(span n: Int) -> Self {
         _addProperty(GridColumnEndProperty(span: n))
         return self
     }
 
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridColumnEnd<V>(span n: V) -> Self where V: StateConvertible, V.Value == Int {
         _addProperty(GridColumnEndProperty(span: n))
         return self
@@ -10941,12 +11449,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the size of the gap between columns
+    @discardableResult
     public func gridColumnGap<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.gridColumnGap, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Specifies the size of the gap between columns
+    @discardableResult
     public func gridColumnGap<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(GridColumnGapProperty(value))
         return self
@@ -10955,24 +11465,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies the size of the gap between columns
+    @discardableResult
     public func gridColumnGap(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.gridColumnGap, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the size of the gap between columns
+    @discardableResult
     public func gridColumnGap(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.gridColumnGap, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the size of the gap between columns
+    @discardableResult
     public func gridColumnGap(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.gridColumnGap, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the size of the gap between columns
+    @discardableResult
     public func gridColumnGap(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.gridColumnGap, UnitValue(value, unit))
         return self
@@ -11066,24 +11580,28 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the grid-column-start and the grid-column-end properties
+    @discardableResult
     public func gridColumn(start: Int, end: Int) -> Self {
         _addProperty(GridColumnProperty(start: start, end: end))
         return self
     }
 
     /// A shorthand property for the grid-column-start and the grid-column-end properties
+    @discardableResult
     public func gridColumn<S>(start: S, end: Int) -> Self where S: StateConvertible, S.Value == Int {
         _addProperty(GridColumnProperty(start: start, end: end))
         return self
     }
 
     /// A shorthand property for the grid-column-start and the grid-column-end properties
+    @discardableResult
     public func gridColumn<E>(start: Int, end: E) -> Self where E: StateConvertible, E.Value == Int {
         _addProperty(GridColumnProperty(start: start, end: end))
         return self
     }
 
     /// A shorthand property for the grid-column-start and the grid-column-end properties
+    @discardableResult
     public func gridColumn<S, E>(start: S, end: E) -> Self where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
         _addProperty(GridColumnProperty(start: start, end: end))
         return self
@@ -11188,30 +11706,35 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies where to start the grid item
+    @discardableResult
     public func gridColumnStart() -> Self {
         _addProperty(GridColumnStartProperty())
         return self
     }
 
     /// Specifies where to start the grid item
+    @discardableResult
     public func gridColumnStart(columnLine: Int) -> Self {
         _addProperty(GridColumnStartProperty(columnLine: columnLine))
         return self
     }
 
     /// Specifies where to start the grid item
+    @discardableResult
     public func gridColumnStart<V>(columnLine: V) -> Self where V: StateConvertible, V.Value == Int {
         _addProperty(GridColumnStartProperty(columnLine: columnLine))
         return self
     }
 
     /// Specifies where to start the grid item
+    @discardableResult
     public func gridColumnStart(span n: Int) -> Self {
         _addProperty(GridColumnStartProperty(span: n))
         return self
     }
 
     /// Specifies where to start the grid item
+    @discardableResult
     public func gridColumnStart<V>(span n: V) -> Self where V: StateConvertible, V.Value == Int {
         _addProperty(GridColumnStartProperty(span: n))
         return self
@@ -11326,36 +11849,42 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
+    @discardableResult
     public func gridGap<R: UnitValuable>(_ rowGap: R) -> Self {
         _addProperty(GridGapProperty(rowGap))
         return self
     }
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
+    @discardableResult
     public func gridGap<R>(_ rowGap: R) -> Self where R: StateConvertible, R.Value: UnitValuable {
         _addProperty(GridGapProperty(rowGap))
         return self
     }
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
+    @discardableResult
     public func gridGap<R: UnitValuable, C: UnitValuable>(_ rowGap: R, _ columnGap: C) -> Self {
         _addProperty(GridGapProperty(rowGap, columnGap))
         return self
     }
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
+    @discardableResult
     public func gridGap<R, C: UnitValuable>(_ rowGap: R, _ columnGap: C) -> Self where R: StateConvertible, R.Value: UnitValuable {
         _addProperty(GridGapProperty(rowGap, columnGap))
         return self
     }
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
+    @discardableResult
     public func gridGap<R: UnitValuable, C>(_ rowGap: R, _ columnGap: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
         _addProperty(GridGapProperty(rowGap, columnGap))
         return self
     }
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
+    @discardableResult
     public func gridGap<R, C>(_ rowGap: R, _ columnGap: C) -> Self where R: StateConvertible, R.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(GridGapProperty(rowGap, columnGap))
         return self
@@ -11466,84 +11995,100 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the size(s) of the columns and rows
+    @discardableResult
     public func grid(templateRows: GridTemplateRowsType, templateColumns: GridTemplateColumnsType) -> Self {
         _addProperty(GridProperty(templateRows: templateRows, templateColumns: templateColumns))
         return self
     }
 
     /// Specifies the size(s) of the columns and rows
+    @discardableResult
     public func grid<U: UnitValuable>(templateRows: U, templateColumns: GridTemplateColumnsType) -> Self {
         grid(templateRows: .length(templateRows), templateColumns: templateColumns)
     }
 
     /// Specifies the grid layout using named items
+    @discardableResult
     public func grid(_ area: [String]) -> Self {
         _addProperty(GridProperty(area))
         return self
     }
 
     /// Specifies the grid layout using named items
+    @discardableResult
     public func grid(_ area: String...) -> Self {
         grid(area)
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
+    @discardableResult
     public func grid(templateRows: GridTemplateRowsType, autoColumns: GridAutoColumnsValue) -> Self {
         _addProperty(GridProperty(templateRows: templateRows, autoColumns: autoColumns))
         return self
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
+    @discardableResult
     public func grid<U: UnitValuable>(templateRows: U, autoColumns: GridAutoColumnsValue) -> Self {
         grid(templateRows: .length(templateRows), autoColumns: autoColumns)
     }
 
     /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    @discardableResult
     public func grid(autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) -> Self {
         _addProperty(GridProperty(autoRows: autoRows, templateColumns: templateColumns))
         return self
     }
 
     /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    @discardableResult
     public func grid<U: UnitValuable>(autoRows: GridAutoRowsType, templateColumns: U) -> Self {
         grid(autoRows: autoRows, templateColumns: .length(templateColumns))
     }
 
     /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    @discardableResult
     public func grid<U: UnitValuable>(autoRows: U, templateColumns: GridTemplateColumnsType) -> Self {
         grid(autoRows: .length(autoRows), templateColumns: templateColumns)
     }
 
     /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    @discardableResult
     public func grid<U1: UnitValuable, U2: UnitValuable>(autoRows: U1, templateColumns: U2) -> Self {
         grid(autoRows: .length(autoRows), templateColumns: .length(templateColumns))
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
+    @discardableResult
     public func grid(templateRows: GridTemplateRowsType, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue) -> Self {
         _addProperty(GridProperty(templateRows: templateRows, autoFlow: autoFlow, autoColumns: autoColumns))
         return self
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
+    @discardableResult
     public func grid<U: UnitValuable>(templateRows: U, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue) -> Self {
         grid(templateRows: .length(templateRows), autoFlow: autoFlow, autoColumns: autoColumns)
     }
-
+    
+    @discardableResult
     public func grid(autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) -> Self {
         _addProperty(GridProperty(autoFlow: autoFlow, autoRows: autoRows, templateColumns: templateColumns))
         return self
     }
-
+    
+    @discardableResult
     public func grid<U: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: U) -> Self {
         _addProperty(GridProperty(autoFlow: autoFlow, autoRows: autoRows, templateColumns: .length(templateColumns)))
         return self
     }
-
+    
+    @discardableResult
     public func grid<U: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: U, templateColumns: GridTemplateColumnsType) -> Self {
         grid(autoFlow: autoFlow, autoRows: .length(autoRows), templateColumns: templateColumns)
     }
-
+    
+    @discardableResult
     public func grid<U1: UnitValuable, U2: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: U1, templateColumns: U2) -> Self {
         grid(autoFlow: autoFlow, autoRows: .length(autoRows), templateColumns: .length(templateColumns))
     }
@@ -11647,30 +12192,35 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridRowEnd() -> Self {
         _addProperty(GridRowEndProperty())
         return self
     }
 
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridRowEnd(rowLine: Int) -> Self {
         _addProperty(GridRowEndProperty(rowLine: rowLine))
         return self
     }
 
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridRowEnd<V>(rowLine: V) -> Self where V: StateConvertible, V.Value == Int {
         _addProperty(GridRowEndProperty(rowLine: rowLine))
         return self
     }
 
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridRowEnd(span n: Int) -> Self {
         _addProperty(GridRowEndProperty(span: n))
         return self
     }
 
     /// Specifies where to end the grid item
+    @discardableResult
     public func gridRowEnd<V>(span n: V) -> Self where V: StateConvertible, V.Value == Int {
         _addProperty(GridRowEndProperty(span: n))
         return self
@@ -11731,12 +12281,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the size of the gap between rows
+    @discardableResult
     public func gridRowGap<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.gridRowGap, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Specifies the size of the gap between rows
+    @discardableResult
     public func gridRowGap<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(GridRowGapProperty(value))
         return self
@@ -11745,24 +12297,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies the size of the gap between rows
+    @discardableResult
     public func gridRowGap(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.gridRowGap, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the size of the gap between rows
+    @discardableResult
     public func gridRowGap(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.gridRowGap, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the size of the gap between rows
+    @discardableResult
     public func gridRowGap(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.gridRowGap, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the size of the gap between rows
+    @discardableResult
     public func gridRowGap(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.gridRowGap, UnitValue(value, unit))
         return self
@@ -11856,24 +12412,28 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the grid-row-start and the grid-row-end properties
+    @discardableResult
     public func gridRow(start: Int, end: Int) -> Self {
         _addProperty(GridRowProperty(start: start, end: end))
         return self
     }
 
     /// A shorthand property for the grid-row-start and the grid-row-end properties
+    @discardableResult
     public func gridRow<S>(start: S, end: Int) -> Self where S: StateConvertible, S.Value == Int {
         _addProperty(GridRowProperty(start: start, end: end))
         return self
     }
 
     /// A shorthand property for the grid-row-start and the grid-row-end properties
+    @discardableResult
     public func gridRow<E>(start: Int, end: E) -> Self where E: StateConvertible, E.Value == Int {
         _addProperty(GridRowProperty(start: start, end: end))
         return self
     }
 
     /// A shorthand property for the grid-row-start and the grid-row-end properties
+    @discardableResult
     public func gridRow<S, E>(start: S, end: E) -> Self where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
         _addProperty(GridRowProperty(start: start, end: end))
         return self
@@ -11952,18 +12512,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies where to start the grid item
+    @discardableResult
     public func gridRowStart() -> Self {
         _addProperty(GridRowStartProperty())
         return self
     }
 
     /// Specifies where to start the grid item
+    @discardableResult
     public func gridRowStart(rowLine: Int) -> Self {
         _addProperty(GridRowStartProperty(rowLine: rowLine))
         return self
     }
 
     /// Specifies where to start the grid item
+    @discardableResult
     public func gridRowStart<V>(rowLine: V) -> Self where V: StateConvertible, V.Value == Int {
         _addProperty(GridRowStartProperty(rowLine: rowLine))
         return self
@@ -12041,17 +12604,20 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how to display columns and rows, using named grid items
+    @discardableResult
     public func gridTemplateAreas(_ type: String...) -> Self {
         gridTemplateAreas(type)
     }
 
     /// Specifies how to display columns and rows, using named grid items
+    @discardableResult
     public func gridTemplateAreas(_ type: [String]) -> Self {
         _addProperty(GridTemplateAreasProperty(type))
         return self
     }
 
     /// Specifies how to display columns and rows, using named grid items
+    @discardableResult
     public func gridTemplateAreas<V>(_ type: V) -> Self where V: StateConvertible, V.Value == [String] {
         _addProperty(GridTemplateAreasProperty(type))
         return self
@@ -12094,23 +12660,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the size of the columns, and how many columns in a grid layout
+    @discardableResult
     public func gridTemplateColumns(_ type: GridTemplateColumnsType) -> Self {
         _addProperty(.gridTemplateColumns, type)
         return self
     }
 
     /// Specifies the size of the columns, and how many columns in a grid layout
+    @discardableResult
     public func gridTemplateColumns(_ type: State<GridTemplateColumnsType>) -> Self {
         _addProperty(GridTemplateColumnsProperty(type))
         return self
     }
 
     /// Specifies the size of the columns, and how many columns in a grid layout
+    @discardableResult
     public func gridTemplateColumns<U: UnitValuable>(_ type: U) -> Self {
         gridTemplateColumns(.length(type))
     }
 
     /// Specifies the size of the columns, and how many columns in a grid layout
+    @discardableResult
     public func gridTemplateColumns<U: UnitValuable>(_ type: State<U>) -> Self {
         gridTemplateColumns(type.map { .length($0) })
     }
@@ -12174,22 +12744,26 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    @discardableResult
     public func gridTemplate(rows: GridTemplateRowsType, columns: GridTemplateColumnsType) -> Self {
         _addProperty(GridTemplateProperty(rows: rows, columns: columns))
         return self
     }
 
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    @discardableResult
     public func gridTemplate<U: UnitValuable>(rows: U, columns: GridTemplateColumnsType) -> Self {
         gridTemplate(rows: .length(rows), columns: columns)
     }
 
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    @discardableResult
     public func gridTemplate(_ area: String...) -> Self {
         gridTemplate(area)
     }
 
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
+    @discardableResult
     public func gridTemplate(_ area: [String]) -> Self {
         _addProperty(GridTemplateProperty(area))
         return self
@@ -12232,23 +12806,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the size of the rows in a grid layout
+    @discardableResult
     public func gridTemplateRows(_ type: GridTemplateRowsType) -> Self {
         _addProperty(.gridTemplateRows, type)
         return self
     }
 
     /// Specifies the size of the rows in a grid layout
+    @discardableResult
     public func gridTemplateRows(_ type: State<GridTemplateRowsType>) -> Self {
         _addProperty(GridTemplateRowsProperty(type))
         return self
     }
 
     /// Specifies the size of the rows in a grid layout
+    @discardableResult
     public func gridTemplateRows<U: UnitValuable>(_ type: U) -> Self {
         gridTemplateRows(.length(type))
     }
 
     /// Specifies the size of the rows in a grid layout
+    @discardableResult
     public func gridTemplateRows<U: UnitValuable>(_ type: State<U>) -> Self {
         gridTemplateRows(type.map { .length($0) })
     }
@@ -12290,12 +12868,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether a punctuation character may be placed outside the line box
+    @discardableResult
     public func hangingPunctuation(_ type: HangingPunctuationType) -> Self {
         _addProperty(.hangingPunctuation, type)
         return self
     }
 
     /// Specifies whether a punctuation character may be placed outside the line box
+    @discardableResult
     public func hangingPunctuation(_ type: State<HangingPunctuationType>) -> Self {
         _addProperty(HangingPunctuationProperty(type))
         return self
@@ -12356,12 +12936,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the height of an element
+    @discardableResult
     public func height<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.height, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the height of an element
+    @discardableResult
     public func height<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(HeightProperty(value))
         return self
@@ -12370,24 +12952,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the height of an element
+    @discardableResult
     public func height(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.height, UnitValue(value, unit))
         return self
     }
 
     /// Sets the height of an element
+    @discardableResult
     public func height(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.height, UnitValue(value, unit))
         return self
     }
 
     /// Sets the height of an element
+    @discardableResult
     public func height(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.height, UnitValue(value, unit))
         return self
     }
 
     /// Sets the height of an element
+    @discardableResult
     public func height(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.height, UnitValue(value, unit))
         return self
@@ -12448,12 +13034,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets how to split words to improve the layout of paragraphs
+    @discardableResult
     public func hyphens(_ type: HyphensType) -> Self {
         _addProperty(.hyphens, type)
         return self
     }
 
     /// Sets how to split words to improve the layout of paragraphs
+    @discardableResult
     public func hyphens(_ type: State<HyphensType>) -> Self {
         _addProperty(HyphensProperty(type))
         return self
@@ -12540,12 +13128,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Gives a hint to the browser about what aspects of an image are most important to preserve when the image is scaled
+    @discardableResult
     public func imageRendering(_ type: ImageRenderingType) -> Self {
         _addProperty(.imageRendering, type)
         return self
     }
 
     /// Gives a hint to the browser about what aspects of an image are most important to preserve when the image is scaled
+    @discardableResult
     public func imageRendering(_ type: State<ImageRenderingType>) -> Self {
         _addProperty(ImageRenderingProperty(type))
         return self
@@ -12588,12 +13178,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines whether an element must create a new stacking content
+    @discardableResult
     public func isolation(_ type: IsolationType) -> Self {
         _addProperty(.isolation, type)
         return self
     }
 
     /// Defines whether an element must create a new stacking content
+    @discardableResult
     public func isolation(_ type: State<IsolationType>) -> Self {
         _addProperty(IsolationProperty(type))
         return self
@@ -12636,12 +13228,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the alignment between the items inside a flexible container when the items do not use all available space
+    @discardableResult
     public func justifyContent(_ type: JustifyContentType) -> Self {
         _addProperty(.justifyContent, type)
         return self
     }
 
     /// Specifies the alignment between the items inside a flexible container when the items do not use all available space
+    @discardableResult
     public func justifyContent(_ type: State<JustifyContentType>) -> Self {
         _addProperty(JustifyContentProperty(type))
         return self
@@ -12702,12 +13296,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the left position of a positioned element
+    @discardableResult
     public func left<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.left, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Specifies the left position of a positioned element
+    @discardableResult
     public func left<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(LeftProperty(value))
         return self
@@ -12716,24 +13312,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies the left position of a positioned element
+    @discardableResult
     public func left(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.left, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the left position of a positioned element
+    @discardableResult
     public func left(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.left, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the left position of a positioned element
+    @discardableResult
     public func left(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.left, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the left position of a positioned element
+    @discardableResult
     public func left(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.left, UnitValue(value, unit))
         return self
@@ -12776,23 +13376,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Increases or decreases the space between characters in a text
+    @discardableResult
     public func letterSpacing(_ type: LetterSpacingType) -> Self {
         _addProperty(.letterSpacing, type)
         return self
     }
 
     /// Increases or decreases the space between characters in a text
+    @discardableResult
     public func letterSpacing(_ type: State<LetterSpacingType>) -> Self {
         _addProperty(LetterSpacingProperty(type))
         return self
     }
 
     /// Increases or decreases the space between characters in a text
+    @discardableResult
     public func letterSpacing<L: UnitValuable>(_ length: L) -> Self {
         letterSpacing(.length(length))
     }
 
     /// Increases or decreases the space between characters in a text
+    @discardableResult
     public func letterSpacing<L: UnitValuable>(_ type: State<L>) -> Self {
         letterSpacing(type.map { .length($0) })
     }
@@ -12838,12 +13442,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how/if to break lines
+    @discardableResult
     public func lineBreak(_ type: LineBreakType) -> Self {
         _addProperty(.lineBreak, type)
         return self
     }
 
     /// Specifies how/if to break lines
+    @discardableResult
     public func lineBreak(_ type: State<LineBreakType>) -> Self {
         _addProperty(LineBreakProperty(type))
         return self
@@ -12889,23 +13495,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the line height
+    @discardableResult
     public func lineHeight(_ type: LineHeightType) -> Self {
         _addProperty(.lineHeight, type)
         return self
     }
 
     /// Sets the line height
+    @discardableResult
     public func lineHeight(_ type: State<LineHeightType>) -> Self {
         _addProperty(LineHeightProperty(type))
         return self
     }
 
     /// Sets the line height
+    @discardableResult
     public func lineHeight<U: UnitValuable>(_ type: U) -> Self {
         lineHeight(.length(type))
     }
 
     /// Sets the line height
+    @discardableResult
     public func lineHeight<U: UnitValuable>(_ type: State<U>) -> Self {
         lineHeight(type.map { .length($0) })
     }
@@ -12959,24 +13569,28 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies an image as the list-item marker
+    @discardableResult
     public func listStyleImage(_ type: URLValue) -> Self {
         _addProperty(.listStyleImage, URLValueContainer(type))
         return self
     }
 
     /// Specifies an image as the list-item marker
+    @discardableResult
     public func listStyleImage(_ type: State<URLValue>) -> Self {
         _addProperty(ListStyleImageProperty(type))
         return self
     }
 
     /// Specifies an image as the list-item marker
+    @discardableResult
     public func listStyleImage(_ type: State<String>) -> Self {
         _addProperty(ListStyleImageProperty(type))
         return self
     }
 
     /// Specifies an image as the list-item marker
+    @discardableResult
     public func listStyleImage(_ type: State<URL>) -> Self {
         _addProperty(ListStyleImageProperty(type))
         return self
@@ -13019,12 +13633,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the position of the list-item markers (bullet points)
+    @discardableResult
     public func listStylePosition(_ type: ListStylePositionType) -> Self {
         _addProperty(.listStylePosition, type)
         return self
     }
 
     /// Specifies the position of the list-item markers (bullet points)
+    @discardableResult
     public func listStylePosition(_ type: State<ListStylePositionType>) -> Self {
         _addProperty(ListStylePositionProperty(type))
         return self
@@ -13074,6 +13690,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets all the properties for a list in one declaration
+    @discardableResult
     public func listStyle(_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue) -> Self {
         _addProperty(ListStyleProperty(type, position, url))
         return self
@@ -13119,12 +13736,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the type of list-item marker
+    @discardableResult
     public func listStyleType(_ type: ListStyleTypeType) -> Self {
         _addProperty(.listStyleType, type)
         return self
     }
 
     /// Specifies the type of list-item marker
+    @discardableResult
     public func listStyleType(_ type: State<ListStyleTypeType>) -> Self {
         _addProperty(ListStyleTypeProperty(type))
         return self
@@ -13222,18 +13841,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the bottom margin of an element
+    @discardableResult
     public func marginBottom(_ value: MarginSideValue) -> Self {
         _addProperty(.marginBottom, value)
         return self
     }
 
     /// Sets the bottom margin of an element
+    @discardableResult
     public func marginBottom<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.marginBottom, .init(UnitValue(value.value.doubleValue, value.unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
+    @discardableResult
     public func marginBottom<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(MarginBottomProperty(value))
         return self
@@ -13242,24 +13864,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the bottom margin of an element
+    @discardableResult
     public func marginBottom(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
+    @discardableResult
     public func marginBottom(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
+    @discardableResult
     public func marginBottom(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the bottom margin of an element
+    @discardableResult
     public func marginBottom(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.marginBottom, .init(UnitValue(value, unit)))
         return self
@@ -13323,18 +13949,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the left margin of an element
+    @discardableResult
     public func marginLeft(_ value: MarginSideValue) -> Self {
         _addProperty(.marginLeft, value)
         return self
     }
 
     /// Sets the left margin of an element
+    @discardableResult
     public func marginLeft<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.marginLeft, .init(UnitValue(value.value.doubleValue, value.unit)))
         return self
     }
 
     /// Sets the left margin of an element
+    @discardableResult
     public func marginLeft<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(MarginLeftProperty(value))
         return self
@@ -13343,24 +13972,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the left margin of an element
+    @discardableResult
     public func marginLeft(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
+    @discardableResult
     public func marginLeft(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
+    @discardableResult
     public func marginLeft(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the left margin of an element
+    @discardableResult
     public func marginLeft(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.marginLeft, .init(UnitValue(value, unit)))
         return self
@@ -13730,12 +14363,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U: UnitValuable>(all: U) -> Self {
         _addProperty(.margin, MarginValue(all: all))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<A>(all type: A) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(.margin, MarginValue(all: type))
         return self
@@ -13744,48 +14379,56 @@ extension CSSRulable {
     // MARK: V/H
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) -> Self {
         _addProperty(.margin, MarginValue(v: v, h: h))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable>(v: U1, h: MarginSideValue) -> Self {
         _addProperty(.margin, MarginValue(v: v, h: h))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U2: UnitValuable>(v: MarginSideValue, h: U2) -> Self {
         _addProperty(.margin, MarginValue(v: v, h: h))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, A>(v: A, h: U1) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(MarginProperty(v: v, h: h))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<A>(v: A, h: MarginSideValue) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(MarginProperty(v: v, h: h))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, B>(v: U1, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(MarginProperty(v: v, h: h))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<B>(v: MarginSideValue, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(MarginProperty(v: v, h: h))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<A, B>(v: A, h: B) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(MarginProperty(v: v, h: h))
         return self
@@ -13794,72 +14437,84 @@ extension CSSRulable {
     // MARK: Top/H/Bottom
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) -> Self {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3) -> Self {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U2: UnitValuable, A>(top: A, h: MarginSideValue, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, C>(top: U1, h: MarginSideValue, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<A, C>(top: A, h: MarginSideValue, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<A, B, C>(top: A, h: B, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
         return self
@@ -13868,96 +14523,112 @@ extension CSSRulable {
     // MARK: Top/Right/Bottom/Left
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) -> Self {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) -> Self where C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) -> Self where D: StateConvertible, D.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// Sets all the margin properties in one declaration
+    @discardableResult
     public func margin<A, B, C, D>(top: A, right: B, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
         return self
@@ -14021,18 +14692,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the top margin of an element
+    @discardableResult
     public func marginRight(_ value: MarginSideValue) -> Self {
         _addProperty(.marginRight, value)
         return self
     }
 
     /// Sets the right margin of an element
+    @discardableResult
     public func marginRight<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.marginRight, .init(UnitValue(value.value.doubleValue, value.unit)))
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginRight<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(MarginRightProperty(value))
         return self
@@ -14041,24 +14715,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginRight(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginRight(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginRight(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginRight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.marginRight, .init(UnitValue(value, unit)))
         return self
@@ -14123,18 +14801,21 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the top margin of an element
+    @discardableResult
     public func marginTop(_ value: MarginSideValue) -> Self {
         _addProperty(.marginTop, value)
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginTop<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.marginTop, .init(UnitValue(value.value.doubleValue, value.unit)))
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginTop<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(MarginTopProperty(value))
         return self
@@ -14143,24 +14824,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginTop(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginTop(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginTop(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
     }
 
     /// Sets the top margin of an element
+    @discardableResult
     public func marginTop(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.marginTop, .init(UnitValue(value, unit)))
         return self
@@ -14220,12 +14905,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the maximum height of an element
+    @discardableResult
     public func maxHeight<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.maxHeight, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the maximum height of an element
+    @discardableResult
     public func maxHeight<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(MaxHeightProperty(value))
         return self
@@ -14234,24 +14921,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the maximum height of an element
+    @discardableResult
     public func maxHeight(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.maxHeight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the maximum height of an element
+    @discardableResult
     public func maxHeight(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.maxHeight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the maximum height of an element
+    @discardableResult
     public func maxHeight(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.maxHeight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the maximum height of an element
+    @discardableResult
     public func maxHeight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.maxHeight, UnitValue(value, unit))
         return self
@@ -14312,12 +15003,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the maximum width of an element
+    @discardableResult
     public func maxWidth<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.maxWidth, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the maximum width of an element
+    @discardableResult
     public func maxWidth<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(MaxWidthProperty(value))
         return self
@@ -14326,24 +15019,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the maximum width of an element
+    @discardableResult
     public func maxWidth(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.maxWidth, UnitValue(value, unit))
         return self
     }
 
     /// Sets the maximum width of an element
+    @discardableResult
     public func maxWidth(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.maxWidth, UnitValue(value, unit))
         return self
     }
 
     /// Sets the maximum width of an element
+    @discardableResult
     public func maxWidth(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.maxWidth, UnitValue(value, unit))
         return self
     }
 
     /// Sets the maximum width of an element
+    @discardableResult
     public func maxWidth(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.maxWidth, UnitValue(value, unit))
         return self
@@ -14404,12 +15101,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the minimum height of an element
+    @discardableResult
     public func minHeight<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.minHeight, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the minimum height of an element
+    @discardableResult
     public func minHeight<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(MinHeightProperty(value))
         return self
@@ -14418,24 +15117,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the minimum height of an element
+    @discardableResult
     public func minHeight(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.minHeight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the minimum height of an element
+    @discardableResult
     public func minHeight(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.minHeight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the minimum height of an element
+    @discardableResult
     public func minHeight(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.minHeight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the minimum height of an element
+    @discardableResult
     public func minHeight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.minHeight, UnitValue(value, unit))
         return self
@@ -14496,12 +15199,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the minimum width of an element
+    @discardableResult
     public func minWidth<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.minWidth, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the minimum width of an element
+    @discardableResult
     public func minWidth<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(MinWidthProperty(value))
         return self
@@ -14510,24 +15215,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the minimum width of an element
+    @discardableResult
     public func minWidth(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.minWidth, UnitValue(value, unit))
         return self
     }
 
     /// Sets the minimum width of an element
+    @discardableResult
     public func minWidth(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.minWidth, UnitValue(value, unit))
         return self
     }
 
     /// Sets the minimum width of an element
+    @discardableResult
     public func minWidth(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.minWidth, UnitValue(value, unit))
         return self
     }
 
     /// Sets the minimum width of an element
+    @discardableResult
     public func minWidth(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.minWidth, UnitValue(value, unit))
         return self
@@ -14576,12 +15285,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how an element's content should blend with its direct parent background
+    @discardableResult
     public func mixBlendMode(_ type: MixBlendModeType) -> Self {
         _addProperty(.mixBlendMode, type)
         return self
     }
 
     /// Specifies how an element's content should blend with its direct parent background
+    @discardableResult
     public func mixBlendMode(_ type: State<MixBlendModeType>) -> Self {
         _addProperty(MixBlendModeProperty(type))
         return self
@@ -14624,12 +15335,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how the contents of a replaced element should be fitted to the box established by its used height and width
+    @discardableResult
     public func objectFit(_ type: ObjectFitType) -> Self {
         _addProperty(.objectFit, type)
         return self
     }
 
     /// Specifies how the contents of a replaced element should be fitted to the box established by its used height and width
+    @discardableResult
     public func objectFit(_ type: State<ObjectFitType>) -> Self {
         _addProperty(ObjectFitProperty(type))
         return self
@@ -14902,120 +15615,140 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition(x: ObjectPositionXType) -> Self {
         _addProperty(ObjectPositionProperty(x: x))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X>(x: X) -> Self where X: StateConvertible, X.Value == ObjectPositionXType {
         _addProperty(ObjectPositionProperty(x: x))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition(y: ObjectPositionYType) -> Self {
         _addProperty(ObjectPositionProperty(y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<Y>(y: Y) -> Self where Y: StateConvertible, Y.Value == ObjectPositionYType {
         _addProperty(ObjectPositionProperty(y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition(x: ObjectPositionXType, y: ObjectPositionYType) -> Self {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X>(x: X, y: ObjectPositionYType) -> Self where X: StateConvertible, X.Value == ObjectPositionXType {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<Y>(x: ObjectPositionXType, y: Y) -> Self where Y: StateConvertible, Y.Value == ObjectPositionYType {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X, Y>(x: X, y: Y) -> Self where X: StateConvertible, X.Value == ObjectPositionXType, Y: StateConvertible, Y.Value == ObjectPositionYType {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X: UnitValuable>(x: X) -> Self {
         _addProperty(ObjectPositionProperty(x: x))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X>(x: X) -> Self where X: StateConvertible, X.Value: UnitValuable {
         _addProperty(ObjectPositionProperty(x: x))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<Y: UnitValuable>(y: Y) -> Self {
         _addProperty(ObjectPositionProperty(y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<Y>(y: Y) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
         _addProperty(ObjectPositionProperty(y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X: UnitValuable, Y: UnitValuable>(x: X, y: Y) -> Self {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X, Y: UnitValuable>(x: X, y: Y) -> Self where X: StateConvertible, X.Value: UnitValuable {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X: UnitValuable, Y>(x: X, y: Y) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X, Y>(x: X, y: Y) -> Self where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X: UnitValuable>(x: X, y: ObjectPositionYType) -> Self {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<X>(x: X, y: ObjectPositionYType) -> Self where X: StateConvertible, X.Value: UnitValuable {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<Y: UnitValuable>(x: ObjectPositionXType, y: Y) -> Self {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
+    @discardableResult
     public func objectPosition<Y>(x: ObjectPositionXType, y: Y) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
         _addProperty(ObjectPositionProperty(x: x, y: y))
         return self
@@ -15053,6 +15786,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the opacity level for an element
+    @discardableResult
     public func opacity<N>(_ value: N) -> Self where N: UniValue, N.UniValue: NumericValue {
         _addProperty(.opacity, NumericValueContainer(value))
         return self
@@ -15098,12 +15832,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the order of the flexible item, relative to the rest
+    @discardableResult
     public func order(_ type: Int) -> Self {
         _addProperty(.order, type)
         return self
     }
 
     /// Sets the order of the flexible item, relative to the rest
+    @discardableResult
     public func order(_ type: State<Int>) -> Self {
         _addProperty(OrderProperty(type))
         return self
@@ -15147,12 +15883,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the minimum number of lines that must be left at the bottom of a page when a page break occurs inside an element
+    @discardableResult
     public func orphans(_ type: Int) -> Self {
         _addProperty(.orphans, type)
         return self
     }
 
     /// Sets the minimum number of lines that must be left at the bottom of a page when a page break occurs inside an element
+    @discardableResult
     public func orphans(_ type: State<Int>) -> Self {
         _addProperty(OrphansProperty(type))
         return self
@@ -15214,12 +15952,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the color of an outline
+    @discardableResult
     public func outlineColor(_ type: Color) -> Self {
         _addProperty(.outlineColor, type)
         return self
     }
 
     /// Sets the color of an outline
+    @discardableResult
     public func outlineColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(OutlineColorProperty(type.stateValue))
         return self
@@ -15279,12 +16019,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Offsets an outline, and draws it beyond the border edge
+    @discardableResult
     public func outlineOffset<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.outlineOffset, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Offsets an outline, and draws it beyond the border edge
+    @discardableResult
     public func outlineOffset<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(OutlineOffsetProperty(value))
         return self
@@ -15293,24 +16035,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Offsets an outline, and draws it beyond the border edge
+    @discardableResult
     public func outlineOffset(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.outlineOffset, UnitValue(value, unit))
         return self
     }
 
     /// Offsets an outline, and draws it beyond the border edge
+    @discardableResult
     public func outlineOffset(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.outlineOffset, UnitValue(value, unit))
         return self
     }
 
     /// Offsets an outline, and draws it beyond the border edge
+    @discardableResult
     public func outlineOffset(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.outlineOffset, UnitValue(value, unit))
         return self
     }
 
     /// Offsets an outline, and draws it beyond the border edge
+    @discardableResult
     public func outlineOffset(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.outlineOffset, UnitValue(value, unit))
         return self
@@ -15364,6 +16110,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for the outline-width, outline-style, and the outline-color properties
+    @discardableResult
     public func outline<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color) -> Self {
         _addProperty(OutlineProperty(width: width, style: style, color: color))
         return self
@@ -15406,12 +16153,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the style of an outline
+    @discardableResult
     public func outlineStyle(_ type: OutlineStyleType) -> Self {
         _addProperty(.outlineStyle, type)
         return self
     }
 
     /// Sets the style of an outline
+    @discardableResult
     public func outlineStyle(_ type: State<OutlineStyleType>) -> Self {
         _addProperty(OutlineStyleProperty(type))
         return self
@@ -15454,23 +16203,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the width of an outline
+    @discardableResult
     public func outlineWidth(_ type: OutlineWidthType) -> Self {
         _addProperty(.outlineWidth, type)
         return self
     }
 
     /// Sets the width of an outline
+    @discardableResult
     public func outlineWidth(_ type: State<OutlineWidthType>) -> Self {
         _addProperty(OutlineWidthProperty(type))
         return self
     }
 
     /// Sets the width of an outline
+    @discardableResult
     public func outlineWidth<U: UnitValuable>(_ type: U) -> Self {
         outlineWidth(.length(type))
     }
 
     /// Sets the width of an outline
+    @discardableResult
     public func outlineWidth<U: UnitValuable>(_ type: State<U>) -> Self {
         outlineWidth(type.map { .length($0) })
     }
@@ -15515,12 +16268,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies what happens if content overflows an element's box
+    @discardableResult
     public func overflow(_ type: OverflowType) -> Self {
         _addProperty(.overflow, type)
         return self
     }
 
     /// Specifies what happens if content overflows an element's box
+    @discardableResult
     public func overflow(_ type: State<OverflowType>) -> Self {
         _addProperty(OverflowProperty(type))
         return self
@@ -15569,6 +16324,7 @@ extension Stylesheet {
 extension CSSRulable {
     /// Specifies whether or not the browser may break lines within words
     /// in order to prevent overflow (when a string is too long to fit its containing box)
+    @discardableResult
     public func overflowWrap(_ type: OverflowWrapType) -> Self {
         _addProperty(.overflowWrap, type)
         return self
@@ -15576,6 +16332,7 @@ extension CSSRulable {
 
     /// Specifies whether or not the browser may break lines within words
     /// in order to prevent overflow (when a string is too long to fit its containing box)
+    @discardableResult
     public func overflowWrap(_ type: State<OverflowWrapType>) -> Self {
         _addProperty(OverflowWrapProperty(type))
         return self
@@ -15621,12 +16378,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not to clip the left/right edges of the content, if it overflows the element's content area
+    @discardableResult
     public func overflowX(_ type: OverflowType) -> Self {
         _addProperty(.overflowX, type)
         return self
     }
 
     /// Specifies whether or not to clip the left/right edges of the content, if it overflows the element's content area
+    @discardableResult
     public func overflowX(_ type: State<OverflowType>) -> Self {
         _addProperty(OverflowXProperty(type))
         return self
@@ -15672,12 +16431,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not to clip the top/bottom edges of the content, if it overflows the element's content area
+    @discardableResult
     public func overflowY(_ type: OverflowType) -> Self {
         _addProperty(.overflowY, type)
         return self
     }
 
     /// Specifies whether or not to clip the top/bottom edges of the content, if it overflows the element's content area
+    @discardableResult
     public func overflowY(_ type: State<OverflowType>) -> Self {
         _addProperty(OverflowYProperty(type))
         return self
@@ -15752,24 +16513,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the bottom padding of an element
+    @discardableResult
     public func paddingBottom(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.paddingBottom, UnitValue(value, unit))
         return self
     }
 
     /// Sets the bottom padding of an element
+    @discardableResult
     public func paddingBottom(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.paddingBottom, UnitValue(value, unit))
         return self
     }
 
     /// Sets the bottom padding of an element
+    @discardableResult
     public func paddingBottom(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.paddingBottom, UnitValue(value, unit))
         return self
     }
 
     /// Sets the bottom padding of an element
+    @discardableResult
     public func paddingBottom(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.paddingBottom, UnitValue(value, unit))
         return self
@@ -15830,12 +16595,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the left padding of an element
+    @discardableResult
     public func paddingLeft<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.paddingLeft, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the left padding of an element
+    @discardableResult
     public func paddingLeft<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(PaddingLeftProperty(value))
         return self
@@ -15844,24 +16611,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the left padding of an element
+    @discardableResult
     public func paddingLeft(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.paddingLeft, UnitValue(value, unit))
         return self
     }
 
     /// Sets the left padding of an element
+    @discardableResult
     public func paddingLeft(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.paddingLeft, UnitValue(value, unit))
         return self
     }
 
     /// Sets the left padding of an element
+    @discardableResult
     public func paddingLeft(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.paddingLeft, UnitValue(value, unit))
         return self
     }
 
     /// Sets the left padding of an element
+    @discardableResult
     public func paddingLeft(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.paddingLeft, UnitValue(value, unit))
         return self
@@ -16159,12 +16930,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U: UnitValuable>(all: U) -> Self {
         _addProperty(PaddingProperty(all: all))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<A>(all type: A) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(PaddingProperty(all: type))
         return self
@@ -16173,24 +16946,28 @@ extension CSSRulable {
     // MARK: V/H
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) -> Self {
         _addProperty(PaddingProperty(v: v, h: h))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, A>(v: A, h: U1) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(PaddingProperty(v: v, h: h))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, B>(v: U1, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(PaddingProperty(v: v, h: h))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<A, B>(v: A, h: B) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(PaddingProperty(v: v, h: h))
         return self
@@ -16199,48 +16976,56 @@ extension CSSRulable {
     // MARK: Top/H/Bottom
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) -> Self {
         _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<A, B, C>(top: A, h: B, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
         return self
@@ -16249,96 +17034,112 @@ extension CSSRulable {
     // MARK: Top/Right/Bottom/Left
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) -> Self {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) -> Self where B: StateConvertible, B.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) -> Self where C: StateConvertible, C.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) -> Self where D: StateConvertible, D.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
+    @discardableResult
     public func padding<A, B, C, D>(top: A, right: B, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
         _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
         return self
@@ -16399,12 +17200,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the right padding of an element
+    @discardableResult
     public func paddingRight<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.paddingRight, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the right padding of an element
+    @discardableResult
     public func paddingRight<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(PaddingRightProperty(value))
         return self
@@ -16413,24 +17216,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the right padding of an element
+    @discardableResult
     public func paddingRight(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.paddingRight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the right padding of an element
+    @discardableResult
     public func paddingRight(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.paddingRight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the right padding of an element
+    @discardableResult
     public func paddingRight(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.paddingRight, UnitValue(value, unit))
         return self
     }
 
     /// Sets the right padding of an element
+    @discardableResult
     public func paddingRight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.paddingRight, UnitValue(value, unit))
         return self
@@ -16491,12 +17298,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the top padding of an element
+    @discardableResult
     public func paddingTop<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.paddingTop, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the top padding of an element
+    @discardableResult
     public func paddingTop<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(PaddingTopProperty(value))
         return self
@@ -16505,24 +17314,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the top padding of an element
+    @discardableResult
     public func paddingTop(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.paddingTop, UnitValue(value, unit))
         return self
     }
 
     /// Sets the top padding of an element
+    @discardableResult
     public func paddingTop(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.paddingTop, UnitValue(value, unit))
         return self
     }
 
     /// Sets the top padding of an element
+    @discardableResult
     public func paddingTop(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.paddingTop, UnitValue(value, unit))
         return self
     }
 
     /// Sets the top padding of an element
+    @discardableResult
     public func paddingTop(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.paddingTop, UnitValue(value, unit))
         return self
@@ -16565,12 +17378,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the page-break behavior after an element
+    @discardableResult
     public func pageBreakAfter(_ type: PageBreakAfterType) -> Self {
         _addProperty(.pageBreakAfter, type)
         return self
     }
 
     /// Sets the page-break behavior after an element
+    @discardableResult
     public func pageBreakAfter(_ type: State<PageBreakAfterType>) -> Self {
         _addProperty(PageBreakAfterProperty(type))
         return self
@@ -16613,12 +17428,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the page-break behavior before an element
+    @discardableResult
     public func pageBreakBefore(_ type: PageBreakBeforeType) -> Self {
         _addProperty(.pageBreakBefore, type)
         return self
     }
 
     /// Sets the page-break behavior before an element
+    @discardableResult
     public func pageBreakBefore(_ type: State<PageBreakBeforeType>) -> Self {
         _addProperty(PageBreakBeforeProperty(type))
         return self
@@ -16661,12 +17478,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the page-break behavior inside an element
+    @discardableResult
     public func pageBreakInside(_ type: PageBreakInsideType) -> Self {
         _addProperty(.pageBreakInside, type)
         return self
     }
 
     /// Sets the page-break behavior inside an element
+    @discardableResult
     public func pageBreakInside(_ type: State<PageBreakInsideType>) -> Self {
         _addProperty(PageBreakInsideProperty(type))
         return self
@@ -16802,79 +17621,93 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin(_ xAxis: XAxis, _ yAxis: YAxis) -> Self {
         _addProperty(PerspectiveOriginProperty(xAxis, yAxis))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<X: UnitValuable>(_ xAxis: X, _ yAxis: YAxis) -> Self {
         perspectiveOrigin(.length(xAxis), yAxis)
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<X>(_ xAxis: X, _ yAxis: YAxis) -> Self where X: StateConvertible, X.Value == XAxis {
         _addProperty(PerspectiveOriginProperty(xAxis, yAxis))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<X>(_ xAxis: X, _ yAxis: YAxis) -> Self where X: StateConvertible, X.Value: UnitValuable {
         perspectiveOrigin(xAxis.stateValue.map { .length($0) }, yAxis)
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<Y>(_ xAxis: XAxis, _ yAxis: Y) -> Self where Y: StateConvertible, Y.Value == YAxis {
         _addProperty(PerspectiveOriginProperty(xAxis, yAxis))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<Y>(_ xAxis: XAxis, _ yAxis: Y) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
         perspectiveOrigin(xAxis, yAxis.stateValue.map { .length($0) })
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<X, Y>(_ xAxis: X, _ yAxis: Y) -> Self where X: StateConvertible, X.Value == XAxis, Y: StateConvertible, Y.Value == YAxis {
         _addProperty(PerspectiveOriginProperty(xAxis, yAxis))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<X, Y>(_ xAxis: X, _ yAxis: Y) -> Self where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
         perspectiveOrigin(xAxis.stateValue.map { .length($0) }, yAxis.stateValue.map { .length($0) })
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin(_ xAxis: XAxis) -> Self {
         _addProperty(PerspectiveOriginProperty(xAxis))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<X>(_ xAxis: X) -> Self where X: StateConvertible, X.Value == XAxis {
         _addProperty(PerspectiveOriginProperty(xAxis))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin(_ yAxis: YAxis) -> Self {
         _addProperty(PerspectiveOriginProperty(yAxis))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<Y>(_ yAxis: Y) -> Self where Y: StateConvertible, Y.Value == YAxis {
         _addProperty(PerspectiveOriginProperty(yAxis))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<U: UnitValuable>(_ value: U) -> Self {
         perspectiveOrigin(XAxis.length(value))
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
+    @discardableResult
     public func perspectiveOrigin<U>(_ value: U) -> Self where U: StateConvertible, U.Value: UnitValuable {
         perspectiveOrigin(value.stateValue.map { XAxis.length($0) })
     }
@@ -16934,12 +17767,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Gives a 3D-positioned element some perspective
+    @discardableResult
     public func perspective<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.perspective, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Gives a 3D-positioned element some perspective
+    @discardableResult
     public func perspective<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(PerspectiveProperty(value))
         return self
@@ -16948,24 +17783,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Gives a 3D-positioned element some perspective
+    @discardableResult
     public func perspective(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.perspective, UnitValue(value, unit))
         return self
     }
 
     /// Gives a 3D-positioned element some perspective
+    @discardableResult
     public func perspective(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.perspective, UnitValue(value, unit))
         return self
     }
 
     /// Gives a 3D-positioned element some perspective
+    @discardableResult
     public func perspective(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.perspective, UnitValue(value, unit))
         return self
     }
 
     /// Gives a 3D-positioned element some perspective
+    @discardableResult
     public func perspective(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.perspective, UnitValue(value, unit))
         return self
@@ -17015,12 +17854,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines whether or not an element reacts to pointer events
+    @discardableResult
     public func pointerEvents(_ type: PointerEventsType) -> Self {
         _addProperty(.pointerEvents, type)
         return self
     }
 
     /// Defines whether or not an element reacts to pointer events
+    @discardableResult
     public func pointerEvents<A>(_ type: A) -> Self where A: StateConvertible, A.Value == PointerEventsType {
         _addProperty(PointerEventsProperty(type))
         return self
@@ -17067,12 +17908,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the type of positioning method used for an element (static, relative, absolute or fixed)
+    @discardableResult
     public func position(_ type: PositionType) -> Self {
         _addProperty(.position, type)
         return self
     }
 
     /// Specifies the type of positioning method used for an element (static, relative, absolute or fixed)
+    @discardableResult
     public func position(_ type: State<PositionType>) -> Self {
         _addProperty(PositionProperty(type))
         return self
@@ -17117,12 +17960,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the type of quotation marks for embedded quotations
+    @discardableResult
     public func quotes(_ type: QuotesType) -> Self {
         _addProperty(.quotes, type)
         return self
     }
 
     /// Sets the type of quotation marks for embedded quotations
+    @discardableResult
     public func quotes(_ type: State<QuotesType>) -> Self {
         _addProperty(QuotesProperty(type))
         return self
@@ -17168,12 +18013,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines if (and how) an element is resizable by the user
+    @discardableResult
     public func resize(_ type: ResizeType) -> Self {
         _addProperty(.resize, type)
         return self
     }
 
     /// Defines if (and how) an element is resizable by the user
+    @discardableResult
     public func resize(_ type: State<ResizeType>) -> Self {
         _addProperty(ResizeProperty(type))
         return self
@@ -17240,12 +18087,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the right position of a positioned element
+    @discardableResult
     public func right<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.right, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Specifies the right position of a positioned element
+    @discardableResult
     public func right<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(RightProperty(value))
         return self
@@ -17254,24 +18103,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies the right position of a positioned element
+    @discardableResult
     public func right(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.right, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the right position of a positioned element
+    @discardableResult
     public func right(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.right, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the right position of a positioned element
+    @discardableResult
     public func right(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.right, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the right position of a positioned element
+    @discardableResult
     public func right(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.right, UnitValue(value, unit))
         return self
@@ -17316,12 +18169,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether to smoothly animate the scroll position in a scrollable box, instead of a straight jump
+    @discardableResult
     public func scrollBehavior(_ type: ScrollBehaviorType) -> Self {
         _addProperty(.scrollBehavior, type)
         return self
     }
 
     /// Specifies whether to smoothly animate the scroll position in a scrollable box, instead of a straight jump
+    @discardableResult
     public func scrollBehavior(_ type: State<ScrollBehaviorType>) -> Self {
         _addProperty(ScrollBehaviorProperty(type))
         return self
@@ -17365,12 +18220,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines the algorithm used to lay out table cells, rows, and columns
+    @discardableResult
     public func tableLayout(_ type: TableLayoutType) -> Self {
         _addProperty(.tableLayout, type)
         return self
     }
 
     /// Defines the algorithm used to lay out table cells, rows, and columns
+    @discardableResult
     public func tableLayout(_ type: State<TableLayoutType>) -> Self {
         _addProperty(TableLayoutProperty(type))
         return self
@@ -17419,23 +18276,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the width of a tab character
+    @discardableResult
     public func tabSize(_ type: TabSizeType) -> Self {
         _addProperty(.tabSize, type)
         return self
     }
 
     /// Specifies the width of a tab character/// Specifies the width of a tab character
+    @discardableResult
     public func tabSize(_ type: State<TabSizeType>) -> Self {
         _addProperty(TabSizeProperty(type))
         return self
     }
 
     /// Specifies the width of a tab character
+    @discardableResult
     public func tabSize<U: UnitValuable>(_ type: U) -> Self {
         tabSize(.length(type))
     }
 
     /// Specifies the width of a tab character/// Specifies the width of a tab character
+    @discardableResult
     public func tabSize<U: UnitValuable>(_ type: State<U>) -> Self {
         tabSize(type.map { .length($0) })
     }
@@ -17479,12 +18340,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Describes how the last line of a block or a line right before a forced line break is aligned when text-align is "justify"
+    @discardableResult
     public func textAlignLast(_ type: TextAlignLastType) -> Self {
         _addProperty(.textAlignLast, type)
         return self
     }
 
     /// Describes how the last line of a block or a line right before a forced line break is aligned when text-align is "justify"
+    @discardableResult
     public func textAlignLast(_ type: State<TextAlignLastType>) -> Self {
         _addProperty(TextAlignLastProperty(type))
         return self
@@ -17530,12 +18393,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the horizontal alignment of text
+    @discardableResult
     public func textAlign(_ type: TextAlignType) -> Self {
         _addProperty(.textAlign, type)
         return self
     }
 
     /// Specifies the horizontal alignment of text
+    @discardableResult
     public func textAlign(_ type: State<TextAlignType>) -> Self {
         _addProperty(TextAlignProperty(type))
         return self
@@ -17584,12 +18449,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the combination of multiple characters into the space of a single character
+    @discardableResult
     public func textCombineUpright(_ type: TextCombineUprightType) -> Self {
         _addProperty(.textCombineUpright, type)
         return self
     }
 
     /// Specifies the combination of multiple characters into the space of a single character
+    @discardableResult
     public func textCombineUpright(_ type: State<TextCombineUprightType>) -> Self {
         _addProperty(TextCombineUprightProperty(type))
         return self
@@ -17654,12 +18521,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the color of the text-decoration
+    @discardableResult
     public func textDecorationColor(_ type: Color) -> Self {
         _addProperty(.textDecorationColor, type)
         return self
     }
 
     /// Specifies the color of the text-decoration
+    @discardableResult
     public func textDecorationColor<S>(_ type: S) -> Self where S: StateConvertible, S.Value == Color {
         _addProperty(TextDecorationColorProperty(type.stateValue))
         return self
@@ -17716,12 +18585,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the type of line in a text-decoration
+    @discardableResult
     public func textDecorationLine(_ type: TextDecorationLineType) -> Self {
         _addProperty(.textDecorationLine, type)
         return self
     }
 
     /// Specifies the type of line in a text-decoration
+    @discardableResult
     public func textDecorationLine(_ type: State<TextDecorationLineType>) -> Self {
         _addProperty(TextDecorationLineProperty(type))
         return self
@@ -17788,6 +18659,7 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the decoration added to text
+    @discardableResult
     public func textDecoration(_ line: TextDecorationLineType, _ color: Color, _ style: TextDecorationStyleType) -> Self {
         _addProperty(TextDecorationProperty(line, color, style))
         return self
@@ -17848,12 +18720,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the style of the line in a text decoration
+    @discardableResult
     public func textDecorationStyle(_ type: TextDecorationStyleType) -> Self {
         _addProperty(.textDecorationStyle, type)
         return self
     }
 
     /// Specifies the style of the line in a text decoration
+    @discardableResult
     public func textDecorationStyle(_ type: State<TextDecorationStyleType>) -> Self {
         _addProperty(TextDecorationStyleProperty(type))
         return self
@@ -17906,23 +18780,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the indentation of the first line in a text-block
+    @discardableResult
     public func textIndent(_ type: TextIndentType) -> Self {
         _addProperty(.textIndent, type)
         return self
     }
 
     /// Specifies the indentation of the first line in a text-block
+    @discardableResult
     public func textIndent(_ type: State<TextIndentType>) -> Self {
         _addProperty(TextIndentProperty(type))
         return self
     }
 
     /// Specifies the indentation of the first line in a text-block
+    @discardableResult
     public func textIndent<U: UnitValuable>(_ type: U) -> Self {
         textIndent(.length(type))
     }
 
     /// Specifies the indentation of the first line in a text-block
+    @discardableResult
     public func textIndent<U: UnitValuable>(_ type: State<U>) -> Self {
         textIndent(type.map { .length($0) })
     }
@@ -17968,12 +18846,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the justification method used when text-align is "justify"
+    @discardableResult
     public func textJustify(_ type: TextJustifyType) -> Self {
         _addProperty(.textJustify, type)
         return self
     }
 
     /// Specifies the justification method used when text-align is "justify"
+    @discardableResult
     public func textJustify(_ type: State<TextJustifyType>) -> Self {
         _addProperty(TextJustifyProperty(type))
         return self
@@ -18020,12 +18900,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Defines the orientation of the text in a line
+    @discardableResult
     public func textOrientation(_ type: TextOrientationType) -> Self {
         _addProperty(.textOrientation, type)
         return self
     }
 
     /// Defines the orientation of the text in a line
+    @discardableResult
     public func textOrientation(_ type: State<TextOrientationType>) -> Self {
         _addProperty(TextOrientationProperty(type))
         return self
@@ -18072,12 +18954,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies what should happen when text overflows the containing element
+    @discardableResult
     public func textOverflow(_ type: TextOverflowType) -> Self {
         _addProperty(.textOverflow, type)
         return self
     }
 
     /// Specifies what should happen when text overflows the containing element
+    @discardableResult
     public func textOverflow(_ type: State<TextOverflowType>) -> Self {
         _addProperty(TextOverflowProperty(type))
         return self
@@ -18141,23 +19025,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Adds shadow to text
+    @discardableResult
     public func textShadow(_ type: TextShadowType...) -> Self {
         textShadow(type)
     }
 
     /// Adds shadow to text
+    @discardableResult
     public func textShadow(_ types: [TextShadowType]) -> Self {
         _addProperty(TextShadowProperty(types))
         return self
     }
 
     /// Adds shadow to text
+    @discardableResult
     public func textShadow<A>(_ value: A) -> Self where A: StateConvertible, A.Value == [TextShadowType] {
         _addProperty(TextShadowProperty(value))
         return self
     }
 
     /// Adds shadow to text
+    @discardableResult
     public func textShadow<A>(_ value: A) -> Self where A: StateConvertible, A.Value == TextShadowType {
         _addProperty(TextShadowProperty(value))
         return self
@@ -18210,12 +19098,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Controls the capitalization of text
+    @discardableResult
     public func textTransform(_ type: TextTransformType) -> Self {
         _addProperty(.textTransform, type)
         return self
     }
 
     /// Controls the capitalization of text
+    @discardableResult
     public func textTransform(_ type: State<TextTransformType>) -> Self {
         _addProperty(TextTransformProperty(type))
         return self
@@ -18290,23 +19180,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the position of the underline which is set using the text-decoration property
+    @discardableResult
     public func textUnderlinePosition(_ type: TextUnderlinePositionType...) -> Self {
         textUnderlinePosition(type)
     }
 
     /// Specifies the position of the underline which is set using the text-decoration property
+    @discardableResult
     public func textUnderlinePosition(_ types: [TextUnderlinePositionType]) -> Self {
         _addProperty(TextUnderlinePositionProperty(types))
         return self
     }
 
     /// Specifies the position of the underline which is set using the text-decoration property
+    @discardableResult
     public func textUnderlinePosition<A>(_ value: A) -> Self where A: StateConvertible, A.Value == [TextUnderlinePositionType] {
         _addProperty(TextUnderlinePositionProperty(value))
         return self
     }
 
     /// Specifies the position of the underline which is set using the text-decoration property
+    @discardableResult
     public func textUnderlinePosition<A>(_ value: A) -> Self where A: StateConvertible, A.Value == TextUnderlinePositionType {
         _addProperty(TextUnderlinePositionProperty(value))
         return self
@@ -18371,12 +19265,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the top position of a positioned element
+    @discardableResult
     public func top<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.top, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Specifies the top position of a positioned element
+    @discardableResult
     public func top<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(TopProperty(value))
         return self
@@ -18385,24 +19281,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies the top position of a positioned element
+    @discardableResult
     public func top(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.top, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the top position of a positioned element
+    @discardableResult
     public func top(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.top, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the top position of a positioned element
+    @discardableResult
     public func top(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.top, UnitValue(value, unit))
         return self
     }
 
     /// Specifies the top position of a positioned element
+    @discardableResult
     public func top(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.top, UnitValue(value, unit))
         return self
@@ -18448,12 +19348,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Allows you to change the position on transformed elements
+    @discardableResult
     public func transformOrigin(_ type: TransformOriginType) -> Self {
         _addProperty(.transformOrigin, type)
         return self
     }
 
     /// Allows you to change the position on transformed elements
+    @discardableResult
     public func transformOrigin(_ type: State<TransformOriginType>) -> Self {
         _addProperty(TransformOriginProperty(type))
         return self
@@ -18506,12 +19408,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Applies a 2D or 3D transformation to an element
+    @discardableResult
     public func transform(_ type: TransformFunction) -> Self {
         _addProperty(.transform, type)
         return self
     }
 
     /// Applies a 2D or 3D transformation to an element
+    @discardableResult
     public func transform(_ type: State<TransformFunction>) -> Self {
         _addProperty(TransformProperty(type))
         return self
@@ -18557,12 +19461,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how nested elements are rendered in 3D space
+    @discardableResult
     public func transformStyle(_ type: TransformStyleType) -> Self {
         _addProperty(.transformStyle, type)
         return self
     }
 
     /// Specifies how nested elements are rendered in 3D space
+    @discardableResult
     public func transformStyle(_ type: State<TransformStyleType>) -> Self {
         _addProperty(TransformStyleProperty(type))
         return self
@@ -18608,12 +19514,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies when the transition effect will start
+    @discardableResult
     public func transitionDelay(_ type: TimeType) -> Self {
         _addProperty(TransitionDelayProperty(type))
         return self
     }
 
     /// Specifies when the transition effect will start
+    @discardableResult
     public func transitionDelay<A>(_ value: A) -> Self where A: StateConvertible, A.Value == TimeType {
         _addProperty(TransitionDelayProperty(value))
         return self
@@ -18659,12 +19567,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how many seconds or milliseconds a transition effect takes to complete
+    @discardableResult
     public func transitionDuration(_ type: TimeType) -> Self {
         _addProperty(TransitionDurationProperty(type))
         return self
     }
 
     /// Specifies how many seconds or milliseconds a transition effect takes to complete
+    @discardableResult
     public func transitionDuration<A>(_ value: A) -> Self where A: StateConvertible, A.Value == TimeType {
         _addProperty(TransitionDurationProperty(value))
         return self
@@ -18740,12 +19650,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// A shorthand property for all the transition-* properties
+    @discardableResult
     public func transition(_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) -> Self {
         _addProperty(TransitionProperty(properties, duration: duration, timingFunction: timingFunction, delay: delay))
         return self
     }
 
     /// A shorthand property for all the transition-* properties
+    @discardableResult
     public func transition(_ properties: TransitionPropertyType..., duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) -> Self {
         transition(properties, duration: duration, timingFunction: timingFunction, delay: delay)
     }
@@ -18804,12 +19716,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the name of the CSS property the transition effect is for
+    @discardableResult
     public func transitionProperty(_ type: TransitionPropertyType) -> Self {
         _addProperty(.transitionProperty, type)
         return self
     }
 
     /// Specifies the name of the CSS property the transition effect is for
+    @discardableResult
     public func transitionProperty(_ type: State<TransitionPropertyType>) -> Self {
         _addProperty(TransitionPropertyProperty(type))
         return self
@@ -18854,12 +19768,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies the speed curve of the transition effect
+    @discardableResult
     public func transitionTimingFunction(_ type: TransitionTimingFunctionType) -> Self {
         _addProperty(.transitionTimingFunction, type)
         return self
     }
 
     /// Specifies the speed curve of the transition effect
+    @discardableResult
     public func transitionTimingFunction(_ type: State<TransitionTimingFunctionType>) -> Self {
         _addProperty(TransitionTimingFunctionProperty(type))
         return self
@@ -18909,6 +19825,7 @@ extension Stylesheet {
 extension CSSRulable {
     /// Used together with the direction property to set or return whether the text
     /// should be overridden to support multiple languages in the same document
+    @discardableResult
     public func unicodeBidi(_ type: UnicodeBidiType) -> Self {
         _addProperty(.unicodeBidi, type)
         return self
@@ -18916,6 +19833,7 @@ extension CSSRulable {
 
     /// Used together with the direction property to set or return whether the text
     /// should be overridden to support multiple languages in the same document
+    @discardableResult
     public func unicodeBidi(_ type: State<UnicodeBidiType>) -> Self {
         _addProperty(UnicodeBidiProperty(type))
         return self
@@ -18964,12 +19882,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether the text of an element can be selected
+    @discardableResult
     public func userSelect(_ type: UserSelectType) -> Self {
         _addProperty(.userSelect, type)
         return self
     }
 
     /// Specifies whether the text of an element can be selected
+    @discardableResult
     public func userSelect(_ type: State<UserSelectType>) -> Self {
         _addProperty(UserSelectProperty(type))
         return self
@@ -19056,23 +19976,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the vertical alignment of an element
+    @discardableResult
     public func verticalAlign(_ type: VerticalAlignType) -> Self {
         _addProperty(.verticalAlign, type)
         return self
     }
 
     /// Sets the vertical alignment of an element
+    @discardableResult
     public func verticalAlign(_ type: State<VerticalAlignType>) -> Self {
         _addProperty(VerticalAlignProperty(type))
         return self
     }
 
     /// Sets the vertical alignment of an element
+    @discardableResult
     public func verticalAlign<U: UnitValuable>(_ type: U) -> Self {
         verticalAlign(.length(type))
     }
 
     /// Sets the vertical alignment of an element
+    @discardableResult
     public func verticalAlign<U: UnitValuable>(_ type: State<U>) -> Self {
         verticalAlign(type.map { .length($0) })
     }
@@ -19120,12 +20044,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether or not an element is visible
+    @discardableResult
     public func visibility(_ type: VisibilityType) -> Self {
         _addProperty(.visibility, type)
         return self
     }
 
     /// Specifies whether or not an element is visible
+    @discardableResult
     public func visibility(_ type: State<VisibilityType>) -> Self {
         _addProperty(VisibilityProperty(type))
         return self
@@ -19178,12 +20104,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how white-space inside an element is handled
+    @discardableResult
     public func whiteSpace(_ type: WhiteSpaceType) -> Self {
         _addProperty(.whiteSpace, type)
         return self
     }
 
     /// Specifies how white-space inside an element is handled
+    @discardableResult
     public func whiteSpace(_ type: State<WhiteSpaceType>) -> Self {
         _addProperty(WhiteSpaceProperty(type))
         return self
@@ -19220,12 +20148,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the minimum number of lines that must be left at the top of a page when a page break occurs inside an element
+    @discardableResult
     public func widows(_ type: Int) -> Self {
         _addProperty(.widows, type)
         return self
     }
 
     /// Sets the minimum number of lines that must be left at the top of a page when a page break occurs inside an element
+    @discardableResult
     public func widows(_ type: State<Int>) -> Self {
         _addProperty(WidowsProperty(type))
         return self
@@ -19299,12 +20229,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the width of an element
+    @discardableResult
     public func width<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.width, UnitValue(value.value.doubleValue, value.unit))
         return self
     }
 
     /// Sets the width of an element
+    @discardableResult
     public func width<U: UnitValuable>(_ value: State<U>) -> Self {
         _addProperty(WidthProperty(value))
         return self
@@ -19313,24 +20245,28 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Sets the width of an element
+    @discardableResult
     public func width(_ value: Double, _ unit: Unit) -> Self {
         _addProperty(.width, UnitValue(value, unit))
         return self
     }
 
     /// Sets the width of an element
+    @discardableResult
     public func width(_ value: State<Double>, _ unit: Unit) -> Self {
         _addProperty(.width, UnitValue(value, unit))
         return self
     }
 
     /// Sets the width of an element
+    @discardableResult
     public func width(_ value: Double, _ unit: State<Unit>) -> Self {
         _addProperty(.width, UnitValue(value, unit))
         return self
     }
 
     /// Sets the width of an element
+    @discardableResult
     public func width(_ value: State<Double>, _ unit: State<Unit>) -> Self {
         _addProperty(.width, UnitValue(value, unit))
         return self
@@ -19375,12 +20311,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies how words should break when reaching the end of a line
+    @discardableResult
     public func wordBreak(_ type: WordBreakType) -> Self {
         _addProperty(.wordBreak, type)
         return self
     }
 
     /// Specifies how words should break when reaching the end of a line
+    @discardableResult
     public func wordBreak(_ type: State<WordBreakType>) -> Self {
         _addProperty(WordBreakProperty(type))
         return self
@@ -19425,23 +20363,27 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Increases or decreases the space between words in a text
+    @discardableResult
     public func wordSpacing(_ type: WordSpacingType) -> Self {
         _addProperty(.wordSpacing, type)
         return self
     }
 
     /// Increases or decreases the space between words in a text
+    @discardableResult
     public func wordSpacing(_ type: State<WordSpacingType>) -> Self {
         _addProperty(WordSpacingProperty(type))
         return self
     }
 
     /// Increases or decreases the space between words in a text
+    @discardableResult
     public func wordSpacing<U: UnitValuable>(_ type: U) -> Self {
         wordSpacing(.length(type))
     }
 
     /// Increases or decreases the space between words in a text
+    @discardableResult
     public func wordSpacing<U: UnitValuable>(_ type: State<U>) -> Self {
         wordSpacing(type.map { .length($0) })
     }
@@ -19485,12 +20427,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Allows long, unbreakable words to be broken and wrap to the next line
+    @discardableResult
     public func wordWrap(_ type: WordWrapType) -> Self {
         _addProperty(.wordWrap, type)
         return self
     }
 
     /// Allows long, unbreakable words to be broken and wrap to the next line
+    @discardableResult
     public func wordWrap(_ type: State<WordWrapType>) -> Self {
         _addProperty(WordWrapProperty(type))
         return self
@@ -19543,12 +20487,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Specifies whether lines of text are laid out horizontally or vertically
+    @discardableResult
     public func writingMode(_ type: WritingModeType) -> Self {
         _addProperty(.writingMode, type)
         return self
     }
 
     /// Specifies whether lines of text are laid out horizontally or vertically
+    @discardableResult
     public func writingMode(_ type: State<WritingModeType>) -> Self {
         _addProperty(WritingModeProperty(type))
         return self
@@ -19596,12 +20542,14 @@ extension Stylesheet {
 
 extension CSSRulable {
     /// Sets the stack order of a positioned element
+    @discardableResult
     public func zIndex(_ type: Int) -> Self {
         _addProperty(.zIndex, type)
         return self
     }
 
     /// Sets the stack order of a positioned element
+    @discardableResult
     public func zIndex(_ type: State<Int>) -> Self {
         _addProperty(ZIndexProperty(type))
         return self
