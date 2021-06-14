@@ -28,6 +28,13 @@ extension ClickHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onclick.asp)
     @discardableResult
+    public func onClick(_ handler: @escaping (MouseEvent, Self) -> Void) -> Self {
+        setDOMHandlerIfNeeded("onclick", createOrUpdate(ClickContainer.self) {
+            handler($0, self)
+        })
+    }
+    
+    @discardableResult
     public func onClick(_ handler: @escaping (MouseEvent) -> Void) -> Self {
         setDOMHandlerIfNeeded("onclick", createOrUpdate(ClickContainer.self, handler))
     }
