@@ -971,10 +971,10 @@ extension Pointerable {
     /// Selects all `<p>` elements inside `<div>` elements
     ///
     /// ```
-    /// .name1 .name2
+    /// div p
     /// ```
     public func inside(_ values: [Pointerable]) -> Pointer {
-        .init(values.map { $0.pointer.selector }.joined(separator: " "))
+        .init(pointer.selector + " " + values.map { $0.pointer.selector }.joined(separator: " "))
     }
 
     /// Selects all `<p>` elements where the parent is a `<div>` element
@@ -992,7 +992,7 @@ extension Pointerable {
     /// div >` p
     /// ```
     public func parent(_ values: [Pointerable]) -> Pointer {
-        .init(values.map { $0.pointer.selector }.joined(separator: " >` "))
+        .init(pointer.selector + " > " + values.map { $0.pointer.selector }.joined(separator: " >` "))
     }
 
     /// Selects all `<p>` elements that are placed immediately after `<div>` elements
@@ -1010,7 +1010,7 @@ extension Pointerable {
     /// div + p
     /// ```
     public func immediatedlyAfter(_ values: [Pointerable]) -> Pointer {
-        .init(values.map { $0.pointer.selector }.joined(separator: " + "))
+        .init(pointer.selector + " + " + values.map { $0.pointer.selector }.joined(separator: " + "))
     }
 
     /// Selects every `<ul>` element that are preceded by a `<p>` element
@@ -1028,7 +1028,7 @@ extension Pointerable {
     /// p ~ ul
     /// ```
     public func precededBy(_ values: [Pointerable]) -> Pointer {
-        .init(values.map { $0.pointer.selector }.joined(separator: " ~ "))
+        .init(pointer.selector + " ~ " + values.map { $0.pointer.selector }.joined(separator: " ~ "))
     }
 
     /// Selects all elements with a target attribute
@@ -1037,7 +1037,7 @@ extension Pointerable {
     /// [target]
     /// ```
     public func byAttribute(_ attributeName: String) -> Pointer {
-        .init("[\(attributeName)]")
+        .init(pointer.selector + "[\(attributeName)]")
     }
 
     /// Selects all elements with target="_blank"
@@ -1046,7 +1046,7 @@ extension Pointerable {
     /// [target=_blank]
     /// ```
     public func byAttribute(_ attributeName: String, _ value: String) -> Pointer {
-        .init("[\(attributeName)=\(value)]")
+        .init(pointer.selector + "[\(attributeName)=\(value)]")
     }
 
     /// Selects all elements with a title attribute containing the word "flower"
@@ -1055,7 +1055,7 @@ extension Pointerable {
     /// [title~=flower]
     /// ```
     public func byAttribute(_ attributeName: String, contains value: String) -> Pointer {
-        .init("[\(attributeName)~=\(value)]")
+        .init(pointer.selector + "[\(attributeName)~=\(value)]")
     }
 
     /// Selects all elements with a lang attribute value starting with "en"
@@ -1064,7 +1064,7 @@ extension Pointerable {
     /// [lang|=en]
     /// ```
     public func byAttribute(_ attributeName: String, startingWith value: String) -> Pointer {
-        .init("[\(attributeName)|=\(value)]")
+        .init(pointer.selector + "[\(attributeName)|=\(value)]")
     }
 
     /// Selects every `<a>` element whose href attribute value begins with "https"
@@ -1073,7 +1073,7 @@ extension Pointerable {
     /// a[href^="https"]
     /// ```
     public func byAttribute(_ attributeName: String, beginsWith value: String) -> Pointer {
-        .init("[\(attributeName)^=\"\(value)\"]")
+        .init(pointer.selector + "[\(attributeName)^=\"\(value)\"]")
     }
 
     /// Selects every `<a>` element whose href attribute value ends with ".pdf"
@@ -1082,7 +1082,7 @@ extension Pointerable {
     /// a[href$=".pdf"]
     /// ```
     public func byAttribute(_ attributeName: String, endsWith value: String) -> Pointer {
-        .init("[\(attributeName)$=\"\(value)\"]")
+        .init(pointer.selector + "[\(attributeName)$=\"\(value)\"]")
     }
 
     /// Selects every `<a>` element whose href attribute value contains the substring "w3schools"
@@ -1091,7 +1091,7 @@ extension Pointerable {
     /// a[href*="w3schools"]
     /// ```
     public func byAttribute(_ attributeName: String, containsSubstring value: String) -> Pointer {
-        .init("[\(attributeName)*=\"\(value)\"]")
+        .init(pointer.selector + "[\(attributeName)*=\"\(value)\"]")
     }
     
     /// The :active CSS pseudo-class represents an element (such as a button)
