@@ -3279,12 +3279,16 @@ open class Div: BaseActiveElement, _StringInitializable, ScrollHandleable {
 
     /// String initializer
     /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
+    required public init <U>(_ title: U) where U: UniValue, U.UniValue == String {
+        super.init()
         value = title.uniValue
         title.uniStateValue?.listen {
             self.value = $0
         }
+    }
+    
+    required public init() {
+        super.init()
     }
 }
 
