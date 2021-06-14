@@ -591,11 +591,12 @@ public class AnimationProperty: _Property {
         type.listen { self._changed(to: $0) }
     }
 
-    public init<D1: TimeUnitValue, D2: TimeUnitValue>(
-        name: String? = nil,
-        duration: D1? = nil,
+    /// `duration` and `delay` are in seconds
+    public init(
+        name: KeyframesName? = nil,
+        duration: Double? = nil,
         timing: TransitionTimingFunctionType? = nil,
-        delay: D2? = nil,
+        delay: Double? = nil,
         iterationCount: Int? = nil,
         direction: AnimationDirectionType? = nil,
         fillMode: AnimationFillModeType? = nil,
@@ -622,25 +623,26 @@ extension PropertyKey {
 public struct AnimationValue: CustomStringConvertible {
     public let value: String
 
-    public init<D1: TimeUnitValue, D2: TimeUnitValue>(
-        name: String? = nil,
-        duration: D1? = nil,
+    /// `duration` and `delay` are in seconds
+    public init(
+        name: KeyframesName? = nil,
+        duration: Double? = nil,
         timing: TransitionTimingFunctionType? = nil,
-        delay: D2? = nil,
+        delay: Double? = nil,
         iterationCount: Int? = nil,
         direction: AnimationDirectionType? = nil,
         fillMode: AnimationFillModeType? = nil,
         playState: AnimationPlayStateType? = nil
     ) {
-        var ic: String?
+        var ic: String = "infinite"
         if let iterationCount = iterationCount {
             ic = "\(iterationCount)"
         }
         value = [
-            name,
-            duration?.description,
+            name?.value,
+            duration?.s.description,
             timing?.value,
-            delay?.description,
+            delay?.s.description,
             ic,
             direction?.value,
             fillMode?.value,
@@ -674,12 +676,14 @@ extension CSSRulable {
     }
 
     /// A shorthand property for all the animation-* properties
+    ///
+    /// `duration` and `delay` are in seconds
     @discardableResult
-    public func animation<D1: TimeUnitValue, D2: TimeUnitValue>(
-        name: String? = nil,
-        duration: D1? = nil,
+    public func animation(
+        name: KeyframesName? = nil,
+        duration: Double? = nil,
         timing: TransitionTimingFunctionType? = nil,
-        delay: D2? = nil,
+        delay: Double? = nil,
         iterationCount: Int? = nil,
         direction: AnimationDirectionType? = nil,
         fillMode: AnimationFillModeType? = nil,
