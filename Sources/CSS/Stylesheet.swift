@@ -7,7 +7,9 @@
 
 import DOM
 
-open class Stylesheet: BaseElement {
+public protocol Stylesheetable {}
+
+open class Stylesheet: BaseElement, Stylesheetable {
     public typealias Rule = CSSRule
     public typealias RuleItems = Rules.Content
     open override class var name: String { "style" }
@@ -126,4 +128,38 @@ open class Stylesheet: BaseElement {
         value.stateValue.listen { self.disabled($0) }
         return self
     }
+}
+
+open class RulesGroup: RulesContent, Stylesheetable {
+    public typealias Rule = CSSRule
+    public typealias RuleItems = Rules.Content
+    
+    public var rulesContent: Rules.Item {
+        .items(_rules.map { .rule($0) } + [rules.rulesContent])
+    }
+    
+    public private(set) var _rules: [CSSRule] = []
+    
+    public init () {}
+    
+    public convenience init(@Rules content: @escaping Rules.Block) {
+        self.init()
+        parseRulesItem(content().rulesContent)
+    }
+    
+    @discardableResult
+    public func rules(@Rules content: @escaping Rules.Block) -> Self {
+        parseRulesItem(content().rulesContent)
+        return self
+    }
+    
+    private func parseRulesItem(_ item: Rules.Item) {
+        switch item {
+        case .items(let v): v.forEach { parseRulesItem($0) }
+        case .rule(let v): _rules.append(v)
+        case .none: break
+        }
+    }
+    
+    @Rules open var rules: RuleItems { [_RulesContent(rulesContent: .none)] }
 }

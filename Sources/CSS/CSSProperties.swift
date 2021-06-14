@@ -37,7 +37,7 @@ extension PropertyKey {
     public static var alignContent: PropertyKey<AlignContentType> { "align-content".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
     public typealias AlignContent = AlignContentProperty
 }
@@ -87,7 +87,7 @@ extension PropertyKey {
     public static var alignItems: PropertyKey<AlignItemsType> { "align-items".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the alignment for items inside a flexible container
     public typealias AlignItems = AlignItemsProperty
 }
@@ -137,7 +137,7 @@ extension PropertyKey {
     public static var alignSelf: PropertyKey<AlignSelfType> { "align-self".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the alignment for selected items inside a flexible container
     public typealias AlignSelf = AlignSelfProperty
 }
@@ -187,7 +187,7 @@ extension PropertyKey {
     public static var all: PropertyKey<AllType> { "all".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Resets all properties (except unicode-bidi and direction)
     public typealias All = AllProperty
 }
@@ -245,7 +245,7 @@ extension PropertyKey {
     public static var animationDelay: PropertyKey<TimeUnitValueContainer> { "animation-delay".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies a delay for the start of an animation
     public typealias AnimationDelay = AnimationDelayProperty
 }
@@ -304,7 +304,7 @@ extension PropertyKey {
     public static var animationDirection: PropertyKey<AnimationDirectionType> { "animation-direction".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether an animation should be played forwards, backwards or in alternate cycles
     public typealias AnimationDirection = AnimationDirectionProperty
 }
@@ -360,7 +360,7 @@ extension PropertyKey {
     public static var animationDuration: PropertyKey<TimeUnitValueContainer> { "animation-duration".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how long an animation should take to complete one cycle
     public typealias AnimationDuration = AnimationDurationProperty
 }
@@ -419,7 +419,7 @@ extension PropertyKey {
     public static var animationFillMode: PropertyKey<AnimationFillModeType> { "animation-fill-mode".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies a style for the element when the animation is not playing (before it starts, after it ends, or both)
     public typealias AnimationFillMode = AnimationFillModeProperty
 }
@@ -465,7 +465,7 @@ extension PropertyKey {
     public static var animationIterationCount: PropertyKey<Int> { "animation-iteration-count".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the number of times an animation should be played
     public typealias AnimationIterationCount = AnimationIterationCountProperty
 }
@@ -504,7 +504,7 @@ extension PropertyKey {
     public static var animationName: PropertyKey<String> { "animation-name".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies a name for the @keyframes animation
     public typealias AnimationName = AnimationNameProperty
 }
@@ -547,7 +547,7 @@ extension PropertyKey {
     public static var animationPlayState: PropertyKey<AnimationPlayStateType> { "animation-play-state".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether the animation is running or paused
     public typealias AnimationPlayState = AnimationPlayStateProperty
 }
@@ -653,7 +653,7 @@ public struct AnimationValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for all the animation-* properties
     public typealias Animation = AnimationProperty
 }
@@ -728,7 +728,7 @@ extension PropertyKey {
     public static var animationTimingFunction: PropertyKey<TransitionTimingFunctionType> { "animation-timing-function".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the speed curve of an animation
     public typealias AnimationTimingFunction = AnimationTimingFunctionProperty
 }
@@ -778,7 +778,7 @@ extension PropertyKey {
     public static var backfaceVisibility: PropertyKey<BackfaceVisibilityType> { "backface-visibility".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines whether or not the back face of an element should be visible when facing the user
     public typealias BackfaceVisibility = BackfaceVisibilityProperty
 }
@@ -828,7 +828,7 @@ extension PropertyKey {
     public static var backgroundAttachment: PropertyKey<BackgroundAttachmentType> { "background-attachment".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets whether a background image scrolls with the rest of the page, or is fixed
     public typealias BackgroundAttachment = BackgroundAttachmentProperty
 }
@@ -878,7 +878,7 @@ extension PropertyKey {
     public static var backgroundBlendMode: PropertyKey<BackgroundBlendModeType> { "background-blend-mode".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the blending mode of each background layer (color/image)
     public typealias BackgroundBlendMode = BackgroundBlendModeProperty
 }
@@ -928,7 +928,7 @@ extension PropertyKey {
     public static var backgroundClip: PropertyKey<BackgroundClipType> { "background-clip".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines how far the background (color or image) should extend within an element
     public typealias BackgroundClip = BackgroundClipProperty
 }
@@ -1045,7 +1045,7 @@ extension PropertyKey {
     public static var backgroundColor: PropertyKey<Color> { "background-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the background color of an element
     public typealias BackgroundColor = BackgroundColorProperty
 }
@@ -1131,7 +1131,7 @@ extension PropertyKey {
     public static var backgroundImage: PropertyKey<String> { "background-image".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies one or more background images for an element
     public typealias BackgroundImage = BackgroundImageProperty
 }
@@ -1180,7 +1180,7 @@ extension PropertyKey {
     public static var backgroundOrigin: PropertyKey<BackgroundOriginType> { "background-origin".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the origin position of a background image
     public typealias BackgroundOrigin = BackgroundOriginProperty
 }
@@ -1230,7 +1230,7 @@ extension PropertyKey {
     public static var backgroundPosition: PropertyKey<BackgroundPositionType> { "background-position".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the position of a background image
     public typealias BackgroundPosition = BackgroundPositionProperty
 }
@@ -1339,7 +1339,7 @@ public struct BackgroundValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for all the background-* properties
     public typealias Background = BackgroundProperty
 }
@@ -1423,7 +1423,7 @@ extension PropertyKey {
     public static var backgroundRepeat: PropertyKey<BackgroundRepeatType> { "background-repeat".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets if/how a background image will be repeated
     public typealias BackgroundRepeat = BackgroundRepeatProperty
 }
@@ -1616,7 +1616,7 @@ public class BackgroundSizeValue: CustomStringConvertible, _PropertyValueInnerCh
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the size of the background images
     public typealias BackgroundSize = BackgroundSizeProperty
 }
@@ -1793,7 +1793,7 @@ extension PropertyKey {
     public static var borderBottomColor: PropertyKey<Color> { "border-bottom-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the color of the bottom border
     public typealias BorderBottomColor = BorderBottomColorProperty
 }
@@ -1884,7 +1884,7 @@ extension PropertyKey {
     public static var borderBottomLeftRadius: PropertyKey<BorderRadiusType> { "border-bottom-left-radius".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines the radius of the border of the bottom-left corner
     public typealias BorderBottomLeftRadius = BorderBottomLeftRadiusProperty
 }
@@ -1976,7 +1976,7 @@ extension PropertyKey {
     public static var borderBottom: PropertyKey<BorderValue> { "border-bottom".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     public typealias BorderBottom = BorderBottomProperty
 }
@@ -2073,7 +2073,7 @@ extension PropertyKey {
     public static var borderBottomRightRadius: PropertyKey<BorderRadiusType> { "_border-bottom-right-radius__".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines the radius of the border of the bottom-right corner
     public typealias BorderBottomRightRadius = BorderBottomRightRadiusProperty
 }
@@ -2130,7 +2130,7 @@ extension PropertyKey {
     public static var borderBottomStyle: PropertyKey<BorderStyleType> { "border-bottom-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the style of the bottom border
     public typealias BorderBottomStyle = BorderBottomStyleProperty
 }
@@ -2185,7 +2185,7 @@ extension PropertyKey {
     public static var borderBottomWidth: PropertyKey<BorderWidthType> { "border-bottom-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the width of the bottom border
     public typealias BorderBottomWidth = BorderBottomWidthProperty
 }
@@ -2242,7 +2242,7 @@ extension PropertyKey {
     public static var borderCollapse: PropertyKey<BorderCollapseType> { "border-collapse".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets whether table borders should collapse into a single border or be separated
     public typealias BorderCollapse = BorderCollapseProperty
 }
@@ -2359,7 +2359,7 @@ extension PropertyKey {
     public static var borderColor: PropertyKey<Color> { "border-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the color of the four borders
     public typealias BorderColor = BorderColorProperty
 }
@@ -2450,7 +2450,7 @@ extension PropertyKey {
     public static var borderImageOutset: PropertyKey<BorderImageOutsetType> { "border-image-outset".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the amount by which the border image area extends beyond the border box
     public typealias BorderImageOutset = BorderImageOutsetProperty
 }
@@ -2532,7 +2532,7 @@ public struct BorderImageValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for all the border-image-* properties
     public typealias BorderImage = BorderImageProperty
 }
@@ -2595,7 +2595,7 @@ extension PropertyKey {
     public static var borderImageRepeat: PropertyKey<BorderImageRepeatType> { "border-image-repeat".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether the border image should be repeated, rounded or stretched
     public typealias BorderImageRepeat = BorderImageRepeatProperty
 }
@@ -2645,7 +2645,7 @@ extension PropertyKey {
     public static var borderImageSlice: PropertyKey<BorderImageSliceType> { "border-image-slice".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how to slice the border image
     public typealias BorderImageSlice = BorderImageSliceProperty
 }
@@ -2692,7 +2692,7 @@ extension PropertyKey {
     public static var borderImageSource: PropertyKey<String> { "border-image-source".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the path to the image to be used as a border
     public typealias BorderImageSource = BorderImageSourceProperty
 }
@@ -2735,7 +2735,7 @@ extension PropertyKey {
     public static var borderImageWidth: PropertyKey<BorderWidthType> { "border-image-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the width of the border image
     public typealias BorderImageWidth = BorderImageWidthProperty
 }
@@ -2852,7 +2852,7 @@ extension PropertyKey {
     public static var borderLeftColor: PropertyKey<Color> { "border-left-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the color of the left border
     public typealias BorderLeftColor = BorderLeftColorProperty
 }
@@ -2973,7 +2973,7 @@ extension PropertyKey {
     public static var borderLeft: PropertyKey<BorderValue> { "border-left".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for all the border-left-* properties
     public typealias BorderLeft = BorderLeftProperty
 }
@@ -3065,7 +3065,7 @@ extension PropertyKey {
     public static var borderLeftStyle: PropertyKey<BorderStyleType> { "border-left-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the style of the left border
     public typealias BorderLeftStyle = BorderLeftStyleProperty
 }
@@ -3120,7 +3120,7 @@ extension PropertyKey {
     public static var borderLeftWidth: PropertyKey<BorderWidthType> { "border-left-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the width of the left border
     public typealias BorderLeftWidth = BorderLeftWidthProperty
 }
@@ -3222,7 +3222,7 @@ public struct BorderValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for border-width, border-style and border-color
     public typealias Border = BorderProperty
 }
@@ -3952,7 +3952,7 @@ public class BorderRadiusValue: CustomStringConvertible, _PropertyValueInnerChan
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the four border-*-radius properties
     public typealias BorderRadius = BorderRadiusProperty
 }
@@ -4619,7 +4619,7 @@ extension PropertyKey {
     public static var borderRightColor: PropertyKey<Color> { "border-right-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the color of the right border
     public typealias BorderRightColor = BorderRightColorProperty
 }
@@ -4740,7 +4740,7 @@ extension PropertyKey {
     public static var borderRight: PropertyKey<BorderValue> { "border-right".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for all the border-right-* properties
     public typealias BorderRight = BorderRightProperty
 }
@@ -4832,7 +4832,7 @@ extension PropertyKey {
     public static var borderRightStyle: PropertyKey<BorderStyleType> { "border-right-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the style of the right border
     public typealias BorderRightStyle = BorderRightStyleProperty
 }
@@ -4887,7 +4887,7 @@ extension PropertyKey {
     public static var borderRightWidth: PropertyKey<BorderWidthType> { "border-right-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the width of the right border
     public typealias BorderRightWidth = BorderRightWidthProperty
 }
@@ -4973,7 +4973,7 @@ public class BorderSpacingValue: CustomStringConvertible, _PropertyValueInnerCha
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the distance between the borders of adjacent cells
     public typealias BorderSpacing = BorderSpacingProperty
 }
@@ -5061,7 +5061,7 @@ public struct BorderStyleValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the style of the four borders
     public typealias BorderStyle = BorderStyleProperty
 }
@@ -5206,7 +5206,7 @@ extension PropertyKey {
     public static var borderTopColor: PropertyKey<Color> { "border-top-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the color of the top border
     public typealias BorderTopColor = BorderTopColorProperty
 }
@@ -5297,7 +5297,7 @@ extension PropertyKey {
     public static var borderTopLeftRadius: PropertyKey<BorderRadiusType> { "border-top-left-radius".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines the radius of the border of the top-left corner
     public typealias BorderTopLeftRadius = BorderTopLeftRadiusProperty
 }
@@ -5389,7 +5389,7 @@ extension PropertyKey {
     public static var borderTop: PropertyKey<BorderValue> { "border-top".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     public typealias BorderTop = BorderTopProperty
 }
@@ -5486,7 +5486,7 @@ extension PropertyKey {
     public static var borderTopRightRadius: PropertyKey<BorderRadiusType> { "border-top-right-radius".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines the radius of the border of the top-right corner
     public typealias BorderTopRightRadius = BorderTopRightRadiusProperty
 }
@@ -5543,7 +5543,7 @@ extension PropertyKey {
     public static var borderTopStyle: PropertyKey<BorderStyleType> { "border-top-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the style of the top border
     public typealias BorderTopStyle = BorderTopStyleProperty
 }
@@ -5598,7 +5598,7 @@ extension PropertyKey {
     public static var borderTopWidth: PropertyKey<BorderWidthType> { "border-top-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the width of the top border
     public typealias BorderTopWidth = BorderTopWidthProperty
 }
@@ -5690,7 +5690,7 @@ public struct BorderWidthValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the width of the four borders
     public typealias BorderWidth = BorderWidthProperty
 }
@@ -5776,7 +5776,7 @@ extension PropertyKey {
     public static var bottom: PropertyKey<UnitValue> { "bottom".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the elements position, from the bottom of its parent element
     public typealias Bottom = BottomProperty
 }
@@ -5835,7 +5835,7 @@ extension PropertyKey {
     public static var boxDecorationBreak: PropertyKey<BoxDecorationBreakType> { "box-decoration-break".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the behavior of the background and border of an element at page-break, or, for in-line elements, at line-break.
     public typealias BoxDecorationBreak = BoxDecorationBreakProperty
 }
@@ -6478,7 +6478,7 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Attaches one or more shadows to an element
     public typealias BoxShadow = BoxShadowProperty
 }
@@ -6709,7 +6709,7 @@ extension PropertyKey {
     public static var boxSizing: PropertyKey<BoxSizingType> { "box-sizing".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines how the width and height of an element are calculated: should they include padding and borders, or not
     public typealias BoxSizing = BoxSizingProperty
 }
@@ -6759,7 +6759,7 @@ extension PropertyKey {
     public static var breakAfter: PropertyKey<BreakType> { "break-after".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not a page-, column-, or region-break should occur after the specified element
     public typealias BreakAfter = BreakAfterProperty
 }
@@ -6809,7 +6809,7 @@ extension PropertyKey {
     public static var breakBefore: PropertyKey<BreakType> { "break-before".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not a page-, column-, or region-break should occur before the specified element
     public typealias BreakBefore = BreakBeforeProperty
 }
@@ -6859,7 +6859,7 @@ extension PropertyKey {
     public static var breakInside: PropertyKey<BreakInsideType> { "break-inside".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not a page-, column-, or region-break should occur inside the specified element
     public typealias BreakInside = BreakInsideProperty
 }
@@ -6909,7 +6909,7 @@ extension PropertyKey {
     public static var captionSide: PropertyKey<CaptionSideType> { "caption-side".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the placement of a table caption
     public typealias CaptionSide = CaptionSideProperty
 }
@@ -7026,7 +7026,7 @@ extension PropertyKey {
     public static var caretColor: PropertyKey<Color> { "caret-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
     public typealias CaretColor = CaretColorProperty
 }
@@ -7112,7 +7112,7 @@ extension PropertyKey {
     public static var clear: PropertyKey<ClearType> { "clear".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies on which sides of an element floating elements are not allowed to float
     public typealias Clear = ClearProperty
 }
@@ -7417,7 +7417,7 @@ public class ClipValue: CustomStringConvertible, _PropertyValueInnerChangeable {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Clips an absolutely positioned element
     public typealias Clip = ClipProperty
 }
@@ -7738,7 +7738,7 @@ extension PropertyKey {
     public static var color: PropertyKey<Color> { "color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the color of text
     public typealias Color = ColorProperty
 }
@@ -7822,7 +7822,7 @@ extension PropertyKey {
     public static var columnCount: PropertyKey<Int> { "column-count".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the number of columns an element should be divided into
     public typealias ColumnCount = ColumnCountProperty
 }
@@ -7866,7 +7866,7 @@ extension PropertyKey {
     public static var columnFill: PropertyKey<ColumnFillType> { "column-fill".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how to fill columns, balanced or not
     public typealias ColumnFill = ColumnFillProperty
 }
@@ -7925,7 +7925,7 @@ extension PropertyKey {
     public static var columnGap: PropertyKey<UnitValue> { "column-gap".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the gap between the columns
     public typealias ColumnGap = ColumnGapProperty
 }
@@ -8051,7 +8051,7 @@ extension PropertyKey {
     public static var columnRuleColor: PropertyKey<Color> { "column-rule-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the color of the rule between columns
     public typealias ColumnRuleColor = ColumnRuleColorProperty
 }
@@ -8142,7 +8142,7 @@ public struct ColumnRuleValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for all the column-rule-* properties
     public typealias ColumnRule = ColumnRuleProperty
 }
@@ -8191,7 +8191,7 @@ extension PropertyKey {
     public static var columnRuleStyle: PropertyKey<ColumnRuleStyleType> { "column-rule-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the style of the rule between columns
     public typealias ColumnRuleStyle = ColumnRuleStyleProperty
 }
@@ -8241,7 +8241,7 @@ extension PropertyKey {
     public static var columnRuleWidth: PropertyKey<ColumnRuleWidthType> { "column-rule-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the width of the rule between columns
     public typealias ColumnRuleWidth = ColumnRuleWidthProperty
 }
@@ -8291,7 +8291,7 @@ extension PropertyKey {
     public static var columnSpan: PropertyKey<ColumnSpanType> { "column-span".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how many columns an element should span across
     public typealias ColumnSpan = ColumnSpanProperty
 }
@@ -8347,7 +8347,7 @@ public struct ColumnsValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for column-width and column-count
     public typealias Columns = ColumnsProperty
 }
@@ -8399,7 +8399,7 @@ extension PropertyKey {
     public static var columnWidth: PropertyKey<UnitValue> { "column-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the column width
     public typealias ColumnWidth = ColumnWidthProperty
 }
@@ -8456,7 +8456,7 @@ extension PropertyKey {
     public static var content: PropertyKey<ContentType> { "content".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Used with the :before and :after pseudo-elements, to insert generated content
     public typealias Content = ContentProperty
 }
@@ -8506,7 +8506,7 @@ extension PropertyKey {
     public static var counterIncrement: PropertyKey<CounterResetType> { "counter-increment".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Increases or decreases the value of one or more CSS counters
     public typealias CounterIncrement = CounterIncrementProperty
 }
@@ -8556,7 +8556,7 @@ extension PropertyKey {
     public static var counterReset: PropertyKey<CounterResetType> { "counter-reset".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Creates or resets one or more CSS counters
     public typealias CounterReset = CounterResetProperty
 }
@@ -8606,7 +8606,7 @@ extension PropertyKey {
     public static var cursor: PropertyKey<CursorType> { "cursor".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the mouse cursor to be displayed when pointing over an element
     public typealias Cursor = CursorProperty
 }
@@ -8656,7 +8656,7 @@ extension PropertyKey {
     public static var direction: PropertyKey<DirectionType> { "direction".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the text direction/writing direction
     public typealias Direction = DirectionProperty
 }
@@ -8706,7 +8706,7 @@ extension PropertyKey {
     public static var display: PropertyKey<DisplayType> { "display".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how a certain HTML element should be displayed
     public typealias Display = DisplayProperty
 }
@@ -8756,7 +8756,7 @@ extension PropertyKey {
     public static var emptyCells: PropertyKey<EmptyCellsType> { "empty-cells".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not to display borders and background on empty cells in a table
     public typealias EmptyCells = EmptyCellsProperty
 }
@@ -8806,7 +8806,7 @@ extension PropertyKey {
     public static var filter: PropertyKey<FilterType> { "filter".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines effects (e.g. blurring or color shifting) on an element before the element is displayed
     public typealias Filter = FilterProperty
 }
@@ -8865,7 +8865,7 @@ extension PropertyKey {
     public static var flexBasis: PropertyKey<UnitValue> { "flex-basis".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the initial length of a flexible item
     public typealias FlexBasis = FlexBasisProperty
 }
@@ -8924,7 +8924,7 @@ extension PropertyKey {
     public static var flexDirection: PropertyKey<FlexDirectionType> { "flex-direction".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the direction of the flexible items
     public typealias FlexDirection = FlexDirectionProperty
 }
@@ -9021,7 +9021,7 @@ public class FlexFlowValue: CustomStringConvertible, _PropertyValueInnerChangeab
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the flex-direction and the flex-wrap properties
     public typealias FlexFlow = FlexFlowProperty
 }
@@ -9080,7 +9080,7 @@ extension PropertyKey {
     public static var flexGrow: PropertyKey<NumericValueContainer> { "flex-grow".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how much the item will grow relative to the rest
     public typealias FlexGrow = FlexGrowProperty
 }
@@ -9136,7 +9136,7 @@ public struct FlexValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the flex-grow, flex-shrink, and the flex-basis properties
     public typealias Flex = FlexProperty
 }
@@ -9189,7 +9189,7 @@ extension PropertyKey {
     public static var flexShrink: PropertyKey<NumericValueContainer> { "flex-shrink".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how the item will shrink relative to the rest
     public typealias FlexShrink = FlexShrinkProperty
 }
@@ -9232,7 +9232,7 @@ extension PropertyKey {
     public static var flexWrap: PropertyKey<FlexWrapType> { "flex-wrap".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether the flexible items should wrap or not
     public typealias FlexWrap = FlexWrapProperty
 }
@@ -9282,7 +9282,7 @@ extension PropertyKey {
     public static var float: PropertyKey<FloatType> { "float".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not a box should float
     public typealias Float = FloatProperty
 }
@@ -9390,7 +9390,7 @@ public class FontFamilyValue: CustomStringConvertible, _PropertyValueInnerChange
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the font family for text
     public typealias FontFamily = FontFamilyProperty
 }
@@ -9469,7 +9469,7 @@ extension PropertyKey {
     public static var fontKerning: PropertyKey<FontKerningType> { "font-kerning".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls the usage of the kerning information (how letters are spaced)
     public typealias FontKerning = FontKerningProperty
 }
@@ -9528,7 +9528,7 @@ extension PropertyKey {
     public static var fontLanguageOverride: PropertyKey<FontLanguageOverrideType> { "font-language-override".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls the usage of language-specific glyphs in a typeface
     public typealias FontLanguageOverride = FontLanguageOverrideProperty
 }
@@ -9652,7 +9652,7 @@ public class FontValue: CustomStringConvertible, _PropertyValueInnerChangeable {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
     public typealias Font = FontProperty
 }
@@ -9755,7 +9755,7 @@ public class FontSizeAdjustValue: CustomStringConvertible, _PropertyValueInnerCh
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Preserves the readability of text when font fallback occurs
     public typealias FontSizeAdjust = FontSizeAdjustProperty
 }
@@ -9840,7 +9840,7 @@ extension PropertyKey {
     public static var fontSize: PropertyKey<FontSizeType> { "font-size".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the font size of text
     public typealias FontSize = FontSizeProperty
 }
@@ -9911,7 +9911,7 @@ extension PropertyKey {
     public static var fontStretch: PropertyKey<FontStretchType> { "font-stretch".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Selects a normal, condensed, or expanded face from a font family
     public typealias FontStretch = FontStretchProperty
 }
@@ -9964,7 +9964,7 @@ extension PropertyKey {
     public static var fontStyle: PropertyKey<FontStyleType> { "font-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the font style for text
     public typealias FontStyle = FontStyleProperty
 }
@@ -10017,7 +10017,7 @@ extension PropertyKey {
     public static var fontSynthesis: PropertyKey<FontSynthesisType> { "font-synthesis".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls which missing typefaces (bold or italic) may be synthesized by the browser
     public typealias FontSynthesis = FontSynthesisProperty
 }
@@ -10131,7 +10131,7 @@ public class FontVariantAlternatesValue: CustomStringConvertible, _PropertyValue
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
     public typealias FontVariantAlternates = FontVariantAlternatesProperty
 }
@@ -10265,7 +10265,7 @@ public class FontVariantCapsValue: CustomStringConvertible, _PropertyValueInnerC
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls the usage of alternate glyphs for capital letters
     public typealias FontVariantCaps = FontVariantCapsProperty
 }
@@ -10403,7 +10403,7 @@ public class FontVariantEastAsianValue: CustomStringConvertible, _PropertyValueI
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
     public typealias FontVariantEastAsian = FontVariantEastAsianProperty
 }
@@ -10534,7 +10534,7 @@ public class FontVariantLigaturesValue: CustomStringConvertible, _PropertyValueI
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
     public typealias FontVariantLigatures = FontVariantLigaturesProperty
 }
@@ -10653,7 +10653,7 @@ public class FontVariantNumericValue: CustomStringConvertible, _PropertyValueInn
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
     public typealias FontVariantNumeric = FontVariantNumericProperty
 }
@@ -10718,7 +10718,7 @@ extension PropertyKey {
     public static var fontVariantPosition: PropertyKey<FontVariantPositionType> { "font-variant-position".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls the usage of alternate glyphs of smaller size positioned as superscript or subscript regarding the baseline of the font
     public typealias FontVariantPosition = FontVariantPositionProperty
 }
@@ -10816,7 +10816,7 @@ public class FontVariantValue: CustomStringConvertible, _PropertyValueInnerChang
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not a text should be displayed in a small-caps font
     public typealias FontVariant = FontVariantProperty
 }
@@ -10920,7 +10920,7 @@ public class FontWeightValue: CustomStringConvertible, _PropertyValueInnerChange
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the weight of a font
     public typealias FontWeight = FontWeightProperty
 }
@@ -11007,7 +11007,7 @@ public struct GridAreaValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Either specifies a name for the grid item, or this property is a shorthand property
     /// for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties
     public typealias GridArea = GridAreaProperty
@@ -11092,7 +11092,7 @@ public struct GridAutoColumnsValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies a default column size
     public typealias GridAutoColumns = GridAutoColumnsProperty
 }
@@ -11179,7 +11179,7 @@ extension PropertyKey {
     public static var gridAutoFlow: PropertyKey<GridAutoFlowType> { "grid-auto-flow".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how auto-placed items are inserted in the grid
     public typealias GridAutoFlow = GridAutoFlowProperty
 }
@@ -11229,7 +11229,7 @@ extension PropertyKey {
     public static var gridAutoRows: PropertyKey<GridAutoRowsType> { "grid-auto-rows".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies a default row size
     public typealias GridAutoRows = GridAutoRowsProperty
 }
@@ -11353,7 +11353,7 @@ public class GridColumnEndValue: CustomStringConvertible, _PropertyValueInnerCha
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies where to end the grid item
     public typealias GridColumnEnd = GridColumnEndProperty
 }
@@ -11442,7 +11442,7 @@ extension PropertyKey {
     public static var gridColumnGap: PropertyKey<UnitValue> { "grid-column-gap".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the size of the gap between columns
     public typealias GridColumnGap = GridColumnGapProperty
 }
@@ -11573,7 +11573,7 @@ public class GridColumnValue: CustomStringConvertible, _PropertyValueInnerChange
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the grid-column-start and the grid-column-end properties
     public typealias GridColumn = GridColumnProperty
 }
@@ -11699,7 +11699,7 @@ public class GridColumnStartValue: CustomStringConvertible, _PropertyValueInnerC
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies where to start the grid item
     public typealias GridColumnStart = GridColumnStartProperty
 }
@@ -11842,7 +11842,7 @@ public class GridGapValue: CustomStringConvertible, _PropertyValueInnerChangeabl
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
     public typealias GridGap = GridGapProperty
 }
@@ -11987,7 +11987,7 @@ public struct GridValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the grid-template-rows, grid-template-columns,
     /// grid-template-areas, grid-auto-rows, grid-auto-columns, and the grid-auto-flow properties
     public typealias Grid = GridProperty
@@ -12185,7 +12185,7 @@ public class GridRowEndValue: CustomStringConvertible, _PropertyValueInnerChange
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies where to end the grid item
     public typealias GridRowEnd = GridRowEndProperty
 }
@@ -12274,7 +12274,7 @@ extension PropertyKey {
     public static var gridRowGap: PropertyKey<UnitValue> { "grid-row-gap".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the size of the gap between rows
     public typealias GridRowGap = GridRowGapProperty
 }
@@ -12405,7 +12405,7 @@ public class GridRowValue: CustomStringConvertible, _PropertyValueInnerChangeabl
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the grid-row-start and the grid-row-end properties
     public typealias GridRow = GridRowProperty
 }
@@ -12505,7 +12505,7 @@ public class GridRowStartValue: CustomStringConvertible, _PropertyValueInnerChan
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies where to start the grid item
     public typealias GridRowStart = GridRowStartProperty
 }
@@ -12597,7 +12597,7 @@ public class GridTemplateAreasValue: CustomStringConvertible, _PropertyValueInne
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how to display columns and rows, using named grid items
     public typealias GridTemplateAreas = GridTemplateAreasProperty
 }
@@ -12653,7 +12653,7 @@ extension PropertyKey {
     public static var gridTemplateColumns: PropertyKey<GridTemplateColumnsType> { "grid-template-columns".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the size of the columns, and how many columns in a grid layout
     public typealias GridTemplateColumns = GridTemplateColumnsProperty
 }
@@ -12737,7 +12737,7 @@ public struct GridTemplateValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
     public typealias GridTemplate = GridTemplateProperty
 }
@@ -12799,7 +12799,7 @@ extension PropertyKey {
     public static var gridTemplateRows: PropertyKey<GridTemplateRowsType> { "grid-template-rows".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the size of the rows in a grid layout
     public typealias GridTemplateRows = GridTemplateRowsProperty
 }
@@ -12861,7 +12861,7 @@ extension PropertyKey {
     public static var hangingPunctuation: PropertyKey<HangingPunctuationType> { "hanging-punctuation".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether a punctuation character may be placed outside the line box
     public typealias HangingPunctuation = HangingPunctuationProperty
 }
@@ -12929,7 +12929,7 @@ extension PropertyKey {
     public static var height: PropertyKey<UnitValue> { "height".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the height of an element
     public typealias Height = HeightProperty
 }
@@ -13027,7 +13027,7 @@ extension PropertyKey {
     public static var hyphens: PropertyKey<HyphensType> { "hyphens".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets how to split words to improve the layout of paragraphs
     public typealias Hyphens = HyphensProperty
 }
@@ -13121,7 +13121,7 @@ extension PropertyKey {
     public static var imageRendering: PropertyKey<ImageRenderingType> { "image-rendering".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Gives a hint to the browser about what aspects of an image are most important to preserve when the image is scaled
     public typealias ImageRendering = ImageRenderingProperty
 }
@@ -13171,7 +13171,7 @@ extension PropertyKey {
     public static var isolation: PropertyKey<IsolationType> { "isolation".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines whether an element must create a new stacking content
     public typealias Isolation = IsolationProperty
 }
@@ -13221,7 +13221,7 @@ extension PropertyKey {
     public static var justifyContent: PropertyKey<JustifyContentType> { "justify-content".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the alignment between the items inside a flexible container when the items do not use all available space
     public typealias JustifyContent = JustifyContentProperty
 }
@@ -13289,7 +13289,7 @@ extension PropertyKey {
     public static var left: PropertyKey<UnitValue> { "left".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the left position of a positioned element
     public typealias Left = LeftProperty
 }
@@ -13369,7 +13369,7 @@ extension PropertyKey {
     public static var letterSpacing: PropertyKey<LetterSpacingType> { "letter-spacing".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Increases or decreases the space between characters in a text
     public typealias LetterSpacing = LetterSpacingProperty
 }
@@ -13435,7 +13435,7 @@ extension PropertyKey {
     public static var lineBreak: PropertyKey<LineBreakType> { "line-break".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how/if to break lines
     public typealias LineBreak = LineBreakProperty
 }
@@ -13488,7 +13488,7 @@ extension PropertyKey {
     public static var lineHeight: PropertyKey<LineHeightType> { "line-height".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the line height
     public typealias LineHeight = LineHeightProperty
 }
@@ -13562,7 +13562,7 @@ extension PropertyKey {
     public static var listStyleImage: PropertyKey<URLValueContainer> { "list-style-image".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies an image as the list-item marker
     public typealias ListStyleImage = ListStyleImageProperty
 }
@@ -13626,7 +13626,7 @@ extension PropertyKey {
     public static var listStylePosition: PropertyKey<ListStylePositionType> { "list-style-position".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the position of the list-item markers (bullet points)
     public typealias ListStylePosition = ListStylePositionProperty
 }
@@ -13683,7 +13683,7 @@ public struct ListStyleValue: CustomStringConvertible {
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets all the properties for a list in one declaration
     public typealias ListStyle = ListStyleProperty
 }
@@ -13729,7 +13729,7 @@ extension PropertyKey {
     public static var listStyleType: PropertyKey<ListStyleTypeType> { "list-style-type".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the type of list-item marker
     public typealias ListStyleType = ListStyleTypeProperty
 }
@@ -13834,7 +13834,7 @@ public final class MarginSideValue: Autoable, CustomStringConvertible, _Property
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the bottom margin of an element
     public typealias MarginBottom = MarginBottomProperty
 }
@@ -13942,7 +13942,7 @@ extension PropertyKey {
     public static var marginLeft: PropertyKey<MarginSideValue> { "margin-left".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the left margin of an element
     public typealias MarginLeft = MarginLeftProperty
 }
@@ -14356,7 +14356,7 @@ public class MarginValue: CustomStringConvertible, _PropertyValueInnerChangeable
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets all the margin properties in one declaration
     public typealias Margin = MarginProperty
 }
@@ -14685,7 +14685,7 @@ extension PropertyKey {
     public static var marginRight: PropertyKey<MarginSideValue> { "margin-right".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the right margin of an element
     public typealias MarginRight = MarginRightProperty
 }
@@ -14794,7 +14794,7 @@ extension PropertyKey {
     public static var marginTop: PropertyKey<MarginSideValue> { "margin-top".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the top margin of an element
     public typealias MarginTop = MarginTopProperty
 }
@@ -14898,7 +14898,7 @@ extension PropertyKey {
     public static var maxHeight: PropertyKey<UnitValue> { "max-height".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the maximum height of an element
     public typealias MaxHeight = MaxHeightProperty
 }
@@ -14996,7 +14996,7 @@ extension PropertyKey {
     public static var maxWidth: PropertyKey<UnitValue> { "max-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the maximum width of an element
     public typealias MaxWidth = MaxWidthProperty
 }
@@ -15094,7 +15094,7 @@ extension PropertyKey {
     public static var minHeight: PropertyKey<UnitValue> { "min-height".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the minimum height of an element
     public typealias MinHeight = MinHeightProperty
 }
@@ -15192,7 +15192,7 @@ extension PropertyKey {
     public static var minWidth: PropertyKey<UnitValue> { "min-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the minimum width of an element
     public typealias MinWidth = MinWidthProperty
 }
@@ -15278,7 +15278,7 @@ extension PropertyKey {
     public static var mixBlendMode: PropertyKey<MixBlendModeType> { "mix-blend-mode".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how an element's content should blend with its direct parent background
     public typealias MixBlendMode = MixBlendModeProperty
 }
@@ -15328,7 +15328,7 @@ extension PropertyKey {
     public static var objectFit: PropertyKey<ObjectFitType> { "object-fit".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how the contents of a replaced element should be fitted to the box established by its used height and width
     public typealias ObjectFit = ObjectFitProperty
 }
@@ -15608,7 +15608,7 @@ public class ObjectPositionValue: CustomStringConvertible, _PropertyValueInnerCh
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the alignment of the replaced element inside its box
     public typealias ObjectPosition = ObjectPositionProperty
 }
@@ -15779,7 +15779,7 @@ extension PropertyKey {
     public static var opacity: PropertyKey<NumericValueContainer> { "opacity".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the opacity level for an element
     public typealias Opacity = OpacityProperty
 }
@@ -15825,7 +15825,7 @@ extension PropertyKey {
     public static var order: PropertyKey<Int> { "order".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the order of the flexible item, relative to the rest
     public typealias Order = OrderProperty
 }
@@ -15876,7 +15876,7 @@ extension PropertyKey {
     public static var orphans: PropertyKey<Int> { "orphans".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the minimum number of lines that must be left at the bottom of a page when a page break occurs inside an element
     public typealias Orphans = OrphansProperty
 }
@@ -15945,7 +15945,7 @@ extension PropertyKey {
     public static var outlineColor: PropertyKey<Color> { "outline-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the color of an outline
     public typealias OutlineColor = OutlineColorProperty
 }
@@ -16012,7 +16012,7 @@ extension PropertyKey {
     public static var outlineOffset: PropertyKey<UnitValue> { "outline-offset".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Offsets an outline, and draws it beyond the border edge
     public typealias OutlineOffset = OutlineOffsetProperty
 }
@@ -16103,7 +16103,7 @@ public struct OutlineValue: CustomStringConvertible {
     }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for the outline-width, outline-style, and the outline-color properties
     public typealias Outline = OutlineProperty
 }
@@ -16146,7 +16146,7 @@ extension PropertyKey {
     public static var outlineStyle: PropertyKey<OutlineStyleType> { "outline-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the style of an outline
     public typealias OutlineStyle = OutlineStyleProperty
 }
@@ -16196,7 +16196,7 @@ extension PropertyKey {
     public static var outlineWidth: PropertyKey<OutlineWidthType> { "outline-width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the width of an outline
     public typealias OutlineWidth = OutlineWidthProperty
 }
@@ -16261,7 +16261,7 @@ extension PropertyKey {
     public static var overflow: PropertyKey<OverflowType> { "overflow".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies what happens if content overflows an element's box
     public typealias Overflow = OverflowProperty
 }
@@ -16315,7 +16315,7 @@ extension PropertyKey {
     public static var overflowWrap: PropertyKey<OverflowWrapType> { "overflow-wrap".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not the browser may break lines within words
     /// in order to prevent overflow (when a string is too long to fit its containing box)
     public typealias OverflowWrap = OverflowWrapProperty
@@ -16371,7 +16371,7 @@ extension PropertyKey {
     public static var overflowX: PropertyKey<OverflowType> { "overflow-x".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not to clip the left/right edges of the content, if it overflows the element's content area
     public typealias OverflowX = OverflowXProperty
 }
@@ -16424,7 +16424,7 @@ extension PropertyKey {
     public static var overflowY: PropertyKey<OverflowType> { "overflow-y".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not to clip the top/bottom edges of the content, if it overflows the element's content area
     public typealias OverflowY = OverflowYProperty
 }
@@ -16492,7 +16492,7 @@ extension PropertyKey {
     public static var paddingBottom: PropertyKey<UnitValue> { "padding-bottom".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the bottom padding of an element
     public typealias PaddingBottom = PaddingBottomProperty
 }
@@ -16588,7 +16588,7 @@ extension PropertyKey {
     public static var paddingLeft: PropertyKey<UnitValue> { "padding-left".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the left padding of an element
     public typealias PaddingLeft = PaddingLeftProperty
 }
@@ -16923,7 +16923,7 @@ public class PaddingValue: CustomStringConvertible, _PropertyValueInnerChangeabl
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for all the padding-* properties
     public typealias Padding = PaddingProperty
 }
@@ -17193,7 +17193,7 @@ extension PropertyKey {
     public static var paddingRight: PropertyKey<UnitValue> { "padding-right".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the right padding of an element
     public typealias PaddingRight = PaddingRightProperty
 }
@@ -17291,7 +17291,7 @@ extension PropertyKey {
     public static var paddingTop: PropertyKey<UnitValue> { "padding-top".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the top padding of an element
     public typealias PaddingTop = PaddingTopProperty
 }
@@ -17371,7 +17371,7 @@ extension PropertyKey {
     public static var pageBreakAfter: PropertyKey<PageBreakAfterType> { "page-break-after".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the page-break behavior after an element
     public typealias PageBreakAfter = PageBreakAfterProperty
 }
@@ -17421,7 +17421,7 @@ extension PropertyKey {
     public static var pageBreakBefore: PropertyKey<PageBreakBeforeType> { "page-break-before".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the page-break behavior before an element
     public typealias PageBreakBefore = PageBreakBeforeProperty
 }
@@ -17471,7 +17471,7 @@ extension PropertyKey {
     public static var pageBreakInside: PropertyKey<PageBreakInsideType> { "page-break-inside".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the page-break behavior inside an element
     public typealias PageBreakInside = PageBreakInsideProperty
 }
@@ -17614,7 +17614,7 @@ public class PerspectiveOriginValue: CustomStringConvertible, _PropertyValueInne
     public var description: String { value }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines at which position the user is looking at the 3D-positioned element
     public typealias PerspectiveOrigin = PerspectiveOriginProperty
 }
@@ -17760,7 +17760,7 @@ extension PropertyKey {
     public static var perspective: PropertyKey<UnitValue> { "perspective".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Gives a 3D-positioned element some perspective
     public typealias Perspective = PerspectiveProperty
 }
@@ -17847,7 +17847,7 @@ extension PropertyKey {
     public static var pointerEvents: PropertyKey<PointerEventsType> { "pointer-events".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines whether or not an element reacts to pointer events
     public typealias PointerEvents = PointerEventsProperty
 }
@@ -17901,7 +17901,7 @@ extension PropertyKey {
     public static var position: PropertyKey<PositionType> { "position".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the type of positioning method used for an element (static, relative, absolute or fixed)
     public typealias Position = PositionProperty
 }
@@ -17953,7 +17953,7 @@ extension PropertyKey {
     public static var quotes: PropertyKey<QuotesType> { "quotes".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the type of quotation marks for embedded quotations
     public typealias Quotes = QuotesProperty
 }
@@ -18006,7 +18006,7 @@ extension PropertyKey {
     public static var resize: PropertyKey<ResizeType> { "resize".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines if (and how) an element is resizable by the user
     public typealias Resize = ResizeProperty
 }
@@ -18080,7 +18080,7 @@ extension PropertyKey {
     public static var right: PropertyKey<UnitValue> { "right".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the right position of a positioned element
     public typealias Right = RightProperty
 }
@@ -18162,7 +18162,7 @@ extension PropertyKey {
     public static var scrollBehavior: PropertyKey<ScrollBehaviorType> { "scroll-behavior".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether to smoothly animate the scroll position in a scrollable box, instead of a straight jump
     public typealias ScrollBehavior = ScrollBehaviorProperty
 }
@@ -18213,7 +18213,7 @@ extension PropertyKey {
     public static var tableLayout: PropertyKey<TableLayoutType> { "table-layout".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines the algorithm used to lay out table cells, rows, and columns
     public typealias TableLayout = TableLayoutProperty
 }
@@ -18269,7 +18269,7 @@ extension PropertyKey {
     public static var tabSize: PropertyKey<TabSizeType> { "tab-size".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the width of a tab character
     public typealias TabSize = TabSizeProperty
 }
@@ -18333,7 +18333,7 @@ extension PropertyKey {
     public static var textAlignLast: PropertyKey<TextAlignLastType> { "text-align-last".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Describes how the last line of a block or a line right before a forced line break is aligned when text-align is "justify"
     public typealias TextAlignLast = TextAlignLastProperty
 }
@@ -18386,7 +18386,7 @@ extension PropertyKey {
     public static var textAlign: PropertyKey<TextAlignType> { "text-align".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the horizontal alignment of text
     public typealias TextAlign = TextAlignProperty
 }
@@ -18442,7 +18442,7 @@ extension PropertyKey {
     public static var textCombineUpright: PropertyKey<TextCombineUprightType> { "text-combine-upright".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the combination of multiple characters into the space of a single character
     public typealias TextCombineUpright = TextCombineUprightProperty
 }
@@ -18514,7 +18514,7 @@ extension PropertyKey {
     public static var textDecorationColor: PropertyKey<Color> { "text-decoration-color".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the color of the text-decoration
     public typealias TextDecorationColor = TextDecorationColorProperty
 }
@@ -18578,7 +18578,7 @@ extension PropertyKey {
     public static var textDecorationLine: PropertyKey<TextDecorationLineType> { "text-decoration-line".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the type of line in a text-decoration
     public typealias TextDecorationLine = TextDecorationLineProperty
 }
@@ -18652,7 +18652,7 @@ public struct TextDecorationValue: CustomStringConvertible {
     }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the decoration added to text
     public typealias TextDecoration = TextDecorationProperty
 }
@@ -18713,7 +18713,7 @@ extension PropertyKey {
     public static var textDecorationStyle: PropertyKey<TextDecorationStyleType> { "text-decoration-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the style of the line in a text decoration
     public typealias TextDecorationStyle = TextDecorationStyleProperty
 }
@@ -18773,7 +18773,7 @@ extension PropertyKey {
     public static var textIndent: PropertyKey<TextIndentType> { "text-indent".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the indentation of the first line in a text-block
     public typealias TextIndent = TextIndentProperty
 }
@@ -18839,7 +18839,7 @@ extension PropertyKey {
     public static var textJustify: PropertyKey<TextJustifyType> { "text-justify".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the justification method used when text-align is "justify"
     public typealias TextJustify = TextJustifyProperty
 }
@@ -18893,7 +18893,7 @@ extension PropertyKey {
     public static var textOrientation: PropertyKey<TextOrientationType> { "text-orientation".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Defines the orientation of the text in a line
     public typealias TextOrientation = TextOrientationProperty
 }
@@ -18947,7 +18947,7 @@ extension PropertyKey {
     public static var textOverflow: PropertyKey<TextOverflowType> { "text-overflow".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies what should happen when text overflows the containing element
     public typealias TextOverflow = TextOverflowProperty
 }
@@ -19018,7 +19018,7 @@ extension Array where Element == TextShadowType {
     }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Adds shadow to text
     public typealias TextShadow = TextShadowProperty
 }
@@ -19091,7 +19091,7 @@ extension PropertyKey {
     public static var textTransform: PropertyKey<TextTransformType> { "text-transform".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Controls the capitalization of text
     public typealias TextTransform = TextTransformProperty
 }
@@ -19173,7 +19173,7 @@ extension Array where Element == TextUnderlinePositionType {
     }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the position of the underline which is set using the text-decoration property
     public typealias TextUnderlinePosition = TextUnderlinePositionProperty
 }
@@ -19258,7 +19258,7 @@ extension PropertyKey {
     public static var top: PropertyKey<UnitValue> { "top".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the top position of a positioned element
     public typealias Top = TopProperty
 }
@@ -19341,7 +19341,7 @@ extension PropertyKey {
     public static var transformOrigin: PropertyKey<TransformOriginType> { "transform-origin".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Allows you to change the position on transformed elements
     public typealias TransformOrigin = TransformOriginProperty
 }
@@ -19401,7 +19401,7 @@ extension PropertyKey {
     public static var transform: PropertyKey<TransformFunction> { "transform".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Applies a 2D or 3D transformation to an element
     public typealias Transform = TransformProperty
 }
@@ -19454,7 +19454,7 @@ extension PropertyKey {
     public static var transformStyle: PropertyKey<TransformStyleType> { "transform-style".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how nested elements are rendered in 3D space
     public typealias TransformStyle = TransformStyleProperty
 }
@@ -19507,7 +19507,7 @@ extension PropertyKey {
     public static var transitionDelay: PropertyKey<TimeType> { "transition-delay".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies when the transition effect will start
     public typealias TransitionDelay = TransitionDelayProperty
 }
@@ -19560,7 +19560,7 @@ extension PropertyKey {
     public static var transitionDuration: PropertyKey<TimeType> { "transition-duration".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how many seconds or milliseconds a transition effect takes to complete
     public typealias TransitionDuration = TransitionDurationProperty
 }
@@ -19643,7 +19643,7 @@ public struct TransitionValue: CustomStringConvertible {
     }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// A shorthand property for all the transition-* properties
     public typealias Transition = TransitionProperty
 }
@@ -19709,7 +19709,7 @@ extension PropertyKey {
     public static var transitionProperty: PropertyKey<TransitionPropertyType> { "transition-property".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the name of the CSS property the transition effect is for
     public typealias TransitionProperty = TransitionPropertyProperty
 }
@@ -19761,7 +19761,7 @@ extension PropertyKey {
     public static var transitionTimingFunction: PropertyKey<TransitionTimingFunctionType> { "transition-timing-function".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies the speed curve of the transition effect
     public typealias TransitionTimingFunction = TransitionTimingFunctionProperty
 }
@@ -19816,7 +19816,7 @@ extension PropertyKey {
     public static var unicodeBidi: PropertyKey<UnicodeBidiType> { "unicode-bidi".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Used together with the direction property to set or return whether the text
     /// should be overridden to support multiple languages in the same document
     public typealias UnicodeBidi = UnicodeBidiProperty
@@ -19875,7 +19875,7 @@ extension PropertyKey {
     public static var userSelect: PropertyKey<UserSelectType> { "user-select".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether the text of an element can be selected
     public typealias UserSelect = UserSelectProperty
 }
@@ -19969,7 +19969,7 @@ extension PropertyKey {
     public static var verticalAlign: PropertyKey<VerticalAlignType> { "vertical-align".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the vertical alignment of an element
     public typealias VerticalAlign = VerticalAlignProperty
 }
@@ -20037,7 +20037,7 @@ extension PropertyKey {
     public static var visibility: PropertyKey<VisibilityType> { "visibility".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether or not an element is visible
     public typealias Visibility = VisibilityProperty
 }
@@ -20097,7 +20097,7 @@ extension PropertyKey {
     public static var whiteSpace: PropertyKey<WhiteSpaceType> { "white-space".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how white-space inside an element is handled
     public typealias WhiteSpace = WhiteSpaceProperty
 }
@@ -20141,7 +20141,7 @@ extension PropertyKey {
     public static var widows: PropertyKey<Int> { "widows".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the minimum number of lines that must be left at the top of a page when a page break occurs inside an element
     public typealias Widows = WidowsProperty
 }
@@ -20222,7 +20222,7 @@ extension PropertyKey {
     public static var width: PropertyKey<UnitValue> { "width".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the width of an element
     public typealias Width = WidthProperty
 }
@@ -20304,7 +20304,7 @@ extension PropertyKey {
     public static var wordBreak: PropertyKey<WordBreakType> { "word-break".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies how words should break when reaching the end of a line
     public typealias WordBreak = WordBreakProperty
 }
@@ -20356,7 +20356,7 @@ extension PropertyKey {
     public static var wordSpacing: PropertyKey<WordSpacingType> { "word-spacing".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Increases or decreases the space between words in a text
     public typealias WordSpacing = WordSpacingProperty
 }
@@ -20420,7 +20420,7 @@ extension PropertyKey {
     public static var wordWrap: PropertyKey<WordWrapType> { "word-wrap".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Allows long, unbreakable words to be broken and wrap to the next line
     public typealias WordWrap = WordWrapProperty
 }
@@ -20480,7 +20480,7 @@ extension PropertyKey {
     public static var writingMode: PropertyKey<WritingModeType> { "writing-mode".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Specifies whether lines of text are laid out horizontally or vertically
     public typealias WritingMode = WritingModeProperty
 }
@@ -20535,7 +20535,7 @@ extension PropertyKey {
     public static var zIndex: PropertyKey<Int> { "z-index".propertyKey() }
 }
 
-extension Stylesheet {
+extension Stylesheetable {
     /// Sets the stack order of a positioned element
     public typealias ZIndex = ZIndexProperty
 }
