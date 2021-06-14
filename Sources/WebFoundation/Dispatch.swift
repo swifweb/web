@@ -39,4 +39,42 @@ public struct Dispatch {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(time)), execute: closure)
         #endif
     }
+    
+    public struct IntervalTask {
+        let object: JSValue
+        let invalidateHandler: () -> Void
+        
+        init (_ object: JSValue, _ invalidateHandler: @escaping () -> Void) {
+            self.object = object
+            self.invalidateHandler = invalidateHandler
+        }
+        
+        public func invalidate() {
+            _ = JSObject.global.clearInterval!(object)
+        }
+    }
+    
+    /// https://www.w3schools.com/jsref/met_win_setinterval.asp
+    public static func interval(_ time: Double, _ closure: @escaping (IntervalTask) -> Void) {
+        #if arch(wasm32)
+        let uid = String.shuffledAlphabet(8)
+        var function: JSClosure!
+        var timer: JSValue!
+        var task: IntervalTask?
+        function = .init { _ -> JSValue in
+            if let task = task {
+                closure(task)
+            } else {
+                task = IntervalTask(timer) {
+                    function.release()
+                    dispatch.functions[uid] = nil
+                }
+                closure(task!)
+            }
+            return .null
+        }
+        dispatch.functions[uid] = function
+        timer = JSObject.global.setInterval!(function, time * 1_000)
+        #endif
+    }
 }
