@@ -727,21 +727,11 @@ extension ClassAttrable {
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
     @discardableResult
-    private func `class`(value: Class) -> Self {
-        properties._classes.insert(value.name)
-        setAttribute("className", properties._classes.joined(separator: ","))
-        return self
-    }
-    
-    /// The class global attribute is a space-separated list of the case-sensitive classes of the element.
-    ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
-    @discardableResult
     public func `class`(_ value: [Class]) -> Self {
         value.map { $0.name }.forEach {
             properties._classes.insert($0)
         }
-        setAttribute("className", properties._classes.joined(separator: ","))
+        setAttribute("className", properties._classes.joined(separator: " "))
         return self
     }
     
@@ -758,8 +748,8 @@ extension ClassAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
     @discardableResult
     public func `class`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Class {
-        `class`(value: value.stateValue.wrappedValue)
-        value.stateValue.listen { self.`class`(value: $0) }
+        `class`(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.`class`($0) }
         return self
     }
     
@@ -770,6 +760,31 @@ extension ClassAttrable {
     public func `class`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == [Class] {
         `class`(value.stateValue.wrappedValue)
         value.stateValue.listen { self.`class`($0) }
+        return self
+    }
+    
+    // MARK: Removing
+    
+    @discardableResult
+    public func removeClass(_ value: Class) -> Self {
+        properties._classes.remove(value.name)
+        setAttribute("className", properties._classes.joined(separator: " "))
+        return self
+    }
+    
+    // MARK: Toggle
+    
+    @discardableResult
+    public func toggleClass(_ value: Class) -> Self {
+        if properties._classes.contains(value.name) {
+            properties._classes.remove(value.name)
+        } else {
+            properties._classes.insert(value.name)
+        }
+        #if arch(wasm32)
+        let classList = domElement[dynamicMember: "classList"].object
+        classList?.toggle.function?.callAsFunction(this: classList, value.name.jsValue())
+        #endif
         return self
     }
 }
