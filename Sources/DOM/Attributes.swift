@@ -731,7 +731,11 @@ extension ClassAttrable {
         value.map { $0.name }.forEach {
             properties._classes.insert($0)
         }
+        #if WEBPREVIEW
+        setAttribute("class", properties._classes.joined(separator: " "))
+        #else
         setAttribute("className", properties._classes.joined(separator: " "))
+        #endif
         return self
     }
     
@@ -768,7 +772,11 @@ extension ClassAttrable {
     @discardableResult
     public func removeClass(_ value: Class) -> Self {
         properties._classes.remove(value.name)
+        #if WEBPREVIEW
+        setAttribute("class", properties._classes.joined(separator: " "))
+        #else
         setAttribute("className", properties._classes.joined(separator: " "))
+        #endif
         return self
     }
     
