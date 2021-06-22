@@ -12,7 +12,8 @@ extension String {
         let letters = letters ?? "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         var randomString = ""
         for _ in 0...length-1 {
-            let rand = arc4random() % UInt32(letters.count)
+            let random = [UInt32].random(count: 1)[0]
+            let rand = random % UInt32(letters.count)
             let ind = Int(rand)
             let character = letters[letters.index(letters.startIndex, offsetBy: ind)]
             randomString.append(character)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WebFoundation
 
 extension UUID {
     static func new() -> UUID? {
@@ -20,7 +21,8 @@ extension UUID {
                 result.append("4")
                 continue
             }
-            let rand = arc4random() % UInt32(letters.count)
+            let random = [UInt32].random(count: 1)[0]
+            let rand = random % UInt32(letters.count)
             let ind = Int(rand)
             let character = letters[letters.index(letters.startIndex, offsetBy: ind)]
             result.append(character)
