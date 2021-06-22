@@ -16,7 +16,13 @@ open class WebPreview {
     
     @Preview open class var content: Preview.Content { _RenderBuilderContent(renderBuilderContent: .none) }
     
-    @objc class var html: String {
+    #if os(macOS)
+    @objc class var html: String { _html }
+    #else
+    class var html: String { _html }
+    #endif
+    
+    private class var _html: String {
         var items: [WebPreviewRenderable] = []
         func parseRenderBuilderItem(_ item: Preview.Item) {
             switch item {
