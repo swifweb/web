@@ -427,21 +427,8 @@ public typealias WButton = Button
 /// used to submit forms or anywhere in a document for accessible, standard button functionality.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
-open class Button: BaseActiveElement, _StringInitializable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
-
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
+open class Button: BaseActiveStringElement {
+    
 }
 
 /// The HTML `<datalist>` element contains a set of option elements
@@ -1932,7 +1919,7 @@ open class Option: BaseActiveElement, _StringInitializable {
 /// into which a site or app can inject the results of a calculation or the outcome of a user action.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/output)
-open class Output: BaseActiveElement {
+open class Output: BaseActiveStringElement {
 
 }
 
@@ -2182,7 +2169,7 @@ open class Video: BaseActiveElement, AbortHandleable, CanPlayHandleable, CanPlay
 /// locations in the same page, or anything else a URL can address.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)
-open class A: BaseActiveElement {
+open class A: BaseActiveStringElement {
 
 }
 
@@ -2190,7 +2177,7 @@ open class A: BaseActiveElement {
 /// the optional title attribute can provide an expansion or description for the abbreviation.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr)
-open class Abbr: BaseActiveElement {
+open class Abbr: BaseActiveStringElement {
 
 }
 
@@ -2199,7 +2186,7 @@ open class Abbr: BaseActiveElement {
 /// which are not otherwise granted special importance.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b)
-open class B: BaseActiveElement {
+open class B: BaseActiveStringElement {
 
 }
 
@@ -2207,7 +2194,7 @@ open class B: BaseActiveElement {
 /// algorithm to treat the text it contains in isolation from its surrounding text.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdi)
-open class Bdi: BaseActiveElement {
+open class Bdi: BaseActiveStringElement {
 
 }
 
@@ -2216,7 +2203,7 @@ open class Bdi: BaseActiveElement {
 /// so that the text within is rendered in a different direction.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdo)
-open class Bdo: BaseActiveElement {
+open class Bdo: BaseActiveStringElement {
 
 }
 
@@ -2232,7 +2219,7 @@ open class Br: BaseActiveElement {
 /// to a cited creative work, and must include the title of that work.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite)
-open class Cite: BaseActiveElement {
+open class Cite: BaseActiveStringElement {
 
 }
 
@@ -2240,7 +2227,7 @@ open class Cite: BaseActiveElement {
 /// in a fashion intended to indicate that the text is a short fragment of computer code.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code)
-open class Code: BaseActiveElement {
+open class Code: BaseActiveStringElement {
 
 }
 
@@ -2249,7 +2236,7 @@ open class Code: BaseActiveElement {
 /// or date-related, the time element must be used.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/data)
-open class Data: BaseActiveElement {
+open class Data: BaseActiveStringElement {
 
 }
 
@@ -2257,7 +2244,7 @@ open class Data: BaseActiveElement {
 /// being defined within the context of a definition phrase or sentence.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dfn)
-open class Dfn: BaseActiveElement {
+open class Dfn: BaseActiveStringElement {
 
 }
 
@@ -2265,7 +2252,7 @@ open class Dfn: BaseActiveElement {
 /// The `<em>` element can be nested, with each level of nesting indicating a greater degree of emphasis.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em)
-open class Em: BaseActiveElement {
+open class Em: BaseActiveStringElement {
 
 }
 
@@ -2274,7 +2261,7 @@ open class Em: BaseActiveElement {
 /// technical terms, taxonomical designations, among others.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i)
-open class I: BaseActiveElement {
+open class I: BaseActiveStringElement {
 
 }
 
@@ -2282,7 +2269,7 @@ open class I: BaseActiveElement {
 /// denoting textual user input from a keyboard, voice input, or any other text entry device.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd)
-open class Kbd: BaseActiveElement {
+open class Kbd: BaseActiveStringElement {
 
 }
 
@@ -2291,7 +2278,7 @@ open class Kbd: BaseActiveElement {
 /// due to the marked passage's relevance or importance in the enclosing context.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark)
-open class Mark: BaseActiveElement {
+open class Mark: BaseActiveStringElement {
 
 }
 
@@ -2299,7 +2286,7 @@ open class Mark: BaseActiveElement {
 /// Most modern browsers implement this by surrounding the text in quotation marks.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q)
-open class Q: BaseActiveElement {
+open class Q: BaseActiveStringElement {
 
 }
 
@@ -2307,7 +2294,7 @@ open class Q: BaseActiveElement {
 /// the base text component of a  ruby annotation, i.e. the text that is being annotated.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rb)
-open class Rb: BaseActiveElement {
+open class Rb: BaseActiveStringElement {
 
 }
 
@@ -2316,7 +2303,7 @@ open class Rb: BaseActiveElement {
 /// that do not support display of ruby annotations using the ruby element.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rp)
-open class Rp: BaseActiveElement {
+open class Rp: BaseActiveStringElement {
 
 }
 
@@ -2326,7 +2313,7 @@ open class Rp: BaseActiveElement {
 /// The `<rt>` element must always be contained within a ruby element.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rt)
-open class Rt: BaseActiveElement {
+open class Rt: BaseActiveStringElement {
 
 }
 
@@ -2335,7 +2322,7 @@ open class Rt: BaseActiveElement {
 /// rb elements can have both pronunciation (rt) and semantic (rtc) annotations.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rtc)
-open class Rtc: BaseActiveElement {
+open class Rtc: BaseActiveStringElement {
 
 }
 
@@ -2344,7 +2331,7 @@ open class Rtc: BaseActiveElement {
 /// It can also be used for annotating other kinds of text, but this usage is less common.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby)
-open class Ruby: BaseActiveElement {
+open class Ruby: BaseActiveStringElement {
 
 }
 
@@ -2355,7 +2342,7 @@ open class Ruby: BaseActiveElement {
 /// for that, use the del and ins elements, as appropriate.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/s)
-open class S: BaseActiveElement {
+open class S: BaseActiveStringElement {
 
 }
 
@@ -2363,7 +2350,7 @@ open class S: BaseActiveElement {
 /// which represents sample (or quoted) output from a computer program.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/samp)
-open class Samp: BaseActiveElement {
+open class Samp: BaseActiveStringElement {
 
 }
 
@@ -2372,7 +2359,7 @@ open class Samp: BaseActiveElement {
 /// By default, it renders text within it one font-size smaller, such as from small to x-small.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small)
-open class Small: BaseActiveElement {
+open class Small: BaseActiveStringElement {
 
 }
 
@@ -2382,7 +2369,7 @@ open class Small: BaseActiveElement {
 /// or because they share attribute values, such as lang.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)
-open class Span: BaseActiveElement {
+open class Span: BaseActiveStringElement {
 
 }
 
@@ -2391,7 +2378,7 @@ open class Span: BaseActiveElement {
 /// Browsers typically render the contents in bold type.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong)
-open class Strong: BaseActiveElement {
+open class Strong: BaseActiveStringElement {
 
 }
 
@@ -2399,7 +2386,7 @@ open class Strong: BaseActiveElement {
 /// which should be displayed as subscript for solely typographical reasons.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sub)
-open class Sub: BaseActiveElement {
+open class Sub: BaseActiveStringElement {
 
 }
 
@@ -2407,14 +2394,14 @@ open class Sub: BaseActiveElement {
 /// which is to be displayed as superscript for solely typographical reasons.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sup)
-open class Sup: BaseActiveElement {
+open class Sup: BaseActiveStringElement {
 
 }
 
 /// The HTML `<time>` element represents a specific period in time.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time)
-open class Time: BaseActiveElement {
+open class Time: BaseActiveStringElement {
 
 }
 
@@ -2423,7 +2410,7 @@ open class Time: BaseActiveElement {
 /// in a way that indicates that it has a non-textual annotation.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/u)
-open class U: BaseActiveElement {
+open class U: BaseActiveStringElement {
 
 }
 
@@ -2431,7 +2418,7 @@ open class U: BaseActiveElement {
 /// in a mathematical expression or a programming context.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/var)
-open class Var: BaseActiveElement {
+open class Var: BaseActiveStringElement {
 
 }
 
@@ -2503,6 +2490,15 @@ open class NoScript: BaseElement {
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script)
 open class Script: BaseElement, ErrorHandleable, LoadHandleable {
     open func addedToDocument() {}
+}
+
+/// The `<html>` HTML element represents the root (top-level element) of an HTML document,
+/// so it is also referred to as the root element.
+/// All other elements must be descendants of this element.
+///
+/// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/html)
+open class Html: BaseElement {
+    
 }
 
 /// The HTML `<body>` Element represents the content of an HTML document.
@@ -3143,7 +3139,7 @@ open class SVGView: BaseActiveElement {
 /// The HTML `<caption>` element specifies the caption (or title) of a table.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption)
-open class Caption: BaseActiveElement, ScrollHandleable {
+open class Caption: BaseActiveStringElement, ScrollHandleable {
 
 }
 
@@ -3184,7 +3180,7 @@ open class TBody: BaseActiveElement, ScrollHandleable {
 /// It participates in the table model.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td)
-open class Td: BaseActiveElement {
+open class Td: BaseActiveStringElement {
 
 }
 
@@ -3199,7 +3195,7 @@ open class TFoot: BaseActiveElement, ScrollHandleable {
 /// The exact nature of this group is defined by the scope and headers attributes.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th)
-open class Th: BaseActiveElement {
+open class Th: BaseActiveStringElement {
 
 }
 
@@ -3227,42 +3223,16 @@ open class Tr: BaseActiveElement {
 /// while a text representation of the source can be given using the cite element.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)
-open class BlockQuote: BaseActiveElement, _StringInitializable, ScrollHandleable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
-
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
+open class BlockQuote: BaseActiveStringElement, ScrollHandleable {
+    
 }
 
 /// The HTML `<dd>` element provides the description, definition,
 /// or value for the preceding term (dt) in a description list (dl).
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd)
-open class Dd: BaseActiveElement, _StringInitializable, ScrollHandleable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
-
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
+open class Dd: BaseActiveStringElement, ScrollHandleable {
+    
 }
 
 /// The HTML Content Division element `<div>` is the generic container for flow content.
@@ -3271,22 +3241,7 @@ open class Dd: BaseActiveElement, _StringInitializable, ScrollHandleable {
 /// or some kind of layout model like Flexbox is applied to its parent element).
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)
-open class Div: BaseActiveElement, _StringInitializable, ScrollHandleable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
-
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        super.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
-    
+open class Div: BaseActiveStringElement, ScrollHandleable {
     required public init() {
         super.init()
     }
@@ -3306,42 +3261,16 @@ open class Dl: BaseActiveElement, ScrollHandleable {
 /// and as such must be used inside a dl element.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt)
-open class Dt: BaseActiveElement, _StringInitializable, ScrollHandleable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
-
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
+open class Dt: BaseActiveStringElement, ScrollHandleable {
+    
 }
 
 /// The HTML `<figcaption>` or Figure Caption element represents a caption
 /// or legend describing the rest of the contents of its parent figure element.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption)
-open class FigCaption: BaseActiveElement, _StringInitializable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
-
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
+open class FigCaption: BaseActiveStringElement {
+    
 }
 
 /// The HTML `<figure>` (Figure With Optional Caption) element
@@ -3365,21 +3294,8 @@ open class Hr: BaseActiveElement {
 /// The HTML `<li>` element is used to represent an item in a list.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)
-open class Li: BaseActiveElement, _StringInitializable, ScrollHandleable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
-
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
+open class Li: BaseActiveStringElement, ScrollHandleable {
+    
 }
 
 /// The HTML `<ol>` element represents an ordered list of items — typically rendered as a numbered list.
@@ -3392,42 +3308,16 @@ open class Ol: BaseActiveElement, ScrollHandleable {
 /// The HTML `<p>` element represents a paragraph.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p)
-open class P: BaseActiveElement, _StringInitializable, ScrollHandleable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
-
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
+open class P: BaseActiveStringElement, ScrollHandleable {
+    
 }
 
 /// The HTML `<pre>` element represents preformatted text
 /// which is to be presented exactly as written in the HTML file.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre)
-open class Pre: BaseActiveElement, _StringInitializable, ScrollHandleable {
-    var value: String {
-        get { innerText }
-        set { innerText = newValue }
-    }
+open class Pre: BaseActiveStringElement, ScrollHandleable {
     
-    /// String initializer
-    /// - Parameter title: Pass `String` or `State<String>`
-    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
-        self.init()
-        value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
-        }
-    }
 }
 
 /// The HTML `<ul>` element represents an unordered list of items,
