@@ -942,42 +942,6 @@ extension Pointerable {
         .init(pointer.selector + element)
     }
 
-//    /// Selects all `<div>` elements and all `<p>` elements
-//    ///
-//    /// ```
-//    /// div, p
-//    /// ```
-//    public func several(_ values: Pointer...) -> Pointer {
-//        several(values)
-//    }
-//
-//    /// Selects all `<div>` elements and all `<p>` elements
-//    ///
-//    /// ```
-//    /// div, p
-//    /// ```
-//    public func several(_ values: [Pointer]) -> Pointer {
-//        .init(values.map { $0.value }.joined(separator: ", "))
-//    }
-
-//    /// Selects all `<p>` elements with class="intro"
-//    ///
-//    /// ```
-//    /// p.intro
-//    /// ```
-//    public func both(_ values: Pointer...) -> Self {
-//        both(values)
-//    }
-//
-//    /// Selects all `<p>` elements with class="intro"
-//    ///
-//    /// ```
-//    /// p.intro
-//    /// ```
-//    public func both(_ values: [Pointer]) -> Self {
-//        .init(values.map { $0.value }.joined(separator: ""))
-//    }
-
     /// Selects all `<p>` elements inside `<div>` elements
     ///
     /// ```
@@ -999,7 +963,7 @@ extension Pointerable {
     /// Selects all `<p>` elements where the parent is a `<div>` element
     ///
     /// ```
-    /// div >` p
+    /// div > p
     /// ```
     public func parent(_ values: Pointerable...) -> Pointer {
         parent(values)
@@ -1008,7 +972,7 @@ extension Pointerable {
     /// Selects all `<p>` elements where the parent is a `<div>` element
     ///
     /// ```
-    /// div >` p
+    /// div > p
     /// ```
     public func parent(_ values: [Pointerable]) -> Pointer {
         .init(pointer.selector + " > " + values.map { $0.pointer.selector }.joined(separator: " >` "))
