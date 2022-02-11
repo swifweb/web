@@ -1307,7 +1307,7 @@ public struct FilterType: Noneable, Initialable, Inheritable, CustomStringConver
     /// The url() function takes the location of an XML file that specifies an SVG filter, and may include an anchor to a specific filter element. Example:
     ///
     /// filter: url(svg-url#element-id)
-    public static func url(_ v: String) -> Self { .init("url(svg-url\(v)") }
+    public static func url(_ v: String) -> Self { .init("url(svg-url\(v))") }
     
     public var description: String { value }
 }

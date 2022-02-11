@@ -1121,7 +1121,7 @@ public class BackgroundImageProperty: _Property {
     var _content = _PropertyContent<String>()
 
     public init <S>(_ src: S) where S: UniValue, S.UniValue == String {
-        propertyValue = "url(\(src.uniValue)"
+        propertyValue = "url(\(src.uniValue))"
         src.uniStateValue?.listen { self._changed(to: $0) }
     }
 
@@ -2556,7 +2556,7 @@ public struct BorderImageValue: CustomStringConvertible {
         outset: BorderImageOutsetType? = nil,
         repeat: BorderImageRepeatType? = nil
     ) {
-        value = ["url(\(source)", slice?.value, width?.value, outset?.value, `repeat`?.value].compactMap { $0 }.joined(separator: " ")
+        value = ["url(\(source))", slice?.value, width?.value, outset?.value, `repeat`?.value].compactMap { $0 }.joined(separator: " ")
     }
 
     public var description: String { value }
@@ -2713,7 +2713,7 @@ public class BorderImageSourceProperty: _Property {
     /// String initializer
     /// - Parameter src: Pass `String` or `State<String>`
     public init <S>(_ src: S) where S: UniValue, S.UniValue == String {
-        propertyValue = "url(\(src.uniValue)"
+        propertyValue = "url(\(src.uniValue))"
     }
 }
 
