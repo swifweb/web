@@ -8,6 +8,29 @@
 import Foundation
 import WebFoundation
 
+// MARK: - Custom Property
+
+extension CSSRulable {
+    /// Sets custom property
+    ///
+    /// If you need **CSS** like this
+    /// ```css
+    /// width: calc(100% - 14px)
+    /// ```
+    /// you could set it like this in **Swift**
+    ///
+    /// ```swift
+    /// .custom("width", "calc(100% - 14px)")
+    /// ```
+    @discardableResult
+    public func custom<V>(_ key: String, _ value: V) -> Self where V: CustomStringConvertible {
+        _addProperty(key.propertyKey(), value)
+        return self
+    }
+    
+    // TODO: custom State property
+}
+
 // MARK: - AlignContentProperty
 
 /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
