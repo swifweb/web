@@ -31,7 +31,17 @@ extension DOMElement {
     public func didRemoveFromDOM() {}
 }
 
+// TODO: https://developer.mozilla.org/en-US/docs/Web/API/Node
+// TODO: https://developer.mozilla.org/en-US/docs/Web/API/Element
+// TODO: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
 extension DOMElement {
+    // MARK: - Core Methods
+    
+    /// Adds the specified childNode argument as the last child to the current node.
+    /// If the argument referenced an existing node on the DOM tree,
+    /// the node will be detached from its current position and attached at the new position.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild)
     public func appendChild(_ element: DOMElement) {
         #if arch(wasm32)
         _ = domElement.appendChild(element.domElement)
@@ -40,6 +50,17 @@ extension DOMElement {
         properties.subElements.append(element)
         #endif
         element.didAddToDOM()
+    }
+    
+    /// Removes the element from the children list of its parent.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove)
+    @discardableResult
+    func remove() -> Self {
+        #if arch(wasm32)
+        domElement.remove.function?.callAsFunction(this: jsValue.object)
+        #endif
+        return self
     }
     
     // MARK: - Set Attribute
