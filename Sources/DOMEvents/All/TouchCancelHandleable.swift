@@ -23,10 +23,27 @@ extension TouchCancelHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_touchcancel.asp)
     @discardableResult
-    public func onTouchCancel(_ handler: @escaping (TouchEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ontouchcancel", createOrUpdate(TouchCancelContainer.self, handler))
+    public func onTouchCancel(_ handler: @escaping (Self, TouchEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("ontouchcancel", createOrUpdate(TouchCancelContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The `ontouchcancel` event occurs when the touch event gets interrupted.
+    ///
+    /// Applicable to all tags
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_touchcancel.asp)
+    @discardableResult
+    public func onTouchCancel(_ handler: @escaping (Self) -> Void) -> Self {
+        onTouchCancel { _,_ in handler(self) }
+    }
+    
+    /// The `ontouchcancel` event occurs when the touch event gets interrupted.
+    ///
+    /// Applicable to all tags
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_touchcancel.asp)
     @discardableResult
     public func onTouchCancel(_ handler: @escaping () -> Void) -> Self {
         onTouchCancel { _ in handler() }

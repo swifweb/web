@@ -23,10 +23,27 @@ extension DragEnterHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_ondragenter.asp)
     @discardableResult
-    public func onDragEnter(_ handler: @escaping (DragEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ondragenter", createOrUpdate(DragEnterContainer.self, handler))
+    public func onDragEnter(_ handler: @escaping (Self, DragEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("ondragenter", createOrUpdate(DragEnterContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The ondragenter event occurs when a draggable element or text selection enters a valid drop target.
+    ///
+    /// Applicable to all tags
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_ondragenter.asp)
+    @discardableResult
+    public func onDragEnter(_ handler: @escaping (Self) -> Void) -> Self {
+        onDragEnter { _,_ in handler(self) }
+    }
+    
+    /// The ondragenter event occurs when a draggable element or text selection enters a valid drop target.
+    ///
+    /// Applicable to all tags
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_ondragenter.asp)
     @discardableResult
     public func onDragEnter(_ handler: @escaping () -> Void) -> Self {
         onDragEnter { _ in handler() }

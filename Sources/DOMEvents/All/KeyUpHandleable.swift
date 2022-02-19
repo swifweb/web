@@ -23,10 +23,27 @@ extension KeyUpHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onkeyup.asp)
     @discardableResult
-    public func onKeyUp(_ handler: @escaping (KeyboardEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onkeyup", createOrUpdate(KeyUpContainer.self, handler))
+    public func onKeyUp(_ handler: @escaping (Self, KeyboardEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("onkeyup", createOrUpdate(KeyUpContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The `onkeyup` event occurs when the user releases a key (on the keyboard).
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onkeyup.asp)
+    @discardableResult
+    public func onKeyUp(_ handler: @escaping (Self) -> Void) -> Self {
+        onKeyUp { _,_ in handler(self) }
+    }
+    
+    /// The `onkeyup` event occurs when the user releases a key (on the keyboard).
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onkeyup.asp)
     @discardableResult
     public func onKeyUp(_ handler: @escaping () -> Void) -> Self {
         onKeyUp { _ in handler() }

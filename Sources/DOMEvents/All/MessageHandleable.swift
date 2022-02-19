@@ -29,10 +29,39 @@ extension MessageHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onmessage_sse.asp)
     @discardableResult
-    public func onMessage(_ handler: @escaping (Event) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmessage", createOrUpdate(MessageContainer.self, handler))
+    public func onMessage(_ handler: @escaping (Self, Event) -> Void) -> Self {
+        setDOMHandlerIfNeeded("onmessage", createOrUpdate(MessageContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The onmessage event occurs when a message is received through an event source.
+    ///
+    /// The event object for the onmessage event supports the following properties:
+    ///
+    /// data - Contains the actual message
+    /// origin - The URL of the document that invoked the event
+    /// lastEventId - the identifier of the last message seen in the event stream
+    ///
+    /// Applicable to all tags
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onmessage_sse.asp)
+    @discardableResult
+    public func onMessage(_ handler: @escaping (Self) -> Void) -> Self {
+        onMessage { _,_ in handler(self) }
+    }
+    
+    /// The onmessage event occurs when a message is received through an event source.
+    ///
+    /// The event object for the onmessage event supports the following properties:
+    ///
+    /// data - Contains the actual message
+    /// origin - The URL of the document that invoked the event
+    /// lastEventId - the identifier of the last message seen in the event stream
+    ///
+    /// Applicable to all tags
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onmessage_sse.asp)
     @discardableResult
     public func onMessage(_ handler: @escaping () -> Void) -> Self {
         onMessage { _ in handler() }

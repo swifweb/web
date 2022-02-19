@@ -23,10 +23,27 @@ extension KeyDownHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onkeydown.asp)
     @discardableResult
-    public func onKeyDown(_ handler: @escaping (KeyboardEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onkeydown", createOrUpdate(KeyDownContainer.self, handler))
+    public func onKeyDown(_ handler: @escaping (Self, KeyboardEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("onkeydown", createOrUpdate(KeyDownContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The `onkeydown` event occurs when the user is pressing a key (on the keyboard).
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onkeydown.asp)
+    @discardableResult
+    public func onKeyDown(_ handler: @escaping (Self) -> Void) -> Self {
+        onKeyDown { _,_ in handler(self) }
+    }
+    
+    /// The `onkeydown` event occurs when the user is pressing a key (on the keyboard).
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onkeydown.asp)
     @discardableResult
     public func onKeyDown(_ handler: @escaping () -> Void) -> Self {
         onKeyDown { _ in handler() }

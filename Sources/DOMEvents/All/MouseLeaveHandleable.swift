@@ -23,10 +23,27 @@ extension MouseLeaveHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseleave.asp)
     @discardableResult
-    public func onMouseLeave(_ handler: @escaping (MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmouseleave", createOrUpdate(MouseLeaveContainer.self, handler))
+    public func onMouseLeave(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("onmouseleave", createOrUpdate(MouseLeaveContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The `onmouseleave` event occurs when the mouse pointer is moved out of an element.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onmouseleave.asp)
+    @discardableResult
+    public func onMouseLeave(_ handler: @escaping (Self) -> Void) -> Self {
+        onMouseLeave { _,_ in handler(self) }
+    }
+    
+    /// The `onmouseleave` event occurs when the mouse pointer is moved out of an element.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onmouseleave.asp)
     @discardableResult
     public func onMouseLeave(_ handler: @escaping () -> Void) -> Self {
         onMouseLeave { _ in handler() }

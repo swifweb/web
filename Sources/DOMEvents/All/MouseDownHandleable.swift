@@ -23,10 +23,27 @@ extension MouseDownHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onmousedown.asp)
     @discardableResult
-    public func onMouseDown(_ handler: @escaping (MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmousedown", createOrUpdate(MouseDownContainer.self, handler))
+    public func onMouseDown(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("onmousedown", createOrUpdate(MouseDownContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The onmousedown event occurs when a user presses a mouse button over an element.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onmousedown.asp)
+    @discardableResult
+    public func onMouseDown(_ handler: @escaping (Self) -> Void) -> Self {
+        onMouseDown { _,_ in handler(self) }
+    }
+    
+    /// The onmousedown event occurs when a user presses a mouse button over an element.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onmousedown.asp)
     @discardableResult
     public func onMouseDown(_ handler: @escaping () -> Void) -> Self {
         onMouseDown { _ in handler() }

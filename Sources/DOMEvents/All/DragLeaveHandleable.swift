@@ -23,10 +23,27 @@ extension DragLeaveHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_ondragleave.asp)
     @discardableResult
-    public func onDragLeave(_ handler: @escaping (DragEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ondragleave", createOrUpdate(DragLeaveContainer.self, handler))
+    public func onDragLeave(_ handler: @escaping (Self, DragEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("ondragleave", createOrUpdate(DragLeaveContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The ondragleave event occurs when a draggable element or text selection leaves a valid drop target.
+    ///
+    /// Applicable to all tags
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_ondragleave.asp)
+    @discardableResult
+    public func onDragLeave(_ handler: @escaping (Self) -> Void) -> Self {
+        onDragLeave { _,_ in handler(self) }
+    }
+    
+    /// The ondragleave event occurs when a draggable element or text selection leaves a valid drop target.
+    ///
+    /// Applicable to all tags
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_ondragleave.asp)
     @discardableResult
     public func onDragLeave(_ handler: @escaping () -> Void) -> Self {
         onDragLeave { _ in handler() }

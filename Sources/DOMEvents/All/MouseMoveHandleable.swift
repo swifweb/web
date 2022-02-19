@@ -23,10 +23,27 @@ extension MouseMoveHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onmousemove.asp)
     @discardableResult
-    public func onMouseMove(_ handler: @escaping (MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmousemove", createOrUpdate(MouseMoveContainer.self, handler))
+    public func onMouseMove(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("onmousemove", createOrUpdate(MouseMoveContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The onmousemove event occurs when the pointer is moving while it is over an element.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onmousemove.asp)
+    @discardableResult
+    public func onMouseMove(_ handler: @escaping (Self) -> Void) -> Self {
+        onMouseMove { _,_ in handler(self) }
+    }
+    
+    /// The onmousemove event occurs when the pointer is moving while it is over an element.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onmousemove.asp)
     @discardableResult
     public func onMouseMove(_ handler: @escaping () -> Void) -> Self {
         onMouseMove { _ in handler() }

@@ -23,10 +23,27 @@ extension DblClickHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_ondblclick.asp)
     @discardableResult
-    public func onDblClick(_ handler: @escaping (MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ondblclick", createOrUpdate(DblClickContainer.self, handler))
+    public func onDblClick(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("ondblclick", createOrUpdate(DblClickContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The ondblclick event occurs when the user double-clicks on an element.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`.
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_ondblclick.asp)
+    @discardableResult
+    public func onDblClick(_ handler: @escaping (Self) -> Void) -> Self {
+        onDblClick { _,_ in handler(self) }
+    }
+    
+    /// The ondblclick event occurs when the user double-clicks on an element.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`.
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_ondblclick.asp)
     @discardableResult
     public func onDblClick(_ handler: @escaping () -> Void) -> Self {
         onDblClick { _ in handler() }

@@ -28,22 +28,43 @@ extension ClickHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onclick.asp)
     @discardableResult
-    public func onClick(_ handler: @escaping (MouseEvent, Self) -> Void) -> Self {
+    public func onClick(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
         setDOMHandlerIfNeeded("onclick", createOrUpdate(ClickContainer.self) {
-            handler($0, self)
+            handler(self, $0)
         })
     }
     
+    /// The `onclick` event occurs when the user clicks on an element.
+    ///
+    /// Applicable to all tags
+    /// including SVG: `<image>`, `<line>`, `<linearGradient>`, `<marker>`, `<metadata>`, `<mpath>,
+    /// `<path>`, `<pattern>`, `<polygon>`, `<polyline>`, `<radialGradient>`, `<rect>,
+    /// `<script>`, `<set>`, `<stop>`, `<style>`, `<svg>`, `<switch>`, `<symbol>,
+    /// `<text>`, `<textPath>`, `<title>`, `<tref>`, `<tspan>`, `<use>`, `<view>`
+    /// except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>, and <title>`.
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onclick.asp)
     @discardableResult
-    public func onClick(_ handler: @escaping (MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onclick", createOrUpdate(ClickContainer.self, handler))
+    public func onClick(_ handler: @escaping (Self) -> Void) -> Self {
+        onClick { _,_ in handler(self) }
     }
     
+    /// The `onclick` event occurs when the user clicks on an element.
+    ///
+    /// Applicable to all tags
+    /// including SVG: `<image>`, `<line>`, `<linearGradient>`, `<marker>`, `<metadata>`, `<mpath>,
+    /// `<path>`, `<pattern>`, `<polygon>`, `<polyline>`, `<radialGradient>`, `<rect>,
+    /// `<script>`, `<set>`, `<stop>`, `<style>`, `<svg>`, `<switch>`, `<symbol>,
+    /// `<text>`, `<textPath>`, `<title>`, `<tref>`, `<tspan>`, `<use>`, `<view>`
+    /// except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>, and <title>`.
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onclick.asp)
     @discardableResult
     public func onClick(_ handler: @escaping () -> Void) -> Self {
         onClick { _ in handler() }
     }
     
+    /// Call it to imitate real click on the element
     public func click() {
         callFunction("click")
     }

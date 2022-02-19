@@ -23,10 +23,27 @@ extension FocusInHandleable {
     ///
     /// [More info →](https://www.w3schools.com/jsref/event_onfocusin.asp)
     @discardableResult
-    public func onFocusIn(_ handler: @escaping (FocusEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onfocusin", createOrUpdate(FocusInContainer.self, handler))
+    public func onFocusIn(_ handler: @escaping (Self, FocusEvent) -> Void) -> Self {
+        setDOMHandlerIfNeeded("onfocusin", createOrUpdate(FocusInContainer.self) {
+            handler(self, $0)
+        })
     }
     
+    /// The onfocusin event occurs when an element is about to get focus.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onfocusin.asp)
+    @discardableResult
+    public func onFocusIn(_ handler: @escaping (Self) -> Void) -> Self {
+        onFocusIn { _,_ in handler(self) }
+    }
+    
+    /// The onfocusin event occurs when an element is about to get focus.
+    ///
+    /// Applicable to all tags except: `<base>`, `<bdo>`, `<br>`, `<head>`, `<html>`, `<iframe>`, `<meta>`, `<param>`, `<script>`, `<style>`, and `<title>`
+    ///
+    /// [More info →](https://www.w3schools.com/jsref/event_onfocusin.asp)
     @discardableResult
     public func onFocusIn(_ handler: @escaping () -> Void) -> Self {
         onFocusIn { _ in handler() }
