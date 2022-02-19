@@ -187,8 +187,6 @@ open class Worker: AbstractWorker, EventTarget {
     }
     
     private func shutdown() {
-        onmessageClosure.release()
-        onmessageerrorClosure.release()
         stringMessageHandlers.removeAll()
         eventMessageHandlers.removeAll()
         errorMessageHandlers.removeAll()

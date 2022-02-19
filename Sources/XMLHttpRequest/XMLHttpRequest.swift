@@ -104,17 +104,6 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
         .init(jsValue.upload)
     }
     
-    deinit {
-        readyStateChangeClosures.forEach { $0.release() }
-        loadStartClosures.forEach { $0.release() }
-        progressClosures.forEach { $0.release() }
-        abortClosures.forEach { $0.release() }
-        errorClosures.forEach { $0.release() }
-        loadClosures.forEach { $0.release() }
-        timeoutClosures.forEach { $0.release() }
-        loadEndClosures.forEach { $0.release() }
-    }
-    
     private var readyStateChangeClosures: [JSClosure] = []
     var loadStartClosures: [JSClosure] = []
     var progressClosures: [JSClosure] = []

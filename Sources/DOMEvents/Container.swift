@@ -39,7 +39,6 @@ protocol GenericContainer: AnyContainer, AnyStorageValue {
 extension GenericContainer {
     func shutdown() {
         handlers.removeAll()
-        closure.release()
     }
 }
 

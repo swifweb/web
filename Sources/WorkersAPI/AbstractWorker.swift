@@ -43,7 +43,6 @@ class AbstractWorkerErrorHandler: AnyStorageValue, StorageKey {
     }
     
     func shutdown() {
-        closure.release()
         handler = nil
     }
 }

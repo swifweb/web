@@ -123,18 +123,6 @@ open class ServiceWorker {
         }
     }
     
-    deinit {
-        activatePromiseClosure?.release()
-        contentDeletePromiseClosure?.release()
-        fetchPromiseClosure?.release()
-        messagePromiseClosure?.release()
-        notificationClickPromiseClosure?.release()
-        notificationClosePromiseClosure?.release()
-        pushPromiseClosure?.release()
-        pushSubscriptionChangePromiseClosure?.release()
-        syncPromiseClosure?.release()
-    }
-    
     public static func start() -> ServiceWorker {
         guard serviceworker == nil else { return serviceworker }
         serviceworker = Self()

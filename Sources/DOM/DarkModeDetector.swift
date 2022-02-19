@@ -23,6 +23,4 @@ class DarkModeDetector {
         handler(false)
         #endif
     }
-    
-    deinit { closure?.release() }
 }

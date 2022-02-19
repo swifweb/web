@@ -25,7 +25,6 @@ public class EventListener {
     deinit {
         #if arch(wasm32)
         JSObject.global[object].object!["removeEventListener"].function!.callAsFunction(event, closure)
-        closure.release()
         #endif
     }
     

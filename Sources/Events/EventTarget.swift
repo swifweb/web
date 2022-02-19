@@ -232,6 +232,5 @@ class EventListenerContainer: AnyStorageValue {
     
     func shutdown() {
         handlers.removeAll()
-        closure.release()
     }
 }

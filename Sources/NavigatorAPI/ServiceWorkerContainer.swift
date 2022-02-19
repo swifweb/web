@@ -249,10 +249,6 @@ public class ServiceWorkerRegistration: EventTarget {
         self.jsValue = jsValue
     }
     
-    deinit {
-        onupdatefoundClosure.release()
-    }
-    
     /// A unique identifier for a service worker registration.
     ///
     /// The service worker must be on the same origin as the document that registers the `ServiceWorker`.
@@ -464,7 +460,6 @@ public final class ServiceWorker: Worker {
     public override func terminate() {}
     
     private func shutdown() {
-        onstatechangeClosure.release()
         onstatechangeHandlers.removeAll()
     }
     

@@ -29,7 +29,6 @@ public struct Dispatch {
         var function: JSClosure!
         function = .init { _ -> JSValue in
             closure()
-            function.release()
             dispatch.functions[uid] = nil
             return .null
         }
@@ -66,7 +65,6 @@ public struct Dispatch {
                 closure(task)
             } else {
                 task = IntervalTask(timer) {
-                    function.release()
                     dispatch.functions[uid] = nil
                 }
                 closure(task!)

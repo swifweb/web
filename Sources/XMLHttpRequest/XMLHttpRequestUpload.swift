@@ -18,16 +18,6 @@ public class XMLHttpRequestUpload: XMLHttpRequestEventTarget {
         self.jsValue = jsValue
     }
     
-    deinit {
-        loadStartClosures.forEach { $0.release() }
-        progressClosures.forEach { $0.release() }
-        abortClosures.forEach { $0.release() }
-        errorClosures.forEach { $0.release() }
-        loadClosures.forEach { $0.release() }
-        timeoutClosures.forEach { $0.release() }
-        loadEndClosures.forEach { $0.release() }
-    }
-    
     var loadStartClosures: [JSClosure] = []
     var progressClosures: [JSClosure] = []
     var abortClosures: [JSClosure] = []
