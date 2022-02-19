@@ -21,7 +21,7 @@ struct _AppContent: AppBuilder.Content {
 
 public typealias Lifecycle = WindowLifecycle
 
-@_functionBuilder public struct AppBuilder {
+@resultBuilder public struct AppBuilder {
     public typealias Block = () -> AppBuilderContent
     public typealias Content = AppBuilderContent
     

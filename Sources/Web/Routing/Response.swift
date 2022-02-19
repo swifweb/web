@@ -8,6 +8,6 @@
 import Foundation
 import JavaScriptKit
 
-public protocol Response: class {
+public protocol Response: AnyObject {
     var controller: ViewController { get }
 }

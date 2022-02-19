@@ -15,7 +15,7 @@ struct _ServiceContent: ServiceBuilder.Content {
     let serviceBuilderContent: ServiceBuilder.Item
 }
 
-@_functionBuilder public struct ServiceBuilder {
+@resultBuilder public struct ServiceBuilder {
     public typealias Block = () -> ServiceBuilderContent
     public typealias Content = ServiceBuilderContent
     

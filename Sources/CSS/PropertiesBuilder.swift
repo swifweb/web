@@ -13,7 +13,7 @@ struct _PropertiesContent: Properties.Content {
     let propertiesContent: Properties.Item
 }
 
-@_functionBuilder public struct Properties {
+@resultBuilder public struct Properties {
     public typealias Block = () -> PropertiesContent
     public typealias Content = PropertiesContent
     

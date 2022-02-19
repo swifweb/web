@@ -7,7 +7,7 @@
 
 import JavaScriptKit
 
-public protocol JSClass: class {
+public protocol JSClass: AnyObject {
     var jsValue: JSValue { get }
     static var instanceConstructor: JSFunction { get }
     

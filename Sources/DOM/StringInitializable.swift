@@ -7,7 +7,7 @@
 
 import WebFoundation
 
-public protocol StringInitializable: class {
+public protocol StringInitializable: AnyObject {
     init <U>(_ value: U) where U: UniValue, U.UniValue == String
 }
 

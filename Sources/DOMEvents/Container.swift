@@ -24,7 +24,7 @@ class Container<Event: AnyEvent>: GenericContainer {
     }
 }
 
-protocol AnyContainer: class {
+protocol AnyContainer: AnyObject {
     var isAddedToDOM: Bool { get set }
     var closure: JSClosure { get }
 }

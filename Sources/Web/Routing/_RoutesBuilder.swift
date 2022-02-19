@@ -21,7 +21,7 @@
 //    let routesBuilderContent: RoutesBuilderItem
 //}
 //
-//@_functionBuilder public struct _RoutesBuilder {
+//@resultBuilder public struct _RoutesBuilder {
 //    public typealias Block = () -> RoutesBuilderContent
 //
 //    public static func buildBlock() -> RoutesBuilderContent {

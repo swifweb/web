@@ -7,7 +7,7 @@
 
 import WebFoundation
 
-protocol _PropertyValueInnerChangeable: class {
+protocol _PropertyValueInnerChangeable: AnyObject {
     var _changeHandler: () -> Void { get set }
 }
 

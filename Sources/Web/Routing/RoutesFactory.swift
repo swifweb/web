@@ -11,7 +11,7 @@ public protocol RoutesFactoryContent {
     var routesFactoryContent: RoutesFactory.Item { get }
 }
 
-@_functionBuilder public struct RoutesFactory {
+@resultBuilder public struct RoutesFactory {
     public enum Item {
         case none
         case group(Routes.Group)

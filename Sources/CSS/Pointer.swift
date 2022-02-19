@@ -27,7 +27,7 @@ open class Pointer: StaticPointerable, ExpressibleByStringLiteral {
     public static var any: Self { .init("*") }
 }
 
-public protocol Pointerable: class {
+public protocol Pointerable: AnyObject {
     var pointer: Pointer { get }
 }
 

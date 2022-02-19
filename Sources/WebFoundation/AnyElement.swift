@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol AnyElement: class {
+public protocol AnyElement: AnyObject {
     static var name: String { get }
 }

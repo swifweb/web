@@ -7,7 +7,7 @@
 
 import JavaScriptKit
 
-public protocol AnyEvent: class {
+public protocol AnyEvent: AnyObject {
     var jsEvent: JSValue { get }
     var type: EventName { get }
     

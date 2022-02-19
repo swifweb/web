@@ -21,7 +21,7 @@ private struct EmptyContent: DOMContent {
     let domContentItem: DOMItem
 }
 
-@_functionBuilder public struct DOM {
+@resultBuilder public struct DOM {
     public typealias Content = DOMContent
     public typealias Block = () -> Content
     

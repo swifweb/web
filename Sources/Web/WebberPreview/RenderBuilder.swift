@@ -15,7 +15,7 @@ struct _RenderBuilderContent: Preview.Content {
     let renderBuilderContent: Preview.Item
 }
 
-@_functionBuilder public struct Preview {
+@resultBuilder public struct Preview {
     public typealias Block = () -> RenderBuilderContent
     public typealias Content = RenderBuilderContent
     

@@ -9,7 +9,7 @@ public protocol InnerStateChangeableObserver {
     func innerStateChangeableSetup()
 }
 
-public protocol InnerStateChangeable: class, Copyable {
+public protocol InnerStateChangeable: AnyObject, Copyable {
     var innerStates: [AnyState] { get }
     var innerStatePrevSelf: Self { get set }
     var innerStateManualUpdating: Bool { get set }

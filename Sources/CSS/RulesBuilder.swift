@@ -13,7 +13,7 @@ struct _RulesContent: Rules.Content {
     let rulesContent: Rules.Item
 }
 
-@_functionBuilder public struct Rules {
+@resultBuilder public struct Rules {
     public typealias Block = () -> RulesContent
     public typealias Content = RulesContent
     
