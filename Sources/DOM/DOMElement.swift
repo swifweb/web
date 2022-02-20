@@ -58,7 +58,7 @@ extension DOMElement {
     @discardableResult
     func remove() -> Self {
         #if arch(wasm32)
-        domElement.remove.function?.callAsFunction(this: jsValue.object)
+        domElement.remove.function?.callAsFunction(this: domElement.object)
         #endif
         return self
     }
