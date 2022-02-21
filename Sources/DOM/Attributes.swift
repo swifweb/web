@@ -4004,29 +4004,27 @@ extension Video: SrcAttrable {}
 // MARK: - LoadAttrable
 
 public protocol LoadAttrable: DOMElement {
-	@discardableResult
-	func load<U: URLConformable>(_ value: U) -> Self
+    @discardableResult
+    func load<U: URLConformable>(_ value: U) -> Self
 }
 
 extension LoadAttrable {
-	/// The URL of the embeddable content.
-	///
-	/// Applicable to `<img>`
-	///
-	/// [More info →](https://www.w3schools.com/tags/att_src.asp)
-	@discardableResult
-	public func load<U: URLConformable>(_ value: U) -> Self {
-		let tempImg = Img()
-		tempImg
-			.src(value.stringValue)
-			.onLoad {
-				self.setAttribute("src", value.stringValue)
-				tempImg.remove()
-			}
-			
-		return self
-	}
-	
+    /// The URL of the embeddable content.
+    ///
+    /// Applicable to `<img>`
+    ///
+    /// [More info →](https://www.w3schools.com/tags/att_src.asp)
+    @discardableResult
+    public func load<U: URLConformable>(_ value: U) -> Self {
+        let tempImg = Img()
+        tempImg
+        .src(value.stringValue)
+        .onLoad {
+            self.setAttribute("src", value.stringValue)
+            tempImg.remove()
+        }
+        return self
+    }
 }
 
 extension Img: LoadAttrable {}
