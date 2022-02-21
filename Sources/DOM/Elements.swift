@@ -1057,7 +1057,7 @@ open class InputMonth: BaseActiveElement, _StringInitializable, ChangeHandleable
 /// depending on the device and user agent.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
-open class InputNumber: BaseActiveElement, ChangeHandleable, InvalidHandleable, InputHandleable, SelectHandleable, SearchHandleable {
+open class InputNumber: BaseActiveElement, ChangeHandleable, InvalidHandleable, InputHandleable, SelectHandleable, SearchHandleable, Selectable {
     public override class var name: String { "input" }
 
     @State public var text: String = ""
