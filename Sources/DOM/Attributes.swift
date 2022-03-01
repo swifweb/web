@@ -4285,7 +4285,7 @@ extension TabIndexAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex)
     @discardableResult
     public func tabIndex(_ value: Int) -> Self {
-        setAttribute("tabindex", value)
+        setAttribute("tabIndex", value)
         return self
     }
     
