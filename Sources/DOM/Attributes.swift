@@ -399,7 +399,7 @@ extension AutocompleteAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
     @discardableResult
     public func autocomplete(_ value: AutocompleteType) -> Self {
-        setAttribute("autocapitalize", value.value)
+        setAttribute("autocomplete", value.value)
         return self
     }
     
