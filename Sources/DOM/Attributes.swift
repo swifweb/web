@@ -835,42 +835,42 @@ extension ColsAttrable {
 
 extension TextArea: ColsAttrable {}
 
-// MARK: - ColspanAttrable
+// MARK: - ColSpanAttrable
 
-public protocol ColspanAttrable: DOMElement {
+public protocol ColSpanAttrable: DOMElement {
     @discardableResult
-    func colspan(_ value: Int) -> Self
+    func colSpan(_ value: Int) -> Self
     @discardableResult
-    func colspan<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int
+    func colSpan<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int
 }
 
-extension ColspanAttrable {
-    /// The colspan attribute defines the number of columns a cell should span.
+extension ColSpanAttrable {
+    /// The colSpan attribute defines the number of columns a cell should span.
     ///
     /// Applicable to `<td>`, `<th>`
     ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/colspan)
+    /// [More info →](https://www.w3schools.com/tags/att_colspan.asp)
     @discardableResult
-    public func colspan(_ value: Int) -> Self {
-        setAttribute("colspan", value)
+    public func colSpan(_ value: Int) -> Self {
+        setAttribute("colSpan", value)
         return self
     }
     
-    /// The colspan attribute defines the number of columns a cell should span.
+    /// The colSpan attribute defines the number of columns a cell should span.
     ///
     /// Applicable to `<td>`, `<th>`
     ///
-    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/colspan)
+    /// [More info →](https://www.w3schools.com/tags/att_colspan.asp)
     @discardableResult
-    public func colspan<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int {
-        colspan(value.stateValue.wrappedValue)
-        value.stateValue.listen { self.colspan($0) }
+    public func colSpan<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Int {
+        colSpan(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.colSpan($0) }
         return self
     }
 }
 
-extension Td: ColspanAttrable {}
-extension Th: ColspanAttrable {}
+extension Td: ColSpanAttrable {}
+extension Th: ColSpanAttrable {}
 
 // MARK: - ContentAttrable
 
