@@ -14,7 +14,11 @@ public class Localization {
     
     var defaultLanguage: Language = .en
     
-    lazy var currentLanguage: Language = detectCurrentLanguage()
+	@State public internal(set) var currentLanguage: Language = .en
+	
+	init () {
+		currentLanguage = detectCurrentLanguage()
+	}
     
     func detectCurrentLanguage() -> Language {
         if let language = Language(rawValue: currentLocaleIdentifier) {
@@ -39,6 +43,11 @@ public class Localization {
         get { shared.currentLanguage }
         set { shared.currentLanguage = newValue }
     }
+	
+	public static var currentState: State<Language> {
+		get { shared._currentLanguage }
+		set { shared._currentLanguage = newValue }
+	}
     
     public static var `default`: Language {
         get { shared.defaultLanguage }
