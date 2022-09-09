@@ -15,8 +15,8 @@ public class Blob: JSClass, CustomStringConvertible {
     public var description: String { "Blob(size: \(size)" }
     
     /// The size, in bytes, of the data contained in the Blob object.
-    public var size: Int {
-        Int(jsValue.size.number ?? 0)
+    public var size: Int64 {
+        Int64(jsValue.size.number ?? 0)
     }
     
     /// A string indicating the MIME type of the data contained in the Blob.

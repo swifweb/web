@@ -50,9 +50,9 @@ public class WritableStreamDefaultWriter {
     /// and zero if the stream is closed.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStreamDefaultWriter/desiredSize)
-    public var desiredSize: Int? {
+    public var desiredSize: Int64? {
         guard let value = jsValue.desiredSize.number else { return nil }
-        return Int(value)
+        return Int64(value)
     }
     
     /// Success calls when the desired size of the stream's internal queue transitions from non-positive to positive,
