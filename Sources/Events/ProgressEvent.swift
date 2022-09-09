@@ -12,14 +12,14 @@ public class ProgressEvent: Event {
     public let lengthComputable: Bool
     
     /// Returns how much work has been loaded
-    public let loaded: Bool
+    public let loaded: Int
     
     /// Returns the total amount of work that will be loaded
     public let total: Int
     
     required init (_ event: JSValue) {
         lengthComputable = event.lengthComputable.boolean ?? false
-        loaded = event.loaded.boolean ?? false
+        loaded = Int(event.total.number ?? 0)
         total = Int(event.total.number ?? 0)
         super.init(event)
     }
