@@ -111,10 +111,10 @@ extension XMLHttpRequestEventTarget {
     }
 
     @discardableResult
-    public func onLoad(_ closure: @escaping (JSValue) -> Void) -> Self {
+    public func onLoad(_ closure: @escaping (ProgressEvent) -> Void) -> Self {
         let jsClosure = JSClosure  { args in
             if let event = args.first {
-                closure(event)
+				closure(.init(event))
             }
             return JSValue.undefined
         }
@@ -129,10 +129,10 @@ extension XMLHttpRequestEventTarget {
     }
     
     @discardableResult
-    public func onLoadStart(_ closure: @escaping (JSValue) -> Void) -> Self {
+    public func onLoadStart(_ closure: @escaping (ProgressEvent) -> Void) -> Self {
         let jsClosure = JSClosure  { args in
             if let event = args.first {
-                closure(event)
+				closure(.init(event))
             }
             return JSValue.undefined
         }

@@ -12,7 +12,7 @@ import JavaScriptKit
 public class File: Blob {
     /// Returns the last modified time of the file,
     /// in millisecond since the UNIX epoch (January 1st, 1970 at Midnight).
-    public let lastModified: Int
+    public let lastModified: TimeInterval
     
     /// Returns the last modified Date of the file referenced by the File object.
     public let lastModifiedDate: Date
@@ -24,7 +24,7 @@ public class File: Blob {
     public let webkitRelativePath: String
     
     public override init (_ object: JSValue) {
-        lastModified = Int(object.lastModified.number ?? 0)
+        lastModified = TimeInterval(object.lastModified.number ?? 0)
         lastModifiedDate = Date(timeIntervalSince1970: TimeInterval(_JSDate(object.lastModifiedDate).getTime() / 1_000))
         name = object.name.string ?? ""
 		webkitRelativePath = object.webkitRelativePath.string ?? ""

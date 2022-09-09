@@ -40,8 +40,8 @@ public class WebSocket {
     }
     
     /// The number of bytes of queued data.
-    public var bufferedAmount: Int {
-        Int(jsValue.bufferedAmount.number ?? 0)
+    public var bufferedAmount: Int64 {
+		Int64(jsValue.bufferedAmount.number ?? 0)
     }
     
     /// The extensions selected by the server.
