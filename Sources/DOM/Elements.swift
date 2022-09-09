@@ -851,44 +851,18 @@ open class InputFile: BaseActiveElement, ChangeHandleable, InvalidHandleable, Se
                 // maybe the new way soon
                 if let array = domElement.files.array {
                     array.forEach {
-                        guard let file = File($0) else { return }
-                        files.append(file)
+						files.append(File($0))
                     }
                 } else {
                     (0...count - 1).forEach { i in
                         guard let value = domElement.files.item.function?.callAsFunction(this: domElement.files.object, i) else { return }
-                        guard let file = File(value) else { return }
-                        files.append(file)
+                        files.append(File(value))
                     }
                 }
                 self.files = files
             }
         }
         setAttribute("type", "file")
-    }
-}
-
-extension InputFile {
-    public struct File: CustomStringConvertible {
-        public let lastModified: Date
-        public let name: String
-        public let size: UInt
-        public let type: String
-        public let webkitRelativePath: String
-
-        init? (_ value: JSValue) {
-            guard !value.isNull && !value.isUndefined else { return nil }
-            let lm = value.lastModified.number ?? 0
-            lastModified = Date(timeIntervalSince1970: lm > 0 ? lm / 1_000 : 0)
-            name = value.name.string ?? ""
-            size = UInt(value.size.number ?? 0)
-            type = value.type.string ?? ""
-            webkitRelativePath = value.webkitRelativePath.string ?? ""
-        }
-
-        public var description: String {
-            "InputFile.File(name: \(name), size: \(size), type: \(type), lastModified: \(lastModified.timeIntervalSince1970))"
-        }
     }
 }
 

@@ -19,16 +19,21 @@ public class File: Blob {
     
     /// Returns the name of the file referenced by the File object.
     public let name: String
-    
-//    /// Returns the path the URL of the File is relative to.
-//    public let webkitRelativePath: String
+	
+    /// Returns the path the URL of the File is relative to.
+    public let webkitRelativePath: String
     
     public override init (_ object: JSValue) {
         lastModified = Int(object.lastModified.number ?? 0)
         lastModifiedDate = Date(timeIntervalSince1970: TimeInterval(_JSDate(object.lastModifiedDate).getTime() / 1_000))
         name = object.name.string ?? ""
+		webkitRelativePath = object.webkitRelativePath.string ?? ""
         super.init(object)
     }
+	
+	public override var description: String {
+		"File( \nname: \(name), \nsize: \(size), \ntype: \(type), \nlastModifiedDate: \(lastModifiedDate)\n)"
+	}
 }
 
 /// [More info →](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
