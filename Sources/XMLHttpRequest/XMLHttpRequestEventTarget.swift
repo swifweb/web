@@ -26,13 +26,13 @@ public protocol XMLHttpRequestEventTarget: EventTarget {
     func onLoad(_ closure: @escaping () -> Void) -> Self
     
     /// Contains the function to call when an HTTP request returns after successfully fetching content and the load event is received by this object.
-    func onLoad(_ closure: @escaping (JSValue) -> Void) -> Self
+    func onLoad(_ closure: @escaping (ProgressEvent) -> Void) -> Self
 
     /// Contains the function that gets called when the HTTP request first begins loading data and the loadstart event is received by this object.
     func onLoadStart(_ closure: @escaping () -> Void) -> Self
     
     /// Contains the function that gets called when the HTTP request first begins loading data and the loadstart event is received by this object.
-    func onLoadStart(_ closure: @escaping (JSValue) -> Void) -> Self
+    func onLoadStart(_ closure: @escaping (ProgressEvent) -> Void) -> Self
 
     /// Contains the function that is called periodically with information about the progress of the request and the progress event is received by this object.
     ///
