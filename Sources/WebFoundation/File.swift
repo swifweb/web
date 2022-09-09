@@ -41,8 +41,8 @@ class _JSDate {
     let object: JSValue
     
     /// Returns the milliseconds since the UTC epoch
-    func getTime() -> Int {
-        Int(object.getUTCSeconds.function?.callAsFunction(this: object.object).number ?? 0)
+    func getTime() -> Int64 {
+		Int64(object.getUTCSeconds.function?.callAsFunction(this: object.object).number ?? 0)
     }
     
     public init (_ object: JSValue) {
