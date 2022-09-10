@@ -10,16 +10,25 @@ import Foundation
 import Events
 
 public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
-    public var jsValue: JSValue
-    
+	public var jsValue: JSValue
+	var _isForUploading = false
+	
     public lazy var storage: Storage = .init()
     
     /// The constructor initializes an `XMLHttpRequest`.
     ///
     /// It must be called before any other method calls.
-    public init () {
-        jsValue = JSObject.global.XMLHttpRequest.function?.new().jsValue() ?? .undefined
+	///
+	/// Set `uploading`to `true` in order to have correct `progress` events.
+	public init (uploading: Bool = false) {
+		jsValue = JSObject.global.XMLHttpRequest.function?.new().jsValue().upload ?? .undefined
+		_isForUploading = uploading
     }
+	
+	init (_ value: JSValue, uploading: Bool = false) {
+		jsValue = value
+		_isForUploading = uploading
+	}
     
     public var readyState: ReadyState {
         ReadyState(rawValue: Int(jsValue.readyState.number ?? -1)) ?? .unknown
@@ -96,13 +105,13 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
         jsValue.timeout = (time / 1_000).jsValue()
         return self
     }
-    
-    /// Representing the upload process.
-    ///
-    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload)
-    public var upload: XMLHttpRequestUpload {
-        .init(jsValue.upload)
-    }
+	
+	/// Representing the upload process.
+	///
+	/// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload)
+	public var upload: XMLHttpRequest {
+		_isForUploading ? self : .init(jsValue.upload, uploading: true)
+	}
     
     private var readyStateChangeClosures: [JSClosure] = []
     var loadStartClosures: [JSClosure] = []
