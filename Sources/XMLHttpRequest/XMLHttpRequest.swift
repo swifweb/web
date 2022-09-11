@@ -11,7 +11,7 @@ import Events
 
 public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
 	public var jsValue: JSValue
-	var _isForUploading = false
+	var _isForUploading: Bool = false
 	
     public lazy var storage: Storage = .init()
     
@@ -21,7 +21,7 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
 	///
 	/// Set `uploading`to `true` in order to have correct `progress` events.
 	public init (uploading: Bool = false) {
-		jsValue = JSObject.global.XMLHttpRequest.function?.new().jsValue().upload ?? .undefined
+		jsValue = JSObject.global.XMLHttpRequest.function?.new().jsValue() ?? .undefined
 		_isForUploading = uploading
     }
 	
