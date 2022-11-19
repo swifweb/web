@@ -9,7 +9,7 @@ import WebFoundation
 
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Notification)
 open class Notification: ConvertibleToJSValue {
-    public enum Permission: String {
+	public enum Permission: String {
         /// The user has explicitly granted permission
         /// for the current origin to display system notifications.
         case granted
@@ -51,14 +51,15 @@ open class Notification: ConvertibleToJSValue {
                 return .null
             }
         }
-        let promise = requestPermission.callAsFunction(this: JSObject.global.Notification.object, closure())
-        if !promise.isNull, !promise.isUndefined, let then = promise.then.function {
-            then.callAsFunction(this: promise.object, closure())
-        }
+		if let promise = requestPermission.callAsFunction(optionalThis: JSObject.global.Notification.object, closure()) {
+			if !promise.isNull, !promise.isUndefined, let then = promise.then.function {
+				then.callAsFunction(optionalThis: promise.object, closure())
+			}
+		}
     }
     
     let _jsValue: JSValue
-    public func jsValue() -> JSValue { _jsValue }
+	public var jsValue: JSValue { _jsValue }
     
     public init (_ value: JSValue) {
         _jsValue = value
@@ -120,7 +121,7 @@ open class Notification: ConvertibleToJSValue {
         if let vibrate = vibrate { options["vibrate"] = vibrate.jsValue() }
         if let silent = silent { options["silent"] = silent }
         if let timestamp = timestamp { options["timestamp"] = timestamp / 1_000 }
-        _jsValue = JSObject.global.Notification.function?.new(title, options).jsValue() ?? .undefined
+		_jsValue = JSObject.global.Notification.function?.new(title, options.jsValue).jsValue() ?? .undefined
     }
     
     /// Used to close/remove a previously displayed notification.
@@ -133,6 +134,6 @@ open class Notification: ConvertibleToJSValue {
     /// or the following song is already playing in a music app).
     func close() {
         guard !_jsValue.isNull, !_jsValue.isUndefined else { return }
-        _jsValue.close.function?.callAsFunction(this: _jsValue.object)
+        _jsValue.close.function?.callAsFunction(optionalThis: _jsValue.object)
     }
 }

@@ -47,7 +47,7 @@ public class WritableStream {
     
     /// Closes the stream.
     public func close() {
-        jsValue.close.function?.callAsFunction(this: jsValue.object)
+        jsValue.close.function?.callAsFunction(optionalThis: jsValue.object)
     }
     
     /// Returns a new instance of `WritableStreamDefaultWriter` and locks the stream to that instance.
@@ -56,6 +56,6 @@ public class WritableStream {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStream/getWriter)
     public func getWriter() -> WritableStreamDefaultWriter {
-        .init(jsValue.getWriter.function?.callAsFunction(this: jsValue.object) ?? .undefined)
+        .init(jsValue.getWriter.function?.callAsFunction(optionalThis: jsValue.object) ?? .undefined)
     }
 }

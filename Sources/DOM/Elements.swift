@@ -855,7 +855,7 @@ open class InputFile: BaseActiveElement, ChangeHandleable, InvalidHandleable, Se
                     }
                 } else {
                     (0...count - 1).forEach { i in
-                        guard let value = domElement.files.item.function?.callAsFunction(this: domElement.files.object, i) else { return }
+                        guard let value = domElement.files.item.function?.callAsFunction(optionalThis: domElement.files.object, i) else { return }
                         files.append(File(value))
                     }
                 }

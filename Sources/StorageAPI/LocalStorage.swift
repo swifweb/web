@@ -78,7 +78,7 @@ public final class LocalStorage {
     /// Use this method to add/update value in the storage
     public func set<V: ConvertibleToJSValue>(_ value: V, forKey key: String) {
         let oldValue = self.value(forKey: key) ?? .null
-        domElement.setItem.function!.callAsFunction(this: domElement.object, key, value.jsValue())
+        domElement.setItem.function!.callAsFunction(optionalThis: domElement.object, key, value.jsValue())
         update()
         notifyAboutChanges(key: key, oldValue: oldValue, newValue: value.jsValue())
     }
@@ -90,7 +90,7 @@ public final class LocalStorage {
     
     /// Returns absract value for `key`
     public func value(forKey key: String) -> JSValue? {
-        let value = domElement.getItem.function!.callAsFunction(this: domElement.object, key)
+        let value = domElement.getItem.function!.callAsFunction(optionalThis: domElement.object, key)
         switch value {
         case .null: return nil
         default: return value
@@ -149,7 +149,7 @@ public final class LocalStorage {
     /// Removes item by `key` from the storage
     public func removeItem(forKey key: String) {
         let oldValue = value(forKey: key) ?? .null
-        domElement.removeItem.function!.callAsFunction(this: domElement.object, key)
+        domElement.removeItem.function!.callAsFunction(optionalThis: domElement.object, key)
         update()
         notifyAboutChanges(key: key, oldValue: oldValue, newValue: .null)
     }
@@ -161,7 +161,7 @@ public final class LocalStorage {
     
     /// Removes all items from the storage
     public func clear() {
-        domElement.clear.function!.callAsFunction(this: domElement.object)
+        domElement.clear.function!.callAsFunction(optionalThis: domElement.object)
         length = 0
         notifyAboutClear()
     }
@@ -173,7 +173,7 @@ public final class LocalStorage {
     
     /// Returns `key` at specified `index`
     public func key(at index: Int) -> String? {
-        domElement.key.function!.callAsFunction(this: domElement.object, index).string
+        domElement.key.function!.callAsFunction(optionalThis: domElement.object, index)?.string
     }
     
     /// Calls handler if something has been changed in the storage

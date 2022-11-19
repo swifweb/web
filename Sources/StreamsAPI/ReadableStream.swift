@@ -60,7 +60,7 @@ public class ReadableStream {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/getReader)
     public func getReader() -> ReadableStreamDefaultReader {
-        ReadableStreamDefaultReader(jsValue.getReader.function?.callAsFunction(this: jsValue.object) ?? .undefined)
+        ReadableStreamDefaultReader(jsValue.getReader.function?.callAsFunction(optionalThis: jsValue.object) ?? .undefined)
     }
     
     /// Creates a reader and locks the stream to it.
@@ -69,7 +69,7 @@ public class ReadableStream {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/getReader)
     public func getBYOBReader() -> ReadableStreamBYOBReader {
-        ReadableStreamBYOBReader(jsValue.getReader.function?.callAsFunction(this: jsValue.object, "byob") ?? .undefined)
+        ReadableStreamBYOBReader(jsValue.getReader.function?.callAsFunction(optionalThis: jsValue.object, "byob") ?? .undefined)
     }
     
     /// Provides a chainable way of piping the current stream through a transform stream or any other writable/readable pair.
@@ -90,7 +90,7 @@ public class ReadableStream {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/pipeTo)
     public func pipeTo(_ destination: WritableStream, _ options: PipeOptions? = nil, _ closure: ((Result<Void, Error>) -> Void)? = nil) {
-        guard let promise = jsValue.pipeTo.function?.callAsFunction(this: jsValue.object, destination.jsValue, options).object else {
+        guard let promise = jsValue.pipeTo.function?.callAsFunction(optionalThis: jsValue.object, destination.jsValue, options)?.object else {
             closure?(.failure(JSError(message: "ReadableStream `pipeTo` method is nil")))
             return
         }
@@ -109,7 +109,7 @@ public class ReadableStream {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/tee)
     public func tee() -> [ReadableStream] {
-        jsValue.tee.function?.callAsFunction(this: jsValue.object).array?.map { ReadableStream($0) } ?? []
+        jsValue.tee.function?.callAsFunction(optionalThis: jsValue.object)?.array?.map { ReadableStream($0) } ?? []
     }
 }
 

@@ -22,7 +22,7 @@ public class ReadableStreamBYOBReader {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBReader/closed)
     public func onClosed(_ closure: @escaping (Result<Void, Error>) -> Void) {
-        guard let promise = jsValue.closed.function?.callAsFunction(this: jsValue.object).object else {
+        guard let promise = jsValue.closed.function?.callAsFunction(optionalThis: jsValue.object)?.object else {
             closure(.failure(JSError(message: "ReadableStream `cancel` method is nil")))
             return
         }
@@ -41,7 +41,7 @@ public class ReadableStreamBYOBReader {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBReader/cancel)
     public func cancel(_ reason: String? = nil, _ closure: ((Result<Void, Error>) -> Void)? = nil) {
-        guard let promise = jsValue.cancel.function?.callAsFunction(this: jsValue.object, reason).object else {
+        guard let promise = jsValue.cancel.function?.callAsFunction(optionalThis: jsValue.object, reason)?.object else {
             closure?(.failure(JSError(message: "ReadableStream `cancel` method is nil")))
             return
         }
@@ -62,7 +62,7 @@ public class ReadableStreamBYOBReader {
             closure(.failure(JSError(message: "Unable to create view to read stream into.")))
             return
         }
-        guard let promise = jsValue.read.function?.callAsFunction(this: jsValue.object, view).object else {
+        guard let promise = jsValue.read.function?.callAsFunction(optionalThis: jsValue.object, view)?.object else {
             closure(.failure(JSError(message: "Unable to get `read` promise.")))
             return
         }
@@ -91,6 +91,6 @@ public class ReadableStreamBYOBReader {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBReader/releaseLock)
     public func releaseLock() {
-        jsValue.releaseLock.function?.callAsFunction(this: jsValue.object)
+        jsValue.releaseLock.function?.callAsFunction(optionalThis: jsValue.object)
     }
 }

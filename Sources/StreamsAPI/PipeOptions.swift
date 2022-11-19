@@ -39,7 +39,7 @@ public struct PipeOptions: ConvertibleToJSValue {
         self.signal = signal
     }
     
-    public func jsValue() -> JSValue {
+	public var jsValue: JSValue {
         var result: [String: ConvertibleToJSValue] = [:]
         if let preventClose = preventClose {
             result["preventClose"] = preventClose.jsValue()
@@ -53,6 +53,6 @@ public struct PipeOptions: ConvertibleToJSValue {
         if let signal = signal {
             result["signal"] = signal.jsValue
         }
-        return result.jsValue()
+        return result.jsValue
     }
 }

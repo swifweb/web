@@ -79,7 +79,7 @@ public class Response: Bodyable {
     
     /// Returns a new `Response` object associated with a network error.
     public func error() throws -> Response {
-        guard let failedResponse = jsValue.error.function?.callAsFunction(this: jsValue.object) else {
+        guard let failedResponse = jsValue.error.function?.callAsFunction(optionalThis: jsValue.object) else {
             throw ResponseError.unableToMakeError
         }
         return .init(failedResponse)
@@ -91,7 +91,7 @@ public class Response: Bodyable {
     ///   - status: An optional status code for the response (e.g., 302.)
     /// - Returns: A ]Response] object.
     public func redirect(to url: String, status: Int? = nil) throws -> Response {
-        guard let redirectResponse = jsValue.redirect.function?.callAsFunction(this: jsValue.object, url, status) else {
+        guard let redirectResponse = jsValue.redirect.function?.callAsFunction(optionalThis: jsValue.object, url, status) else {
             throw ResponseError.unableToMakeRedirect
         }
         return .init(redirectResponse)

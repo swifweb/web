@@ -16,7 +16,7 @@ public class AbortSignal {
     
     public init (_ jsValue: JSValue) {
         self.jsValue = jsValue
-        jsValue.addEventListener.function?.callAsFunction(this: jsValue.object, "abort", JSOneshotClosure { args in
+        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "abort", JSOneshotClosure { args in
             self.abortClosures.forEach { $0() }
             return .undefined
         })

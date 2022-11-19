@@ -23,7 +23,7 @@ public class KeyboardEvent: UIEvent {
     
     /// Returns true if the specified key is activated
     public func getModifierState() -> Bool {
-        jsEvent.getModifierState.function?.callAsFunction(this: jsEvent.object).boolean ?? false
+        jsEvent.getModifierState.function?.callAsFunction(optionalThis: jsEvent.object)?.boolean ?? false
     }
     
     /// Returns whether the state of the event is composing or not

@@ -96,7 +96,7 @@ open class ServiceWorker {
             debugPrint("JSObject.global.Notification: \(String(describing: JSObject.global.Notification))")
             debugPrint("JSObject.global.Notification.permission: \(String(describing: JSObject.global.Notification.function?.permission))")
             if let event = args.first {
-                if let text = event.data.text.function?.callAsFunction(this: event.data.object).string {
+                if let text = event.data.text.function?.callAsFunction(optionalThis: event.data.object)?.string {
                     debugPrint("push.text: \(text)")
                 } else {
                     debugPrint("push.text: unable to decode")
@@ -139,6 +139,10 @@ open class ServiceWorker {
     //    var registration: Registration
     //    debugPrint("JSObject.global.registration: \(String(describing: JSObject.global.registration))")
         
+	public static func main() {
+		Self.start()
+	}
+
     private func start() {
         parseServiceBuilderItem(body.serviceBuilderContent)
         #if arch(wasm32)

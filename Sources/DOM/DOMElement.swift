@@ -44,7 +44,7 @@ extension DOMElement {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild)
     public func appendChild(_ element: DOMElement) {
         #if arch(wasm32)
-        _ = domElement.appendChild(element.domElement)
+        domElement.appendChild.function?.callAsFunction(optionalThis: domElement.object, element.domElement)
         #endif
         #if WEBPREVIEW
         properties.subElements.append(element)
@@ -58,7 +58,7 @@ extension DOMElement {
     @discardableResult
     func remove() -> Self {
         #if arch(wasm32)
-        domElement.remove.function?.callAsFunction(this: domElement.object)
+        domElement.remove.function?.callAsFunction(optionalThis: domElement.object)
         #endif
         return self
     }
@@ -68,7 +68,7 @@ extension DOMElement {
     #if arch(wasm32)
     private func _setAttribute(_ key: String, _ value: JSValue, _ wasmPlain: Bool) {
         if wasmPlain {
-            domElement[dynamicMember: key].function?.callAsFunction(this: domElement.object, key, value.jsValue())
+            domElement[dynamicMember: key].function?.callAsFunction(optionalThis: domElement.object, key, value.jsValue())
         } else {
             domElement[dynamicMember: key] = value.jsValue()
         }
@@ -129,7 +129,7 @@ extension DOMElement {
     func callFunction(_ name: String, this: Bool = true, args: WebJSValue...) {
         #if arch(wasm32)
         if this {
-            domElement[dynamicMember: name].function?.callAsFunction(this: domElement.object, arguments: args.map { $0.webValue })
+            domElement[dynamicMember: name].function?.callAsFunction(optionalThis: domElement.object, arguments: args.map { $0.webValue })
         } else {
             // TODO: implement global function calling?
 //            domElement[dynamicMember: name].function?.callAsFunction(arguments: args.map { $0.webValue })

@@ -42,7 +42,7 @@ class _JSDate {
     
     /// Returns the milliseconds since the UTC epoch
     func getTime() -> Int64 {
-		Int64(object.getUTCSeconds.function?.callAsFunction(this: object.object).number ?? 0)
+		Int64(object.getUTCSeconds.function?.callAsFunction(optionalThis: object.object)?.number ?? 0)
     }
     
     public init (_ object: JSValue) {

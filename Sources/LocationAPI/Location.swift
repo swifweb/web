@@ -94,17 +94,17 @@ public final class Location: InnerStateChangeable, Equatable {
     
     /// Loads a new document
     public func assign() {
-        domElement.assign.function!.callAsFunction(this: domElement.object)
+        domElement.assign.function!.callAsFunction(optionalThis: domElement.object)
     }
     
     /// Reloads the current document
     public func reload() {
-        domElement.reload.function!.callAsFunction(this: domElement.object)
+        domElement.reload.function!.callAsFunction(optionalThis: domElement.object)
     }
     
     /// Replaces the current document with a new one
     public func replace() {
-        domElement.replace.function!.callAsFunction(this: domElement.object)
+        domElement.replace.function!.callAsFunction(optionalThis: domElement.object)
     }
     
     // MARK: InnerStateChangeable

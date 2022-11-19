@@ -47,7 +47,7 @@ extension Bodyable {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Body/arrayBuffer)
     public func arrayBuffer(_ closure: @escaping (Result<ArrayBuffer, Error>) -> Void) {
-        guard let promise = jsValue.arrayBuffer.function?.callAsFunction(this: jsValue.object).object else { return }
+        guard let promise = jsValue.arrayBuffer.function?.callAsFunction(optionalThis: jsValue.object)?.object else { return }
         JSPromise(promise)?.then(success: { value in
             closure(.success(.init(value)))
             return JSValue.undefined
@@ -63,7 +63,7 @@ extension Bodyable {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Body/blob)
     public func blob(_ closure: @escaping (Result<Blob, Error>) -> Void) {
-        guard let promise = jsValue.blob.function?.callAsFunction(this: jsValue.object).object else { return }
+        guard let promise = jsValue.blob.function?.callAsFunction(optionalThis: jsValue.object)?.object else { return }
         JSPromise(promise)?.then(success: { value in
             closure(.success(.init(value)))
             return JSValue.undefined
@@ -79,7 +79,7 @@ extension Bodyable {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Body/formData)
     public func formData(_ closure: @escaping (Result<FormData, Error>) -> Void) {
-        guard let promise = jsValue.formData.function?.callAsFunction(this: jsValue.object).object else { return }
+        guard let promise = jsValue.formData.function?.callAsFunction(optionalThis: jsValue.object)?.object else { return }
         JSPromise(promise)?.then(success: { value in
             closure(.success(.jsValue(value)))
             return JSValue.undefined
@@ -95,7 +95,7 @@ extension Bodyable {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Body/text)
     public func text(_ closure: @escaping (Result<String, Error>) -> Void) {
-        guard let promise = jsValue.text.function?.callAsFunction(this: jsValue.object).object else { return }
+        guard let promise = jsValue.text.function?.callAsFunction(optionalThis: jsValue.object)?.object else { return }
         JSPromise(promise)?.then(success: { value in
             closure(.success(value.string ?? ""))
             return JSValue.undefined

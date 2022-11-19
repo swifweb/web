@@ -47,8 +47,8 @@ public final class ServiceWorkerContainer {
             self.scope = scope
         }
         
-        public func jsValue() -> JSValue {
-            ["scope": scope].jsValue()
+		public var jsValue: JSValue {
+            ["scope": scope].jsValue
         }
     }
     
@@ -83,7 +83,7 @@ public final class ServiceWorkerContainer {
         if let options = options {
             arguments.append(options)
         }
-        if let result = jsValue.register.function?.callAsFunction(this: jsValue.object, arguments) {
+		if let result = jsValue.register.function?.callAsFunction(optionalThis: jsValue.object, arguments: arguments) {
             JSPromise(from: result)?.then(success: {
                 handler(.success(ServiceWorkerRegistration($0)))
                 return JSValue.undefined
@@ -118,7 +118,7 @@ public final class ServiceWorkerContainer {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/getRegistration)
     public func getRegistration(_ scope: String, _ handler: @escaping ((Result<ServiceWorkerRegistration, GetRegistrationError>) -> Void)) {
-        if let result = jsValue.getRegistration.function?.callAsFunction(this: jsValue.object, scope) {
+        if let result = jsValue.getRegistration.function?.callAsFunction(optionalThis: jsValue.object, scope) {
             JSPromise(from: result)?.then(success: {
                 guard !$0.isUndefined && !$0.isNull else {
                     handler(.failure(.notFoundForSpecifiedScope))
@@ -148,7 +148,7 @@ public final class ServiceWorkerContainer {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/getRegistrations)
     public func getRegistrations(_ handler: @escaping ((Result<[ServiceWorkerRegistration], GetRegistrationsError>) -> Void)) {
-        if let result = jsValue.getRegistrations.function?.callAsFunction(this: jsValue.object) {
+        if let result = jsValue.getRegistrations.function?.callAsFunction(optionalThis: jsValue.object) {
             JSPromise(from: result)?.then(success: {
                 guard !$0.isUndefined, !$0.isNull, let array = $0.array else {
                     handler(.failure(.unableToGetRegistrations))
@@ -181,7 +181,7 @@ public final class ServiceWorkerContainer {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/startMessages)
     public func startMessages() {
-        jsValue.startMessages.function?.callAsFunction(this: jsValue.object)
+        jsValue.startMessages.function?.callAsFunction(optionalThis: jsValue.object)
     }
     
     private var readyHandlers: [(ServiceWorkerRegistration) -> Void] = []
@@ -330,7 +330,7 @@ public class ServiceWorkerRegistration: EventTarget {
             self.tag = tag
         }
         
-        public func jsValue() -> JSValue {
+		public var jsValue: JSValue {
             ["tag": tag].jsValue()
         }
     }
@@ -351,7 +351,7 @@ public class ServiceWorkerRegistration: EventTarget {
         if let options = options {
             arguments.append(options)
         }
-        if let result = jsValue.getNotifications.function?.callAsFunction(this: jsValue.object, arguments) {
+		if let result = jsValue.getNotifications.function?.callAsFunction(optionalThis: jsValue.object, arguments: arguments) {
             JSPromise(from: result)?.then(success: {
                 handler($0.array?.compactMap { Notification($0) } ?? [])
                 return JSValue.undefined
@@ -368,7 +368,7 @@ public class ServiceWorkerRegistration: EventTarget {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification)
     public func showNotification(_ title: String, _ notification: Notification? = nil) {
-        jsValue.showNotification.function?.callAsFunction(this: jsValue.object, title, notification)
+        jsValue.showNotification.function?.callAsFunction(optionalThis: jsValue.object, title, notification)
     }
     
     /// Attempts to update the service worker.
@@ -379,7 +379,7 @@ public class ServiceWorkerRegistration: EventTarget {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/update)
     public func update() {
-        jsValue.update.function?.callAsFunction(this: jsValue.object)
+        jsValue.update.function?.callAsFunction(optionalThis: jsValue.object)
     }
     
     /// Unregisters the service worker registration.
@@ -388,7 +388,7 @@ public class ServiceWorkerRegistration: EventTarget {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/unregister)
     public func unregister() {
-        jsValue.unregister.function?.callAsFunction(this: jsValue.object)
+        jsValue.unregister.function?.callAsFunction(optionalThis: jsValue.object)
     }
 }
 

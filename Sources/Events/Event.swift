@@ -57,17 +57,17 @@ open class Event: AnyEvent {
     
     /// Cancels the event if it is cancelable, meaning that the default action that belongs to the event will not occur
     public func preventDefault() {
-        jsEvent.preventDefault.function?.callAsFunction(this: jsEvent.object)
+        jsEvent.preventDefault.function?.callAsFunction(optionalThis: jsEvent.object)
     }
     
     /// Prevents other listeners of the same event from being called
     public func stopImmediatePropagation() {
-        jsEvent.stopImmediatePropagation.function?.callAsFunction(this: jsEvent.object)
+        jsEvent.stopImmediatePropagation.function?.callAsFunction(optionalThis: jsEvent.object)
     }
     
     /// Prevents further propagation of an event during event flow
     public func stopPropagation() {
-        jsEvent.stopPropagation.function?.callAsFunction(this: jsEvent.object)
+        jsEvent.stopPropagation.function?.callAsFunction(optionalThis: jsEvent.object)
     }
     
 //    /// Returns the element that triggered the event

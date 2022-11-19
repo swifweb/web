@@ -52,15 +52,15 @@ open class Stylesheet: BaseElement, Stylesheetable {
         _rules.enumerated().forEach { i, rule in
             let cssText = rule.render()
             #if !WEBPREVIEW
-            guard let index = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number else { return }
-            rule.domElement = sheet.rules.item.function?.callAsFunction(this: sheet.rules.object, Int(index))
+            guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
+            rule.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
             #endif
         }
         _keyframes.enumerated().forEach { i, kf in
             let cssText = kf.render()
             #if !WEBPREVIEW
-            guard let index = sheet.insertRule.function?.callAsFunction(this: sheet.object, cssText).number else { return }
-            kf.domElement = sheet.rules.item.function?.callAsFunction(this: sheet.rules.object, Int(index))
+            guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
+            kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
             #endif
         }
     }

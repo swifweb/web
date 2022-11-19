@@ -42,7 +42,7 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
             return JSValue.undefined
         }
         readyStateChangeClosures.append(jsClosure)
-        jsValue.addEventListener.function?.callAsFunction(this: jsValue.object, "readystatechange", jsClosure)
+        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "readystatechange", jsClosure)
         return self
     }
     
@@ -129,18 +129,18 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
     
     /// Aborts the request if it has already been sent.
     public func abort() {
-        jsValue.abort.function?.callAsFunction(this: jsValue.object)
+        jsValue.abort.function?.callAsFunction(optionalThis: jsValue.object)
     }
     
     /// Returns all the response headers, separated by CRLF, as a string, or null if no response has been received.
     public func getAllResponseHeaders() -> String {
-        jsValue.getAllResponseHeaders.function?.callAsFunction(this: jsValue.object).string ?? ""
+        jsValue.getAllResponseHeaders.function?.callAsFunction(optionalThis: jsValue.object)?.string ?? ""
     }
     
     /// Returns the string containing the text of the specified header,
     /// or null if either the response has not yet been received or the header doesn't exist in the response.
     public func getResponseHeader(_ headerName: String) -> String? {
-        jsValue.getResponseHeader.function?.callAsFunction(this: jsValue.object, headerName).string
+        jsValue.getResponseHeader.function?.callAsFunction(optionalThis: jsValue.object, headerName)?.string
     }
     
     /// Initializes a request.
@@ -151,42 +151,42 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
     ///   - password: The optional password to use for authentication purposes; by default, this is the `null` value.
     @discardableResult
     public func open(method: String, url: URLValue, user: String? = nil, password: String? = nil) -> Self {
-        jsValue.open.function?.callAsFunction(this: jsValue.object, method, url.urlValue, true, user, password)
+        jsValue.open.function?.callAsFunction(optionalThis: jsValue.object, method, url.urlValue, true, user, password)
         return self
     }
     
     /// Overrides the MIME type returned by the server.
     @discardableResult
     public func overrideMimeType(_ mimeType: String) -> Self {
-        jsValue.overrideMimeType.function?.callAsFunction(this: jsValue.object, mimeType)
+        jsValue.overrideMimeType.function?.callAsFunction(optionalThis: jsValue.object, mimeType)
         return self
     }
     
     /// Sends the request.
     @discardableResult
     public func send(_ body: Blob) -> Self {
-        jsValue.send.function?.callAsFunction(this: jsValue.object, body.jsValue)
+        jsValue.send.function?.callAsFunction(optionalThis: jsValue.object, body.jsValue)
         return self
     }
     
     /// Sends the request.
     @discardableResult
     public func send(_ body: BufferSource) -> Self {
-        jsValue.send.function?.callAsFunction(this: jsValue.object, body.jsValue)
+        jsValue.send.function?.callAsFunction(optionalThis: jsValue.object, body.jsValue)
         return self
     }
     
     /// Sends the request.
     @discardableResult
     public func send(_ body: FormData) -> Self {
-        jsValue.send.function?.callAsFunction(this: jsValue.object, body.jsValue)
+        jsValue.send.function?.callAsFunction(optionalThis: jsValue.object, body.jsValue)
         return self
     }
     
     /// Sends the request.
     @discardableResult
     public func send(_ body: String? = nil) -> Self {
-        jsValue.send.function?.callAsFunction(this: jsValue.object, body)
+        jsValue.send.function?.callAsFunction(optionalThis: jsValue.object, body)
         return self
     }
     
@@ -195,7 +195,7 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
     /// You must call `setRequestHeader()` after `open()`, but before `send()`.
     @discardableResult
     public func setRequestHeader(_ name: String, _ value: String) -> Self {
-        jsValue.setRequestHeader.function?.callAsFunction(this: jsValue.object, name, value)
+        jsValue.setRequestHeader.function?.callAsFunction(optionalThis: jsValue.object, name, value)
         return self
     }
 }

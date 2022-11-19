@@ -43,7 +43,7 @@ extension Target.Dependency {
 
 var deps: [Dep] = []
 
-deps.append(.github("swiftwasm/JavaScriptKit", .exactItem("0.12.0")), .product("JavaScriptKit", "JavaScriptKit"))
+deps.append(.github("swiftwasm/JavaScriptKit", .exactItem("0.17.0")), .product("JavaScriptKit", "JavaScriptKit"), .product("JavaScriptBigIntSupport", "JavaScriptKit"))
 
 // MARK: - Package
 

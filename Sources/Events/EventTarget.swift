@@ -39,7 +39,7 @@ public struct EventListenerAddOptions: ConvertibleToJSValue {
         self.mozSystemGroup = mozSystemGroup
     }
     
-    public func jsValue() -> JSValue {
+	public var jsValue: JSValue {
         var result: [String: ConvertibleToJSValue] = [:]
         result["capture"] = capture
         result["once"] = once
@@ -47,7 +47,7 @@ public struct EventListenerAddOptions: ConvertibleToJSValue {
         if let mozSystemGroup = mozSystemGroup {
             result["mozSystemGroup"] = mozSystemGroup
         }
-        return result.jsValue()
+        return result.jsValue
     }
 }
 
@@ -66,13 +66,13 @@ public struct EventListenerRemoveOptions: ConvertibleToJSValue {
         self.mozSystemGroup = mozSystemGroup
     }
     
-    public func jsValue() -> JSValue {
+	public var jsValue: JSValue {
         var result: [String: ConvertibleToJSValue] = [:]
         result["capture"] = capture
         if let mozSystemGroup = mozSystemGroup {
             result["mozSystemGroup"] = mozSystemGroup
         }
-        return result.jsValue()
+        return result.jsValue
     }
 }
 
@@ -83,7 +83,7 @@ extension EventTarget {
     @discardableResult
     public func addEventListener(_ name: EventName, options: EventListenerAddOptions, _ handler: @escaping (AnyEvent) -> Void) -> Self {
         let c = container.createOrUpdate(name, handler)
-        jsValue.addEventListener.function?.callAsFunction(this: jsValue.object, name.value, c.closure)
+        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, name.value, c.closure)
         return self
     }
     
@@ -110,7 +110,7 @@ extension EventTarget {
         if let wantsUntrusted = wantsUntrusted {
             args.append(wantsUntrusted)
         }
-        jsValue.addEventListener.function?.callAsFunction(this: jsValue.object, args)
+		jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, arguments: args)
         return self
     }
     
@@ -130,7 +130,7 @@ extension EventTarget {
     @discardableResult
     public func removeEventListener(_ name: EventName, options: EventListenerRemoveOptions) -> Self {
         guard let c = container.get(name) else { return self }
-        jsValue.removeEventListener.function?.callAsFunction(this: jsValue.object, name.value, c.closure, options)
+        jsValue.removeEventListener.function?.callAsFunction(optionalThis: jsValue.object, name.value, c.closure, options)
         return self
     }
     
@@ -144,7 +144,7 @@ extension EventTarget {
         if let useCapture = useCapture {
             args.append(useCapture)
         }
-        jsValue.removeEventListener.function?.callAsFunction(this: jsValue.object, args)
+		jsValue.removeEventListener.function?.callAsFunction(optionalThis: jsValue.object, arguments: args)
         return self
     }
     

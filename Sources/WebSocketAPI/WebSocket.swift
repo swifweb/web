@@ -67,7 +67,7 @@ public class WebSocket {
             return JSValue.undefined
         }
         closeClosures.append(jsClosure)
-        jsValue.addEventListener.function?.callAsFunction(this: jsValue.object, "close", jsClosure)
+        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "close", jsClosure)
         return self
     }
     
@@ -89,7 +89,7 @@ public class WebSocket {
             return JSValue.undefined
         }
         errorClosures.append(jsClosure)
-        jsValue.addEventListener.function?.callAsFunction(this: jsValue.object, "error", jsClosure)
+        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "error", jsClosure)
         
         return self
     }
@@ -106,7 +106,7 @@ public class WebSocket {
             return JSValue.undefined
         }
         messageClosures.append(jsClosure)
-        jsValue.addEventListener.function?.callAsFunction(this: jsValue.object, "message", jsClosure)
+        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "message", jsClosure)
         return self
     }
     
@@ -128,7 +128,7 @@ public class WebSocket {
             return JSValue.undefined
         }
         openClosures.append(jsClosure)
-        jsValue.addEventListener.function?.callAsFunction(this: jsValue.object, "open", jsClosure)
+        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "open", jsClosure)
         return self
     }
     
@@ -156,21 +156,21 @@ public class WebSocket {
         if let reason = reason {
             args.append(reason)
         }
-        jsValue.close.function?.callAsFunction(this: jsValue.object, arguments: args)
+        jsValue.close.function?.callAsFunction(optionalThis: jsValue.object, arguments: args)
     }
     
     /// Enqueues data to be transmitted.
     public func send(_ data: String) {
-        jsValue.send.function?.callAsFunction(this: jsValue.object, data)
+        jsValue.send.function?.callAsFunction(optionalThis: jsValue.object, data)
     }
     
     /// Enqueues data to be transmitted.
     public func send(_ data: Blob) {
-        jsValue.send.function?.callAsFunction(this: jsValue.object, data.jsValue)
+        jsValue.send.function?.callAsFunction(optionalThis: jsValue.object, data.jsValue)
     }
     
     /// Enqueues data to be transmitted.
     public func send(_ data: ArrayBuffer) {
-        jsValue.send.function?.callAsFunction(this: jsValue.object, data.jsValue)
+        jsValue.send.function?.callAsFunction(optionalThis: jsValue.object, data.jsValue)
     }
 }

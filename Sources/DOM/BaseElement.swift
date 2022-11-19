@@ -58,7 +58,7 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget 
 //    func removeFromSuperview() {
 //        #if arch(wasm32)
 //        guard let rootElement = rootElement else { return }
-//        rootElement.removeChild.function?.callAsFunction(this: rootElement.object, domElement)
+//        rootElement.removeChild.function?.callAsFunction(optionalThis: rootElement.object, domElement)
 //        self.rootElement = nil
 //        #else
 //

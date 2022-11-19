@@ -791,7 +791,7 @@ extension ClassAttrable {
         }
         #if arch(wasm32)
         let classList = domElement[dynamicMember: "classList"].object
-        classList?.toggle.function?.callAsFunction(this: classList, value.name.jsValue())
+        classList?.toggle.function?.callAsFunction(optionalThis: classList, value.name.jsValue())
         #endif
         return self
     }

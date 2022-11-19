@@ -9,6 +9,6 @@ import JavaScriptKit
 
 public class Console {
     public static func dir(_ args: JSValue...) {
-        JSObject.global.console.dir.function?.callAsFunction(this: JSObject.global.console.object, arguments: args)
+        JSObject.global.console.dir.function?.callAsFunction(optionalThis: JSObject.global.console.object, arguments: args)
     }
 }

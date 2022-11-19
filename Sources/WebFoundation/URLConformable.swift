@@ -13,9 +13,7 @@ public protocol URLConformable: ConvertibleToJSValue {
 }
 
 extension URLConformable {
-    public func jsValue() -> JSValue {
-        stringValue.jsValue()
-    }
+	public var jsValue: JSValue { stringValue.jsValue }
 }
 
 extension String: URLConformable {
@@ -23,7 +21,7 @@ extension String: URLConformable {
 }
 
 extension URL: URLConformable {
-    public var stringValue: String { self.absoluteString }
+	public var stringValue: String { self.absoluteString }
 }
 
 extension Optional: URLConformable where Wrapped: URLConformable {

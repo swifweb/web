@@ -65,7 +65,7 @@ public final class History: InnerStateChangeable, Equatable {
     ///
     /// Tip: You can also use the history.go() method to load the previous (or next) URL in the history list.
     public func back() {
-        domElement.back.function!.callAsFunction(this: domElement.object)
+        domElement.back.function!.callAsFunction(optionalThis: domElement.object)
     }
     
     /// The back() method loads the previous URL in the history list.
@@ -85,7 +85,7 @@ public final class History: InnerStateChangeable, Equatable {
     ///
     /// Note: This method will not work if the next page does not exist in the history list.
     public func forward() {
-        domElement.forward.function!.callAsFunction(this: domElement.object)
+        domElement.forward.function!.callAsFunction(optionalThis: domElement.object)
     }
     
     /// The forward() method loads the next URL in the history list.
@@ -106,7 +106,7 @@ public final class History: InnerStateChangeable, Equatable {
     ///
     /// `go(0)` will cause current page refresh
     public func go(_ offset: Int) {
-        domElement.go.function!.callAsFunction(this: domElement.object, offset)
+        domElement.go.function!.callAsFunction(optionalThis: domElement.object, offset)
     }
     
     /// The go() method loads a specific URL from the history list.
@@ -136,7 +136,7 @@ public final class History: InnerStateChangeable, Equatable {
     /// Note that all browsers but Safari currently ignore the title parameter.
     public func pushState(title: String = "", path: String? = nil) {
         let data: String? = nil
-        domElement.pushState.function!.callAsFunction(this: domElement.object, data, title, path)
+        domElement.pushState.function!.callAsFunction(optionalThis: domElement.object, data, title, path)
         updateState(data)
     }
     
@@ -151,7 +151,7 @@ public final class History: InnerStateChangeable, Equatable {
     /// The data is treated as opaque by the DOM; you may specify any JavaScript object that can be serialized.
     /// Note that all browsers but Safari currently ignore the title parameter.
     public func pushState<D: ConvertibleToJSValue>(_ data: D, title: String = "", path: String? = nil) {
-        domElement.pushState.function!.callAsFunction(this: domElement.object, data.jsValue(), title, path)
+        domElement.pushState.function!.callAsFunction(optionalThis: domElement.object, data.jsValue(), title, path)
         updateState(data)
     }
     
@@ -166,7 +166,7 @@ public final class History: InnerStateChangeable, Equatable {
     /// The data is treated as opaque by the DOM; you may specify any JavaScript object that can be serialized.
     /// Note that all browsers but Safari currently ignore the title
     public func replaceState(_ data: [String: String] = [:], title: String = "", path: String) {
-        domElement.replaceState.function!.callAsFunction(this: domElement.object, data.jsValue(), title, path)
+        domElement.replaceState.function!.callAsFunction(optionalThis: domElement.object, data.jsValue(), title, path)
     }
     
     /// Updates the most recent entry on the history stack to have the specified data, title, and, if provided, URL.

@@ -84,7 +84,7 @@ extension XMLHttpRequestEventTarget {
             return JSValue.undefined
         }
         s?.abortClosures.append(jsClosure)
-		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(this: jsValue.object, "abort", jsClosure)
+		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "abort", jsClosure)
         return self
     }
     
@@ -102,7 +102,7 @@ extension XMLHttpRequestEventTarget {
             return JSValue.undefined
         }
         s?.errorClosures.append(jsClosure)
-		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(this: jsValue.object, "error", jsClosure)
+		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "error", jsClosure)
         return self
     }
     
@@ -120,7 +120,7 @@ extension XMLHttpRequestEventTarget {
             return JSValue.undefined
         }
         s?.loadClosures.append(jsClosure)
-		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(this: jsValue.object, "load", jsClosure)
+		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "load", jsClosure)
         return self
     }
     
@@ -138,7 +138,7 @@ extension XMLHttpRequestEventTarget {
             return JSValue.undefined
         }
         s?.loadStartClosures.append(jsClosure)
-		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(this: jsValue.object, "loadstart", jsClosure)
+		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "loadstart", jsClosure)
         return self
     }
     
@@ -152,7 +152,7 @@ extension XMLHttpRequestEventTarget {
             return JSValue.undefined
         }
         s?.progressClosures.append(jsClosure)
-		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(this: jsValue.object, "progress", jsClosure)
+		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "progress", jsClosure)
         return self
     }
     
@@ -170,7 +170,7 @@ extension XMLHttpRequestEventTarget {
             return JSValue.undefined
         }
         s?.timeoutClosures.append(jsClosure)
-		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(this: jsValue.object, "timeout", jsClosure)
+		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "timeout", jsClosure)
         return self
     }
     
@@ -188,7 +188,7 @@ extension XMLHttpRequestEventTarget {
             return JSValue.undefined
         }
         s?.loadEndClosures.append(jsClosure)
-		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(this: jsValue.object, "loadend", jsClosure)
+		(s?._isForUploading == true ? s?.jsValue.upload : s?.jsValue)?.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, "loadend", jsClosure)
         return self
     }
 }

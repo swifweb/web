@@ -24,7 +24,7 @@ extension DOMEventable {
     func callFunction(_ name: String, this: Bool = true, args: WebJSValue...) {
         #if arch(wasm32)
         if this {
-            domElement[dynamicMember: name].function?.callAsFunction(this: domElement.object, arguments: args.map { $0.webValue })
+            domElement[dynamicMember: name].function?.callAsFunction(optionalThis: domElement.object, arguments: args.map { $0.webValue })
         } else {
             // TODO: implement global function calling?
 //            domElement[dynamicMember: name].function?.callAsFunction(arguments: args.map { $0.webValue })

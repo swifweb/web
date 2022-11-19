@@ -128,7 +128,7 @@ open class Worker: AbstractWorker, EventTarget {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage)
     @discardableResult
     public func postMessage(_ value: String) -> Self {
-        jsValue.postMessage.function?.callAsFunction(this: jsValue.object, value)
+        jsValue.postMessage.function?.callAsFunction(optionalThis: jsValue.object, value)
         return self
     }
     
@@ -137,7 +137,7 @@ open class Worker: AbstractWorker, EventTarget {
     public func postMessage<P: Codable, EID: WebWorkerEID<P>>(_ eid: EID) -> Self {
         guard let data = try? JSONEncoder().encode(WebWorkerEventPrototype(eid.event)) else { return self }
         guard let message = String(data: data, encoding: .utf8) else { return self }
-        jsValue.postMessage.function?.callAsFunction(this: jsValue.object, message)
+        jsValue.postMessage.function?.callAsFunction(optionalThis: jsValue.object, message)
         return self
     }
     
@@ -146,7 +146,7 @@ open class Worker: AbstractWorker, EventTarget {
     public func postMessage<P: Codable, EID: WebWorkerEID<P>>(_ eid: EID, _ payload: P) -> Self {
         guard let data = try? JSONEncoder().encode(WebWorkerEvent(eid.event, payload)) else { return self }
         guard let message = String(data: data, encoding: .utf8) else { return self }
-        jsValue.postMessage.function?.callAsFunction(this: jsValue.object, message)
+        jsValue.postMessage.function?.callAsFunction(optionalThis: jsValue.object, message)
         return self
     }
     
@@ -181,7 +181,7 @@ open class Worker: AbstractWorker, EventTarget {
     /// Immediately terminates the Worker. This does not offer the worker an opportunity to finish its operations; it is stopped at once.
     open func terminate() {
         guard !isTerminated else { return }
-        jsValue.terminate.function?.callAsFunction(this: jsValue.object)
+        jsValue.terminate.function?.callAsFunction(optionalThis: jsValue.object)
         isTerminated = true
         shutdown()
     }

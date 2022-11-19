@@ -6,6 +6,7 @@
 //
 
 import JavaScriptKit
+import JavaScriptBigIntSupport
 
 /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/Blob)
 public class Blob: JSClass, CustomStringConvertible {
@@ -76,7 +77,7 @@ public class Blob: JSClass, CustomStringConvertible {
     /// - Returns: A new `Blob` object containing the specified subset of the data
     /// contained within the blob on which this method was called. The original blob is not altered.
     public func slice(start: Int64? = nil, end: Int64? = nil, contentType: String? = nil) -> Blob? {
-        guard let newBlob = jsValue.slice.function?.callAsFunction(this: jsValue.object, start, end, contentType) else { return nil }
+        guard let newBlob = jsValue.slice.function?.callAsFunction(optionalThis: jsValue.object, start, end, contentType) else { return nil }
         return .init(newBlob)
     }
 
@@ -84,7 +85,7 @@ public class Blob: JSClass, CustomStringConvertible {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Blob/text)
     public func text(_ closure: @escaping (Result<String, Error>) -> Void) {
-        guard let promise = jsValue.text.function?.callAsFunction(this: jsValue.object).object else { return }
+        guard let promise = jsValue.text.function?.callAsFunction(optionalThis: jsValue.object)?.object else { return }
         JSPromise(promise)?.then(success: { value in
             closure(.success(value.string ?? ""))
             return JSValue.undefined
@@ -96,7 +97,7 @@ public class Blob: JSClass, CustomStringConvertible {
     
     /// Returns a promise that resolves with an `ArrayBuffer` containing the entire contents of the `Blob` as binary data.s
     public func arrayBuffer(_ closure: @escaping (Result<ArrayBuffer, Error>) -> Void) {
-        guard let promise = jsValue.arrayBuffer.function?.callAsFunction(this: jsValue.object).object else { return }
+        guard let promise = jsValue.arrayBuffer.function?.callAsFunction(optionalThis: jsValue.object)?.object else { return }
         JSPromise(promise)?.then(success: { value in
             closure(.success(ArrayBuffer(value)))
             return JSValue.undefined

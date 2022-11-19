@@ -8,7 +8,7 @@
 import JavaScriptKit
 
 public struct BlobPropertyBag: ConvertibleToJSValue {
-    /// The MIME type of the data that will be stored into the blob.
+	/// The MIME type of the data that will be stored into the blob.
     ///
     /// The default value is the empty string, ("").
     let type: String
@@ -25,12 +25,12 @@ public struct BlobPropertyBag: ConvertibleToJSValue {
         self.endings = endings
     }
     
-    public func jsValue() -> JSValue {
-        var result: [String: ConvertibleToJSValue] = [:]
-        result["type"] = type
-        if let endings = endings {
-            result["endings"] = endings
-        }
-        return result.jsValue()
-    }
+	public var jsValue: JSValue {
+		var result: [String: ConvertibleToJSValue] = [:]
+		result["type"] = type
+		if let endings = endings {
+			result["endings"] = endings
+		}
+		return result.jsValue
+	}
 }

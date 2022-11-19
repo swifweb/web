@@ -9,14 +9,14 @@ import JavaScriptKit
 
 extension Notification {
     public struct Action: Codable, ConvertibleToJSValue {
-        public func jsValue() -> JSValue {
+		public var jsValue: JSValue {
             var dict: [String: ConvertibleToJSValue] = [:]
             dict["action"] = action
             dict["title"] = title
             if let icon = icon {
                 dict["icon"] = icon
             }
-            return dict.jsValue()
+            return dict.jsValue
         }
         
         /// The name of the action, which can be used to identify the clicked action similar to input names.

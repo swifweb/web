@@ -70,12 +70,12 @@ public class Document: DOMElement, EventTarget {
     private func setupTitle() {
         // remove already existing title node
         var predefinedTitle = ""
-        if let titles = domElement.getElementsByTagName.function?.callAsFunction(this: domElement.object, "title") {
-            if let existingTitle = titles.item.function?.callAsFunction(this: titles.object, 0),
+        if let titles = domElement.getElementsByTagName.function?.callAsFunction(optionalThis: domElement.object, "title") {
+            if let existingTitle = titles.item.function?.callAsFunction(optionalThis: titles.object, 0),
                !existingTitle.isNull,
                !existingTitle.isUndefined {
                 predefinedTitle = existingTitle.innerText.string ?? ""
-                head.domElement.removeChild.function?.callAsFunction(this: head.domElement.object, existingTitle)
+                head.domElement.removeChild.function?.callAsFunction(optionalThis: head.domElement.object, existingTitle)
             }
         }
         // set same title in the new title node
@@ -92,11 +92,11 @@ public class Document: DOMElement, EventTarget {
     private func setupMetaDescription() {
         // remove already existing metaDescription node
         var predefinedMetaDescription = ""
-        if let existingMetaDescription = domElement.querySelector.function?.callAsFunction(this: domElement.object, "meta[name=\"description\"]"),
+        if let existingMetaDescription = domElement.querySelector.function?.callAsFunction(optionalThis: domElement.object, "meta[name=\"description\"]"),
            !existingMetaDescription.isNull,
            !existingMetaDescription.isUndefined {
             predefinedMetaDescription = existingMetaDescription.content.string ?? ""
-            head.domElement.removeChild.function?.callAsFunction(this: head.domElement.object, existingMetaDescription)
+            head.domElement.removeChild.function?.callAsFunction(optionalThis: head.domElement.object, existingMetaDescription)
         }
         // set same content in the new metaDescription node
         metaDescriptionElement.name = "description"

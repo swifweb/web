@@ -29,7 +29,7 @@ public class WritableStreamDefaultWriter {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStreamDefaultWriter/closed)
     public func onClosed(_ closure: @escaping (Result<Void, Error>) -> Void) {
-        guard let promise = jsValue.closed.function?.callAsFunction(this: jsValue.object).object else {
+        guard let promise = jsValue.closed.function?.callAsFunction(optionalThis: jsValue.object)?.object else {
             closure(.failure(JSError(message: "WritableStreamDefaultWriter `closed` method is nil")))
             return
         }
@@ -60,7 +60,7 @@ public class WritableStreamDefaultWriter {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStreamDefaultWriter)
     public func onReady(_ closure: @escaping (Result<Void, Error>) -> Void) {
-        guard let promise = jsValue.ready.function?.callAsFunction(this: jsValue.object).object else {
+        guard let promise = jsValue.ready.function?.callAsFunction(optionalThis: jsValue.object)?.object else {
             closure(.failure(JSError(message: "WritableStreamDefaultWriter `ready` method is nil")))
             return
         }
@@ -78,7 +78,7 @@ public class WritableStreamDefaultWriter {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStreamDefaultWriter/abort)
     public func abort(_ closure: ((Result<Void, Error>) -> Void)? = nil) {
-        guard let promise = jsValue.abort.function?.callAsFunction(this: jsValue.object).object else {
+        guard let promise = jsValue.abort.function?.callAsFunction(optionalThis: jsValue.object)?.object else {
             closure?(.failure(JSError(message: "WritableStreamDefaultWriter `abort` method is nil")))
             return
         }
@@ -95,7 +95,7 @@ public class WritableStreamDefaultWriter {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStreamDefaultWriter/close)
     public func close(_ closure: ((Result<Void, Error>) -> Void)? = nil) {
-        guard let promise = jsValue.close.function?.callAsFunction(this: jsValue.object).object else {
+        guard let promise = jsValue.close.function?.callAsFunction(optionalThis: jsValue.object)?.object else {
             closure?(.failure(JSError(message: "WritableStreamDefaultWriter `close` method is nil")))
             return
         }
@@ -118,7 +118,7 @@ public class WritableStreamDefaultWriter {
     ///
     /// [Learn more](WritableStreamDefaultWriter.releaseLock())
     public func releaseLock() {
-        jsValue.releaseLock.function?.callAsFunction(this: jsValue.object)
+        jsValue.releaseLock.function?.callAsFunction(optionalThis: jsValue.object)
     }
     
     /// Writes a passed chunk of data to a `WritableStream` and its underlying sink.
@@ -134,7 +134,7 @@ public class WritableStreamDefaultWriter {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStreamDefaultWriter/write)
     public func write(_ chunk: [UInt8], _ closure: ((Result<Void, Error>) -> Void)? = nil) {
-        guard let promise = jsValue.write.function?.callAsFunction(this: jsValue.object, chunk.jsValue()).object else {
+        guard let promise = jsValue.write.function?.callAsFunction(optionalThis: jsValue.object, chunk.jsValue())?.object else {
             closure?(.failure(JSError(message: "WritableStreamDefaultWriter `write` method is nil")))
             return
         }

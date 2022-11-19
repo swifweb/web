@@ -43,7 +43,7 @@ public class RequestOptions {
     public var integrity: String?
     
     public init () {
-        jsValue = [:].jsValue()
+        jsValue = [:].jsValue
         jsValue.method = method.rawValue.jsValue()
         jsValue.headers = headers.jsValue()
         jsValue.mode = mode.rawValue.jsValue()
