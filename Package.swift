@@ -22,9 +22,18 @@ struct What {
     static func github(_ path: String, _ from: Version) -> What {
         .init(dependency: .package(url: "https://github.com/\(path)", from: from))
     }
-    static func github(_ path: String, _ requirement: PackageDescription.Package.Dependency.Requirement) -> What {
-        .init(dependency: .package(url: "https://github.com/\(path)", requirement))
-    }
+	static func github(_ path: String, exact: Version) -> What {
+		.init(dependency: .package(url: "https://github.com/\(path)", exact: exact))
+	}
+	static func github(_ path: String, range: Range<Version>) -> What {
+		.init(dependency: .package(url: "https://github.com/\(path)", range))
+	}
+	static func github(_ path: String, branch: String) -> What {
+		.init(dependency: .package(url: "https://github.com/\(path)", branch: branch))
+	}
+	static func github(_ path: String, revision: String) -> What {
+		.init(dependency: .package(url: "https://github.com/\(path)", revision: revision))
+	}
 }
 
 extension Array where Element == Dep {
@@ -43,7 +52,11 @@ extension Target.Dependency {
 
 var deps: [Dep] = []
 
-deps.append(.github("swiftwasm/JavaScriptKit", .exactItem("0.17.0")), .product("JavaScriptKit", "JavaScriptKit"), .product("JavaScriptBigIntSupport", "JavaScriptKit"))
+deps.append(
+	.github("swiftwasm/JavaScriptKit", exact: "0.17.0"),
+		.product("JavaScriptKit", "JavaScriptKit"),
+		.product("JavaScriptBigIntSupport", "JavaScriptKit")
+)
 
 // MARK: - Package
 
