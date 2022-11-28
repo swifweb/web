@@ -24,7 +24,8 @@ extension TransitionEndHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_transitionend.asp)
     @discardableResult
     public func onTransitionEnd(_ handler: @escaping (Self, TransitionEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ontransitionend", createOrUpdate(TransitionEndContainer.self) {
+        setDOMHandlerIfNeeded("ontransitionend", createOrUpdate(TransitionEndContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension TransitionEndHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_transitionend.asp)
     @discardableResult
     public func onTransitionEnd(_ handler: @escaping (Self) -> Void) -> Self {
-        onTransitionEnd { _,_ in handler(self) }
+        onTransitionEnd { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The transitionend event occurs when a CSS transition has completed.

@@ -24,7 +24,8 @@ extension MouseUpHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseup.asp)
     @discardableResult
     public func onMouseUp(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmouseup", createOrUpdate(MouseUpContainer.self) {
+        setDOMHandlerIfNeeded("onmouseup", createOrUpdate(MouseUpContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension MouseUpHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseup.asp)
     @discardableResult
     public func onMouseUp(_ handler: @escaping (Self) -> Void) -> Self {
-        onMouseUp { _,_ in handler(self) }
+        onMouseUp { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onmouseup event occurs when a user releases a mouse button over an element.

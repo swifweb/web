@@ -22,7 +22,8 @@ extension InvalidHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oninvalid.asp)
     @discardableResult
     public func onInvalid(_ handler: @escaping (Event, Self) -> Void) -> Self {
-        setDOMHandlerIfNeeded("oninvalid", createOrUpdate(InvalidContainer.self) {
+        setDOMHandlerIfNeeded("oninvalid", createOrUpdate(InvalidContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler($0, self)
         })
     }

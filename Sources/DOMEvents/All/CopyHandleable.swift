@@ -24,7 +24,8 @@ extension CopyHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncopy.asp)
     @discardableResult
     public func onCopy(_ handler: @escaping (Self, ClipboardEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("oncopy", createOrUpdate(CopyContainer.self) {
+        setDOMHandlerIfNeeded("oncopy", createOrUpdate(CopyContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension CopyHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncopy.asp)
     @discardableResult
     public func onCopy(_ handler: @escaping (Self) -> Void) -> Self {
-        onCopy { _,_ in handler(self) }
+        onCopy { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The `oncopy` event occurs when the user copies the content of an element.

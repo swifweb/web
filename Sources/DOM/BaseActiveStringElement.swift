@@ -19,8 +19,8 @@ open class BaseActiveStringElement: BaseActiveElement, _StringInitializable {
     required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
         self.init()
         value = title.uniValue
-        title.uniStateValue?.listen {
-            self.value = $0
+        title.uniStateValue?.listen { [weak self] in
+            self?.value = $0
         }
     }
     

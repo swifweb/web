@@ -24,7 +24,8 @@ extension TouchEndHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchend.asp)
     @discardableResult
     public func onTouchEnd(_ handler: @escaping (Self, TouchEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ontouchend", createOrUpdate(TouchEndContainer.self) {
+        setDOMHandlerIfNeeded("ontouchend", createOrUpdate(TouchEndContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension TouchEndHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchend.asp)
     @discardableResult
     public func onTouchEnd(_ handler: @escaping (Self) -> Void) -> Self {
-        onTouchEnd { _,_ in handler(self) }
+        onTouchEnd { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The `ontouchend` event occurs when the user removes the finger from an element.

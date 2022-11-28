@@ -24,7 +24,8 @@ extension DragOverHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondragover.asp)
     @discardableResult
     public func onDragOver(_ handler: @escaping (Self, DragEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ondragover", createOrUpdate(DragOverContainer.self) {
+        setDOMHandlerIfNeeded("ondragover", createOrUpdate(DragOverContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension DragOverHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondragover.asp)
     @discardableResult
     public func onDragOver(_ handler: @escaping (Self) -> Void) -> Self {
-        onDragOver { _,_ in handler(self) }
+        onDragOver { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The ondragover event occurs when a draggable element or text selection is being dragged over a valid drop target.

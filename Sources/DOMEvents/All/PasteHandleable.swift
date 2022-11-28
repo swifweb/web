@@ -24,7 +24,8 @@ extension PasteHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onpaste.asp)
     @discardableResult
     public func onPaste(_ handler: @escaping (Self, ClipboardEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onpaste", createOrUpdate(PasteContainer.self) {
+        setDOMHandlerIfNeeded("onpaste", createOrUpdate(PasteContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension PasteHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onpaste.asp)
     @discardableResult
     public func onPaste(_ handler: @escaping (Self) -> Void) -> Self {
-        onPaste { _,_ in handler(self) }
+        onPaste { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onpaste event occurs when the user pastes some content in an element.

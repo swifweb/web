@@ -24,7 +24,8 @@ extension WheelHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onwheel.asp)
     @discardableResult
     public func onWheel(_ handler: @escaping (Self, WheelEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onwheel", createOrUpdate(WheelContainer.self) {
+        setDOMHandlerIfNeeded("onwheel", createOrUpdate(WheelContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension WheelHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onwheel.asp)
     @discardableResult
     public func onWheel(_ handler: @escaping (Self) -> Void) -> Self {
-        onWheel { _,_ in handler(self) }
+        onWheel { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onwheel event occurs when the mouse wheel is rolled up or down over an element.

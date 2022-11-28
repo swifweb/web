@@ -24,7 +24,8 @@ extension MouseMoveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmousemove.asp)
     @discardableResult
     public func onMouseMove(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmousemove", createOrUpdate(MouseMoveContainer.self) {
+        setDOMHandlerIfNeeded("onmousemove", createOrUpdate(MouseMoveContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension MouseMoveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmousemove.asp)
     @discardableResult
     public func onMouseMove(_ handler: @escaping (Self) -> Void) -> Self {
-        onMouseMove { _,_ in handler(self) }
+        onMouseMove { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onmousemove event occurs when the pointer is moving while it is over an element.

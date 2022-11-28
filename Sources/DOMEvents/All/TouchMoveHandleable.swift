@@ -24,7 +24,8 @@ extension TouchMoveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchmove.asp)
     @discardableResult
     public func onTouchMove(_ handler: @escaping (Self, TouchEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ontouchmove", createOrUpdate(TouchMoveContainer.self) {
+        setDOMHandlerIfNeeded("ontouchmove", createOrUpdate(TouchMoveContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension TouchMoveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchmove.asp)
     @discardableResult
     public func onTouchMove(_ handler: @escaping (Self) -> Void) -> Self {
-        onTouchMove { _,_ in handler(self) }
+        onTouchMove { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The touchmove event occurs when the user moves the finger across the screen.

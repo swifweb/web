@@ -29,7 +29,8 @@ extension ClickHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onclick.asp)
     @discardableResult
     public func onClick(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onclick", createOrUpdate(ClickContainer.self) {
+        setDOMHandlerIfNeeded("onclick", createOrUpdate(ClickContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -46,7 +47,10 @@ extension ClickHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onclick.asp)
     @discardableResult
     public func onClick(_ handler: @escaping (Self) -> Void) -> Self {
-        onClick { _,_ in handler(self) }
+        onClick { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The `onclick` event occurs when the user clicks on an element.

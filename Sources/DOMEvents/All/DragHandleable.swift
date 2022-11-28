@@ -24,7 +24,8 @@ extension DragHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondrag.asp)
     @discardableResult
     public func onDrag(_ handler: @escaping (Self, DragEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ondrag", createOrUpdate(DragContainer.self) {
+        setDOMHandlerIfNeeded("ondrag", createOrUpdate(DragContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension DragHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondrag.asp)
     @discardableResult
     public func onDrag(_ handler: @escaping (Self) -> Void) -> Self {
-        onDrag { _,_ in handler(self) }
+        onDrag { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The ondrag event occurs when an element or text selection is being dragged.

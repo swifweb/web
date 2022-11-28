@@ -24,7 +24,8 @@ extension CutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncut.asp)
     @discardableResult
     public func onCut(_ handler: @escaping (Self, ClipboardEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("oncut", createOrUpdate(CutContainer.self) {
+        setDOMHandlerIfNeeded("oncut", createOrUpdate(CutContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension CutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncut.asp)
     @discardableResult
     public func onCut(_ handler: @escaping (Self) -> Void) -> Self {
-        onCut { _,_ in handler(self) }
+        onCut { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The oncut event occurs when the user cuts the content of an element.

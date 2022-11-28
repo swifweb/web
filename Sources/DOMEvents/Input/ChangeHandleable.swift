@@ -30,7 +30,8 @@ extension ChangeHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onchange.asp)
     @discardableResult
     public func onChange(_ handler: @escaping (Event, Self) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onchange", createOrUpdate(ChangeContainer.self) {
+        setDOMHandlerIfNeeded("onchange", createOrUpdate(ChangeContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler($0, self)
         })
     }

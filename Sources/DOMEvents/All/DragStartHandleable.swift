@@ -24,7 +24,8 @@ extension DragStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondragstart.asp)
     @discardableResult
     public func onDragStart(_ handler: @escaping (Self, DragEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ondragstart", createOrUpdate(DragStartContainer.self) {
+        setDOMHandlerIfNeeded("ondragstart", createOrUpdate(DragStartContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension DragStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondragstart.asp)
     @discardableResult
     public func onDragStart(_ handler: @escaping (Self) -> Void) -> Self {
-        onDragStart { _,_ in handler(self) }
+        onDragStart { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The ondragstart event occurs when the user starts to drag an element or text selection.

@@ -25,7 +25,8 @@ extension SearchHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onsearch.asp)
     @discardableResult
     public func onSearch(_ handler: @escaping (Event, Self) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onsearch", createOrUpdate(SearchContainer.self) {
+        setDOMHandlerIfNeeded("onsearch", createOrUpdate(SearchContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler($0, self)
         })
     }

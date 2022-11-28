@@ -24,7 +24,8 @@ extension BlurHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onblur.asp)
     @discardableResult
     public func onBlur(_ handler: @escaping (Self, FocusEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onblur", createOrUpdate(BlurContainer.self) {
+        setDOMHandlerIfNeeded("onblur", createOrUpdate(BlurContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension BlurHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onblur.asp)
     @discardableResult
     public func onBlur(_ handler: @escaping (Self) -> Void) -> Self {
-        onBlur { _,_ in handler(self) }
+        onBlur { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onblur event occurs when an object loses focus.

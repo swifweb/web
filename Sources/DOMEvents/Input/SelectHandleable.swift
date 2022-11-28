@@ -25,7 +25,8 @@ extension SelectHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onselect.asp)
     @discardableResult
     public func onSelect(_ handler: @escaping (UIEvent, Self) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onselect", createOrUpdate(SelectContainer.self) {
+        setDOMHandlerIfNeeded("onselect", createOrUpdate(SelectContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler($0, self)
         })
     }

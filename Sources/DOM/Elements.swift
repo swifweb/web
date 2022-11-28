@@ -2049,15 +2049,14 @@ open class TextArea: BaseActiveElement, _StringInitializable, ChangeHandleable, 
 
     public required init() {
         super.init()
-        onChange { [self] in
-            guard inputEventHasNeverFired else { return }
-            _updateStateWithValue()
+        onChange { [weak self] in
+            guard self?.inputEventHasNeverFired == true else { return }
+            self?._updateStateWithValue()
         }
-        onInput { [self] in
-            inputEventHasNeverFired = false
-            _updateStateWithValue()
+        onInput { [weak self] in
+            self?.inputEventHasNeverFired = false
+            self?._updateStateWithValue()
         }
-        setAttribute("type", "text")
         setAttribute("value", text)
     }
     

@@ -24,7 +24,8 @@ extension TouchStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchstart.asp)
     @discardableResult
     public func onTouchStart(_ handler: @escaping (Self, TouchEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ontouchstart", createOrUpdate(TouchStartContainer.self) {
+        setDOMHandlerIfNeeded("ontouchstart", createOrUpdate(TouchStartContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension TouchStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_touchstart.asp)
     @discardableResult
     public func onTouchStart(_ handler: @escaping (Self) -> Void) -> Self {
-        onTouchStart { _,_ in handler(self) }
+        onTouchStart { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The touchstart event occurs when the user touches an element.

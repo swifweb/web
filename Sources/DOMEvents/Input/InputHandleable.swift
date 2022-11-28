@@ -33,7 +33,8 @@ extension InputHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oninput.asp)
     @discardableResult
     public func onInput(_ handler: @escaping (InputEvent, Self) -> Void) -> Self {
-        setDOMHandlerIfNeeded("oninput", createOrUpdate(InputContainer.self) {
+        setDOMHandlerIfNeeded("oninput", createOrUpdate(InputContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler($0, self)
         })
     }

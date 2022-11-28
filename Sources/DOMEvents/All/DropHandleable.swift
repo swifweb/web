@@ -24,7 +24,8 @@ extension DropHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondrop.asp)
     @discardableResult
     public func onDrop(_ handler: @escaping (Self, DragEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ondrop", createOrUpdate(DropContainer.self) {
+        setDOMHandlerIfNeeded("ondrop", createOrUpdate(DropContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension DropHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondrop.asp)
     @discardableResult
     public func onDrop(_ handler: @escaping (Self) -> Void) -> Self {
-        onDrop { _,_ in handler(self) }
+        onDrop { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The ondrop event occurs when a draggable element or text selection is dropped on a valid drop target.

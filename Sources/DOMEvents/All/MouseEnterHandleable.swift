@@ -24,7 +24,8 @@ extension MouseEnterHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseenter.asp)
     @discardableResult
     public func onMouseEnter(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmouseenter", createOrUpdate(MouseEnterContainer.self) {
+        setDOMHandlerIfNeeded("onmouseenter", createOrUpdate(MouseEnterContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension MouseEnterHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseenter.asp)
     @discardableResult
     public func onMouseEnter(_ handler: @escaping (Self) -> Void) -> Self {
-        onMouseEnter { _,_ in handler(self) }
+        onMouseEnter { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onmouseenter event occurs when the mouse pointer is moved onto an element.

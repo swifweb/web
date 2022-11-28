@@ -24,7 +24,8 @@ extension ContextMenuHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncontextmenu.asp)
     @discardableResult
     public func onContextMenu(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("oncontextmenu", createOrUpdate(ContextMenuContainer.self) {
+        setDOMHandlerIfNeeded("oncontextmenu", createOrUpdate(ContextMenuContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension ContextMenuHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_oncontextmenu.asp)
     @discardableResult
     public func onContextMenu(_ handler: @escaping (Self) -> Void) -> Self {
-        onContextMenu { _,_ in handler(self) }
+        onContextMenu { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The oncontextmenu event occurs when the user right-clicks on an element to open the context menu.

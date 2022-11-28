@@ -24,7 +24,8 @@ extension KeyDownHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeydown.asp)
     @discardableResult
     public func onKeyDown(_ handler: @escaping (Self, KeyboardEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onkeydown", createOrUpdate(KeyDownContainer.self) {
+        setDOMHandlerIfNeeded("onkeydown", createOrUpdate(KeyDownContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension KeyDownHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeydown.asp)
     @discardableResult
     public func onKeyDown(_ handler: @escaping (Self) -> Void) -> Self {
-        onKeyDown { _,_ in handler(self) }
+        onKeyDown { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The `onkeydown` event occurs when the user is pressing a key (on the keyboard).

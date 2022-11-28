@@ -24,7 +24,8 @@ extension KeyUpHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeyup.asp)
     @discardableResult
     public func onKeyUp(_ handler: @escaping (Self, KeyboardEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onkeyup", createOrUpdate(KeyUpContainer.self) {
+        setDOMHandlerIfNeeded("onkeyup", createOrUpdate(KeyUpContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension KeyUpHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeyup.asp)
     @discardableResult
     public func onKeyUp(_ handler: @escaping (Self) -> Void) -> Self {
-        onKeyUp { _,_ in handler(self) }
+        onKeyUp { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The `onkeyup` event occurs when the user releases a key (on the keyboard).

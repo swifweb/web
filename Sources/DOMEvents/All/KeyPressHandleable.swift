@@ -24,7 +24,8 @@ extension KeyPressHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeypress.asp)
     @discardableResult
     public func onKeyPress(_ handler: @escaping (Self, KeyboardEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onkeypress", createOrUpdate(KeyPressContainer.self) {
+        setDOMHandlerIfNeeded("onkeypress", createOrUpdate(KeyPressContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension KeyPressHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onkeypress.asp)
     @discardableResult
     public func onKeyPress(_ handler: @escaping (Self) -> Void) -> Self {
-        onKeyPress { _,_ in handler(self) }
+        onKeyPress { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onkeypress event occurs when the user presses a key (on the keyboard).

@@ -27,7 +27,8 @@ extension AnimationEndHandleable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/animationend_event)
     @discardableResult
     public func onAnimationEnd(_ handler: @escaping (Self, AnimationEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onanimationend", createOrUpdate(AnimationEndContainer.self) {
+        setDOMHandlerIfNeeded("onanimationend", createOrUpdate(AnimationEndContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -42,7 +43,10 @@ extension AnimationEndHandleable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/animationend_event)
     @discardableResult
     public func onAnimationEnd(_ handler: @escaping (Self) -> Void) -> Self {
-        onAnimationEnd { _,_ in handler(self) }
+        onAnimationEnd { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The animationend event is fired when a CSS Animation has completed.

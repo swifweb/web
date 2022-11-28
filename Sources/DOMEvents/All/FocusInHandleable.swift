@@ -24,7 +24,8 @@ extension FocusInHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onfocusin.asp)
     @discardableResult
     public func onFocusIn(_ handler: @escaping (Self, FocusEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onfocusin", createOrUpdate(FocusInContainer.self) {
+        setDOMHandlerIfNeeded("onfocusin", createOrUpdate(FocusInContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension FocusInHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onfocusin.asp)
     @discardableResult
     public func onFocusIn(_ handler: @escaping (Self) -> Void) -> Self {
-        onFocusIn { _,_ in handler(self) }
+        onFocusIn { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onfocusin event occurs when an element is about to get focus.

@@ -24,7 +24,8 @@ extension DragLeaveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondragleave.asp)
     @discardableResult
     public func onDragLeave(_ handler: @escaping (Self, DragEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("ondragleave", createOrUpdate(DragLeaveContainer.self) {
+        setDOMHandlerIfNeeded("ondragleave", createOrUpdate(DragLeaveContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension DragLeaveHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_ondragleave.asp)
     @discardableResult
     public func onDragLeave(_ handler: @escaping (Self) -> Void) -> Self {
-        onDragLeave { _,_ in handler(self) }
+        onDragLeave { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The ondragleave event occurs when a draggable element or text selection leaves a valid drop target.

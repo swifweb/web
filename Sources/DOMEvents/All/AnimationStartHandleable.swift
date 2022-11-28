@@ -24,7 +24,8 @@ extension AnimationStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_animationstart.asp)
     @discardableResult
     public func onAnimationStart(_ handler: @escaping (Self, AnimationEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onanimationstart", createOrUpdate(AnimationStartContainer.self) {
+        setDOMHandlerIfNeeded("onanimationstart", createOrUpdate(AnimationStartContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension AnimationStartHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_animationstart.asp)
     @discardableResult
     public func onAnimationStart(_ handler: @escaping (Self) -> Void) -> Self {
-        onAnimationStart { _,_ in handler(self) }
+        onAnimationStart { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The animationstart event occurs when a CSS animation has started to play.

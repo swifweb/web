@@ -24,7 +24,8 @@ extension MouseOutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseout.asp)
     @discardableResult
     public func onMouseOut(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmouseout", createOrUpdate(MouseOutContainer.self) {
+        setDOMHandlerIfNeeded("onmouseout", createOrUpdate(MouseOutContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension MouseOutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseout.asp)
     @discardableResult
     public func onMouseOut(_ handler: @escaping (Self) -> Void) -> Self {
-        onMouseOut { _,_ in handler(self) }
+        onMouseOut { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onmouseout event occurs when the mouse pointer is moved out of an element, or out of one of its children.

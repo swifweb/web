@@ -24,7 +24,8 @@ extension MouseDownHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmousedown.asp)
     @discardableResult
     public func onMouseDown(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmousedown", createOrUpdate(MouseDownContainer.self) {
+        setDOMHandlerIfNeeded("onmousedown", createOrUpdate(MouseDownContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension MouseDownHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmousedown.asp)
     @discardableResult
     public func onMouseDown(_ handler: @escaping (Self) -> Void) -> Self {
-        onMouseDown { _,_ in handler(self) }
+        onMouseDown { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onmousedown event occurs when a user presses a mouse button over an element.

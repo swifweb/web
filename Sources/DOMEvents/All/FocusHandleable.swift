@@ -24,7 +24,8 @@ extension FocusHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onfocus.asp)
     @discardableResult
     func onFocus(_ handler: @escaping (Self, FocusEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onfocus", createOrUpdate(FocusContainer.self) {
+        setDOMHandlerIfNeeded("onfocus", createOrUpdate(FocusContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension FocusHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onfocus.asp)
     @discardableResult
     public func onFocus(_ handler: @escaping (Self) -> Void) -> Self {
-        onFocus { _,_ in handler(self) }
+        onFocus { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onfocus event occurs when an element gets focus.

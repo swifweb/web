@@ -24,7 +24,8 @@ extension FocusOutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onfocusout.asp)
     @discardableResult
     public func onFocusOut(_ handler: @escaping (Self, FocusEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onfocusout", createOrUpdate(FocusOutContainer.self) {
+        setDOMHandlerIfNeeded("onfocusout", createOrUpdate(FocusOutContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension FocusOutHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onfocusout.asp)
     @discardableResult
     public func onFocusOut(_ handler: @escaping (Self) -> Void) -> Self {
-        onFocusOut { _,_ in handler(self) }
+        onFocusOut { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onfocusout event occurs when an element is about to lose focus.

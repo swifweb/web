@@ -30,7 +30,8 @@ extension MessageHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmessage_sse.asp)
     @discardableResult
     public func onMessage(_ handler: @escaping (Self, Event) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmessage", createOrUpdate(MessageContainer.self) {
+        setDOMHandlerIfNeeded("onmessage", createOrUpdate(MessageContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -48,7 +49,10 @@ extension MessageHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmessage_sse.asp)
     @discardableResult
     public func onMessage(_ handler: @escaping (Self) -> Void) -> Self {
-        onMessage { _,_ in handler(self) }
+        onMessage { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onmessage event occurs when a message is received through an event source.

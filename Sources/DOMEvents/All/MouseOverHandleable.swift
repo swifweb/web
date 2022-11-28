@@ -24,7 +24,8 @@ extension MouseOverHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseover.asp)
     @discardableResult
     public func onMouseOver(_ handler: @escaping (Self, MouseEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onmouseover", createOrUpdate(MouseOverContainer.self) {
+        setDOMHandlerIfNeeded("onmouseover", createOrUpdate(MouseOverContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -36,7 +37,10 @@ extension MouseOverHandleable {
     /// [More info →](https://www.w3schools.com/jsref/event_onmouseover.asp)
     @discardableResult
     public func onMouseOver(_ handler: @escaping (Self) -> Void) -> Self {
-        onMouseOver { _,_ in handler(self) }
+        onMouseOver { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The onmouseover event occurs when the mouse pointer is moved onto an element, or onto one of its children.

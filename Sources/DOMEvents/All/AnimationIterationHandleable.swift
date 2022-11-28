@@ -26,7 +26,8 @@ extension AnimationIterationHandleable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onanimationiteration)
     @discardableResult
     public func onAnimationIteration(_ handler: @escaping (Self, AnimationEvent) -> Void) -> Self {
-        setDOMHandlerIfNeeded("onanimationiteration", createOrUpdate(AnimationIterationContainer.self) {
+        setDOMHandlerIfNeeded("onanimationiteration", createOrUpdate(AnimationIterationContainer.self) { [weak self] in
+            guard let self = self else { return }
             handler(self, $0)
         })
     }
@@ -40,7 +41,10 @@ extension AnimationIterationHandleable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onanimationiteration)
     @discardableResult
     public func onAnimationIteration(_ handler: @escaping (Self) -> Void) -> Self {
-        onAnimationIteration { _,_ in handler(self) }
+        onAnimationIteration { [weak self] _,_ in
+            guard let self = self else { return }
+            handler(self)
+        }
     }
     
     /// The animationiteration event is sent when a CSS animation reaches the end of an iteration.
