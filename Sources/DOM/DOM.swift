@@ -21,6 +21,14 @@ private struct EmptyContent: DOMContent {
     let domContentItem: DOMItem
 }
 
+/// Use it as follows
+///
+/// ```
+/// @DOM override var body: DOM.Content {
+///     Div("Hello world")
+/// }
+/// ````
+///
 @resultBuilder public struct DOM {
     public typealias Content = DOMContent
     public typealias Block = () -> Content
