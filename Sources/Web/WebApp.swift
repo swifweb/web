@@ -154,10 +154,12 @@ open class WebApp: _PreviewableApp {
             if let lastResponse = lastResponse {
                 #if arch(wasm32)
                 _ = document.domElement.body.removeChild(lastResponse.controller.view)
+                lastResponse.controller.didRemoveFromDOM()
                 #endif
             }
             #if arch(wasm32)
             let _ = document.domElement.body.appendChild(response.controller.view)
+            response.controller.didAddToDOM()
             #endif
             lastResponse = response
         } catch {

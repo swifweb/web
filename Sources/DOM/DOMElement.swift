@@ -26,9 +26,6 @@ public protocol DOMElement: DOMElementable, AnyElement {
 
 extension DOMElement {
     var name: String { Self.name }
-    
-    public func didAddToDOM() {}
-    public func didRemoveFromDOM() {}
 }
 
 // TODO: https://developer.mozilla.org/en-US/docs/Web/API/Node
@@ -45,20 +42,28 @@ extension DOMElement {
     public func appendChild(_ element: DOMElement) {
         #if arch(wasm32)
         domElement.appendChild.function?.callAsFunction(optionalThis: domElement.object, element.domElement)
+        properties.subElements.append(element)
+        element.properties.parent = self
+        element.didAddToDOM()
         #endif
         #if WEBPREVIEW
         properties.subElements.append(element)
         #endif
-        element.didAddToDOM()
     }
     
     /// Removes the element from the children list of its parent.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove)
     @discardableResult
-    func remove() -> Self {
+    public func remove() -> Self {
         #if arch(wasm32)
         domElement.remove.function?.callAsFunction(optionalThis: domElement.object)
+        self.properties.removeSubelementsRecursively()
+        self.properties.parent?.properties.subElements.removeAll(where: { subElement in
+            return subElement.properties._id == self.properties._id
+        })
+        self.properties.parent = nil
+        self.didRemoveFromDOM()
         #endif
         return self
     }
@@ -150,6 +155,7 @@ public final class DOMElementProperties {
     public lazy var _id = uid
     public lazy var _classes: Set<String> = []
 
+    public internal(set) var parent: DOMElement? = nil
     public internal(set) var subElements: [DOMElement] = []
     #if !arch(wasm32)
     public var styles: [String: String] = [:]
@@ -157,6 +163,17 @@ public final class DOMElementProperties {
     #endif
     
     init () {}
+    
+    func removeSubelementsRecursively() {
+        func removeSubElements(_ subElements: inout [DOMElement]) {
+            while let subElement = subElements.popLast() {
+                removeSubElements(&subElement.properties.subElements)
+                subElement.properties.parent = nil
+                subElement.didRemoveFromDOM()
+            }
+        }
+        removeSubElements(&subElements)
+    }
 }
 
 enum AttributeBoolMode {

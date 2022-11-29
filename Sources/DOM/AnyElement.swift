@@ -46,12 +46,18 @@ extension BaseContentElementable {
     #if arch(wasm32)
     public var innerText: String {
         get { s?.domElement.innerText.string ?? "" }
-        set { s?.domElement.innerText = newValue.jsValue() }
+        set {
+            s?.properties.removeSubelementsRecursively()
+            s?.domElement.innerText = newValue.jsValue()
+        }
     }
     
     public var innerHTML: String {
         get { s?.domElement.innerHTML.string ?? "" }
-        set { s?.domElement.innerHTML = newValue.jsValue() }
+        set {
+            s?.properties.removeSubelementsRecursively()
+            s?.domElement.innerHTML = newValue.jsValue()
+        }
     }
     #else
     public var innerText: String {

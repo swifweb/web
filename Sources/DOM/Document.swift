@@ -116,5 +116,29 @@ public class Document: DOMElement, EventTarget {
         #endif
     }
     
+    public func didAddToDOM() {}
+    public func didRemoveFromDOM() {}
+    
     // TODO: func querySelector
+    
+    /// Returns the first Element within the document that matches the specified selector.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
+    public func querySelector(_ selector: String) -> BaseElement? {
+        guard let element = domElement.querySelector.function?.callAsFunction(selector) else { return nil }
+        return BaseElement(element)
+    }
+    
+    /// Returns a list of the document's elements that match the specified group of selectors.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
+    public func querySelectorAll(_ selector: String) -> [BaseElement] {
+		print("domElement.querySelector: \(domElement.querySelector.function?.callAsFunction(optionalThis: domElement.object, selector) ?? "n/a")")
+//        if let iterator = domElement.querySelector.function?.callAsFunction(selector) {//.array?.makeIterator() {
+//            print("iterator: \(iterator)")
+//        } else {
+//            print("not iterator")
+//        }
+        return []
+    }
 }
