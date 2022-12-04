@@ -51,26 +51,35 @@ open class Stylesheet: BaseElement, Stylesheetable {
     }
     
     public func processRules() {
-        _rules.enumerated().forEach { i, rule in
-            let cssText = rule.render()
-            #if !WEBPREVIEW
-            guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
-            rule.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
-            #endif
-        }
-        _keyframes.enumerated().forEach { i, kf in
-            let cssText = kf.render()
-            #if !WEBPREVIEW
-            guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
-            kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
-            #endif
-        }
-        _medias.enumerated().forEach { i, m in
-            let cssText = m.render()
-            #if !WEBPREVIEW
-            guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
-            m.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
-            #endif
+        if sheet.object != nil {
+            _rules.enumerated().forEach { i, rule in
+                let cssText = rule.render()
+                #if !WEBPREVIEW
+                guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
+                rule.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
+                #endif
+            }
+            _keyframes.enumerated().forEach { i, kf in
+                let cssText = kf.render()
+                #if !WEBPREVIEW
+                guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
+                kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
+                #endif
+            }
+            _medias.enumerated().forEach { i, m in
+                let cssText = m.render()
+                #if !WEBPREVIEW
+                guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
+                m.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
+                #endif
+            }
+        } else {
+            var style = "\r\n"
+            style.append(_rules.map { $0.render() }.joined(separator: "\n"))
+            style.append(_keyframes.map { $0.render() }.joined(separator: "\n"))
+            style.append(_medias.map { $0.render() }.joined(separator: "\n"))
+            style.append("\r\n")
+            domElement.innerHTML = style.jsValue()
         }
     }
     
