@@ -13,6 +13,9 @@ private struct RulesKey: StorageKey {
 private struct KeyframesKey: StorageKey {
     typealias Value = [Keyframes]
 }
+private struct MediaRuleKey: StorageKey {
+    typealias Value = [MediaRule]
+}
 
 extension Style {
     public var rules: [CSSRule] {
@@ -22,6 +25,10 @@ extension Style {
     public var keyframes: [Keyframes] {
         get { storage[KeyframesKey.self] ?? [] }
         set { storage[KeyframesKey.self] = newValue }
+    }
+    public var medias: [MediaRule] {
+        get { storage[MediaRuleKey.self] ?? [] }
+        set { storage[MediaRuleKey.self] = newValue }
     }
     
     public convenience init(@Rules content: @escaping Rules.Block) {
@@ -41,6 +48,9 @@ extension Style {
         keyframes.forEach {
             result.append($0.render())
         }
+        medias.forEach {
+            result.append($0.render())
+        }
         domElement.innerText = result.jsValue()
     }
 
@@ -49,6 +59,7 @@ extension Style {
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): rules.append(v)
         case .keyframes(let v): keyframes.append(v)
+        case .media(let v): medias.append(v)
         case .none: break
         }
     }

@@ -18,6 +18,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     
     public private(set) var _rules: [CSSRule] = []
     public private(set) var _keyframes: [Keyframes] = []
+    public private(set) var _medias: [MediaRule] = []
     
     public convenience init(@Rules content: @escaping Rules.Block) {
         self.init()
@@ -44,6 +45,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): _rules.append(v)
         case .keyframes(let v): _keyframes.append(v)
+        case .media(let v): _medias.append(v)
         case .none: break
         }
     }
@@ -61,6 +63,13 @@ open class Stylesheet: BaseElement, Stylesheetable {
             #if !WEBPREVIEW
             guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
             kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
+            #endif
+        }
+        _medias.enumerated().forEach { i, m in
+            let cssText = m.render()
+            #if !WEBPREVIEW
+            guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
+            m.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
             #endif
         }
     }
@@ -144,11 +153,12 @@ open class RulesGroup: RulesContent, Stylesheetable {
     public typealias RuleItems = Rules.Content
     
     public var rulesContent: Rules.Item {
-        .items(_rules.map { .rule($0) } + [rules.rulesContent] + _keyframes.map { .keyframes($0) })
+        .items(_rules.map { .rule($0) } + [rules.rulesContent] + _keyframes.map { .keyframes($0) } + _medias.map { .media($0) })
     }
     
     public private(set) var _rules: [CSSRule] = []
     public private(set) var _keyframes: [Keyframes] = []
+    public private(set) var _medias: [MediaRule] = []
     
     public init () {}
     
@@ -168,6 +178,7 @@ open class RulesGroup: RulesContent, Stylesheetable {
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): _rules.append(v)
         case .keyframes(let v): _keyframes.append(v)
+        case .media(let v): _medias.append(v)
         case .none: break
         }
     }

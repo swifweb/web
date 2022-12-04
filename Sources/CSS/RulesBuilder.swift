@@ -21,6 +21,7 @@ struct _RulesContent: Rules.Content {
         case none
         case rule(CSSRule)
         case keyframes(Keyframes)
+        case media(MediaRule)
         case items([Item])
     }
 
