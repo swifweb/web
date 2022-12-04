@@ -35,7 +35,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     
     public override func postInit() {
         super.postInit()
-        parseRulesItem(rules.rulesContent)
+        parseRulesItem(rules.rulesContent) // it is additional, don't remove
     }
     
     @Rules open var rules: RuleItems { _RulesContent(rulesContent: .none) }

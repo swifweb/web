@@ -53,7 +53,7 @@ open class CSSRule: RulesContent, CSSRulable {
     }
     
     public convenience init (_ pointers: Pointerable..., @Properties content: @escaping Properties.Block) {
-        self.init(pointers)
+        self.init(pointers, content: content)
     }
     
     @discardableResult
