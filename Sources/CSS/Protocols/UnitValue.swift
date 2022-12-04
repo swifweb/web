@@ -59,6 +59,44 @@ public class UnitValue: UnitValuable, UniValue, _PropertyValueInnerChangeable, C
             }
         }
     }
+    
+    public init <D>(_ value: D, _ unit: Unit) where D: UniValue, D.UniValue == Double {
+        self.value = value.uniValue
+        self.unit = unit
+        if let state = value.uniStateValue {
+            $value.merge(with: state, leftChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }, rightChanged: { _ in
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            })
+        } else {
+            $value.listen {
+                self._changeHandler()
+                self.uniStateValue?.manualChangeNotify()
+            }
+        }
+    }
+}
+
+extension State where Value == Double {
+    public var cm: State<UnitValue> { self.map { UnitValue($0, .cm) } }
+    public var mm: State<UnitValue> { self.map { UnitValue($0, .mm) } }
+    public var `in`: State<UnitValue> { self.map { UnitValue($0, .in) } }
+    public var px: State<UnitValue> { self.map { UnitValue($0, .px) } }
+    public var pt: State<UnitValue> { self.map { UnitValue($0, .pt) } }
+    public var pc: State<UnitValue> { self.map { UnitValue($0, .pc) } }
+    public var fr: State<UnitValue> { self.map { UnitValue($0, .fr) } }
+    public var em: State<UnitValue> { self.map { UnitValue($0, .em) } }
+    public var ex: State<UnitValue> { self.map { UnitValue($0, .ex) } }
+    public var ch: State<UnitValue> { self.map { UnitValue($0, .ch) } }
+    public var rem: State<UnitValue> { self.map { UnitValue($0, .rem) } }
+    public var vw: State<UnitValue> { self.map { UnitValue($0, .vw) } }
+    public var vh: State<UnitValue> { self.map { UnitValue($0, .vh) } }
+    public var vmin: State<UnitValue> { self.map { UnitValue($0, .vmin) } }
+    public var vmax: State<UnitValue> { self.map { UnitValue($0, .vmax) } }
+    public var percent: State<UnitValue> { self.map { UnitValue($0, .percent) } }
 }
 
 extension UnitValuable {
