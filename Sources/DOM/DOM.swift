@@ -21,6 +21,14 @@ private struct EmptyContent: DOMContent {
     let domContentItem: DOMItem
 }
 
+extension String: DOMContent {
+    public var domContentItem: DOMItem {
+        var div = Div()
+        div.innerHTML = self
+        return .elements([div])
+    }
+}
+
 /// Use it as follows
 ///
 /// ```
