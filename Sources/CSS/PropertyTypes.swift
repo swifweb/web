@@ -2585,10 +2585,16 @@ public struct ScrollBehaviorType: Autoable, Initialable, Inheritable, CustomStri
     public var description: String { value }
 }
 
-public enum StepsType: String, CustomStringConvertible {
-    case start, end
+public struct StepsType: CustomStringConvertible {
+    public let value: String
     
-    public var description: String { rawValue }
+    public init (_ value: String) { self.value = value }
+    
+    public static var start: Self { .init("start") }
+    
+    public static var end: Self { .init("end") }
+    
+    public var description: String { value }
 }
 
 public struct TableLayoutType: Autoable, Initialable, Inheritable, CustomStringConvertible {
@@ -3116,7 +3122,7 @@ public struct TransitionTimingFunctionType: Initialable, Inheritable, CustomStri
     /// The second parameter, which is optional, is either the value "start" or "end",
     /// and specifies the point at which the change of values occur within the interval.
     /// If the second parameter is omitted, it is given the value "end"
-    public static func steps(_ v: Int, _ type: StepsType) -> Self { .init("steps(\(v), \(type.rawValue))") }
+    public static func steps(_ v: Int, _ type: StepsType) -> Self { .init("steps(\(v), \(type.value))") }
     
     /// Define your own values in the cubic-bezier function. Possible values are numeric values from 0 to 1
     public static func cubicBezier(_ a: Double, _ b: Double, _ c: Double, _ d: Double) -> Self { .init("cubic-bezier(\(a), \(b), \(c), \(d))") }
@@ -3156,20 +3162,24 @@ public struct UnitValueType: Autoable, Initialable, Inheritable, Lengthable, Per
     public var description: String { value }
 }
 
-public enum UserSelectType: String, CustomStringConvertible {
+public struct UserSelectType: CustomStringConvertible {
+    public let value: String
+    
+    public init (_ value: String) { self.value = value }
+    
     /// Default. Text can be selected if the browser allows it
-    case auto
+    public static var auto: Self { .init("auto") }
     
     /// Prevent text selection
-    case none
+    public static var none: Self { .init("none") }
     
     /// The text can be selected by the user
-    case text
+    public static var text: Self { .init("text") }
     
     /// Text selection is made with one click instead of a double-click
-    case all
+    public static var all: Self { .init("all") }
     
-    public var description: String { rawValue }
+    public var description: String { value }
 }
 
 public struct VerticalAlignType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
@@ -3279,37 +3289,45 @@ public struct WordSpacingType: Initialable, Inheritable, Lengthable, CustomStrin
     public var description: String { value }
 }
 
-public enum WordWrapType: String, CustomStringConvertible {
+public struct WordWrapType: CustomStringConvertible {
+    public let value: String
+    
+    public init (_ value: String) { self.value = value }
+    
     /// Break words only at allowed break points
-    case normal
+    public static var normal: WritingModeType { .init("normal") }
     
     /// Allows unbreakable words to be broken
-    case breakWord = "break-word"
+    public static var breakWord: WritingModeType { .init("break-word") }
     
     /// Sets this property to its default value.
     ///
     /// [Read about inherit](https://www.w3schools.com/cssref/css_initial.asp)
-    case initial
+    public static var initial: WritingModeType { .init("initial") }
     
     /// Inherits this property from its parent element.
     ///
     /// [Read about inherit](https://www.w3schools.com/cssref/css_inherit.asp)
-    case inherit
+    public static var inherit: WritingModeType { .init("inherit") }
     
-    public var description: String { rawValue }
+    public var description: String { value }
 }
 
-public enum WritingModeType: String, CustomStringConvertible {
+public struct WritingModeType: CustomStringConvertible {
+    public let value: String
+    
+    public init (_ value: String) { self.value = value }
+    
     /// Let the content flow horizontally from left to right, vertically from top to bottom
-    case horizontalTb = "horizontal-tb"
+    public static var horizontalTb: WritingModeType { .init("horizontal-tb") }
     
     /// Let the content flow vertically from top to bottom, horizontally from right to left
-    case verticalRl = "vertical-rl"
+    public static var verticalRl: WritingModeType { .init("vertical-rl") }
     
     /// Let the content flow vertically from top to bottom, horizontally from left to right
-    case verticalLr = "vertical-lr"
+    public static var verticalLr: WritingModeType { .init("vertical-lr") }
     
-    public var description: String { rawValue }
+    public var description: String { value }
 }
 
 /// Defines where the view is placed at the x-axis.
