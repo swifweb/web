@@ -150,7 +150,7 @@ extension DOMElement {
 }
 
 public final class DOMElementProperties {
-    let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789")
+    let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz")
     
     public lazy var _id = uid
     public lazy var _classes: Set<String> = []
