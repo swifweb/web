@@ -21,7 +21,7 @@ open class BaseContentElement: BaseElement, _BaseContentElementable {
         super.init(domElement)
     }
     
-    public override func postInit() {
+    open override func postInit() {
         super.postInit()
         buildUI()
         postBuildUI()
