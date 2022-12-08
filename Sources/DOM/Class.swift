@@ -10,9 +10,9 @@ import Foundation
 open class Class: ExpressibleByStringLiteral {
     public typealias StringLiteralType = String
     
-    public var name: String
+    public var names: [String]
     
     required public init (stringLiteral name: String) {
-        self.name = name
+        self.names = name.components(separatedBy: " ")
     }
 }

@@ -728,7 +728,7 @@ extension ClassAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class)
     @discardableResult
     public func `class`(_ value: [Class]) -> Self {
-        value.map { $0.name }.forEach {
+        value.map { $0.names }.flatMap { $0 }.forEach {
             properties._classes.insert($0)
         }
         #if WEBPREVIEW
@@ -771,8 +771,10 @@ extension ClassAttrable {
     
     @discardableResult
     public func removeClass(_ value: Class) -> Self {
-        properties._classes.remove(value.name)
         #if WEBPREVIEW
+        value.names.forEach { className in
+            properties._classes.remove(className)
+        }
         setAttribute("class", properties._classes.joined(separator: " "))
         #else
         setAttribute("className", properties._classes.joined(separator: " "))
@@ -784,14 +786,18 @@ extension ClassAttrable {
     
     @discardableResult
     public func toggleClass(_ value: Class) -> Self {
-        if properties._classes.contains(value.name) {
-            properties._classes.remove(value.name)
-        } else {
-            properties._classes.insert(value.name)
+        value.names.forEach { className in
+            if properties._classes.contains(className) {
+                properties._classes.remove(className)
+            } else {
+                properties._classes.insert(className)
+            }
         }
         #if arch(wasm32)
         let classList = domElement[dynamicMember: "classList"].object
-        classList?.toggle.function?.callAsFunction(optionalThis: classList, value.name.jsValue())
+        for className in value.names {
+            classList?.toggle.function?.callAsFunction(optionalThis: classList, className.jsValue())
+        }
         #endif
         return self
     }

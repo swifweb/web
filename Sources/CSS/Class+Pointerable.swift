@@ -8,5 +8,5 @@
 import DOM
 
 extension Class: Pointerable {
-    public var pointer: Pointer { .init("." + name) }
+    public var pointer: Pointer { .init(names.map { ".\($0)" }.joined(separator: "")) }
 }
