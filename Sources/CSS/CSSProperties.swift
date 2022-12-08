@@ -7,6 +7,7 @@
 
 import Foundation
 import WebFoundation
+import DOM
 
 // MARK: - Custom Property
 
@@ -23,8 +24,22 @@ extension CSSRulable {
     /// .custom("width", "calc(100% - 14px)")
     /// ```
     @discardableResult
-    public func custom<V>(_ key: String, _ value: V) -> Self where V: CustomStringConvertible {
-        _addProperty(key.propertyKey(), value)
+    public func custom<V>(_ key: String, _ value: V, force: Bool = false) -> Self where V: CustomStringConvertible {
+        if force, let s = self as? DOMElement {
+            #if arch(wasm32)
+            if let existingStyleString = s.domElement[dynamicMember: "getAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style"]), !existingStyleString.isNull {
+                s.domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style", "\(existingStyleString)\(key):\(value);"])
+            } else {
+                s.domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style", "\(key):\(value);"])
+            }
+            #else
+            #if WEBPREVIEW
+            properties.styles[key] = value
+            #endif
+            #endif
+        } else {
+            _addProperty(key.propertyKey(), value)
+        }
         return self
     }
     

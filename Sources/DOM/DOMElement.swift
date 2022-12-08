@@ -71,18 +71,16 @@ extension DOMElement {
     // MARK: - Set Attribute
 
     #if arch(wasm32)
-    private func _setAttribute(_ key: String, _ value: JSValue, _ wasmPlain: Bool) {
-        if wasmPlain {
-            domElement[dynamicMember: key].function?.callAsFunction(optionalThis: domElement.object, key, value.jsValue())
-        } else {
-            domElement[dynamicMember: key] = value.jsValue()
-        }
+    private func _setAttribute(_ key: String, _ value: JSValue) {
+        domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, value.jsValue())
     }
     #endif
     
-    func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .short, wasmPlain: Bool = false) {
+    public var setter: DOMElementSetter { .init(self) }
+    
+    func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .short) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue(), wasmPlain)
+        _setAttribute(key, value.jsValue())
         #else
         #if WEBPREVIEW
         let stringValue: String?
@@ -101,29 +99,29 @@ extension DOMElement {
         #endif
     }
     
-    func setAttribute(_ key: String, _ value: Double, wasmPlain: Bool = false) {
+    func setAttribute(_ key: String, _ value: Double) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue(), wasmPlain)
+        _setAttribute(key, value.jsValue())
         #else
         setAttribute(key, "\(value)")
         #endif
     }
     
-    func setAttribute(_ key: String, _ value: Int, wasmPlain: Bool = false) {
+    func setAttribute(_ key: String, _ value: Int) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue(), wasmPlain)
+        _setAttribute(key, value.jsValue())
         #else
         setAttribute(key, "\(value)")
         #endif
     }
     
-    func setAttribute(_ key: String, _ value: UInt, wasmPlain: Bool = false) {
+    func setAttribute(_ key: String, _ value: UInt) {
         setAttribute(key, Int(value))
     }
     
-    func setAttribute(_ key: String, _ value: String, wasmPlain: Bool = false) {
+    func setAttribute(_ key: String, _ value: String) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue(), wasmPlain)
+        _setAttribute(key, value.jsValue())
         #else
         #if WEBPREVIEW
         properties.attributes[key] = value
@@ -146,6 +144,35 @@ extension DOMElement {
 extension DOMElement {
     public func shutdown() {
         storage.shutdown()
+    }
+}
+
+/// Helper for libraries to access internal setters of `DOMElement`
+public struct DOMElementSetter {
+    let domElement: DOMElement
+    
+    init (_ domElement: DOMElement) {
+        self.domElement = domElement
+    }
+    
+    public func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .short) {
+        domElement.setAttribute(key, value, mode)
+    }
+    
+    public func setAttribute(_ key: String, _ value: Double) {
+        domElement.setAttribute(key, value)
+    }
+    
+    public func setAttribute(_ key: String, _ value: Int) {
+        domElement.setAttribute(key, value)
+    }
+    
+    public func setAttribute(_ key: String, _ value: UInt) {
+        setAttribute(key, Int(value))
+    }
+    
+    public func setAttribute(_ key: String, _ value: String) {
+        domElement.setAttribute(key, value)
     }
 }
 
@@ -176,7 +203,7 @@ public final class DOMElementProperties {
     }
 }
 
-enum AttributeBoolMode {
+public enum AttributeBoolMode {
     /// like `<audio muted>`
     /// ```html
     /// <audio muted>

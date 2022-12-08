@@ -731,11 +731,7 @@ extension ClassAttrable {
         value.map { $0.names }.flatMap { $0 }.forEach {
             properties._classes.insert($0)
         }
-        #if WEBPREVIEW
         setAttribute("class", properties._classes.joined(separator: " "))
-        #else
-        setAttribute("className", properties._classes.joined(separator: " "))
-        #endif
         return self
     }
     
@@ -771,14 +767,10 @@ extension ClassAttrable {
     
     @discardableResult
     public func removeClass(_ value: Class) -> Self {
-        #if WEBPREVIEW
         value.names.forEach { className in
             properties._classes.remove(className)
         }
         setAttribute("class", properties._classes.joined(separator: " "))
-        #else
-        setAttribute("className", properties._classes.joined(separator: " "))
-        #endif
         return self
     }
     
@@ -2423,7 +2415,7 @@ extension ListAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_list.asp)
     @discardableResult
     public func list(_ value: String) -> Self {
-        setAttribute("list", value, wasmPlain: true)
+        setAttribute("list", value)
         return self
     }
     
