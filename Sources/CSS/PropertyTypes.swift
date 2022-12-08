@@ -832,33 +832,40 @@ public struct ClearType: Noneable, Initialable, Inheritable, CustomStringConvert
     public var description: String { value }
 }
 
-public enum ColorType: CustomStringConvertible {
-    case css(CSSColor)
-    case hex(Int)
-    case rgb(Int, Int, Int)
-    case rgba(Int, Int, Int, Double)
-    case hsl(Int, Int, Int)
-    case hsla(Int, Int, Int, Double)
-    case custom(String)
+public struct ColorType: CustomStringConvertible {
+    public let value: String
     
-    public var description: String {
-        switch self {
-        case .css(let name):
-            return name.rawValue
-        case .hex(let v):
-            return String(format:"#%02X", v)
-        case .rgb(let r, let g, let b):
-            return "rgb(\(r), \(g), \(b))"
-        case .rgba(let r, let g, let b, let a):
-            return "rgba(\(r), \(g), \(b), \(a))"
-        case .hsl(let hue, let saturation, let lightness):
-            return "hsl(\(hue), \(saturation)%, \(lightness)%)"
-        case .hsla(let hue, let saturation, let lightness, let alpha):
-            return "hsla(\(hue), \(saturation)%, \(lightness)%, \(alpha))"
-        case .custom(let value):
-            return value
-        }
+    public init (_ value: String) { self.value = value }
+    
+    public static func css(_ color: CSSColor) -> ColorType {
+        .init(color.rawValue)
     }
+    
+    public static func hex(_ v: Int) -> ColorType {
+        .init(String(format:"#%02X", v))
+    }
+    
+    public static func rgb(_ r: Int, _ g: Int, _ b: Int) -> ColorType {
+        .init("rgb(\(r), \(g), \(b))")
+    }
+    
+    public static func rgba(_ r: Int, _ g: Int, _ b: Int, _ a: Double) -> ColorType {
+        .init("rgba(\(r), \(g), \(b), \(a))")
+    }
+    
+    public static func hsl(_ hue: Int, _ saturation: Int, _ lightness: Int) -> ColorType {
+        .init("hsl(\(hue), \(saturation)%, \(lightness)%)")
+    }
+    
+    public static func hsla(_ hue: Int, _ saturation: Int, _ lightness: Int, _ alpha: Double) -> ColorType {
+        .init("hsla(\(hue), \(saturation)%, \(lightness)%, \(alpha))")
+    }
+    
+    public static func custom(_ value: String) -> ColorType {
+        .init(value)
+    }
+    
+    public var description: String { value }
 }
 
 public struct ColumnFillType: Autoable, Initialable, Inheritable, CustomStringConvertible {
