@@ -23,7 +23,7 @@ extension AbstractWorker {
         storage[AbstractWorkerErrorHandler.self]?.shutdown()
         let container = AbstractWorkerErrorHandler(handler)
         storage[AbstractWorkerErrorHandler.self] = container
-        jsValue.onerror = container.closure.jsValue()
+        jsValue.onerror = container.closure.jsValue
         return self
     }
 }

@@ -19,15 +19,15 @@ public class URLSearchParams {
     }
     
     public init (_ params: String) {
-        self.jsValue = JSObject.global.URLSearchParams.function?.new(params).jsValue() ?? .undefined
+        self.jsValue = JSObject.global.URLSearchParams.function?.new(params).jsValue ?? .undefined
     }
     
     public init (_ params: [[String: String]]) {
-        self.jsValue = JSObject.global.URLSearchParams.function?.new(params.map { $0.jsValue() }.jsValue()).jsValue() ?? .undefined
+        self.jsValue = JSObject.global.URLSearchParams.function?.new(params.map { $0.jsValue }.jsValue).jsValue ?? .undefined
     }
     
     public init (_ params: [String: String]) {
-        self.jsValue = JSObject.global.URLSearchParams.function?.new(params.jsValue()).jsValue() ?? .undefined
+        self.jsValue = JSObject.global.URLSearchParams.function?.new(params.jsValue).jsValue ?? .undefined
     }
     
     /// Appends a specified key/value pair as a new search parameter.

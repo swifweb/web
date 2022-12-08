@@ -35,22 +35,22 @@ public class Blob: JSClass, CustomStringConvertible {
     
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob)
     public init(_ arrayBuffer: ArrayBuffer, _ options: BlobPropertyBag? = nil) {
-        self.jsValue = JSObject.global.Blob.function?.new([arrayBuffer.jsValue], options).jsValue() ?? .undefined
+        self.jsValue = JSObject.global.Blob.function?.new([arrayBuffer.jsValue], options).jsValue ?? .undefined
     }
     
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob)
     public init(_ arrayBufferView: [UInt8], _ options: BlobPropertyBag? = nil) {
-        self.jsValue = JSObject.global.Blob.function?.new([arrayBufferView.jsValue], options).jsValue() ?? .undefined
+        self.jsValue = JSObject.global.Blob.function?.new([arrayBufferView.jsValue], options).jsValue ?? .undefined
     }
     
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob)
     public init(_ blob: Blob, _ options: BlobPropertyBag? = nil) {
-        self.jsValue = JSObject.global.Blob.function?.new([blob.jsValue], options).jsValue() ?? .undefined
+        self.jsValue = JSObject.global.Blob.function?.new([blob.jsValue], options).jsValue ?? .undefined
     }
     
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob)
     public init(_ string: String, _ options: BlobPropertyBag? = nil) {
-        self.jsValue = JSObject.global.Blob.function?.new([string], options).jsValue() ?? .undefined
+        self.jsValue = JSObject.global.Blob.function?.new([string], options).jsValue ?? .undefined
     }
     
     /// Returns a new Blob object containing the data in the specified range of bytes of the blob on which it's called.

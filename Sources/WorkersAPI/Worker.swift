@@ -32,7 +32,7 @@ open class Worker: AbstractWorker, EventTarget {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Worker/Worker)
     public init? (_ name: String) {
         let path = name.lowercased() + ".js"
-        guard let value = JSObject.global["Worker"].function?.new(path).jsValue(), !value.isUndefined, value.isNull else {
+        guard let value = JSObject.global["Worker"].function?.new(path).jsValue, !value.isUndefined, value.isNull else {
             return nil
         }
         jsValue = value
@@ -72,10 +72,10 @@ open class Worker: AbstractWorker, EventTarget {
     }
     
     private func subscribeToEvents() {
-        jsValue.onmessage = onmessageClosure.jsValue()
-        jsValue.onmessageerror = onmessageerrorClosure.jsValue()
-        jsValue.onrejectionhandled = onmessageerrorClosure.jsValue()
-        jsValue.onunhandledrejection = onmessageerrorClosure.jsValue()
+        jsValue.onmessage = onmessageClosure.jsValue
+        jsValue.onmessageerror = onmessageerrorClosure.jsValue
+        jsValue.onrejectionhandled = onmessageerrorClosure.jsValue
+        jsValue.onunhandledrejection = onmessageerrorClosure.jsValue
     }
     
     // MARK: Receiving messages

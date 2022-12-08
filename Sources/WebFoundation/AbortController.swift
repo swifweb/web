@@ -19,7 +19,7 @@ public class AbortController {
     
     /// Creates a new `AbortController` object instance.
     public init () {
-        jsValue = JSObject.global.AbortController.function?.new().jsValue() ?? .undefined
+        jsValue = JSObject.global.AbortController.function?.new().jsValue ?? .undefined
     }
     
     /// Returns a `AbortSignal` object instance, which can be used to communicate with/abort a DOM request.

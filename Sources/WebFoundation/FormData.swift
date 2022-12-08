@@ -18,11 +18,11 @@ public class FormData {
     }
     
     public init (jsForm: JSValue) {
-        self.jsValue = JSObject.global.FormData.function!.new(jsForm).jsValue()
+        self.jsValue = JSObject.global.FormData.function!.new(jsForm).jsValue
     }
     
     public init () {
-        self.jsValue = JSObject.global.FormData.function!.new().jsValue()
+        self.jsValue = JSObject.global.FormData.function!.new().jsValue
     }
     
     /// Appends a new value onto an existing key inside a `FormData` object, or adds the key if it does not already exist.

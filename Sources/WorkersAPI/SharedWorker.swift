@@ -23,7 +23,7 @@ public class SharedWorker: AbstractWorker, EventTarget {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker/SharedWorker)
     public init? (_ name: String) {
         let path = name.lowercased() + ".js"
-        guard let value = JSObject.global["SharedWorker"].function?.new(path).jsValue(), !value.isUndefined, value.isNull else {
+        guard let value = JSObject.global["SharedWorker"].function?.new(path).jsValue, !value.isUndefined, value.isNull else {
             return nil
         }
         jsValue = value

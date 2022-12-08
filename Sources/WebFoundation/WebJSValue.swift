@@ -35,7 +35,7 @@ extension Optional: WebJSValue where Wrapped: WebJSValue {
 
 extension Bool: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -43,7 +43,7 @@ extension Bool: WebJSValue {
 
 extension Int: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -51,7 +51,7 @@ extension Int: WebJSValue {
 
 extension UInt: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -59,7 +59,7 @@ extension UInt: WebJSValue {
 
 extension Float: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -67,7 +67,7 @@ extension Float: WebJSValue {
 
 extension Double: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -75,7 +75,7 @@ extension Double: WebJSValue {
 
 extension String: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { self }
     #endif
@@ -83,7 +83,7 @@ extension String: WebJSValue {
 
 extension UInt8: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -91,7 +91,7 @@ extension UInt8: WebJSValue {
 
 extension UInt16: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -99,7 +99,7 @@ extension UInt16: WebJSValue {
 
 extension UInt32: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -107,7 +107,7 @@ extension UInt32: WebJSValue {
 
 extension UInt64: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -115,7 +115,7 @@ extension UInt64: WebJSValue {
 
 extension Int8: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -123,7 +123,7 @@ extension Int8: WebJSValue {
 
 extension Int16: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -131,7 +131,7 @@ extension Int16: WebJSValue {
 
 extension Int32: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif
@@ -139,7 +139,7 @@ extension Int32: WebJSValue {
 
 extension Int64: WebJSValue {
     #if arch(wasm32)
-    public var webValue: JSValue { jsValue() }
+    public var webValue: JSValue { jsValue }
     #else
     public var webValue: String { "\(self)" }
     #endif

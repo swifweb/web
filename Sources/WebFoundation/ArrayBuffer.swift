@@ -27,7 +27,7 @@ public final class ArrayBuffer: BufferSource, JSClass, CustomStringConvertible {
     /// Initializer
     /// - Parameter size: The size, in bytes, of the array buffer to create.
     public init (size: UInt) {
-        jsValue = JSObject.global.ArrayBuffer.function?.new(size).jsValue() ?? .undefined
+        jsValue = JSObject.global.ArrayBuffer.function?.new(size).jsValue ?? .undefined
     }
     
     /// This property returns 0 if this `ArrayBuffer` has been detached.
@@ -42,14 +42,14 @@ public final class ArrayBuffer: BufferSource, JSClass, CustomStringConvertible {
     ///   - end: Byte index before which to end slicing. If end is unspecified, the new ArrayBuffer contains all bytes from begin to the end of this ArrayBuffer. If negative, it will make the Byte index begin from the last Byte.
     /// - Returns: A new ArrayBuffer object.
     public func slice(begin: Int64, end: Int64? = nil) -> ArrayBuffer {
-        guard let buffer = jsValue.slice.function?.callAsFunction(optionalThis: jsValue.object, begin, end).jsValue() else {
+        guard let buffer = jsValue.slice.function?.callAsFunction(optionalThis: jsValue.object, begin, end).jsValue else {
             return .init(size: 0)
         }
         return .init(buffer)
     }
     
     public func array() -> [UInt8] {
-        guard let typedArray = JSObject.global.Uint8Array.function?.new(jsValue).jsValue() else { return [] }
+        guard let typedArray = JSObject.global.Uint8Array.function?.new(jsValue).jsValue else { return [] }
         guard let array = JSObject.global.Array.function?.from.function?.callAsFunction(typedArray).array else { return [] }
         return array.map { UInt8($0.number ?? 0) }
     }
