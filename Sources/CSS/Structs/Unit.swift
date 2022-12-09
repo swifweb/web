@@ -15,7 +15,13 @@ import WebFoundation
 /// There are two types of length units: absolute and relative.
 ///
 /// [Learn more](https://www.w3schools.com/cssref/css_units.asp)
-public enum Unit: String, UniValue {
+public struct Unit: UniValue, _StringPropertyValue, PropertyValueImportantable {
+    let value: String
+    
+    init (_ value: String) {
+        self.value = value
+    }
+    
     /// `Absolute Lengths`
     /// The absolute length units are fixed and a length expressed in any of these will appear as exactly that size.
     ///
@@ -23,57 +29,59 @@ public enum Unit: String, UniValue {
     /// However, they can be used if the output medium is known, such as for print layout.
     
     /// centimeters
-    case cm
+    public static var cm: Self { .init("cm") }
     
     /// millimeters
-    case mm
+    public static var mm: Self { .init("mm") }
     
     /// inches (1in = 96px = 2.54cm)
-    case `in`
+    public static var `in`: Self { .init("in") }
     
     /// pixels (1px = 1/96th of 1in)
-    case px
+    public static var px: Self { .init("px") }
     
     /// points (1pt = 1/72 of 1in)
-    case pt
+    public static var pt: Self { .init("pt") }
     
     /// picas (1pc = 12 pt)
-    case pc
+    public static var pc: Self { .init("pc") }
     
     /// `Relative Lengths`
     /// Relative length units specify a length relative to another length property.
     /// Relative length units scale better between different rendering medium.
     
     /// Fr is a fractional unit and 1fr is for 1 part of the available space
-    case fr
+    public static var fr: Self { .init("fr") }
     
     /// Relative to the font-size of the element (2em means 2 times the size of the current font)
-    case em
+    public static var em: Self { .init("em") }
     
     /// Relative to the x-height of the current font (rarely used)
-    case ex
+    public static var ex: Self { .init("ex") }
     
     /// Relative to the width of the "0" (zero)
-    case ch
+    public static var ch: Self { .init("ch") }
     
     /// Relative to font-size of the root element
-    case rem
+    public static var rem: Self { .init("rem") }
     
     /// Relative to 1% of the width of the viewport*
-    case vw
+    public static var vw: Self { .init("vw") }
     
     /// Relative to 1% of the height of the viewport*
-    case vh
+    public static var vh: Self { .init("vh") }
     
     /// Relative to 1% of viewport's* smaller dimension
-    case vmin
+    public static var vmin: Self { .init("vmin") }
     
     /// Relative to 1% of viewport's* larger dimension
-    case vmax
+    public static var vmax: Self { .init("vmax") }
     
     /// Relative to the parent element
-    case percent = "%"
+    public static var percent: Self { .init("%") }
     
     public var uniValue: Unit { self }
     public var uniStateValue: State<Unit>? { nil }
+    
+    public var description: String { value }
 }

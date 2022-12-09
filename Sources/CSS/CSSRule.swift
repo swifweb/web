@@ -141,10 +141,10 @@ extension BaseElement: CSSRulable {}
 extension CSSRulable {
     func _addProperty<P: _Property>(_ property: P) {
         let key = property.key
-        _setProperty(key, property.value)
+        _setProperty(key, property.value, important: false)
         if let internalChangeable = property.propertyValue as? _PropertyValueInnerChangeable {
             internalChangeable._changeHandler = {
-                self._setProperty(key, property.propertyValue.description)
+                self._setProperty(key, property.propertyValue.description, important: false)
             }
         }
         property._content._changeHandler = { newValue in
@@ -152,20 +152,20 @@ extension CSSRulable {
                 self._removeProperty(key)
                 return
             }
-            self._setProperty(key, newValue.description)
+            self._setProperty(key, newValue.description, important: false)
         }
     }
     
-    func _addProperty(_ key: String, _ value: String) {
-        _setProperty(key, value)
+    func _addProperty(_ key: String, _ value: String, important: Bool? = nil) {
+        _setProperty(key, value, important: important)
     }
 
-    func _addProperty<V>(_ key: PropertyKey<V>, _ value: V) where V : CustomStringConvertible {
-        _addProperty(key.key, value.description)
+    func _addProperty<V>(_ key: PropertyKey<V>, _ value: V, important: Bool? = nil) where V : CustomStringConvertible {
+        _addProperty(key.key, value.description, important: important)
     }
 
-    func _addProperty<V>(_ key: PropertyKey<V>, value: String) where V : CustomStringConvertible {
-        _addProperty(key.key, value)
+    func _addProperty<V>(_ key: PropertyKey<V>, value: String, important: Bool? = nil) where V : CustomStringConvertible {
+        _addProperty(key.key, value, important: important)
     }
     
     func _removeProperty(_ key: String) {
@@ -183,7 +183,11 @@ extension CSSRulable {
         #endif
     }
 
-    func _setProperty(_ key: String, _ value: String) {
+    func _setProperty(_ key: String, _ value: String, important: Bool?) {
+        var value = value
+        if important == true {
+            value += (important == true ? "!important" : "")
+        }
         #if arch(wasm32)
         if let s = self as? CSSRule {
             s.set(key, value)

@@ -7,7 +7,7 @@
 
 import WebFoundation
 
-public final class CSSFunction: CustomStringConvertible {
+public final class CSSFunction: CustomStringConvertible, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }

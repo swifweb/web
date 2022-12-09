@@ -20,16 +20,16 @@ public class UnitValue: UnitValuable, UniValue, _PropertyValueInnerChangeable, C
     @State public var value: Double = 0
     @State public var unit: Unit = .px
     
-    public var description: String { "\(value)\(unit.rawValue)" }
+    public var description: String { "\(value)\(unit.value)" }
     
     public var uniValue: UnitValue { self }
     public lazy var uniStateValue: State<UnitValue>? = .init(wrappedValue: self)
     
     var _changeHandler = {}
     
-    public init <D, U>(_ value: D, _ unit: U) where D: UniValue, D.UniValue == Double, U: UniValue, U.UniValue == Unit {
+    public init <D, U>(_ value: D, _ unit: U, important: Bool? = nil) where D: UniValue, D.UniValue == Double, U: UniValue, U.UniValue == Unit {
         self.value = value.uniValue
-        self.unit = unit.uniValue
+        self.unit = important == true ? unit.uniValue.important : unit.uniValue
         if let state = value.uniStateValue {
             $value.merge(with: state, leftChanged: { _ in
                 self._changeHandler()
@@ -60,9 +60,9 @@ public class UnitValue: UnitValuable, UniValue, _PropertyValueInnerChangeable, C
         }
     }
     
-    public init <D>(_ value: D, _ unit: Unit) where D: UniValue, D.UniValue == Double {
+    public init <D>(_ value: D, _ unit: Unit, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
         self.value = value.uniValue
-        self.unit = unit
+        self.unit = important == true ? unit.important : unit
         if let state = value.uniStateValue {
             $value.merge(with: state, leftChanged: { _ in
                 self._changeHandler()
@@ -100,7 +100,7 @@ extension State where Value == Double {
 }
 
 extension UnitValuable {
-    public var description: String { "\(value)\(unit.rawValue)" }
+    public var description: String { "\(value)\(unit.value)" }
     
     public var cm: ValueWithUnit<V> { .init(value, .cm) }
     public var mm: ValueWithUnit<V> { .init(value, .mm) }

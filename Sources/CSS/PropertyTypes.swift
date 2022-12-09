@@ -240,7 +240,7 @@ public enum PropertyType: String, CustomStringConvertible {
     public var description: String { rawValue }
 }
 
-public struct AlignContentType: Initialable, Inheritable, Autoable, CustomStringConvertible {
+public struct AlignContentType: Initialable, Inheritable, Autoable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
 
     public init (_ value: String) { self.value = value }
@@ -269,7 +269,7 @@ public struct AlignContentType: Initialable, Inheritable, Autoable, CustomString
     public var description: String { value }
 }
 
-public struct AlignItemsType: Initialable, Inheritable, Autoable, CustomStringConvertible {
+public struct AlignItemsType: Initialable, Inheritable, Autoable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -292,7 +292,7 @@ public struct AlignItemsType: Initialable, Inheritable, Autoable, CustomStringCo
     public var description: String { value }
 }
 
-public struct AlignSelfType: Initialable, Inheritable, Autoable, CustomStringConvertible {
+public struct AlignSelfType: Initialable, Inheritable, Autoable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -315,7 +315,7 @@ public struct AlignSelfType: Initialable, Inheritable, Autoable, CustomStringCon
     public var description: String { value }
 }
 
-public struct AllType: Initialable, Inheritable, CustomStringConvertible {
+public struct AllType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -328,7 +328,7 @@ public struct AllType: Initialable, Inheritable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct AnimationDirectionType: Initialable, Inheritable, CustomStringConvertible {
+public struct AnimationDirectionType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -348,7 +348,7 @@ public struct AnimationDirectionType: Initialable, Inheritable, CustomStringConv
     public var description: String { value }
 }
 
-public struct AnimationFillModeType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct AnimationFillModeType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -368,7 +368,7 @@ public struct AnimationFillModeType: Noneable, Initialable, Inheritable, CustomS
     public var description: String { value }
 }
 
-public struct AnimationPlayStateType: Initialable, Inheritable, CustomStringConvertible {
+public struct AnimationPlayStateType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -382,7 +382,7 @@ public struct AnimationPlayStateType: Initialable, Inheritable, CustomStringConv
     public var description: String { value }
 }
 
-public struct AutoType: Initialable, Inheritable, Autoable, CustomStringConvertible {
+public struct AutoType: Initialable, Inheritable, Autoable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -390,7 +390,7 @@ public struct AutoType: Initialable, Inheritable, Autoable, CustomStringConverti
     public var description: String { value }
 }
 
-public struct BackfaceVisibilityType: Initialable, Inheritable, CustomStringConvertible {
+public struct BackfaceVisibilityType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -404,7 +404,7 @@ public struct BackfaceVisibilityType: Initialable, Inheritable, CustomStringConv
     public var description: String { value }
 }
 
-public struct BackgroundAttachmentType: Initialable, Inheritable, CustomStringConvertible {
+public struct BackgroundAttachmentType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -421,7 +421,7 @@ public struct BackgroundAttachmentType: Initialable, Inheritable, CustomStringCo
     public var description: String { value }
 }
 
-public struct BackgroundBlendModeType: Valuable, CustomStringConvertible {
+public struct BackgroundBlendModeType: Valuable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -459,7 +459,7 @@ public struct BackgroundBlendModeType: Valuable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct BackgroundClipType: Initialable, Inheritable, CustomStringConvertible {
+public struct BackgroundClipType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -477,7 +477,7 @@ public struct BackgroundClipType: Initialable, Inheritable, CustomStringConverti
     public var description: String { value }
 }
 
-public struct BackgroundOriginType: Initialable, Inheritable, CustomStringConvertible {
+public struct BackgroundOriginType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -495,7 +495,7 @@ public struct BackgroundOriginType: Initialable, Inheritable, CustomStringConver
     public var description: String { value }
 }
 
-public struct BackgroundPositionType: Initialable, Inheritable, CustomStringConvertible {
+public struct BackgroundPositionType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -511,7 +511,7 @@ public struct BackgroundPositionType: Initialable, Inheritable, CustomStringConv
     public var description: String { value }
 }
 
-public struct BackgroundRepeatType: Initialable, Inheritable, CustomStringConvertible {
+public struct BackgroundRepeatType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -541,7 +541,7 @@ public struct BackgroundRepeatType: Initialable, Inheritable, CustomStringConver
     public var description: String { value }
 }
 
-public final class BackgroundSizeType: Autoable, Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible, _PropertyValueInnerChangeable {
+public final class BackgroundSizeType: Autoable, Initialable, Inheritable, Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue, _PropertyValueInnerChangeable {
     @State public var value = ""
     
     var _changeHandler = {}
@@ -579,7 +579,7 @@ public final class BackgroundSizeType: Autoable, Initialable, Inheritable, Lengt
     public var description: String { value }
 }
 
-public struct BorderCollapseType: Initialable, Inheritable, CustomStringConvertible {
+public struct BorderCollapseType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -595,7 +595,7 @@ public struct BorderCollapseType: Initialable, Inheritable, CustomStringConverti
     public var description: String { value }
 }
 
-public struct BorderImageOutsetType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
+public struct BorderImageOutsetType: Initialable, Inheritable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -606,7 +606,7 @@ public struct BorderImageOutsetType: Initialable, Inheritable, Lengthable, Custo
     public var description: String { value }
 }
 
-public struct BorderImageRepeatType: Initialable, Inheritable, CustomStringConvertible {
+public struct BorderImageRepeatType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -626,7 +626,7 @@ public struct BorderImageRepeatType: Initialable, Inheritable, CustomStringConve
     public var description: String { value }
 }
 
-public struct BorderImageSliceType: Initialable, Inheritable, Percentable, CustomStringConvertible {
+public struct BorderImageSliceType: Initialable, Inheritable, Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -640,7 +640,7 @@ public struct BorderImageSliceType: Initialable, Inheritable, Percentable, Custo
     public var description: String { value }
 }
 
-public final class BorderRadiusType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible, _PropertyValueInnerChangeable {
+public final class BorderRadiusType: Initialable, Inheritable, Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue, _PropertyValueInnerChangeable {
     @State public var value: String
     
     var _changeHandler = {}
@@ -650,7 +650,7 @@ public final class BorderRadiusType: Initialable, Inheritable, Lengthable, Perce
     public var description: String { value }
 }
 
-public struct BorderStyleType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct BorderStyleType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -685,7 +685,7 @@ public struct BorderStyleType: Noneable, Initialable, Inheritable, CustomStringC
     public var description: String { value }
 }
 
-public struct BorderWidthType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
+public struct BorderWidthType: Initialable, Inheritable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -702,7 +702,7 @@ public struct BorderWidthType: Initialable, Inheritable, Lengthable, CustomStrin
     public var description: String { value }
 }
 
-public struct BoxDecorationBreakType: Initialable, Inheritable, CustomStringConvertible {
+public struct BoxDecorationBreakType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -720,7 +720,7 @@ public struct BoxDecorationBreakType: Initialable, Inheritable, CustomStringConv
     public var description: String { value }
 }
 
-public struct BoxSizingType: Initialable, Inheritable, CustomStringConvertible {
+public struct BoxSizingType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -734,7 +734,7 @@ public struct BoxSizingType: Initialable, Inheritable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct BreakInsideType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct BreakInsideType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -754,7 +754,7 @@ public struct BreakInsideType: Autoable, Initialable, Inheritable, CustomStringC
     public var description: String { value }
 }
 
-public struct BreakType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct BreakType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -801,7 +801,7 @@ public struct BreakType: Autoable, Initialable, Inheritable, CustomStringConvert
     public var description: String { value }
 }
 
-public struct CaptionSideType: Initialable, Inheritable, CustomStringConvertible {
+public struct CaptionSideType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -815,7 +815,7 @@ public struct CaptionSideType: Initialable, Inheritable, CustomStringConvertible
     public var description: String { value }
 }
 
-public struct ClearType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct ClearType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -832,7 +832,7 @@ public struct ClearType: Noneable, Initialable, Inheritable, CustomStringConvert
     public var description: String { value }
 }
 
-public struct ColorType: CustomStringConvertible {
+public struct ColorType: PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -868,7 +868,7 @@ public struct ColorType: CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct ColumnFillType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct ColumnFillType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -883,7 +883,7 @@ public struct ColumnFillType: Autoable, Initialable, Inheritable, CustomStringCo
     public var description: String { value }
 }
 
-public struct ColumnRuleStyleType: Initialable, Inheritable, Noneable, CustomStringConvertible {
+public struct ColumnRuleStyleType: Initialable, Inheritable, Noneable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -918,7 +918,7 @@ public struct ColumnRuleStyleType: Initialable, Inheritable, Noneable, CustomStr
     public var description: String { value }
 }
 
-public struct ColumnRuleWidthType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
+public struct ColumnRuleWidthType: Initialable, Inheritable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -935,7 +935,7 @@ public struct ColumnRuleWidthType: Initialable, Inheritable, Lengthable, CustomS
     public var description: String { value }
 }
 
-public struct ColumnSpanType: Initialable, Inheritable, Noneable, CustomStringConvertible {
+public struct ColumnSpanType: Initialable, Inheritable, Noneable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -946,7 +946,7 @@ public struct ColumnSpanType: Initialable, Inheritable, Noneable, CustomStringCo
     public var description: String { value }
 }
 
-public struct ContentType: Initialable, Inheritable, Noneable, CustomStringConvertible, ExpressibleByStringLiteral {
+public struct ContentType: Initialable, Inheritable, Noneable, PropertyValueImportantable, _StringPropertyValue, ExpressibleByStringLiteral {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -985,7 +985,7 @@ public struct ContentType: Initialable, Inheritable, Noneable, CustomStringConve
     public var description: String { value }
 }
 
-public struct CounterResetType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct CounterResetType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -998,7 +998,7 @@ public struct CounterResetType: Noneable, Initialable, Inheritable, CustomString
     public var description: String { value }
 }
 
-public struct CursorType: Autoable, Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct CursorType: Autoable, Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1111,7 +1111,7 @@ public struct CursorType: Autoable, Noneable, Initialable, Inheritable, CustomSt
     public var description: String { value }
 }
 
-public struct DirectionType: Initialable, Inheritable, CustomStringConvertible {
+public struct DirectionType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1125,7 +1125,7 @@ public struct DirectionType: Initialable, Inheritable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct DisplayType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct DisplayType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1193,7 +1193,7 @@ public struct DisplayType: Noneable, Initialable, Inheritable, CustomStringConve
     public var description: String { value }
 }
 
-public struct EmptyCellsType: Initialable, Inheritable, CustomStringConvertible {
+public struct EmptyCellsType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1207,7 +1207,7 @@ public struct EmptyCellsType: Initialable, Inheritable, CustomStringConvertible 
     public var description: String { value }
 }
 
-public struct FilterType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct FilterType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1319,7 +1319,7 @@ public struct FilterType: Noneable, Initialable, Inheritable, CustomStringConver
     public var description: String { value }
 }
 
-public struct FlexDirectionType: Initialable, Inheritable, CustomStringConvertible {
+public struct FlexDirectionType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1339,7 +1339,7 @@ public struct FlexDirectionType: Initialable, Inheritable, CustomStringConvertib
     public var description: String { value }
 }
 
-public struct FlexWrapType: Initialable, Inheritable, CustomStringConvertible {
+public struct FlexWrapType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1356,7 +1356,7 @@ public struct FlexWrapType: Initialable, Inheritable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct FloatType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct FloatType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1370,7 +1370,7 @@ public struct FloatType: Noneable, Initialable, Inheritable, CustomStringConvert
     public var description: String { value }
 }
 
-public struct FontFamilyType: Initialable, Inheritable, CustomStringConvertible {
+public struct FontFamilyType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
 
     public init (_ value: String) {
@@ -1464,7 +1464,7 @@ public struct FontFamilyType: Initialable, Inheritable, CustomStringConvertible 
     public var description: String { value }
 }
 
-public struct FontKerningType: Autoable, Noneable, CustomStringConvertible {
+public struct FontKerningType: Autoable, Noneable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1475,7 +1475,7 @@ public struct FontKerningType: Autoable, Noneable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct FontLanguageOverrideType: Initialable, Inheritable, CustomStringConvertible {
+public struct FontLanguageOverrideType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1494,7 +1494,7 @@ public struct FontLanguageOverrideType: Initialable, Inheritable, CustomStringCo
     public var description: String { value }
 }
 
-public struct FontSizeAdjustType: Noneable, CustomStringConvertible, ExpressibleByStringLiteral {
+public struct FontSizeAdjustType: Noneable, PropertyValueImportantable, _StringPropertyValue, ExpressibleByStringLiteral {
     public let value: String
     
     public init(stringLiteral value: StringLiteralType) { self.value = value }
@@ -1504,7 +1504,7 @@ public struct FontSizeAdjustType: Noneable, CustomStringConvertible, Expressible
     public var description: String { value }
 }
 
-public struct FontSizeType: Initialable, Inheritable, Lengthable, Percentable, AbsoluteSizeable, RelativeSizeable, CustomStringConvertible {
+public struct FontSizeType: Initialable, Inheritable, Lengthable, Percentable, AbsoluteSizeable, RelativeSizeable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1512,7 +1512,7 @@ public struct FontSizeType: Initialable, Inheritable, Lengthable, Percentable, A
     public var description: String { value }
 }
 
-public struct FontStretchType: Percentable, CustomStringConvertible {
+public struct FontStretchType: Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1547,7 +1547,7 @@ public struct FontStretchType: Percentable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct FontStyleType: Valuable, CustomStringConvertible {
+public struct FontStyleType: Valuable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1583,7 +1583,7 @@ public struct FontStyleType: Valuable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct FontSynthesisType: Noneable, CustomStringConvertible {
+public struct FontSynthesisType: Noneable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1597,7 +1597,7 @@ public struct FontSynthesisType: Noneable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct FontType: Initialable, Inheritable {
+public struct FontType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1619,6 +1619,8 @@ public struct FontType: Initialable, Inheritable {
     
     /// Uses the fonts that are used by the status bar
     public static var statusBar: Self { .init("status-bar") }
+    
+    public var description: String { value }
 }
 
 public protocol FontVariantAlternatable: Valuable {
@@ -1669,7 +1671,7 @@ extension FontVariantAlternatable {
     public static func annotation(_ fontNameNumber: Int) -> Self { .init("annotation(\(fontNameNumber))") }
 }
 
-public struct FontVariantAlternatesType: FontVariantAlternatable, CustomStringConvertible {
+public struct FontVariantAlternatesType: FontVariantAlternatable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1717,7 +1719,7 @@ extension FontVariantCapsable {
     public static var titlingCaps: Self { .init("titling-caps") }
 }
 
-public struct FontVariantCapsType: FontVariantCapsable, CustomStringConvertible {
+public struct FontVariantCapsType: FontVariantCapsable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1769,7 +1771,7 @@ extension FontVariantEastAsianable {
     public static var traditional: Self { .init("traditional") }
 }
 
-public struct FontVariantEastAsianType: FontVariantEastAsianable, CustomStringConvertible {
+public struct FontVariantEastAsianType: FontVariantEastAsianable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1829,7 +1831,7 @@ extension FontVariantLigaturable {
     public static var noContextual: Self { .init("no-contextual") }
 }
 
-public struct FontVariantLigaturesType: Noneable, FontVariantLigaturable, CustomStringConvertible {
+public struct FontVariantLigaturesType: Noneable, FontVariantLigaturable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1894,7 +1896,7 @@ extension FontVariantNumericable {
     public static var stackedFractions: Self { .init("stacked-fractions") }
 }
 
-public struct FontVariantNumericType: Valuable, FontVariantNumericable, CustomStringConvertible {
+public struct FontVariantNumericType: Valuable, FontVariantNumericable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1905,7 +1907,7 @@ public struct FontVariantNumericType: Valuable, FontVariantNumericable, CustomSt
     public var description: String { value }
 }
 
-public struct FontVariantPositionType: Valuable, CustomStringConvertible {
+public struct FontVariantPositionType: Valuable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1926,7 +1928,7 @@ public struct FontVariantPositionType: Valuable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct FontVariantType: Noneable, FontVariantNumericable, FontVariantEastAsianable, FontVariantCapsable, FontVariantAlternatable, FontVariantLigaturable, CustomStringConvertible {
+public struct FontVariantType: Noneable, FontVariantNumericable, FontVariantEastAsianable, FontVariantCapsable, FontVariantAlternatable, FontVariantLigaturable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1937,7 +1939,7 @@ public struct FontVariantType: Noneable, FontVariantNumericable, FontVariantEast
     public var description: String { value }
 }
 
-public struct FontWeightType: Initialable, Inheritable, CustomStringConvertible {
+public struct FontWeightType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1957,7 +1959,7 @@ public struct FontWeightType: Initialable, Inheritable, CustomStringConvertible 
     public var description: String { value }
 }
 
-public struct GridAutoColumnsType: Autoable, Lengthable, Percentable, CustomStringConvertible {
+public struct GridAutoColumnsType: Autoable, Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -1982,7 +1984,7 @@ public struct GridAutoColumnsType: Autoable, Lengthable, Percentable, CustomStri
     public var description: String { value }
 }
 
-public struct GridAutoFlowType: Valuable, CustomStringConvertible {
+public struct GridAutoFlowType: Valuable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2005,7 +2007,7 @@ public struct GridAutoFlowType: Valuable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct GridAutoRowsType: Autoable, Lengthable, CustomStringConvertible {
+public struct GridAutoRowsType: Autoable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2019,7 +2021,7 @@ public struct GridAutoRowsType: Autoable, Lengthable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct GridTemplateColumnsType: Noneable, Autoable, Initialable, Inheritable, Lengthable, CustomStringConvertible {
+public struct GridTemplateColumnsType: Noneable, Autoable, Initialable, Inheritable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2033,7 +2035,7 @@ public struct GridTemplateColumnsType: Noneable, Autoable, Initialable, Inherita
     public var description: String { value }
 }
 
-public struct GridTemplateRowsType: Noneable, Autoable, Lengthable, CustomStringConvertible {
+public struct GridTemplateRowsType: Noneable, Autoable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2047,7 +2049,7 @@ public struct GridTemplateRowsType: Noneable, Autoable, Lengthable, CustomString
     public var description: String { value }
 }
 
-public struct HangingPunctuationType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct HangingPunctuationType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2067,7 +2069,7 @@ public struct HangingPunctuationType: Noneable, Initialable, Inheritable, Custom
     public var description: String { value }
 }
 
-public struct HyphensType: Noneable, Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct HyphensType: Noneable, Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2078,7 +2080,7 @@ public struct HyphensType: Noneable, Autoable, Initialable, Inheritable, CustomS
     public var description: String { value }
 }
 
-public struct ImageRenderingType: Autoable, CustomStringConvertible {
+public struct ImageRenderingType: Autoable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2098,7 +2100,7 @@ public struct ImageRenderingType: Autoable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct IsolationType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct IsolationType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2109,7 +2111,7 @@ public struct IsolationType: Autoable, Initialable, Inheritable, CustomStringCon
     public var description: String { value }
 }
 
-public struct JustifyContentType: Initialable, Inheritable, CustomStringConvertible {
+public struct JustifyContentType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2132,7 +2134,7 @@ public struct JustifyContentType: Initialable, Inheritable, CustomStringConverti
     public var description: String { value }
 }
 
-public struct LetterSpacingType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
+public struct LetterSpacingType: Initialable, Inheritable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2143,7 +2145,7 @@ public struct LetterSpacingType: Initialable, Inheritable, Lengthable, CustomStr
     public var description: String { value }
 }
 
-public struct LineBreakType: Autoable, CustomStringConvertible {
+public struct LineBreakType: Autoable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2170,7 +2172,7 @@ public struct LineBreakType: Autoable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct LineHeightType: Initialable, Inheritable, Numberable, Lengthable, Percentable, CustomStringConvertible {
+public struct LineHeightType: Initialable, Inheritable, Numberable, Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2181,7 +2183,7 @@ public struct LineHeightType: Initialable, Inheritable, Numberable, Lengthable, 
     public var description: String { value }
 }
 
-public struct ListStylePositionType: Initialable, Inheritable, CustomStringConvertible {
+public struct ListStylePositionType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2195,7 +2197,7 @@ public struct ListStylePositionType: Initialable, Inheritable, CustomStringConve
     public var description: String { value }
 }
 
-public struct ListStyleTypeType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct ListStyleTypeType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2266,7 +2268,7 @@ public struct ListStyleTypeType: Noneable, Initialable, Inheritable, CustomStrin
     public var description: String { value }
 }
 
-public struct MixBlendModeType: Valuable, CustomStringConvertible {
+public struct MixBlendModeType: Valuable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2316,7 +2318,7 @@ public struct MixBlendModeType: Valuable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct ObjectFitType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct ObjectFitType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2340,7 +2342,7 @@ public struct ObjectFitType: Noneable, Initialable, Inheritable, CustomStringCon
     public var description: String { value }
 }
 
-public struct ObjectPositionXType: Valuable, CustomStringConvertible {
+public struct ObjectPositionXType: Valuable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2352,7 +2354,7 @@ public struct ObjectPositionXType: Valuable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct ObjectPositionYType: Valuable, CustomStringConvertible {
+public struct ObjectPositionYType: Valuable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2364,7 +2366,7 @@ public struct ObjectPositionYType: Valuable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct OutlineStyleType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct OutlineStyleType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2399,7 +2401,7 @@ public struct OutlineStyleType: Noneable, Initialable, Inheritable, CustomString
     public var description: String { value }
 }
 
-public struct OutlineWidthType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
+public struct OutlineWidthType: Initialable, Inheritable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2416,7 +2418,7 @@ public struct OutlineWidthType: Initialable, Inheritable, Lengthable, CustomStri
     public var description: String { value }
 }
 
-public struct OverflowType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct OverflowType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2433,7 +2435,7 @@ public struct OverflowType: Autoable, Initialable, Inheritable, CustomStringConv
     public var description: String { value }
 }
 
-public struct OverflowWrapType: Valuable, CustomStringConvertible {
+public struct OverflowWrapType: Valuable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2457,7 +2459,7 @@ public struct OverflowWrapType: Valuable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct PageBreakAfterType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct PageBreakAfterType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2477,7 +2479,7 @@ public struct PageBreakAfterType: Autoable, Initialable, Inheritable, CustomStri
     public var description: String { value }
 }
 
-public struct PageBreakBeforeType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct PageBreakBeforeType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2497,7 +2499,7 @@ public struct PageBreakBeforeType: Autoable, Initialable, Inheritable, CustomStr
     public var description: String { value }
 }
 
-public struct PageBreakInsideType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct PageBreakInsideType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2508,7 +2510,7 @@ public struct PageBreakInsideType: Autoable, Initialable, Inheritable, CustomStr
     public var description: String { value }
 }
 
-public struct PointerEventsType: Noneable, Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct PointerEventsType: Noneable, Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2516,7 +2518,7 @@ public struct PointerEventsType: Noneable, Autoable, Initialable, Inheritable, C
     public var description: String { value }
 }
 
-public struct PositionType: Initialable, Inheritable, CustomStringConvertible {
+public struct PositionType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2546,7 +2548,7 @@ public struct PositionType: Initialable, Inheritable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct QuotesType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct QuotesType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2564,7 +2566,7 @@ public struct QuotesType: Noneable, Initialable, Inheritable, CustomStringConver
     public var description: String { value }
 }
 
-public struct ResizeType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct ResizeType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2581,7 +2583,7 @@ public struct ResizeType: Noneable, Initialable, Inheritable, CustomStringConver
     public var description: String { value }
 }
 
-public struct ScrollBehaviorType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct ScrollBehaviorType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2592,7 +2594,7 @@ public struct ScrollBehaviorType: Autoable, Initialable, Inheritable, CustomStri
     public var description: String { value }
 }
 
-public struct StepsType: CustomStringConvertible {
+public struct StepsType: PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2604,7 +2606,7 @@ public struct StepsType: CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct TableLayoutType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct TableLayoutType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2620,7 +2622,7 @@ public struct TableLayoutType: Autoable, Initialable, Inheritable, CustomStringC
     public var description: String { value }
 }
 
-public struct TabSizeType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
+public struct TabSizeType: Initialable, Inheritable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2631,7 +2633,7 @@ public struct TabSizeType: Initialable, Inheritable, Lengthable, CustomStringCon
     public var description: String { value }
 }
 
-public struct TextAlignLastType: Autoable, Initialable, Inheritable, CustomStringConvertible {
+public struct TextAlignLastType: Autoable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2659,7 +2661,7 @@ public struct TextAlignLastType: Autoable, Initialable, Inheritable, CustomStrin
     public var description: String { value }
 }
 
-public struct TextAlignType: Initialable, Inheritable, CustomStringConvertible {
+public struct TextAlignType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2679,7 +2681,7 @@ public struct TextAlignType: Initialable, Inheritable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct TextCombineUprightType: Noneable, CustomStringConvertible {
+public struct TextCombineUprightType: Noneable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2699,7 +2701,7 @@ public struct TextCombineUprightType: Noneable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct TextDecorationLineType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct TextDecorationLineType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2716,7 +2718,7 @@ public struct TextDecorationLineType: Noneable, Initialable, Inheritable, Custom
     public var description: String { value }
 }
 
-public struct TextDecorationStyleType: Initialable, Inheritable, CustomStringConvertible {
+public struct TextDecorationStyleType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2739,7 +2741,7 @@ public struct TextDecorationStyleType: Initialable, Inheritable, CustomStringCon
     public var description: String { value }
 }
 
-public struct TextIndentType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
+public struct TextIndentType: Initialable, Inheritable, Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2747,7 +2749,7 @@ public struct TextIndentType: Initialable, Inheritable, Lengthable, Percentable,
     public var description: String { value }
 }
 
-public struct TextJustifyType: Noneable, Autoable, CustomStringConvertible {
+public struct TextJustifyType: Noneable, Autoable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2766,7 +2768,7 @@ public struct TextJustifyType: Noneable, Autoable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct TextOrientationType: Initialable, Inheritable, CustomStringConvertible {
+public struct TextOrientationType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2789,7 +2791,7 @@ public struct TextOrientationType: Initialable, Inheritable, CustomStringConvert
     public var description: String { value }
 }
 
-public struct TextOverflowType: Initialable, Inheritable, CustomStringConvertible {
+public struct TextOverflowType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2806,7 +2808,7 @@ public struct TextOverflowType: Initialable, Inheritable, CustomStringConvertibl
     public var description: String { value }
 }
 
-public struct TextShadowType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct TextShadowType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2822,7 +2824,7 @@ public struct TextShadowType: Noneable, Initialable, Inheritable, CustomStringCo
     public var description: String { value }
 }
 
-public struct TextTransformType: Noneable, Initialable, Inheritable, CustomStringConvertible {
+public struct TextTransformType: Noneable, Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2839,7 +2841,7 @@ public struct TextTransformType: Noneable, Initialable, Inheritable, CustomStrin
     public var description: String { value }
 }
 
-public struct TextUnderlinePositionType: Autoable, CustomStringConvertible {
+public struct TextUnderlinePositionType: Autoable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -2877,7 +2879,7 @@ public struct TextUnderlinePositionType: Autoable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public final class TimeType: Initialable, Inheritable, CustomStringConvertible, _PropertyValueInnerChangeable {
+public final class TimeType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue, _PropertyValueInnerChangeable {
     @State public var value = ""
     
     var _changeHandler = {}
@@ -2927,7 +2929,7 @@ public final class TimeType: Initialable, Inheritable, CustomStringConvertible, 
     public var description: String { value }
 }
 
-public struct TransformFunction: Initialable, Inheritable, CustomStringConvertible {
+public struct TransformFunction: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3043,7 +3045,7 @@ public struct TransformFunction: Initialable, Inheritable, CustomStringConvertib
     public var description: String { value }
 }
 
-public struct TransformOriginType: Initialable, Inheritable, CustomStringConvertible {
+public struct TransformOriginType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3059,7 +3061,7 @@ public struct TransformOriginType: Initialable, Inheritable, CustomStringConvert
     public var description: String { value }
 }
 
-public struct TransformStyleType: Initialable, Inheritable, CustomStringConvertible {
+public struct TransformStyleType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3073,7 +3075,7 @@ public struct TransformStyleType: Initialable, Inheritable, CustomStringConverti
     public var description: String { value }
 }
 
-public struct TransitionPropertyType: Initialable, Inheritable, CustomStringConvertible {
+public struct TransitionPropertyType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3097,7 +3099,7 @@ public struct TransitionPropertyType: Initialable, Inheritable, CustomStringConv
     public var description: String { value }
 }
 
-public struct TransitionTimingFunctionType: Initialable, Inheritable, CustomStringConvertible {
+public struct TransitionTimingFunctionType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3137,7 +3139,7 @@ public struct TransitionTimingFunctionType: Initialable, Inheritable, CustomStri
     public var description: String { value }
 }
 
-public struct UnicodeBidiType: Initialable, Inheritable, CustomStringConvertible {
+public struct UnicodeBidiType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3161,7 +3163,7 @@ public struct UnicodeBidiType: Initialable, Inheritable, CustomStringConvertible
     public var description: String { value }
 }
 
-public struct UnitValueType: Autoable, Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
+public struct UnitValueType: Autoable, Initialable, Inheritable, Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3169,7 +3171,7 @@ public struct UnitValueType: Autoable, Initialable, Inheritable, Lengthable, Per
     public var description: String { value }
 }
 
-public struct UserSelectType: CustomStringConvertible {
+public struct UserSelectType: PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3189,7 +3191,7 @@ public struct UserSelectType: CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct VerticalAlignType: Initialable, Inheritable, Lengthable, Percentable, CustomStringConvertible {
+public struct VerticalAlignType: Initialable, Inheritable, Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3221,7 +3223,7 @@ public struct VerticalAlignType: Initialable, Inheritable, Lengthable, Percentab
     public var description: String { value }
 }
 
-public struct VisibilityType: Initialable, Inheritable, CustomStringConvertible {
+public struct VisibilityType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3241,7 +3243,7 @@ public struct VisibilityType: Initialable, Inheritable, CustomStringConvertible 
     public var description: String { value }
 }
 
-public struct WhiteSpaceType: Initialable, Inheritable, CustomStringConvertible {
+public struct WhiteSpaceType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3264,7 +3266,7 @@ public struct WhiteSpaceType: Initialable, Inheritable, CustomStringConvertible 
     public var description: String { value }
 }
 
-public struct WordBreakType: Initialable, Inheritable, CustomStringConvertible {
+public struct WordBreakType: Initialable, Inheritable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3285,7 +3287,7 @@ public struct WordBreakType: Initialable, Inheritable, CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct WordSpacingType: Initialable, Inheritable, Lengthable, CustomStringConvertible {
+public struct WordSpacingType: Initialable, Inheritable, Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3296,7 +3298,7 @@ public struct WordSpacingType: Initialable, Inheritable, Lengthable, CustomStrin
     public var description: String { value }
 }
 
-public struct WordWrapType: CustomStringConvertible {
+public struct WordWrapType: PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3320,7 +3322,7 @@ public struct WordWrapType: CustomStringConvertible {
     public var description: String { value }
 }
 
-public struct WritingModeType: CustomStringConvertible {
+public struct WritingModeType: PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3338,7 +3340,7 @@ public struct WritingModeType: CustomStringConvertible {
 }
 
 /// Defines where the view is placed at the x-axis.
-public struct XAxis: Lengthable, Percentable, CustomStringConvertible {
+public struct XAxis: Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3351,7 +3353,7 @@ public struct XAxis: Lengthable, Percentable, CustomStringConvertible {
 }
 
 /// Defines where the view is placed at the y-axis.
-public struct YAxis: Lengthable, Percentable, CustomStringConvertible {
+public struct YAxis: Lengthable, Percentable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }
@@ -3364,7 +3366,7 @@ public struct YAxis: Lengthable, Percentable, CustomStringConvertible {
 }
 
 /// Defines where the view is placed at the z-axis (for 3D transformations).
-public struct ZAxis: Lengthable, CustomStringConvertible {
+public struct ZAxis: Lengthable, PropertyValueImportantable, _StringPropertyValue {
     public let value: String
     
     public init (_ value: String) { self.value = value }

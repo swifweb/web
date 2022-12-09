@@ -7,7 +7,7 @@
 
 import WebFoundation
 
-public struct ValueWithUnit<V: Doubleable>: UnitValuable, UniValue {
+public struct ValueWithUnit<V: Doubleable>: UnitValuable, UniValue, PropertyValueImportantable {
     public let value: V
     public let unit: Unit
     
@@ -15,6 +15,8 @@ public struct ValueWithUnit<V: Doubleable>: UnitValuable, UniValue {
         self.value = value
         self.unit = unit
     }
+    
+    public var important: Self { .init(value, unit.important) }
     
     public typealias UniValue = UnitValue
     public var uniValue: UnitValue { UnitValue(value.doubleValue, unit) }

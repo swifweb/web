@@ -12,12 +12,15 @@ protocol _PropertyValueInnerChangeable: AnyObject {
 }
 
 public typealias WColor = Color
-open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashable, ExpressibleByIntegerLiteral {
+open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashable, ExpressibleByIntegerLiteral, PropertyValueImportantable {
     @State public var value: ColorType = .css(.black)
     
     var _changeHandler = {}
     
-    public init (_ value: ColorType) {
+    /// Adds **!important** to the value
+    public var important: Self { .init(value.important) }
+    
+    public required init (_ value: ColorType) {
         self.value = value
     }
     

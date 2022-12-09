@@ -20,10 +20,10 @@ public class NumericValueContainer: CustomStringConvertible, _PropertyValueInner
     
     var _changeHandler = {}
     
-    public init<N> (_ value: N) where N: UniValue, N.UniValue: NumericValue {
-        self.value = value.uniValue.numericValue
+    public init<N> (_ value: N, important: Bool? = nil) where N: UniValue, N.UniValue: NumericValue {
+        self.value = value.uniValue.numericValue + (important == true ? "!important" : "")
         value.uniStateValue?.listen {
-            self.value = $0.numericValue
+            self.value = $0.numericValue + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }

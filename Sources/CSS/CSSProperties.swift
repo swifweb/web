@@ -269,12 +269,12 @@ public class AnimationDelayProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init <D>(_ value: D, _ timeUnit: TimeUnit) where D: UniValue, D.UniValue == Double {
-        self.init(TimeUnitValueContainer(value, timeUnit))
+    public convenience init <D>(_ value: D, _ timeUnit: TimeUnit, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(TimeUnitValueContainer(value, timeUnit, important: important))
     }
     
-    public convenience init <D>(_ value: D, _ timeUnit: State<TimeUnit>) where D: UniValue, D.UniValue == Double {
-        self.init(TimeUnitValueContainer(value, timeUnit))
+    public convenience init <D>(_ value: D, _ timeUnit: State<TimeUnit>, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(TimeUnitValueContainer(value, timeUnit, important: important))
     }
 }
 
@@ -300,15 +300,15 @@ extension CSSRulable {
 
     /// Specifies a delay for the start of an animation
     @discardableResult
-    public func animationDelay<D>(_ value: D, _ timeUnit: TimeUnit) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(.animationDelay, TimeUnitValueContainer(value, timeUnit))
+    public func animationDelay<D>(_ value: D, _ timeUnit: TimeUnit, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(.animationDelay, TimeUnitValueContainer(value, timeUnit, important: important))
         return self
     }
     
     /// Specifies a delay for the start of an animation
     @discardableResult
-    public func animationDelay<D>(_ value: D, _ timeUnit: State<TimeUnit>) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(.animationDelay, TimeUnitValueContainer(value, timeUnit))
+    public func animationDelay<D>(_ value: D, _ timeUnit: State<TimeUnit>, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(.animationDelay, TimeUnitValueContainer(value, timeUnit, important: important))
         return self
     }
 }
@@ -384,12 +384,12 @@ public class AnimationDurationProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init <D>(_ value: D, _ timeUnit: TimeUnit) where D: UniValue, D.UniValue == Double {
-        self.init(TimeUnitValueContainer(value, timeUnit))
+    public convenience init <D>(_ value: D, _ timeUnit: TimeUnit, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(TimeUnitValueContainer(value, timeUnit, important: important))
     }
     
-    public convenience init <D>(_ value: D, _ timeUnit: State<TimeUnit>) where D: UniValue, D.UniValue == Double {
-        self.init(TimeUnitValueContainer(value, timeUnit))
+    public convenience init <D>(_ value: D, _ timeUnit: State<TimeUnit>, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(TimeUnitValueContainer(value, timeUnit, important: important))
     }
 }
 
@@ -415,15 +415,15 @@ extension CSSRulable {
 
     /// Specifies how long an animation should take to complete one cycle
     @discardableResult
-    public func animationDuration<D>(_ value: D, _ timeUnit: TimeUnit) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(.animationDuration, TimeUnitValueContainer(value, timeUnit))
+    public func animationDuration<D>(_ value: D, _ timeUnit: TimeUnit, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(.animationDuration, TimeUnitValueContainer(value, timeUnit, important: important))
         return self
     }
     
     /// Specifies how long an animation should take to complete one cycle
     @discardableResult
-    public func animationDuration<D>(_ value: D, _ timeUnit: State<TimeUnit>) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(.animationDuration, TimeUnitValueContainer(value, timeUnit))
+    public func animationDuration<D>(_ value: D, _ timeUnit: State<TimeUnit>, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(.animationDuration, TimeUnitValueContainer(value, timeUnit, important: important))
         return self
     }
 }
@@ -488,19 +488,19 @@ extension CSSRulable {
 ///
 /// [Learn more](https://www.w3schools.com/cssref/css3_pr_animation-iteration-count.asp)
 public class AnimationIterationCountProperty: _Property {
-    public var propertyKey: PropertyKey<Int> { .animationIterationCount }
-    public var propertyValue: Int
-    var _content = _PropertyContent<Int>()
+    public var propertyKey: PropertyKey<String> { .animationIterationCount }
+    public var propertyValue: String
+    var _content = _PropertyContent<String>()
 
-    public init <N>(_ n: N) where N: UniValue, N.UniValue == Int {
-        propertyValue = n.uniValue
-        n.uniStateValue?.listen { self._changed(to: $0) }
+    public init <N>(_ n: N, important: Bool? = nil) where N: UniValue, N.UniValue == Int {
+        propertyValue = "\(n.uniValue)" + (important == true ? "!important" : "")
+        n.uniStateValue?.listen { self._changed(to: "\($0)" + (important == true ? "!important" : "")) }
     }
 }
 
 extension PropertyKey {
     /// Specifies the number of times an animation should be played
-    public static var animationIterationCount: PropertyKey<Int> { "animation-iteration-count".propertyKey() }
+    public static var animationIterationCount: PropertyKey<String> { "animation-iteration-count".propertyKey() }
 }
 
 extension Stylesheetable {
@@ -511,8 +511,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies the number of times an animation should be played
     @discardableResult
-    public func animationIterationCount<N>(_ n: N) -> Self where N: UniValue, N.UniValue == Int {
-        _addProperty(AnimationIterationCountProperty(n))
+    public func animationIterationCount<N>(_ n: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue == Int {
+        _addProperty(AnimationIterationCountProperty(n, important: important))
         return self
     }
 }
@@ -531,9 +531,9 @@ public class AnimationNameProperty: _Property {
     public var propertyValue: String
     var _content = _PropertyContent<String>()
 
-    public init <S>(_ name: S) where S: UniValue, S.UniValue == String {
-        propertyValue = name.uniValue
-        name.uniStateValue?.listen { self._changed(to: $0) }
+    public init <S>(_ name: S, important: Bool? = nil) where S: UniValue, S.UniValue == String {
+        propertyValue = name.uniValue + (important == true ? "!important" : "" )
+        name.uniStateValue?.listen { self._changed(to: $0 + (important == true ? "!important" : "" )) }
     }
 }
 
@@ -550,8 +550,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies a name for the @keyframes animation
     @discardableResult
-    public func animationName<S>(_ type: S) -> Self where S: UniValue, S.UniValue == String {
-        _addProperty(AnimationNameProperty(type))
+    public func animationName<S>(_ type: S, important: Bool? = nil) -> Self where S: UniValue, S.UniValue == String {
+        _addProperty(AnimationNameProperty(type, important: important))
         return self
     }
 }
@@ -638,7 +638,8 @@ public class AnimationProperty: _Property {
         iterationCount: Int? = nil,
         direction: AnimationDirectionType? = nil,
         fillMode: AnimationFillModeType? = nil,
-        playState: AnimationPlayStateType? = nil
+        playState: AnimationPlayStateType? = nil,
+        important: Bool? = nil
     ) {
         propertyValue = AnimationValue(
             name: name,
@@ -648,7 +649,8 @@ public class AnimationProperty: _Property {
             iterationCount: iterationCount,
             direction: direction,
             fillMode: fillMode,
-            playState: playState
+            playState: playState,
+            important: important
         )
     }
 }
@@ -670,7 +672,8 @@ public struct AnimationValue: CustomStringConvertible {
         iterationCount: Int? = nil,
         direction: AnimationDirectionType? = nil,
         fillMode: AnimationFillModeType? = nil,
-        playState: AnimationPlayStateType? = nil
+        playState: AnimationPlayStateType? = nil,
+        important: Bool? = nil
     ) {
         var ic: String = "infinite"
         if let iterationCount = iterationCount {
@@ -684,7 +687,8 @@ public struct AnimationValue: CustomStringConvertible {
             ic,
             direction?.value,
             fillMode?.value,
-            playState?.value
+            playState?.value,
+            important == true ? "!important" : nil
         ]
         .compactMap { $0 }
         .joined(separator: " ")
@@ -725,7 +729,8 @@ extension CSSRulable {
         iterationCount: Int? = nil,
         direction: AnimationDirectionType? = nil,
         fillMode: AnimationFillModeType? = nil,
-        playState: AnimationPlayStateType? = nil
+        playState: AnimationPlayStateType? = nil,
+        important: Bool? = nil
     ) -> Self {
         _addProperty(AnimationProperty(
             name: name,
@@ -735,7 +740,8 @@ extension CSSRulable {
             iterationCount: iterationCount,
             direction: direction,
             fillMode: fillMode,
-            playState: playState
+            playState: playState,
+            important: important
         ))
         return self
     }
@@ -1017,68 +1023,108 @@ public class BackgroundColorProperty: _Property {
         }
     }
 
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -1109,37 +1155,37 @@ extension CSSRulable {
     
     /// Specifies the background color of an element
     @discardableResult
-    public func backgroundColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func backgroundColor <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(BackgroundColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(BackgroundColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Specifies the background color of an element
     @discardableResult
-    public func backgroundColor <R, G, B>(r: R, g: G, b: B) -> Self
+    public func backgroundColor <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(BackgroundColorProperty(r: r, g: g, b: b))
+        _addProperty(BackgroundColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Specifies the background color of an element
     @discardableResult
-    public func backgroundColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func backgroundColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(BackgroundColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(BackgroundColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Specifies the background color of an element
     @discardableResult
-    public func backgroundColor <H, S, L>(h: H, s: S, l: L) -> Self
+    public func backgroundColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(BackgroundColorProperty(h: h, s: s, l: l))
+        _addProperty(BackgroundColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -1158,9 +1204,9 @@ public class BackgroundImageProperty: _Property {
     public var propertyValue: String
     var _content = _PropertyContent<String>()
 
-    public init <S>(_ src: S) where S: UniValue, S.UniValue == String {
-        propertyValue = "url(\(src.uniValue))"
-        src.uniStateValue?.listen { self._changed(to: $0) }
+    public init <S>(_ src: S, important: Bool? = nil) where S: UniValue, S.UniValue == String {
+        propertyValue = "url(\(src.uniValue))" + (important == true ? "!important" : "")
+        src.uniStateValue?.listen { self._changed(to: $0 + (important == true ? "!important" : "")) }
     }
 
     public convenience init (_ function: CSSFunction) {
@@ -1181,8 +1227,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies one or more background images for an element
     @discardableResult
-    public func backgroundImage<S>(_ src: S) -> Self where S: UniValue, S.UniValue == String {
-        _addProperty(BackgroundImageProperty(src))
+    public func backgroundImage<S>(_ src: S, important: Bool? = nil) -> Self where S: UniValue, S.UniValue == String {
+        _addProperty(BackgroundImageProperty(src, important: important))
         return self
     }
     
@@ -1324,7 +1370,8 @@ public class BackgroundProperty: _Property {
         repeat: BackgroundRepeatType? = nil,
         origin: BackgroundOriginType? = nil,
         clip: BackgroundClipType? = nil,
-        attachment: BackgroundAttachmentType? = nil
+        attachment: BackgroundAttachmentType? = nil,
+        important: Bool? = nil
     ) {
         propertyValue = BackgroundValue(
             color: color,
@@ -1334,7 +1381,8 @@ public class BackgroundProperty: _Property {
             repeat: `repeat`,
             origin: origin,
             clip: clip,
-            attachment: attachment
+            attachment: attachment,
+            important: important
         )
     }
 
@@ -1359,7 +1407,7 @@ public struct BackgroundValue: CustomStringConvertible {
         self.value = value
     }
 
-    public init (color: Color? = nil, src: String? = nil, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil) {
+    public init (color: Color? = nil, src: String? = nil, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil, important: Bool? = nil) {
         value = [
             color?.description,
             src,
@@ -1368,13 +1416,14 @@ public struct BackgroundValue: CustomStringConvertible {
             `repeat`?.value,
             origin?.value,
             clip?.value,
-            attachment?.value
+            attachment?.value,
+            important == true ? "!important" : nil
         ]
         .compactMap { $0 }
         .joined(separator: " ")
     }
 
-    public init (_ function: CSSFunction, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil) {
+    public init (_ function: CSSFunction, position: BackgroundPositionType? = nil, size: BackgroundSizeType? = nil, repeat: BackgroundRepeatType? = nil, origin: BackgroundOriginType? = nil, clip: BackgroundClipType? = nil, attachment: BackgroundAttachmentType? = nil, important: Bool? = nil) {
         value = [
             function.value,
             position?.value,
@@ -1382,7 +1431,8 @@ public struct BackgroundValue: CustomStringConvertible {
             `repeat`?.value,
             origin?.value,
             clip?.value,
-            attachment?.value
+            attachment?.value,
+            important == true ? "!important" : nil
         ]
         .compactMap { $0 }
         .joined(separator: " ")
@@ -1421,7 +1471,8 @@ extension CSSRulable {
         repeat: BackgroundRepeatType? = nil,
         origin: BackgroundOriginType? = nil,
         clip: BackgroundClipType? = nil,
-        attachment: BackgroundAttachmentType? = nil
+        attachment: BackgroundAttachmentType? = nil,
+        important: Bool? = nil
     ) -> Self {
         background(.init(
             color: color,
@@ -1431,7 +1482,8 @@ extension CSSRulable {
             repeat: `repeat`,
             origin: origin,
             clip: clip,
-            attachment: attachment
+            attachment: attachment,
+            important: important
         ))
     }
     
@@ -1448,7 +1500,8 @@ extension CSSRulable {
         repeat: BackgroundRepeatType? = nil,
         origin: BackgroundOriginType? = nil,
         clip: BackgroundClipType? = nil,
-        attachment: BackgroundAttachmentType? = nil
+        attachment: BackgroundAttachmentType? = nil,
+        important: Bool? = nil
     ) -> Self {
         background(BackgroundValue(
                     function,
@@ -1457,7 +1510,8 @@ extension CSSRulable {
                     repeat: `repeat`,
                     origin: origin,
                     clip: clip,
-                    attachment: attachment
+                    attachment: attachment,
+                    important: important
         ))
     }
 }
@@ -1543,40 +1597,40 @@ public class BackgroundSizeProperty: _Property {
 
     // MARK: H/V
 
-    public init (h: BackgroundSizeType, v: BackgroundSizeType) {
-        propertyValue = BackgroundSizeValue(h: h, v: v)
+    public init (h: BackgroundSizeType, v: BackgroundSizeType, important: Bool? = nil) {
+        propertyValue = BackgroundSizeValue(h: h, v: v, important: important)
     }
     
-    public init <H>(h: H, v: BackgroundSizeType) where H: UniValue, H.UniValue: UnitValuable {
-        propertyValue = BackgroundSizeValue(h: h, v: v)
+    public init <H>(h: H, v: BackgroundSizeType, important: Bool? = nil) where H: UniValue, H.UniValue: UnitValuable {
+        propertyValue = BackgroundSizeValue(h: h, v: v, important: important)
     }
     
-    public init <V>(h: BackgroundSizeType, v: V) where V: UniValue, V.UniValue: UnitValuable {
-        propertyValue = BackgroundSizeValue(h: h, v: v)
+    public init <V>(h: BackgroundSizeType, v: V, important: Bool? = nil) where V: UniValue, V.UniValue: UnitValuable {
+        propertyValue = BackgroundSizeValue(h: h, v: v, important: important)
     }
     
-    public init <H, V>(h: H, v: V) where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
-        propertyValue = BackgroundSizeValue(h: h, v: v)
+    public init <H, V>(h: H, v: V, important: Bool? = nil) where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
+        propertyValue = BackgroundSizeValue(h: h, v: v, important: important)
     }
 
-    public convenience init (h: State<BackgroundSizeType>, v: BackgroundSizeType) {
+    public convenience init (h: State<BackgroundSizeType>, v: BackgroundSizeType, important: Bool? = nil) {
         let h = h.stateValue
-        self.init(h: h.wrappedValue, v: v)
-        h.listen { self._changed(to: BackgroundSizeValue(h: $0, v: v)) }
+        self.init(h: h.wrappedValue, v: v, important: important)
+        h.listen { self._changed(to: BackgroundSizeValue(h: $0, v: v, important: important)) }
     }
 
-    public convenience init (h: BackgroundSizeType, v: State<BackgroundSizeType>) {
+    public convenience init (h: BackgroundSizeType, v: State<BackgroundSizeType>, important: Bool? = nil) {
         let v = v.stateValue
-        self.init(h: h, v: v.wrappedValue)
-        v.listen { self._changed(to: BackgroundSizeValue(h: h, v: $0)) }
+        self.init(h: h, v: v.wrappedValue, important: important)
+        v.listen { self._changed(to: BackgroundSizeValue(h: h, v: $0, important: important)) }
     }
 
-    public convenience init (h: State<BackgroundSizeType>, v: State<BackgroundSizeType>) {
+    public convenience init (h: State<BackgroundSizeType>, v: State<BackgroundSizeType>, important: Bool? = nil) {
         let h = h.stateValue
         let v = v.stateValue
-        self.init(h: h.wrappedValue, v: v.wrappedValue)
-        h.listen { self._changed(to: BackgroundSizeValue(h: $0, v: v.wrappedValue)) }
-        v.listen { self._changed(to: BackgroundSizeValue(h: h.wrappedValue, v: $0)) }
+        self.init(h: h.wrappedValue, v: v.wrappedValue, important: important)
+        h.listen { self._changed(to: BackgroundSizeValue(h: $0, v: v.wrappedValue, important: important)) }
+        v.listen { self._changed(to: BackgroundSizeValue(h: h.wrappedValue, v: $0, important: important)) }
     }
 }
 
@@ -1612,68 +1666,68 @@ public class BackgroundSizeValue: CustomStringConvertible, _PropertyValueInnerCh
         $value.listen { self._changeHandler() }
     }
 
-    public init (h: BackgroundSizeType, v: BackgroundSizeType) {
-        value = [h.value, v.value].joined(separator: " ")
+    public init (h: BackgroundSizeType, v: BackgroundSizeType, important: Bool? = nil) {
+        value = [h.value, v.value].joined(separator: " ") + (important == true ? "!important" : "")
         $value.listen { self._changeHandler() }
     }
     
-    public init <H>(h: H, v: BackgroundSizeType) where H: UniValue, H.UniValue: UnitValuable {
-        value = [h.uniValue.description, v.value].joined(separator: " ")
+    public init <H>(h: H, v: BackgroundSizeType, important: Bool? = nil) where H: UniValue, H.UniValue: UnitValuable {
+        value = [h.uniValue.description, v.value].joined(separator: " ") + (important == true ? "!important" : "")
         h.uniStateValue?.listen {
-            self.value = [$0.description, v.description].joined(separator: " ")
+            self.value = [$0.description, v.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         $value.listen { self._changeHandler() }
     }
     
-    public init <V>(h: BackgroundSizeType, v: V) where V: UniValue, V.UniValue: UnitValuable {
-        value = [h.value, v.uniValue.description].joined(separator: " ")
+    public init <V>(h: BackgroundSizeType, v: V, important: Bool? = nil) where V: UniValue, V.UniValue: UnitValuable {
+        value = [h.value, v.uniValue.description].joined(separator: " ") + (important == true ? "!important" : "")
         v.uniStateValue?.listen {
-            self.value = [h.description, $0.description].joined(separator: " ")
+            self.value = [h.description, $0.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         $value.listen { self._changeHandler() }
     }
     
-    public init <H, V>(h: H, v: V) where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
-        value = [h.uniValue.description, v.uniValue.description].joined(separator: " ")
+    public init <H, V>(h: H, v: V, important: Bool? = nil) where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
+        value = [h.uniValue.description, v.uniValue.description].joined(separator: " ") + (important == true ? "!important" : "")
         h.uniStateValue?.listen {
-            self.value = [$0.description, v.uniValue.description].joined(separator: " ")
+            self.value = [$0.description, v.uniValue.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = [h.uniValue.description, $0.description].joined(separator: " ")
+            self.value = [h.uniValue.description, $0.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         $value.listen { self._changeHandler() }
     }
     
-    public init (h: State<BackgroundSizeType>, v: BackgroundSizeType) {
-        value = [h.wrappedValue.value, v.value].joined(separator: " ")
+    public init (h: State<BackgroundSizeType>, v: BackgroundSizeType, important: Bool? = nil) {
+        value = [h.wrappedValue.value, v.value].joined(separator: " ") + (important == true ? "!important" : "")
         h.listen {
-            self.value = [$0.value, v.value].joined(separator: " ")
+            self.value = [$0.value, v.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         $value.listen { self._changeHandler() }
     }
 
-    public init (h: BackgroundSizeType, v: State<BackgroundSizeType>) {
-        value = [h.value, v.wrappedValue.value].joined(separator: " ")
+    public init (h: BackgroundSizeType, v: State<BackgroundSizeType>, important: Bool? = nil) {
+        value = [h.value, v.wrappedValue.value].joined(separator: " ") + (important == true ? "!important" : "")
         v.listen {
-            self.value = [h.value, $0.value].joined(separator: " ")
+            self.value = [h.value, $0.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         $value.listen { self._changeHandler() }
     }
 
-    public init (h: State<BackgroundSizeType>, v: State<BackgroundSizeType>) {
-        value = [h.wrappedValue.value, v.wrappedValue.value].joined(separator: " ")
+    public init (h: State<BackgroundSizeType>, v: State<BackgroundSizeType>, important: Bool? = nil) {
+        value = [h.wrappedValue.value, v.wrappedValue.value].joined(separator: " ") + (important == true ? "!important" : "")
         h.listen {
-            self.value = [$0.value, v.wrappedValue.value].joined(separator: " ")
+            self.value = [$0.value, v.wrappedValue.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         v.listen {
-            self.value = [h.wrappedValue.value, $0.value].joined(separator: " ")
+            self.value = [h.wrappedValue.value, $0.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         $value.listen {
@@ -1717,50 +1771,50 @@ extension CSSRulable {
 
     /// Specifies the size of the background images
     @discardableResult
-    public func backgroundSize(h: BackgroundSizeType, v: BackgroundSizeType) -> Self {
-        _addProperty(BackgroundSizeProperty(h: h, v: v))
+    public func backgroundSize(h: BackgroundSizeType, v: BackgroundSizeType, important: Bool? = nil) -> Self {
+        _addProperty(BackgroundSizeProperty(h: h, v: v, important: important))
         return self
     }
     
     /// Specifies the size of the background images
     @discardableResult
-    public func backgroundSize <H>(h: H, v: BackgroundSizeType) -> Self where H: UniValue, H.UniValue: UnitValuable {
-        _addProperty(BackgroundSizeProperty(h: h, v: v))
+    public func backgroundSize <H>(h: H, v: BackgroundSizeType, important: Bool? = nil) -> Self where H: UniValue, H.UniValue: UnitValuable {
+        _addProperty(BackgroundSizeProperty(h: h, v: v, important: important))
         return self
     }
     
     /// Specifies the size of the background images
     @discardableResult
-    public func backgroundSize <V>(h: BackgroundSizeType, v: V) -> Self where V: UniValue, V.UniValue: UnitValuable {
-        _addProperty(BackgroundSizeProperty(h: h, v: v))
+    public func backgroundSize <V>(h: BackgroundSizeType, v: V, important: Bool? = nil) -> Self where V: UniValue, V.UniValue: UnitValuable {
+        _addProperty(BackgroundSizeProperty(h: h, v: v, important: important))
         return self
     }
     
     /// Specifies the size of the background images
     @discardableResult
-    public func backgroundSize <H, V>(h: H, v: V) -> Self where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
-        _addProperty(BackgroundSizeProperty(h: h, v: v))
+    public func backgroundSize <H, V>(h: H, v: V, important: Bool? = nil) -> Self where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
+        _addProperty(BackgroundSizeProperty(h: h, v: v, important: important))
         return self
     }
 
     /// Specifies the size of the background images
     @discardableResult
-    public func backgroundSize(h: State<BackgroundSizeType>, v: BackgroundSizeType) -> Self {
-        _addProperty(BackgroundSizeProperty(h: h, v: v))
+    public func backgroundSize(h: State<BackgroundSizeType>, v: BackgroundSizeType, important: Bool? = nil) -> Self {
+        _addProperty(BackgroundSizeProperty(h: h, v: v, important: important))
         return self
     }
 
     /// Specifies the size of the background images
     @discardableResult
-    public func backgroundSize(h: BackgroundSizeType, v: State<BackgroundSizeType>) -> Self {
-        _addProperty(BackgroundSizeProperty(h: h, v: v))
+    public func backgroundSize(h: BackgroundSizeType, v: State<BackgroundSizeType>, important: Bool? = nil) -> Self {
+        _addProperty(BackgroundSizeProperty(h: h, v: v, important: important))
         return self
     }
 
     /// Specifies the size of the background images
     @discardableResult
-    public func backgroundSize(h: State<BackgroundSizeType>, v: State<BackgroundSizeType>) -> Self {
-        _addProperty(BackgroundSizeProperty(h: h, v: v))
+    public func backgroundSize(h: State<BackgroundSizeType>, v: State<BackgroundSizeType>, important: Bool? = nil) -> Self {
+        _addProperty(BackgroundSizeProperty(h: h, v: v, important: important))
         return self
     }
 }
@@ -1791,68 +1845,108 @@ public class BorderBottomColorProperty: _Property {
         }
     }
 
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -1883,37 +1977,37 @@ extension CSSRulable {
     
     /// Sets the color of the bottom border
     @discardableResult
-    public func borderBottomColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func borderBottomColor <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderBottomColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(BorderBottomColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Sets the color of the bottom border
     @discardableResult
-    public func borderBottomColor <R, G, B>(r: R, g: G, b: B) -> Self
+    public func borderBottomColor <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(BorderBottomColorProperty(r: r, g: g, b: b))
+        _addProperty(BorderBottomColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Sets the color of the bottom border
     @discardableResult
-    public func borderBottomColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func borderBottomColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderBottomColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(BorderBottomColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Sets the color of the bottom border
     @discardableResult
-    public func borderBottomColor <H, S, L>(h: H, s: S, l: L) -> Self
+    public func borderBottomColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(BorderBottomColorProperty(h: h, s: s, l: l))
+        _addProperty(BorderBottomColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -1994,48 +2088,48 @@ public class BorderBottomProperty: _Property {
     public var propertyValue: BorderValue
     var _content = _PropertyContent<BorderValue>()
 
-    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) {
-        propertyValue = BorderValue(width: width, style: style, color: color)
+    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        propertyValue = BorderValue(width: width, style: style, color: color, important: important)
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) {
-        self.init(width: width.wrappedValue, style: style, color: color)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color)) }
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style, color: color, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) {
-        self.init(width: width, style: style.wrappedValue, color: color)
-        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color)) }
+    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width, style: style.wrappedValue, color: color, important: important)
+        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) {
-        self.init(width: width, style: style, color: color.wrappedValue)
-        color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0)) }
+    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width, style: style, color: color.wrappedValue, important: important)
+        color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) {
-        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color)) }
-        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color)) }
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color, important: important)) }
+        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) {
-        self.init(width: width.wrappedValue, style: style, color: color.wrappedValue)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0)) }
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style, color: color.wrappedValue, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) {
-        self.init(width: width, style: style.wrappedValue, color: color.wrappedValue)
-        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0)) }
+    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width, style: style.wrappedValue, color: color.wrappedValue, important: important)
+        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) {
-        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue)) }
-        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style.wrappedValue, color: $0)) }
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue, important: important)) }
+        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style.wrappedValue, color: $0, important: important)) }
     }
 }
 
@@ -2052,57 +2146,57 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
-    public func borderBottom(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderBottomProperty(width: width, style: style, color: color))
+    public func borderBottom(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderBottomProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
-    public func borderBottom(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderBottomProperty(width: width, style: style, color: color))
+    public func borderBottom(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderBottomProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
-    public func borderBottom(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderBottomProperty(width: width, style: style, color: color))
+    public func borderBottom(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderBottomProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
-    public func borderBottom(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderBottomProperty(width: width, style: style, color: color))
+    public func borderBottom(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderBottomProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
-    public func borderBottom(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderBottomProperty(width: width, style: style, color: color))
+    public func borderBottom(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderBottomProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
-    public func borderBottom(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderBottomProperty(width: width, style: style, color: color))
+    public func borderBottom(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderBottomProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
-    public func borderBottom(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderBottomProperty(width: width, style: style, color: color))
+    public func borderBottom(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderBottomProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
-    public func borderBottom(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderBottomProperty(width: width, style: style, color: color))
+    public func borderBottom(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderBottomProperty(width: width, style: style, color: color, important: important))
         return self
     }
 }
@@ -2357,68 +2451,108 @@ public class BorderColorProperty: _Property {
         }
     }
 
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -2449,37 +2583,37 @@ extension CSSRulable {
     
     /// Sets the color of the four borders
     @discardableResult
-    public func borderColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func borderColor <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(BorderColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Sets the color of the four borders
     @discardableResult
-    public func borderColor <R, G, B>(r: R, g: G, b: B) -> Self
+    public func borderColor <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(BorderColorProperty(r: r, g: g, b: b))
+        _addProperty(BorderColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Sets the color of the four borders
     @discardableResult
-    public func borderColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func borderColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(BorderColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Sets the color of the four borders
     @discardableResult
-    public func borderColor <H, S, L>(h: H, s: S, l: L) -> Self
+    public func borderColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(BorderColorProperty(h: h, s: s, l: l))
+        _addProperty(BorderColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -2574,9 +2708,10 @@ public class BorderImageProperty: _Property {
         slice: BorderImageSliceType? = nil,
         width: BorderWidthType? = nil,
         outset: BorderImageOutsetType? = nil,
-        repeat: BorderImageRepeatType? = nil
+        repeat: BorderImageRepeatType? = nil,
+        important: Bool? = nil
     ) {
-        propertyValue = BorderImageValue(source: source, slice: slice, width: width, outset: outset, repeat: `repeat`)
+        propertyValue = BorderImageValue(source: source, slice: slice, width: width, outset: outset, repeat: `repeat`, important: important)
     }
 }
 
@@ -2592,9 +2727,10 @@ public struct BorderImageValue: CustomStringConvertible {
         slice: BorderImageSliceType? = nil,
         width: BorderWidthType? = nil,
         outset: BorderImageOutsetType? = nil,
-        repeat: BorderImageRepeatType? = nil
+        repeat: BorderImageRepeatType? = nil,
+        important: Bool? = nil
     ) {
-        value = ["url(\(source))", slice?.value, width?.value, outset?.value, `repeat`?.value].compactMap { $0 }.joined(separator: " ")
+        value = ["url(\(source))", slice?.value, width?.value, outset?.value, `repeat`?.value, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
     }
 
     public var description: String { value }
@@ -2627,9 +2763,10 @@ extension CSSRulable {
         slice: BorderImageSliceType? = nil,
         width: BorderWidthType? = nil,
         outset: BorderImageOutsetType? = nil,
-        repeat: BorderImageRepeatType? = nil
+        repeat: BorderImageRepeatType? = nil,
+        important: Bool? = nil
     ) -> Self {
-        _addProperty(BorderImageProperty(source: source, slice: slice, width: width, outset: outset, repeat: `repeat`))
+        _addProperty(BorderImageProperty(source: source, slice: slice, width: width, outset: outset, repeat: `repeat`, important: important))
         return self
     }
 }
@@ -2750,8 +2887,8 @@ public class BorderImageSourceProperty: _Property {
     
     /// String initializer
     /// - Parameter src: Pass `String` or `State<String>`
-    public init <S>(_ src: S) where S: UniValue, S.UniValue == String {
-        propertyValue = "url(\(src.uniValue))"
+    public init <S>(_ src: S, important: Bool? = nil) where S: UniValue, S.UniValue == String {
+        propertyValue = "url(\(src.uniValue))" + (important == true ? "!important" : "")
     }
 }
 
@@ -2768,8 +2905,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies the path to the image to be used as a border
     @discardableResult
-    public func borderImageSource<S>(_ type: S) -> Self where S: UniValue, S.UniValue == String {
-        _addProperty(BorderImageSourceProperty(type))
+    public func borderImageSource<S>(_ type: S, important: Bool? = nil) -> Self where S: UniValue, S.UniValue == String {
+        _addProperty(BorderImageSourceProperty(type, important: important))
         return self
     }
 }
@@ -2850,68 +2987,108 @@ public class BorderLeftColorProperty: _Property {
         }
     }
     
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
         self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -2942,37 +3119,37 @@ extension CSSRulable {
     
     /// Sets the color of the left border
     @discardableResult
-    public func borderLeftColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func borderLeftColor <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderLeftColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(BorderLeftColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Sets the color of the left border
     @discardableResult
-    public func borderLeftColor <R, G, B>(r: R, g: G, b: B) -> Self
+    public func borderLeftColor <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(BorderLeftColorProperty(r: r, g: g, b: b))
+        _addProperty(BorderLeftColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Sets the color of the left border
     @discardableResult
-    public func borderLeftColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func borderLeftColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderLeftColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(BorderLeftColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Sets the color of the left border
     @discardableResult
-    public func borderLeftColor <H, S, L>(h: H, s: S, l: L) -> Self
+    public func borderLeftColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(BorderLeftColorProperty(h: h, s: s, l: l))
+        _addProperty(BorderLeftColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -2991,44 +3168,44 @@ public class BorderLeftProperty: _Property {
     public var propertyValue: BorderValue
     var _content = _PropertyContent<BorderValue>()
 
-    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) {
+    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
         propertyValue = BorderValue(width: width, style: style, color: color)
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) {
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
         self.init(width: width.wrappedValue, style: style, color: color)
         width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) {
+    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
         self.init(width: width, style: style.wrappedValue, color: color)
         style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) {
+    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
         self.init(width: width, style: style, color: color.wrappedValue)
         color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) {
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
         self.init(width: width.wrappedValue, style: style.wrappedValue, color: color)
         width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color)) }
         style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) {
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
         self.init(width: width.wrappedValue, style: style, color: color.wrappedValue)
         width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue)) }
         color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0)) }
     }
 
-    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) {
+    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
         self.init(width: width, style: style.wrappedValue, color: color.wrappedValue)
         style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue)) }
         color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) {
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
         self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue)
         width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue)) }
         style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue)) }
@@ -3049,57 +3226,57 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
-    public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderLeftProperty(width: width, style: style, color: color))
+    public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderLeftProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
-    public func borderLeft(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderLeftProperty(width: width, style: style, color: color))
+    public func borderLeft(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderLeftProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
-    public func borderLeft(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderLeftProperty(width: width, style: style, color: color))
+    public func borderLeft(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderLeftProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
-    public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderLeftProperty(width: width, style: style, color: color))
+    public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderLeftProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
-    public func borderLeft(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderLeftProperty(width: width, style: style, color: color))
+    public func borderLeft(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderLeftProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
-    public func borderLeft(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderLeftProperty(width: width, style: style, color: color))
+    public func borderLeft(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderLeftProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
-    public func borderLeft(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderLeftProperty(width: width, style: style, color: color))
+    public func borderLeft(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderLeftProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
-    public func borderLeft(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderLeftProperty(width: width, style: style, color: color))
+    public func borderLeft(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderLeftProperty(width: width, style: style, color: color, important: important))
         return self
     }
 }
@@ -3230,48 +3407,48 @@ public class BorderProperty: _Property {
     public var propertyValue: BorderValue
     var _content = _PropertyContent<BorderValue>()
 
-    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) {
-        propertyValue = BorderValue(width: width, style: style, color: color)
+    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        propertyValue = BorderValue(width: width, style: style, color: color, important: important)
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) {
-        self.init(width: width.wrappedValue, style: style, color: color)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color)) }
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style, color: color, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) {
-        self.init(width: width, style: style.wrappedValue, color: color)
-        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color)) }
+    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width, style: style.wrappedValue, color: color, important: important)
+        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) {
-        self.init(width: width, style: style, color: color.wrappedValue)
-        color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0)) }
+    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width, style: style, color: color.wrappedValue, important: important)
+        color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) {
-        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color)) }
-        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color)) }
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color, important: important)) }
+        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) {
-        self.init(width: width.wrappedValue, style: style, color: color.wrappedValue)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0)) }
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style, color: color.wrappedValue, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) {
-        self.init(width: width, style: style.wrappedValue, color: color.wrappedValue)
-        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0)) }
+    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width, style: style.wrappedValue, color: color.wrappedValue, important: important)
+        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) {
-        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue)) }
-        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style.wrappedValue, color: $0)) }
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue, important: important)) }
+        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style.wrappedValue, color: $0, important: important)) }
     }
 }
 
@@ -3283,8 +3460,8 @@ extension PropertyKey {
 public struct BorderValue: CustomStringConvertible {
     public let value: String
 
-    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) {
-        value = [width?.value, style.value, color?.description].compactMap { $0 }.joined(separator: " ")
+    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        value = [width?.value, style.value, color?.description, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
     }
 
     public var description: String { value }
@@ -3298,57 +3475,57 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
-    public func border(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderProperty(width: width, style: style, color: color))
+    public func border(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderProperty(width: width, style: style, color: color, important: important))
         return self
     }
     
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
-    public func border(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderProperty(width: width, style: style, color: color))
+    public func border(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
-    public func border(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderProperty(width: width, style: style, color: color))
+    public func border(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
-    public func border(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderProperty(width: width, style: style, color: color))
+    public func border(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
-    public func border(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderProperty(width: width, style: style, color: color))
+    public func border(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
-    public func border(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderProperty(width: width, style: style, color: color))
+    public func border(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
-    public func border(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderProperty(width: width, style: style, color: color))
+    public func border(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
-    public func border(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderProperty(width: width, style: style, color: color))
+    public func border(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderProperty(width: width, style: style, color: color, important: important))
         return self
     }
 }
@@ -3384,555 +3561,555 @@ public class BorderRadiusProperty: _Property {
 
     // MARK: TL/BR
 
-    public init (topLeft: BorderRadiusType, bottomRight: BorderRadiusType) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight)
+    public init (topLeft: BorderRadiusType, bottomRight: BorderRadiusType, important: Bool? = nil) {
+        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: bottomRight, important: important)
     }
     
-    public init <L>(topLeft: L, bottomRight: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        propertyValue = BorderRadiusValue(topLeft: .length(topLeft.uniValue), bottomRight: bottomRight)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), bottomRight: bottomRight)) }
+    public init <L>(topLeft: L, bottomRight: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        propertyValue = BorderRadiusValue(topLeft: .length(topLeft.uniValue), bottomRight: bottomRight, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), bottomRight: bottomRight, important: important)) }
     }
     
-    public init <L>(topLeft: BorderRadiusType, bottomRight: L) where L: UniValue, L.UniValue: UnitValuable {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: .length(bottomRight.uniValue))
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, bottomRight: .length($0))) }
+    public init <L>(topLeft: BorderRadiusType, bottomRight: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        propertyValue = BorderRadiusValue(topLeft: topLeft, bottomRight: .length(bottomRight.uniValue), important: important)
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, bottomRight: .length($0), important: important)) }
     }
     
-    public init <TL, BR>(topLeft: TL, bottomRight: BR) where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
-        propertyValue = BorderRadiusValue(topLeft: .length(topLeft.uniValue), bottomRight: .length(bottomRight.uniValue))
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), bottomRight: .length(bottomRight.uniValue))) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), bottomRight: .length($0))) }
+    public init <TL, BR>(topLeft: TL, bottomRight: BR, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
+        propertyValue = BorderRadiusValue(topLeft: .length(topLeft.uniValue), bottomRight: .length(bottomRight.uniValue), important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), bottomRight: .length(bottomRight.uniValue), important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), bottomRight: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: BorderRadiusType) {
-        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, bottomRight: bottomRight)) }
+    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, bottomRight: bottomRight, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, bottomRight: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, bottomRight: .length(bottomRight.uniValue))) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, bottomRight: .length($0))) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, bottomRight: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, bottomRight: .length(bottomRight.uniValue), important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, bottomRight: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, bottomRight: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft, bottomRight: bottomRight.wrappedValue)
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, bottomRight: $0)) }
+    public convenience init (topLeft: BorderRadiusType, bottomRight: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft, bottomRight: bottomRight.wrappedValue, important: important)
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, bottomRight: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, bottomRight: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, bottomRight: bottomRight.wrappedValue)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), bottomRight: bottomRight.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), bottomRight: $0)) }
+    public convenience init <L>(topLeft: L, bottomRight: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, bottomRight: bottomRight.wrappedValue, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), bottomRight: bottomRight.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), bottomRight: $0, important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, bottomRight: bottomRight.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, bottomRight: $0)) }
+    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, bottomRight: bottomRight.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, bottomRight: $0, important: important)) }
     }
 
     // MARK: TL/TR/BL
 
-    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft)
+    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        propertyValue = BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important)
     }
 
-    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft)
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft, important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight, bottomLeft: .length(bottomLeft.uniValue))
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <TL, TR>(topLeft: TL, topRight: TR, bottomLeft: BorderRadiusType) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomLeft: bottomLeft)) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <TL, TR>(topLeft: TL, topRight: TR, bottomLeft: BorderRadiusType, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomLeft: BL) where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: .length($0))) }
+    public convenience init <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomLeft: BL, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomLeft: BL) where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: .length($0))) }
+    public convenience init <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomLeft: BL, important: Bool? = nil) where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: .length($0), important: important)) }
     }
     
-    public convenience init <TL, TR, BL>(topLeft: TL, topRight: TR, bottomLeft: BL) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomLeft: .length($0))) }
+    public convenience init <TL, TR, BL>(topLeft: TL, topRight: TR, bottomLeft: BL, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomLeft: .length($0), important: important)) }
     }
     
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft)) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: bottomLeft)
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomLeft: bottomLeft)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft.wrappedValue)
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomLeft: $0)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomLeft: $0, important: important)) }
     }
 
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft.wrappedValue)
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: $0)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomLeft: $0, important: important)) }
     }
     
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomLeft: bottomLeft)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: $0)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomLeft: $0)) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
 
     // MARK: TL/TR/BR/BL
 
-    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
-        propertyValue = BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
+    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        propertyValue = BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)
     }
     
-    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft)
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <TL, TR>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft)) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    public convenience init <TL, TR>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <TL, BR>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BorderRadiusType) where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <TL, BR>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BorderRadiusType, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BL) where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: .length($0))) }
+    public convenience init <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BL, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <TR, BR>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType) where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <TR, BR>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType, important: Bool? = nil) where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL) where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length($0))) }
+    public convenience init <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL, important: Bool? = nil) where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <BR, BL>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL) where BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length($0), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length($0))) }
+    public convenience init <BR, BL>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL, important: Bool? = nil) where BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length($0), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <TL, TR, BR>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <TL, TR, BR>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init <TL, TR, BL>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length($0))) }
+    public convenience init <TL, TR, BL>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <TL, BR, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL) where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length($0), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length($0))) }
+    public convenience init <TL, BR, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length($0), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <TR, BR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BL) where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length($0), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length($0))) }
+    public convenience init <TR, BR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BL, important: Bool? = nil) where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length($0), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init <TL, TR, BR, BL>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BL) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length($0), bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length($0))) }
+    public convenience init <TL, TR, BR, BL>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BL, important: Bool? = nil) where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length($0), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length($0), bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: .length(topRight.uniValue), bottomRight: .length(bottomRight.uniValue), bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft)
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: $0, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: $0, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: $0)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue)
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length($0), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: $0)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length($0), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft)) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length($0), bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft, important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length($0), bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: $0, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: $0, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: $0)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: .length($0), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: $0)) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: .length($0), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: .length(bottomRight.uniValue), bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: $0)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue)
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length($0), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: $0)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length($0), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length($0), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: .length(bottomLeft.uniValue))) }
-        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length($0))) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: .length(bottomLeft.uniValue), important: important)) }
+        bottomLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: .length($0), important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: $0)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length($0), bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: $0)) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: .length(bottomRight.uniValue), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length($0), bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: .length(bottomRight.uniValue), bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight, bottomRight: bottomRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length($0), bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: .length(topRight.uniValue), bottomRight: bottomRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
     
-    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) where L: UniValue, L.UniValue: UnitValuable {
-        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) where L: UniValue, L.UniValue: UnitValuable {
+        self.init(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.uniStateValue?.listen { self._changed(to: BorderRadiusValue(topLeft: .length($0), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: .length(topLeft.uniValue), topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)
-        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue)) }
-        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: $0)) }
+    public convenience init (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)
+        topLeft.listen { self._changed(to: BorderRadiusValue(topLeft: $0, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        topRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: $0, bottomRight: bottomRight.wrappedValue, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomRight.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: $0, bottomLeft: bottomLeft.wrappedValue, important: important)) }
+        bottomLeft.listen { self._changed(to: BorderRadiusValue(topLeft: topLeft.wrappedValue, topRight: topRight.wrappedValue, bottomRight: bottomRight.wrappedValue, bottomLeft: $0, important: important)) }
     }
 }
 
@@ -3960,58 +4137,58 @@ public class BorderRadiusValue: CustomStringConvertible, _PropertyValueInnerChan
         }
     }
 
-    private static func values(_ values: BorderRadiusType...) -> String {
-        self.values(values)
+    private static func values(_ values: BorderRadiusType..., important: Bool? = nil) -> String {
+        self.values(values, important: important)
     }
 
-    private static func values(_ values: [BorderRadiusType]) -> String {
-        values.map { $0.description }.joined(separator: " ")
+    private static func values(_ values: [BorderRadiusType], important: Bool? = nil) -> String {
+        [values.map { $0.description }, [important == true ? "!important" : nil].compactMap { $0 }].flatMap { $0 }.joined(separator: " ")
     }
 
     // MARK: TL/BR
 
-    public init (topLeft: BorderRadiusType, bottomRight: BorderRadiusType) {
-        value = Self.values(topLeft, bottomRight)
+    public init (topLeft: BorderRadiusType, bottomRight: BorderRadiusType, important: Bool? = nil) {
+        value = Self.values(topLeft, bottomRight, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: BorderRadiusType) {
-        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight)
+    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: BorderRadiusType, important: Bool? = nil) {
+        self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight, important: important)
         topLeft.listen {
-            self.value = Self.values($0, bottomRight)
+            self.value = Self.values($0, bottomRight, important: important)
         }
     }
 
-    public convenience init (topLeft: BorderRadiusType, bottomRight: State<BorderRadiusType>) {
-        self.init(topLeft: topLeft, bottomRight: bottomRight.wrappedValue)
+    public convenience init (topLeft: BorderRadiusType, bottomRight: State<BorderRadiusType>, important: Bool? = nil) {
+        self.init(topLeft: topLeft, bottomRight: bottomRight.wrappedValue, important: important)
         bottomRight.listen {
-            self.value = Self.values(topLeft, $0)
+            self.value = Self.values(topLeft, $0, important: important)
         }
     }
 
-    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>) {
+    public convenience init (topLeft: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, important: Bool? = nil) {
         self.init(topLeft: topLeft.wrappedValue, bottomRight: bottomRight.wrappedValue)
         topLeft.listen {
-            self.value = Self.values($0, bottomRight.wrappedValue)
+            self.value = Self.values($0, bottomRight.wrappedValue, important: important)
         }
         bottomRight.listen {
-            self.value = Self.values(topLeft.wrappedValue, $0)
+            self.value = Self.values(topLeft.wrappedValue, $0, important: important)
         }
     }
 
     // MARK: Other
 
-    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
-        value = Self.values(topLeft, topRight, bottomLeft)
+    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        value = Self.values(topLeft, topRight, bottomLeft, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) {
-        value = Self.values(topLeft, topRight, bottomRight, bottomLeft)
+    public init (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) {
+        value = Self.values(topLeft, topRight, bottomRight, bottomLeft, important: important)
         $value.listen {
             self._changeHandler()
         }
@@ -4051,56 +4228,56 @@ extension CSSRulable {
 
     /// A shorthand property for the four border-*-radius properties
     @discardableResult
-    public func borderRadius(topLeft: BorderRadiusType, bottomRight: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius(topLeft: BorderRadiusType, bottomRight: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, bottomRight: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius <L>(topLeft: L, bottomRight: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, bottomRight: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius <L>(topLeft: BorderRadiusType, bottomRight: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, BR>(topLeft: TL, bottomRight: BR) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius <TL, BR>(topLeft: TL, bottomRight: BR, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, bottomRight: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius (topLeft: State<BorderRadiusType>, bottomRight: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, bottomRight: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, bottomRight: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, bottomRight: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius (topLeft: BorderRadiusType, bottomRight: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, bottomRight: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius <L>(topLeft: L, bottomRight: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight))
+    public func borderRadius (topLeft: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, bottomRight: bottomRight, important: important))
         return self
     }
 
@@ -4108,146 +4285,146 @@ extension CSSRulable {
 
     /// A shorthand property for the four border-*-radius properties
     @discardableResult
-    public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, TR>(topLeft: TL, topRight: TR, bottomLeft: BorderRadiusType) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, TR>(topLeft: TL, topRight: TR, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomLeft: BL, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomLeft: BL) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomLeft: BL, important: Bool? = nil) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, TR, BL>(topLeft: TL, topRight: TR, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, TR, BL>(topLeft: TL, topRight: TR, bottomLeft: BL, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, important: important))
         return self
     }
 
@@ -4255,338 +4432,338 @@ extension CSSRulable {
 
     /// A shorthand property for the four border-*-radius properties
     @discardableResult
-    public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, TR>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, TR>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, BR>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BorderRadiusType) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, BR>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BL, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TR, BR>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TR, BR>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL, important: Bool? = nil) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <BR, BL>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL) -> Self where BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <BR, BL>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL, important: Bool? = nil) -> Self where BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, TR, BR>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, TR, BR>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, TR, BL>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, TR, BL>(topLeft: TL, topRight: TR, bottomRight: BorderRadiusType, bottomLeft: BL, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, BR, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, BR, BL>(topLeft: TL, topRight: BorderRadiusType, bottomRight: BR, bottomLeft: BL, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TR, BR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BL) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TR, BR, BL>(topLeft: BorderRadiusType, topRight: TR, bottomRight: BR, bottomLeft: BL, important: Bool? = nil) -> Self where TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <TL, TR, BR, BL>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BL) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <TL, TR, BR, BL>(topLeft: TL, topRight: TR, bottomRight: BR, bottomLeft: BL, important: Bool? = nil) -> Self where TL: UniValue, TL.UniValue: UnitValuable, TR: UniValue, TR.UniValue: UnitValuable, BR: UniValue, BR.UniValue: UnitValuable, BL: UniValue, BL.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: BorderRadiusType, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: BorderRadiusType, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: L, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: BorderRadiusType, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: L, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: BorderRadiusType, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: State<BorderRadiusType>, topRight: L, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: BorderRadiusType, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self where L: UniValue, L.UniValue: UnitValuable {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius <L>(topLeft: L, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self where L: UniValue, L.UniValue: UnitValuable {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
     
     @discardableResult
-    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>) -> Self {
-        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft))
+    public func borderRadius (topLeft: State<BorderRadiusType>, topRight: State<BorderRadiusType>, bottomRight: State<BorderRadiusType>, bottomLeft: State<BorderRadiusType>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRadiusProperty(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft, important: important))
         return self
     }
 }
@@ -4617,68 +4794,108 @@ public class BorderRightColorProperty: _Property {
         }
     }
 
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -4709,37 +4926,37 @@ extension CSSRulable {
     
     /// Sets the color of the right border
     @discardableResult
-    public func borderRightColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func borderRightColor <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderRightColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(BorderRightColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Sets the color of the right border
     @discardableResult
-    public func borderRightColor <R, G, B>(r: R, g: G, b: B) -> Self
+    public func borderRightColor <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(BorderRightColorProperty(r: r, g: g, b: b))
+        _addProperty(BorderRightColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Sets the color of the right border
     @discardableResult
-    public func borderRightColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func borderRightColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderRightColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(BorderRightColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Sets the color of the right border
     @discardableResult
-    public func borderRightColor <H, S, L>(h: H, s: S, l: L) -> Self
+    public func borderRightColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(BorderRightColorProperty(h: h, s: s, l: l))
+        _addProperty(BorderRightColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -4758,48 +4975,48 @@ public class BorderRightProperty: _Property {
     public var propertyValue: BorderValue
     var _content = _PropertyContent<BorderValue>()
 
-    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) {
-        propertyValue = BorderValue(width: width, style: style, color: color)
+    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        propertyValue = BorderValue(width: width, style: style, color: color, important: important)
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) {
-        self.init(width: width.wrappedValue, style: style, color: color)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color)) }
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style, color: color, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) {
-        self.init(width: width, style: style.wrappedValue, color: color)
-        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color)) }
+    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width, style: style.wrappedValue, color: color, important: important)
+        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) {
-        self.init(width: width, style: style, color: color.wrappedValue)
-        color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0)) }
+    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width, style: style, color: color.wrappedValue, important: important)
+        color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) {
-        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color)) }
-        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color)) }
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color, important: important)) }
+        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) {
-        self.init(width: width.wrappedValue, style: style, color: color.wrappedValue)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0)) }
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style, color: color.wrappedValue, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) {
-        self.init(width: width, style: style.wrappedValue, color: color.wrappedValue)
-        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0)) }
+    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width, style: style.wrappedValue, color: color.wrappedValue, important: important)
+        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) {
-        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue)) }
-        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style.wrappedValue, color: $0)) }
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue, important: important)) }
+        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style.wrappedValue, color: $0, important: important)) }
     }
 }
 
@@ -4816,57 +5033,57 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
-    public func borderRight(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderRightProperty(width: width, style: style, color: color))
+    public func borderRight(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderRightProperty(width: width, style: style, color: color, important: important))
         return self
     }
     
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
-    public func borderRight(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderRightProperty(width: width, style: style, color: color))
+    public func borderRight(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderRightProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
-    public func borderRight(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderRightProperty(width: width, style: style, color: color))
+    public func borderRight(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderRightProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
-    public func borderRight(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderRightProperty(width: width, style: style, color: color))
+    public func borderRight(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRightProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
-    public func borderRight(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderRightProperty(width: width, style: style, color: color))
+    public func borderRight(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderRightProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
-    public func borderRight(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderRightProperty(width: width, style: style, color: color))
+    public func borderRight(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRightProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
-    public func borderRight(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderRightProperty(width: width, style: style, color: color))
+    public func borderRight(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRightProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
-    public func borderRight(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderRightProperty(width: width, style: style, color: color))
+    public func borderRight(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderRightProperty(width: width, style: style, color: color, important: important))
         return self
     }
 }
@@ -5000,17 +5217,17 @@ public class BorderSpacingProperty: _Property {
 
     // MARK: All
 
-    public init <A>(all: A) where A: UniValue, A.UniValue: UnitValuable {
-        propertyValue = BorderSpacingValue(all: all.uniValue)
-        all.uniStateValue?.listen { self._changed(to: BorderSpacingValue(all: $0)) }
+    public init <A>(all: A, important: Bool? = nil) where A: UniValue, A.UniValue: UnitValuable {
+        propertyValue = BorderSpacingValue(all: all.uniValue, important: important)
+        all.uniStateValue?.listen { self._changed(to: BorderSpacingValue(all: $0, important: important)) }
     }
 
     // MARK: H/V
 
-    public init <H, V>(h: H, v: V) where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
-        propertyValue = BorderSpacingValue(h: h.uniValue, v: v.uniValue)
-        h.uniStateValue?.listen { self._changed(to: BorderSpacingValue(h: $0, v: v.uniValue)) }
-        v.uniStateValue?.listen { self._changed(to: BorderSpacingValue(h: h.uniValue, v: $0)) }
+    public init <H, V>(h: H, v: V, important: Bool? = nil) where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
+        propertyValue = BorderSpacingValue(h: h.uniValue, v: v.uniValue, important: important)
+        h.uniStateValue?.listen { self._changed(to: BorderSpacingValue(h: $0, v: v.uniValue, important: important)) }
+        v.uniStateValue?.listen { self._changed(to: BorderSpacingValue(h: h.uniValue, v: $0, important: important)) }
     }
 }
 
@@ -5024,15 +5241,19 @@ public class BorderSpacingValue: CustomStringConvertible, _PropertyValueInnerCha
 
     var _changeHandler = {}
 
-    public init<U: UnitValuable>(all: U) {
-        value = all.description
+    public init<U: UnitValuable>(all: U, important: Bool? = nil) {
+        if important == true {
+            value = all.description + "!important"
+        } else {
+            value = all.description
+        }
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init<H: UnitValuable, V: UnitValuable>(h: H, v: V) {
-        value = [h.description, v.description].joined(separator: " ")
+    public init<H: UnitValuable, V: UnitValuable>(h: H, v: V, important: Bool? = nil) {
+        value = [h.description, v.description, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
         $value.listen {
             self._changeHandler()
         }
@@ -5051,8 +5272,8 @@ extension CSSRulable {
 
     /// Sets the distance between the borders of adjacent cells
     @discardableResult
-    public func borderSpacing<A>(all: A) -> Self where A: UniValue, A.UniValue: UnitValuable {
-        _addProperty(BorderSpacingProperty(all: all))
+    public func borderSpacing<A>(all: A, important: Bool? = nil) -> Self where A: UniValue, A.UniValue: UnitValuable {
+        _addProperty(BorderSpacingProperty(all: all, important: important))
         return self
     }
 
@@ -5060,8 +5281,8 @@ extension CSSRulable {
 
     /// Sets the distance between the borders of adjacent cells
     @discardableResult
-    public func borderSpacing<H, V>(h: H, v: V) -> Self where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
-        _addProperty(BorderSpacingProperty(h: h, v: v))
+    public func borderSpacing<H, V>(h: H, v: V, important: Bool? = nil) -> Self where H: UniValue, H.UniValue: UnitValuable, V: UniValue, V.UniValue: UnitValuable {
+        _addProperty(BorderSpacingProperty(h: h, v: v, important: important))
         return self
     }
 }
@@ -5080,34 +5301,34 @@ public class BorderStyleProperty: _Property {
     public var propertyValue: BorderStyleValue
     var _content = _PropertyContent<BorderStyleValue>()
 
-    public init (_ type: BorderStyleType...) {
-        propertyValue = BorderStyleValue(type)
+    public init (_ types: BorderStyleType..., important: Bool? = nil) {
+        propertyValue = BorderStyleValue(types, important: important)
     }
 
-    public init (_ type: [BorderStyleType]) {
-        propertyValue = BorderStyleValue(type)
+    public init (_ types: [BorderStyleType], important: Bool? = nil) {
+        propertyValue = BorderStyleValue(types, important: important)
     }
 
-    public convenience init (_ types: [State<BorderStyleType>]) {
-        self.init(types.map { $0.wrappedValue })
+    public convenience init (_ types: [State<BorderStyleType>], important: Bool? = nil) {
+        self.init(types.map { $0.wrappedValue }, important: important)
         types.forEach {
-            $0.listen { self._changed(to: BorderStyleValue(types.map { $0.wrappedValue })) }
+            $0.listen { self._changed(to: BorderStyleValue(types.map { $0.wrappedValue }, important: important)) }
         }
     }
     
-    public convenience init (_ types: State<BorderStyleType>...) {
-        self.init(types)
+    public convenience init (_ types: State<BorderStyleType>..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <U>(mixed types: [U]) where U: UniValue, U.UniValue == BorderStyleType {
-        self.init(types.map { $0.uniValue })
+    public convenience init <U>(mixed types: [U], important: Bool? = nil) where U: UniValue, U.UniValue == BorderStyleType {
+        self.init(types.map { $0.uniValue }, important: important)
         types.forEach {
-            $0.uniStateValue?.listen { self._changed(to: BorderStyleValue(types.map { $0.uniValue })) }
+            $0.uniStateValue?.listen { self._changed(to: BorderStyleValue(types.map { $0.uniValue }, important: important)) }
         }
     }
     
-    public convenience init <U>(mixed types: U...) where U: UniValue, U.UniValue == BorderStyleType {
-        self.init(mixed: types)
+    public convenience init <U>(mixed types: U..., important: Bool? = nil) where U: UniValue, U.UniValue == BorderStyleType {
+        self.init(mixed: types, important: important)
     }
 }
 
@@ -5118,12 +5339,12 @@ extension PropertyKey {
 public struct BorderStyleValue: CustomStringConvertible {
     public let value: String
 
-    public init (_ type: BorderStyleType...) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: BorderStyleType..., important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public init (_ type: [BorderStyleType]) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: [BorderStyleType], important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
     public var description: String { value }
@@ -5137,43 +5358,43 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Sets the style of the four borders
     @discardableResult
-    public func borderStyle (_ type: BorderStyleType...) -> Self {
-        _addProperty(BorderStyleProperty(type))
+    public func borderStyle (_ types: BorderStyleType..., important: Bool? = nil) -> Self {
+        _addProperty(BorderStyleProperty(types, important: important))
         return self
     }
 
     /// Sets the style of the four borders
     @discardableResult
-    public func borderStyle (_ type: [BorderStyleType]) -> Self {
-        _addProperty(BorderStyleProperty(type))
+    public func borderStyle (_ types: [BorderStyleType], important: Bool? = nil) -> Self {
+        _addProperty(BorderStyleProperty(types, important: important))
         return self
     }
 
     /// Sets the style of the four borders
     @discardableResult
-    public func borderStyle (_ types: [State<BorderStyleType>]) -> Self {
-        _addProperty(BorderStyleProperty(types))
+    public func borderStyle (_ types: [State<BorderStyleType>], important: Bool? = nil) -> Self {
+        _addProperty(BorderStyleProperty(types, important: important))
         return self
     }
     
     /// Sets the style of the four borders
     @discardableResult
-    public func borderStyle (_ types: State<BorderStyleType>...) -> Self {
-        _addProperty(BorderStyleProperty(types))
+    public func borderStyle (_ types: State<BorderStyleType>..., important: Bool? = nil) -> Self {
+        _addProperty(BorderStyleProperty(types, important: important))
         return self
     }
 
     /// Sets the style of the four borders
     @discardableResult
-    public func borderStyle <U>(mixed types: [U]) -> Self where U: UniValue, U.UniValue == BorderStyleType {
-        _addProperty(BorderStyleProperty(mixed: types))
+    public func borderStyle <U>(mixed types: [U], important: Bool? = nil) -> Self where U: UniValue, U.UniValue == BorderStyleType {
+        _addProperty(BorderStyleProperty(mixed: types, important: important))
         return self
     }
     
     /// Sets the style of the four borders
     @discardableResult
-    public func borderStyle <U>(mixed types: U...) -> Self where U: UniValue, U.UniValue == BorderStyleType {
-        _addProperty(BorderStyleProperty(mixed: types))
+    public func borderStyle <U>(mixed types: U..., important: Bool? = nil) -> Self where U: UniValue, U.UniValue == BorderStyleType {
+        _addProperty(BorderStyleProperty(mixed: types, important: important))
         return self
     }
 }
@@ -5204,68 +5425,108 @@ public class BorderTopColorProperty: _Property {
         }
     }
 
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -5296,37 +5557,37 @@ extension CSSRulable {
     
     /// Sets the color of the top border
     @discardableResult
-    public func borderTopColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func borderTopColor <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderTopColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(BorderTopColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Sets the color of the top border
     @discardableResult
-    public func borderTopColor <R, G, B>(r: R, g: G, b: B) -> Self
+    public func borderTopColor <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(BorderTopColorProperty(r: r, g: g, b: b))
+        _addProperty(BorderTopColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Sets the color of the top border
     @discardableResult
-    public func borderTopColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func borderTopColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(BorderTopColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(BorderTopColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Sets the color of the top border
     @discardableResult
-    public func borderTopColor <H, S, L>(h: H, s: S, l: L) -> Self
+    public func borderTopColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(BorderTopColorProperty(h: h, s: s, l: l))
+        _addProperty(BorderTopColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -5407,48 +5668,48 @@ public class BorderTopProperty: _Property {
     public var propertyValue: BorderValue
     var _content = _PropertyContent<BorderValue>()
 
-    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) {
-        propertyValue = BorderValue(width: width, style: style, color: color)
+    public init (width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        propertyValue = BorderValue(width: width, style: style, color: color, important: important)
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) {
-        self.init(width: width.wrappedValue, style: style, color: color)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color)) }
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style, color: color, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) {
-        self.init(width: width, style: style.wrappedValue, color: color)
-        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color)) }
+    public convenience init (width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width, style: style.wrappedValue, color: color, important: important)
+        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) {
-        self.init(width: width, style: style, color: color.wrappedValue)
-        color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0)) }
+    public convenience init (width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width, style: style, color: color.wrappedValue, important: important)
+        color.listen { self._changed(to: BorderValue(width: width, style: style, color: $0, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) {
-        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color)) }
-        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color)) }
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color, important: important)) }
+        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) {
-        self.init(width: width.wrappedValue, style: style, color: color.wrappedValue)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0)) }
+    public convenience init (width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style, color: color.wrappedValue, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style, color: $0, important: important)) }
     }
 
-    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) {
-        self.init(width: width, style: style.wrappedValue, color: color.wrappedValue)
-        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0)) }
+    public convenience init (width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width, style: style.wrappedValue, color: color.wrappedValue, important: important)
+        style.listen { self._changed(to: BorderValue(width: width, style: $0, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width, style: style.wrappedValue, color: $0, important: important)) }
     }
 
-    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) {
-        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue)
-        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue)) }
-        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue)) }
-        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style.wrappedValue, color: $0)) }
+    public convenience init (width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) {
+        self.init(width: width.wrappedValue, style: style.wrappedValue, color: color.wrappedValue, important: important)
+        width.listen { self._changed(to: BorderValue(width: $0, style: style.wrappedValue, color: color.wrappedValue, important: important)) }
+        style.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: $0, color: color.wrappedValue, important: important)) }
+        color.listen { self._changed(to: BorderValue(width: width.wrappedValue, style: style.wrappedValue, color: $0, important: important)) }
     }
 }
 
@@ -5465,57 +5726,57 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
-    public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderTopProperty(width: width, style: style, color: color))
+    public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderTopProperty(width: width, style: style, color: color, important: important))
         return self
     }
     
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
-    public func borderTop(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil) -> Self {
-        _addProperty(BorderTopProperty(width: width, style: style, color: color))
+    public func borderTop(width: State<BorderWidthType?>, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderTopProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
-    public func borderTop(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderTopProperty(width: width, style: style, color: color))
+    public func borderTop(width: BorderWidthType? = nil, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderTopProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
-    public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderTopProperty(width: width, style: style, color: color))
+    public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderTopProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
-    public func borderTop(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil) -> Self {
-        _addProperty(BorderTopProperty(width: width, style: style, color: color))
+    public func borderTop(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: Color? = nil, important: Bool? = nil) -> Self {
+        _addProperty(BorderTopProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
-    public func borderTop(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>) -> Self {
-        _addProperty(BorderTopProperty(width: width, style: style, color: color))
+    public func borderTop(width: State<BorderWidthType?>, style: BorderStyleType, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderTopProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
-    public func borderTop(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderTopProperty(width: width, style: style, color: color))
+    public func borderTop(width: BorderWidthType, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderTopProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
-    public func borderTop(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>) -> Self {
-        _addProperty(BorderTopProperty(width: width, style: style, color: color))
+    public func borderTop(width: State<BorderWidthType?>, style: State<BorderStyleType>, color: State<Color?>, important: Bool? = nil) -> Self {
+        _addProperty(BorderTopProperty(width: width, style: style, color: color, important: important))
         return self
     }
 }
@@ -5708,34 +5969,34 @@ public class BorderWidthProperty: _Property {
     public var propertyValue: BorderWidthValue
     var _content = _PropertyContent<BorderWidthValue>()
 
-    public init (_ type: BorderWidthType...) {
-        propertyValue = BorderWidthValue(type)
+    public init (_ type: BorderWidthType..., important: Bool? = nil) {
+        propertyValue = BorderWidthValue(type, important: important)
     }
 
-    public init (_ type: [BorderWidthType]) {
-        propertyValue = BorderWidthValue(type)
+    public init (_ type: [BorderWidthType], important: Bool? = nil) {
+        propertyValue = BorderWidthValue(type, important: important)
     }
 
-    public convenience init (_ types: [State<BorderWidthType>]) {
-        self.init(types.map { $0.wrappedValue })
+    public convenience init (_ types: [State<BorderWidthType>], important: Bool? = nil) {
+        self.init(types.map { $0.wrappedValue }, important: important)
         types.forEach {
-            $0.listen { self._changed(to: BorderWidthValue(types.map { $0.wrappedValue })) }
+            $0.listen { self._changed(to: BorderWidthValue(types.map { $0.wrappedValue }, important: important)) }
         }
     }
     
-    public convenience init (_ types: State<BorderWidthType>...) {
-        self.init(types)
+    public convenience init (_ types: State<BorderWidthType>..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <A>(mixed types: [A]) where A: UniValue, A.UniValue == BorderWidthType {
-        self.init(types.map { $0.uniValue })
+    public convenience init <A>(mixed types: [A], important: Bool? = nil) where A: UniValue, A.UniValue == BorderWidthType {
+        self.init(types.map { $0.uniValue }, important: important)
         types.forEach {
-            $0.uniStateValue?.listen { self._changed(to: BorderWidthValue(types.map { $0.uniValue })) }
+            $0.uniStateValue?.listen { self._changed(to: BorderWidthValue(types.map { $0.uniValue }, important: important)) }
         }
     }
     
-    public convenience init <A>(mixed types: A...) where A: UniValue, A.UniValue == BorderWidthType {
-        self.init(mixed: types)
+    public convenience init <A>(mixed types: A..., important: Bool? = nil) where A: UniValue, A.UniValue == BorderWidthType {
+        self.init(mixed: types, important: important)
     }
 }
 
@@ -5747,12 +6008,12 @@ extension PropertyKey {
 public struct BorderWidthValue: CustomStringConvertible {
     public let value: String
 
-    public init (_ type: BorderWidthType...) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: BorderWidthType..., important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public init (_ type: [BorderWidthType]) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: [BorderWidthType], important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
     public var description: String { value }
@@ -5766,42 +6027,42 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Sets the width of the four borders
     @discardableResult
-    public func borderWidth(_ type: BorderWidthType...) -> Self {
-        borderWidth(type)
+    public func borderWidth(_ type: BorderWidthType..., important: Bool? = nil) -> Self {
+        borderWidth(type, important: important)
     }
 
     /// Sets the width of the four borders
     @discardableResult
-    public func borderWidth(_ type: [BorderWidthType]) -> Self {
-        _addProperty(BorderWidthProperty(type))
+    public func borderWidth(_ type: [BorderWidthType], important: Bool? = nil) -> Self {
+        _addProperty(BorderWidthProperty(type, important: important))
         return self
     }
 
     /// Sets the width of the four borders
     @discardableResult
-    public func borderWidth (_ types: [State<BorderWidthType>]) -> Self {
-        _addProperty(BorderWidthProperty(types))
+    public func borderWidth (_ types: [State<BorderWidthType>], important: Bool? = nil) -> Self {
+        _addProperty(BorderWidthProperty(types, important: important))
         return self
     }
     
     /// Sets the width of the four borders
     @discardableResult
-    public func borderWidth (_ types: State<BorderWidthType>...) -> Self {
-        _addProperty(BorderWidthProperty(types))
+    public func borderWidth (_ types: State<BorderWidthType>..., important: Bool? = nil) -> Self {
+        _addProperty(BorderWidthProperty(types, important: important))
         return self
     }
 
     /// Sets the width of the four borders
     @discardableResult
-    public func borderWidth <A>(mixed types: [A]) -> Self where A: UniValue, A.UniValue == BorderWidthType {
-        _addProperty(BorderWidthProperty(mixed: types))
+    public func borderWidth <A>(mixed types: [A], important: Bool? = nil) -> Self where A: UniValue, A.UniValue == BorderWidthType {
+        _addProperty(BorderWidthProperty(mixed: types, important: important))
         return self
     }
     
     /// Sets the width of the four borders
     @discardableResult
-    public func borderWidth <A>(mixed types: A...) -> Self where A: UniValue, A.UniValue == BorderWidthType {
-        _addProperty(BorderWidthProperty(mixed: types))
+    public func borderWidth <A>(mixed types: A..., important: Bool? = nil) -> Self where A: UniValue, A.UniValue == BorderWidthType {
+        _addProperty(BorderWidthProperty(mixed: types, important: important))
         return self
     }
 }
@@ -5827,15 +6088,15 @@ public class BottomProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init <D>(_ value: D, _ unit: Unit) where D: UniValue, D.UniValue == Double {
-        self.init(UnitValue(value.uniValue, unit))
-        value.uniStateValue?.listen { self._changed(to: UnitValue($0, unit)) }
+    public convenience init <D>(_ value: D, _ unit: Unit, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value.uniValue, unit, important: important))
+        value.uniStateValue?.listen { self._changed(to: UnitValue($0, unit, important: important)) }
     }
     
-    public convenience init <D>(_ value: D, _ unit: State<Unit>) where D: UniValue, D.UniValue == Double {
-        self.init(UnitValue(value.uniValue, unit.wrappedValue))
-        value.uniStateValue?.listen { self._changed(to: UnitValue($0, unit.wrappedValue)) }
-        unit.listen { self._changed(to: UnitValue(value.uniValue, $0)) }
+    public convenience init <D>(_ value: D, _ unit: State<Unit>, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value.uniValue, unit.wrappedValue, important: important))
+        value.uniStateValue?.listen { self._changed(to: UnitValue($0, unit.wrappedValue, important: important)) }
+        unit.listen { self._changed(to: UnitValue(value.uniValue, $0, important: important)) }
     }
 }
 
@@ -5860,14 +6121,14 @@ extension CSSRulable {
     // MARK: Extended
     
     @discardableResult
-    public func bottom <D>(_ value: D, _ unit: Unit) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(BottomProperty(value, unit))
+    public func bottom <D>(_ value: D, _ unit: Unit, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(BottomProperty(value, unit, important: important))
         return self
     }
     
     @discardableResult
-    public func bottom <D>(_ value: D, _ unit: State<Unit>) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(BottomProperty(value, unit))
+    public func bottom <D>(_ value: D, _ unit: State<Unit>, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(BottomProperty(value, unit, important: important))
         return self
     }
 }
@@ -5987,158 +6248,167 @@ public class BoxShadowProperty: _Property {
     var _content = _PropertyContent<BoxShadowValue>()
 
     /// Use it for multiple shadows
-    public init <U>(_ values: [U]) where U: UniValue, U.UniValue == BoxShadowValue {
-        propertyValue = BoxShadowValue(values)
+    public init (_ values: [BoxShadowValue], important: Bool? = nil) {
+        propertyValue = BoxShadowValue(values, important: important)
     }
 
-    public init <U>(_ values: U...) where U: UniValue, U.UniValue == BoxShadowValue {
-        propertyValue = BoxShadowValue(values)
+    public init (_ values: BoxShadowValue..., important: Bool? = nil) {
+        propertyValue = BoxShadowValue(values, important: important)
+    }
+    
+    /// Use it for multiple shadows
+    public init <U>(_ values: [U], important: Bool? = nil) where U: UniValue, U.UniValue == BoxShadowValue {
+        propertyValue = BoxShadowValue(values, important: important)
     }
 
-    public init<H, V, I>(h: H, v: V, inset: I)
+    public init <U>(_ values: U..., important: Bool? = nil) where U: UniValue, U.UniValue == BoxShadowValue {
+        propertyValue = BoxShadowValue(values, important: important)
+    }
+
+    public init<H, V, I>(h: H, v: V, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, inset: inset, important: important)
     }
 
-    public convenience init<H, V>(h: H, v: V)
+    public convenience init<H, V>(h: H, v: V, important: Bool? = nil)
     where H: UniValue, V: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable {
-        self.init(h: h, v: v, inset: false)
+        self.init(h: h, v: v, inset: false, important: important)
     }
 
-    public init<H, V, B, I>(h: H, v: V, blur: B, inset: I)
+    public init<H, V, B, I>(h: H, v: V, blur: B, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, inset: inset, important: important)
     }
 
-    public convenience init<H, V, B>(h: H, v: V, blur: B)
+    public convenience init<H, V, B>(h: H, v: V, blur: B, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable {
-        self.init(h: h, v: v, blur: blur, inset: false)
+        self.init(h: h, v: v, blur: blur, inset: false, important: important)
     }
 
-    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I)
+    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, inset: inset, important: important)
     }
 
-    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S)
+    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        self.init(h: h, v: v, blur: blur, spread: spread, inset: false)
+        self.init(h: h, v: v, blur: blur, spread: spread, inset: false, important: important)
     }
 
-    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I)
+    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset, important: important)
     }
 
-    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color)
+    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false, important: important)
     }
 
-    public init<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I)
+    public init<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset, important: important)
     }
 
-    public convenience init<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C)
+    public convenience init<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color {
-        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false, important: important)
     }
 
-    public init<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I)
+    public init<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, spread: spread, color: color, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, spread: spread, color: color, inset: inset, important: important)
     }
 
-    public convenience init<H, V, S>(h: H, v: V, spread: S, color: Color)
+    public convenience init<H, V, S>(h: H, v: V, spread: S, color: Color, important: Bool? = nil)
     where H: UniValue, V: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        self.init(h: h, v: v, spread: spread, color: color, inset: false)
+        self.init(h: h, v: v, spread: spread, color: color, inset: false, important: important)
     }
 
-    public init<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I)
+    public init<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, spread: spread, color: color, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, spread: spread, color: color, inset: inset, important: important)
     }
 
-    public convenience init<H, V, S, C>(h: H, v: V, spread: S, color: C)
+    public convenience init<H, V, S, C>(h: H, v: V, spread: S, color: C, important: Bool? = nil)
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color {
-        self.init(h: h, v: v, spread: spread, color: color, inset: false)
+        self.init(h: h, v: v, spread: spread, color: color, inset: false, important: important)
     }
 
-    public init<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I)
+    public init<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, color: color, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, color: color, inset: inset, important: important)
     }
 
-    public convenience init<H, V, B>(h: H, v: V, blur: B, color: Color)
+    public convenience init<H, V, B>(h: H, v: V, blur: B, color: Color, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable {
-        self.init(h: h, v: v, blur: blur, color: color, inset: false)
+        self.init(h: h, v: v, blur: blur, color: color, inset: false, important: important)
     }
 
-    public init<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I)
+    public init<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, color: color, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, blur: blur, color: color, inset: inset, important: important)
     }
 
-    public convenience init<H, V, B, C>(h: H, v: V, blur: B, color: C)
+    public convenience init<H, V, B, C>(h: H, v: V, blur: B, color: C, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color {
-        self.init(h: h, v: v, blur: blur, color: color, inset: false)
+        self.init(h: h, v: v, blur: blur, color: color, inset: false, important: important)
     }
 
-    public init<H, V, I>(h: H, v: V, color: Color, inset: I)
+    public init<H, V, I>(h: H, v: V, color: Color, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, color: color, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, color: color, inset: inset, important: important)
     }
 
-    public convenience init<H, V>(h: H, v: V, color: Color)
+    public convenience init<H, V>(h: H, v: V, color: Color, important: Bool? = nil)
     where H: UniValue, V: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable {
-        self.init(h: h, v: v, color: color, inset: false)
+        self.init(h: h, v: v, color: color, inset: false, important: important)
     }
 
-    public init<H, V, C, I>(h: H, v: V, color: C, inset: I)
+    public init<H, V, C, I>(h: H, v: V, color: C, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
-        propertyValue = BoxShadowValue(h: h, v: v, color: color, inset: inset)
+        propertyValue = BoxShadowValue(h: h, v: v, color: color, inset: inset, important: important)
     }
 
-    public convenience init<H, V, C>(h: H, v: V, color: C)
+    public convenience init<H, V, C>(h: H, v: V, color: C, important: Bool? = nil)
     where H: UniValue, V: UniValue, C: StateConvertible,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color {
-        self.init(h: h, v: v, color: color, inset: false)
+        self.init(h: h, v: v, color: color, inset: false, important: important)
     }
 }
 
@@ -6147,12 +6417,18 @@ extension PropertyKey {
     public static var boxShadow: PropertyKey<BoxShadowValue> { "box-shadow".propertyKey() }
 }
 
-public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+public final class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangeable, PropertyValueImportantable, _StringPropertyValue {
     public var value: String
 
     var _changeHandler = {}
+    
+    init (_ value: String) {
+        self.value = value
+    }
+    
+    public static var none: Self { .init("none") }
 
-    private static func makeValue(h: String, v: String, blur: String? = nil, spread: String? = nil, color: Color? = nil, inset: Bool) -> String {
+    private static func makeValue(h: String, v: String, blur: String? = nil, spread: String? = nil, color: Color? = nil, inset: Bool, important: Bool? = nil) -> String {
         var elements: [String] = [h, v]
         if let blur = blur {
             elements.append(blur)
@@ -6166,381 +6442,398 @@ public class BoxShadowValue: CustomStringConvertible, _PropertyValueInnerChangea
         if inset {
             elements.append("inset")
         }
+        if important == true {
+            elements.append("!important")
+        }
         return elements.joined(separator: " ")
     }
 
-    private static func makeMultiple(_ values: [BoxShadowValue]) -> String {
-        values.map { $0.value }.joined(separator: ", ")
+    private static func makeMultiple(_ values: [BoxShadowValue], important: Bool? = nil) -> String {
+        var vals = values.map { $0.value }
+        if important == true {
+            vals.append("!important")
+        }
+        return vals.joined(separator: ", ")
+    }
+    
+    /// Use it for multiple shadows
+    public init (_ values: [BoxShadowValue], important: Bool? = nil) {
+        self.value = Self.makeMultiple(values, important: important)
     }
 
     /// Use it for multiple shadows
-    public init <U>(_ values: [U]) where U: UniValue, U.UniValue == BoxShadowValue {
+    public init (_ values: BoxShadowValue..., important: Bool? = nil) {
+        self.value = Self.makeMultiple(values, important: important)
+    }
+
+    /// Use it for multiple shadows
+    public init <U>(_ values: [U], important: Bool? = nil) where U: UniValue, U.UniValue == BoxShadowValue {
         let unwrappedValues = values.map { $0.uniValue }
-        self.value = Self.makeMultiple(unwrappedValues)
+        self.value = Self.makeMultiple(unwrappedValues, important: important)
         values.compactMap { $0.uniStateValue }.forEach {
             $0.listen {
-                self.value = Self.makeMultiple(unwrappedValues)
+                self.value = Self.makeMultiple(unwrappedValues, important: important)
                 self._changeHandler()
             }
         }
     }
 
     /// Use it for multiple shadows
-    public init <U>(_ values: U...) where U: UniValue, U.UniValue == BoxShadowValue {
+    public init <U>(_ values: U..., important: Bool? = nil) where U: UniValue, U.UniValue == BoxShadowValue {
         let unwrappedValues = values.map { $0.uniValue }
-        self.value = Self.makeMultiple(unwrappedValues)
+        self.value = Self.makeMultiple(unwrappedValues, important: important)
         values.forEach {
             $0.uniStateValue?.listen {
-                self.value = Self.makeMultiple(unwrappedValues)
+                self.value = Self.makeMultiple(unwrappedValues, important: important)
                 self._changeHandler()
             }
             $0.uniValue._changeHandler = {
-                self.value = Self.makeMultiple(unwrappedValues)
+                self.value = Self.makeMultiple(unwrappedValues, important: important)
                 self._changeHandler()
             }
         }
     }
 
-    public init<H, V, I>(h: H, v: V, inset: I)
+    public init<H, V, I>(h: H, v: V, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V>(h: H, v: V)
+    public convenience init<H, V>(h: H, v: V, important: Bool? = nil)
     where H: UniValue, V: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable {
-        self.init(h: h, v: v, inset: false)
+        self.init(h: h, v: v, inset: false, important: important)
     }
 
-    public init<H, V, B, I>(h: H, v: V, blur: B, inset: I)
+    public init<H, V, B, I>(h: H, v: V, blur: B, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable, I.UniValue == Bool {
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         blur.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, B>(h: H, v: V, blur: B)
+    public convenience init<H, V, B>(h: H, v: V, blur: B, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable {
-        self.init(h: h, v: v, blur: blur, inset: false)
+        self.init(h: h, v: v, blur: blur, inset: false, important: important)
     }
 
-    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I)
+    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         blur.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         spread.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S)
+    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        self.init(h: h, v: v, blur: blur, spread: spread, inset: false)
+        self.init(h: h, v: v, blur: blur, spread: spread, inset: false, important: important)
     }
 
-    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I)
+    public init<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         blur.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         spread.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: color, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color)
+    public convenience init<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false, important: important)
     }
 
-    public init<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I)
+    public init<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         let colorState = color.stateValue
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         blur.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         spread.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: $0.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         colorState.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: $0, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: $0, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C)
+    public convenience init<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color {
-        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+        self.init(h: h, v: v, blur: blur, spread: spread, color: color, inset: false, important: important)
     }
 
-    public init<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I)
+    public init<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, spread: spread.uniValue.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         spread.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: $0.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: $0.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: color, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, S>(h: H, v: V, spread: S, color: Color)
+    public convenience init<H, V, S>(h: H, v: V, spread: S, color: Color, important: Bool? = nil)
     where H: UniValue, V: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        self.init(h: h, v: v, spread: spread, color: color, inset: false)
+        self.init(h: h, v: v, spread: spread, color: color, inset: false, important: important)
     }
 
-    public init<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I)
+    public init<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         let colorState = color.stateValue
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         spread.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: $0.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: $0.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         colorState.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: $0, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: $0, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, spread: spread.uniValue.description, color: colorState.wrappedValue, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, S, C>(h: H, v: V, spread: S, color: C)
+    public convenience init<H, V, S, C>(h: H, v: V, spread: S, color: C, important: Bool? = nil)
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color {
-        self.init(h: h, v: v, spread: spread, color: color, inset: false)
+        self.init(h: h, v: v, spread: spread, color: color, inset: false, important: important)
     }
 
-    public init<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I)
+    public init<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, I.UniValue == Bool {
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         blur.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: color, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, B>(h: H, v: V, blur: B, color: Color)
+    public convenience init<H, V, B>(h: H, v: V, blur: B, color: Color, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable {
-        self.init(h: h, v: v, blur: blur, color: color, inset: false)
+        self.init(h: h, v: v, blur: blur, color: color, inset: false, important: important)
     }
 
-    public init<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I)
+    public init<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         let colorState = color.stateValue
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         blur.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: $0.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         colorState.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: $0, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: $0, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, blur: blur.uniValue.description, color: colorState.wrappedValue, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, B, C>(h: H, v: V, blur: B, color: C)
+    public convenience init<H, V, B, C>(h: H, v: V, blur: B, color: C, important: Bool? = nil)
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color {
-        self.init(h: h, v: v, blur: blur, color: color, inset: false)
+        self.init(h: h, v: v, blur: blur, color: color, inset: false, important: important)
     }
 
-    public init<H, V, I>(h: H, v: V, color: Color, inset: I)
+    public init<H, V, I>(h: H, v: V, color: Color, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: color, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: color, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, color: color, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, color: color, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: color, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: color, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V>(h: H, v: V, color: Color)
+    public convenience init<H, V>(h: H, v: V, color: Color, important: Bool? = nil)
     where H: UniValue, V: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable {
-        self.init(h: h, v: v, color: color, inset: false)
+        self.init(h: h, v: v, color: color, inset: false, important: important)
     }
 
-    public init<H, V, C, I>(h: H, v: V, color: C, inset: I)
+    public init<H, V, C, I>(h: H, v: V, color: C, inset: I, important: Bool? = nil)
     where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
         let colorState = color.stateValue
-        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+        value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
         h.uniStateValue?.listen {
-            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: $0.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         v.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, color: colorState.wrappedValue, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: $0.description, color: colorState.wrappedValue, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         colorState.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: $0, inset: inset.uniValue)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: $0, inset: inset.uniValue, important: important)
             self._changeHandler()
         }
         inset.uniStateValue?.listen {
-            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: $0)
+            self.value = Self.makeValue(h: h.uniValue.description, v: v.uniValue.description, color: colorState.wrappedValue, inset: $0, important: important)
             self._changeHandler()
         }
     }
 
-    public convenience init<H, V, C>(h: H, v: V, color: C)
+    public convenience init<H, V, C>(h: H, v: V, color: C, important: Bool? = nil)
     where H: UniValue, V: UniValue, C: StateConvertible,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color {
-        self.init(h: h, v: v, color: color, inset: false)
+        self.init(h: h, v: v, color: color, inset: false, important: important)
     }
 
     public var description: String { value }
@@ -6554,197 +6847,211 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Use it for multiple shadows
     @discardableResult
-    public func boxShadow<U>(_ values: [U]) -> Self where U: UniValue, U.UniValue == BoxShadowValue {
-        _addProperty(BoxShadowProperty(values))
+    public func boxShadow(_ values: [BoxShadowValue], important: Bool? = nil) -> Self {
+        _addProperty(BoxShadowProperty(values, important: important))
         return self
     }
 
     /// Use it for multiple shadows
     @discardableResult
-    public func boxShadow<U>(_ values: U...) -> Self where U: UniValue, U.UniValue == BoxShadowValue {
-        _addProperty(BoxShadowProperty(values))
+    public func boxShadow(_ values: BoxShadowValue..., important: Bool? = nil) -> Self {
+        _addProperty(BoxShadowProperty(values, important: important))
+        return self
+    }
+    
+    /// Use it for multiple shadows
+    @discardableResult
+    public func boxShadow<U>(_ values: [U], important: Bool? = nil) -> Self where U: UniValue, U.UniValue == BoxShadowValue {
+        _addProperty(BoxShadowProperty(values, important: important))
+        return self
+    }
+
+    /// Use it for multiple shadows
+    @discardableResult
+    public func boxShadow<U>(_ values: U..., important: Bool? = nil) -> Self where U: UniValue, U.UniValue == BoxShadowValue {
+        _addProperty(BoxShadowProperty(values, important: important))
         return self
     }
 
     /// Attaches one shadow to an element
     @discardableResult
-    public func boxShadow<H, V, I>(h: H, v: V, inset: I) -> Self
+    public func boxShadow<H, V, I>(h: H, v: V, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V>(h: H, v: V) -> Self
+    public func boxShadow<H, V>(h: H, v: V, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable {
-        _addProperty(BoxShadowProperty(h: h, v: v, inset: false))
+        _addProperty(BoxShadowProperty(h: h, v: v, inset: false, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, inset: I) -> Self
+    public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, B>(h: H, v: V, blur: B) -> Self
+    public func boxShadow<H, V, B>(h: H, v: V, blur: B, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable {
-        boxShadow(h: h, v: v, blur: blur, inset: false)
+        boxShadow(h: h, v: v, blur: blur, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I) -> Self
+    public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, S>(h: H, v: V, blur: B, spread: S) -> Self
+    public func boxShadow<H, V, B, S>(h: H, v: V, blur: B, spread: S, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, inset: false)
+        boxShadow(h: h, v: v, blur: blur, spread: spread, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I) -> Self
+    public func boxShadow<H, V, B, S, I>(h: H, v: V, blur: B, spread: S, color: Color, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color) -> Self
+    public func boxShadow<H, V, B, S>(h: H, v: V, blur: B, spread: S, color: Color, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I) -> Self
+    public func boxShadow<H, V, B, S, C, I>(h: H, v: V, blur: B, spread: S, color: C, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, spread: spread, color: color, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C) -> Self
+    public func boxShadow<H, V, B, S, C>(h: H, v: V, blur: B, spread: S, color: C, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, S: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, B.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color {
-        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color, inset: false)
+        boxShadow(h: h, v: v, blur: blur, spread: spread, color: color, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I) -> Self
+    public func boxShadow<H, V, S, I>(h: H, v: V, spread: S, color: Color, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, S: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, S>(h: H, v: V, spread: S, color: Color) -> Self
+    public func boxShadow<H, V, S>(h: H, v: V, spread: S, color: Color, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, S: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable {
-        boxShadow(h: h, v: v, spread: spread, color: color, inset: false)
+        boxShadow(h: h, v: v, spread: spread, color: color, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I) -> Self
+    public func boxShadow<H, V, S, C, I>(h: H, v: V, spread: S, color: C, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, spread: spread, color: color, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, S, C>(h: H, v: V, spread: S, color: C) -> Self
+    public func boxShadow<H, V, S, C>(h: H, v: V, spread: S, color: C, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, S: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               S.UniValue: UnitValuable, C.Value == Color {
-        boxShadow(h: h, v: v, spread: spread, color: color, inset: false)
+        boxShadow(h: h, v: v, spread: spread, color: color, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I) -> Self
+    public func boxShadow<H, V, B, I>(h: H, v: V, blur: B, color: Color, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, B>(h: H, v: V, blur: B, color: Color) -> Self
+    public func boxShadow<H, V, B>(h: H, v: V, blur: B, color: Color, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable {
-        boxShadow(h: h, v: v, blur: blur, color: color, inset: false)
+        boxShadow(h: h, v: v, blur: blur, color: color, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I) -> Self
+    public func boxShadow<H, V, B, C, I>(h: H, v: V, blur: B, color: C, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, blur: blur, color: color, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, B, C>(h: H, v: V, blur: B, color: C) -> Self
+    public func boxShadow<H, V, B, C>(h: H, v: V, blur: B, color: C, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, B: UniValue, C: StateConvertible,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable,
               B.UniValue: UnitValuable, C.Value == Color {
-        boxShadow(h: h, v: v, blur: blur, color: color, inset: false)
+        boxShadow(h: h, v: v, blur: blur, color: color, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, I>(h: H, v: V, color: Color, inset: I) -> Self
+    public func boxShadow<H, V, I>(h: H, v: V, color: Color, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, I: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V>(h: H, v: V, color: Color) -> Self
+    public func boxShadow<H, V>(h: H, v: V, color: Color, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue,
               H.UniValue: UnitValuable, V.UniValue: UnitValuable {
-        boxShadow(h: h, v: v, color: color, inset: false)
+        boxShadow(h: h, v: v, color: color, inset: false, important: important)
     }
     
     @discardableResult
-    public func boxShadow<H, V, C, I>(h: H, v: V, color: C, inset: I) -> Self
+    public func boxShadow<H, V, C, I>(h: H, v: V, color: C, inset: I, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, C: StateConvertible, I: UniValue,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color, I.UniValue == Bool {
-        _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset))
+        _addProperty(BoxShadowProperty(h: h, v: v, color: color, inset: inset, important: important))
         return self
     }
     
     @discardableResult
-    public func boxShadow<H, V, C>(h: H, v: V, color: C) -> Self
+    public func boxShadow<H, V, C>(h: H, v: V, color: C, important: Bool? = nil) -> Self
     where H: UniValue, V: UniValue, C: StateConvertible,
           H.UniValue: UnitValuable, V.UniValue: UnitValuable, C.Value == Color {
-        boxShadow(h: h, v: v, color: color, inset: false)
+        boxShadow(h: h, v: v, color: color, inset: false, important: important)
     }
 }
 
@@ -7024,68 +7331,108 @@ public class CaretColorProperty: _Property {
         }
     }
 
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -7116,37 +7463,37 @@ extension CSSRulable {
     
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
     @discardableResult
-    public func caretColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func caretColor <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(CaretColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(CaretColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
     @discardableResult
-    public func caretColor <R, G, B>(r: R, g: G, b: B) -> Self
+    public func caretColor <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(CaretColorProperty(r: r, g: g, b: b))
+        _addProperty(CaretColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
     @discardableResult
-    public func caretColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func caretColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(CaretColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(CaretColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
     @discardableResult
-    public func caretColor <H, S, L>(h: H, s: S, l: L) -> Self
+    public func caretColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(CaretColorProperty(h: h, s: s, l: l))
+        _addProperty(CaretColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -7215,228 +7562,228 @@ public class ClipProperty: _Property {
     public var propertyValue: ClipValue
     var _content = _PropertyContent<ClipValue>()
 
-    public init <U: UnitValuable>(all: U) {
-        propertyValue = ClipValue(all: all)
+    public init <U: UnitValuable>(all: U, important: Bool? = nil) {
+        propertyValue = ClipValue(all: all, important: important)
     }
 
-    public convenience init <A>(all type: A) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <A>(all type: A, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let state = type.stateValue
-        self.init(all: state.wrappedValue)
-        state.listen { self._changed(to: ClipValue(all: $0)) }
+        self.init(all: state.wrappedValue, important: important)
+        state.listen { self._changed(to: ClipValue(all: $0, important: important)) }
     }
 
     // MARK: V/H
 
-    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) {
-        propertyValue = ClipValue(v: v, h: h)
+    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) {
+        propertyValue = ClipValue(v: v, h: h, important: important)
     }
 
-    public convenience init <U1: UnitValuable, A>(v: A, h: U1) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, A>(v: A, h: U1, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let v = v.stateValue
-        self.init(v: v.wrappedValue, h: h)
-        v.listen { self._changed(to: ClipValue(v: $0, h: h)) }
+        self.init(v: v.wrappedValue, h: h, important: important)
+        v.listen { self._changed(to: ClipValue(v: $0, h: h, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, B>(v: U1, h: B) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, B>(v: U1, h: B, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let h = h.stateValue
-        self.init(v: v, h: h.wrappedValue)
-        h.listen { self._changed(to: ClipValue(v: v, h: $0)) }
+        self.init(v: v, h: h.wrappedValue, important: important)
+        h.listen { self._changed(to: ClipValue(v: v, h: $0, important: important)) }
     }
 
-    public convenience init <A, B>(v: A, h: B) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <A, B>(v: A, h: B, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let v = v.stateValue
         let h = h.stateValue
-        self.init(v: v.wrappedValue, h: h.wrappedValue)
-        v.listen { self._changed(to: ClipValue(v: $0, h: h.wrappedValue)) }
-        h.listen { self._changed(to: ClipValue(v: v.wrappedValue, h: $0)) }
+        self.init(v: v.wrappedValue, h: h.wrappedValue, important: important)
+        v.listen { self._changed(to: ClipValue(v: $0, h: h.wrappedValue, important: important)) }
+        h.listen { self._changed(to: ClipValue(v: v.wrappedValue, h: $0, important: important)) }
     }
 
     // MARK: Top/H/Bottom
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) {
-        propertyValue = ClipValue(top: top, h: h, bottom: bottom)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) {
+        propertyValue = ClipValue(top: top, h: h, bottom: bottom, important: important)
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let top = top.stateValue
-        self.init(top: top.wrappedValue, h: h, bottom: bottom)
-        top.listen { self._changed(to: ClipValue(top: $0, h: h, bottom: bottom)) }
+        self.init(top: top.wrappedValue, h: h, bottom: bottom, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, h: h, bottom: bottom, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let h = h.stateValue
-        self.init(top: top, h: h.wrappedValue, bottom: bottom)
-        h.listen { self._changed(to: ClipValue(top: top, h: $0, bottom: bottom)) }
+        self.init(top: top, h: h.wrappedValue, bottom: bottom, important: important)
+        h.listen { self._changed(to: ClipValue(top: top, h: $0, bottom: bottom, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) where C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
         let bottom = bottom.stateValue
-        self.init(top: top, h: h, bottom: bottom.wrappedValue)
-        bottom.listen { self._changed(to: ClipValue(top: top, h: h, bottom: $0)) }
+        self.init(top: top, h: h, bottom: bottom.wrappedValue, important: important)
+        bottom.listen { self._changed(to: ClipValue(top: top, h: h, bottom: $0, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        let top = top.stateValue
-        let h = h.stateValue
-        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom)
-        top.listen { self._changed(to: ClipValue(top: $0, h: h.wrappedValue, bottom: bottom)) }
-        h.listen { self._changed(to: ClipValue(top: top.wrappedValue, h: $0, bottom: bottom)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let top = top.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue)
-        top.listen { self._changed(to: ClipValue(top: $0, h: h, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, h: h, bottom: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let h = h.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top, h: h.wrappedValue, bottom: bottom.wrappedValue)
-        h.listen { self._changed(to: ClipValue(top: top, h: $0, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: ClipValue(top: top, h: h.wrappedValue, bottom: $0)) }
-    }
-
-    public convenience init <A, B, C>(top: A, h: B, bottom: C) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, A, B>(top: A, h: B, bottom: U1, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let top = top.stateValue
         let h = h.stateValue
+        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, h: h.wrappedValue, bottom: bottom, important: important)) }
+        h.listen { self._changed(to: ClipValue(top: top.wrappedValue, h: $0, bottom: bottom, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, C>(top: A, h: U1, bottom: C, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let top = top.stateValue
         let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom.wrappedValue)
-        top.listen { self._changed(to: ClipValue(top: $0, h: h.wrappedValue, bottom: bottom.wrappedValue)) }
-        h.listen { self._changed(to: ClipValue(top: top.wrappedValue, h: $0, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, h: h.wrappedValue, bottom: $0)) }
+        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, h: h, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, h: h, bottom: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, B, C>(top: U1, h: B, bottom: C, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let h = h.stateValue
+        let bottom = bottom.stateValue
+        self.init(top: top, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)
+        h.listen { self._changed(to: ClipValue(top: top, h: $0, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top, h: h.wrappedValue, bottom: $0, important: important)) }
+    }
+
+    public convenience init <A, B, C>(top: A, h: B, bottom: C, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let top = top.stateValue
+        let h = h.stateValue
+        let bottom = bottom.stateValue
+        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)) }
+        h.listen { self._changed(to: ClipValue(top: top.wrappedValue, h: $0, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, h: h.wrappedValue, bottom: $0, important: important)) }
     }
 
     // MARK: Top/Right/Bottom/Left
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) {
-        propertyValue = ClipValue(top: top, right: right, bottom: bottom, left: left)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) {
+        propertyValue = ClipValue(top: top, right: right, bottom: bottom, left: left, important: important)
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let top = top.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left)
-        top.listen { self._changed(to: ClipValue(top: $0, right: right, bottom: bottom, left: left)) }
+        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, right: right, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let right = right.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left)
-        right.listen { self._changed(to: ClipValue(top: top, right: $0, bottom: bottom, left: left)) }
+        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left, important: important)
+        right.listen { self._changed(to: ClipValue(top: top, right: $0, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) where C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
         let bottom = bottom.stateValue
-        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left)
-        bottom.listen { self._changed(to: ClipValue(top: top, right: right, bottom: $0, left: left)) }
+        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left, important: important)
+        bottom.listen { self._changed(to: ClipValue(top: top, right: right, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) where D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D, important: Bool? = nil) where D: StateConvertible, D.Value: UnitValuable {
         let left = left.stateValue
-        self.init(top: top, right: right, bottom: bottom, left: left.wrappedValue)
-        left.listen { self._changed(to: ClipValue(top: top, right: right, bottom: bottom, left: $0)) }
+        self.init(top: top, right: right, bottom: bottom, left: left.wrappedValue, important: important)
+        left.listen { self._changed(to: ClipValue(top: top, right: right, bottom: bottom, left: $0, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        let top = top.stateValue
-        let right = right.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left)
-        top.listen { self._changed(to: ClipValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left)) }
-        right.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let top = top.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left)
-        top.listen { self._changed(to: ClipValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right, bottom: $0, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let top = top.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left.wrappedValue)
-        top.listen { self._changed(to: ClipValue(top: $0, right: right, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let right = right.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)
-        right.listen { self._changed(to: ClipValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: ClipValue(top: top, right: right.wrappedValue, bottom: $0, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let right = right.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)
-        right.listen { self._changed(to: ClipValue(top: top, right: $0, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: ClipValue(top: top, right: right.wrappedValue, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        bottom.listen { self._changed(to: ClipValue(top: top, right: right, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: ClipValue(top: top, right: right, bottom: bottom.wrappedValue, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let top = top.stateValue
         let right = right.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)
-        top.listen { self._changed(to: ClipValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)) }
-        right.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left)) }
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left, important: important)) }
+        right.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let top = top.stateValue
-        let right = right.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)
-        top.listen { self._changed(to: ClipValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)) }
-        right.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let top = top.stateValue
         let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        top.listen { self._changed(to: ClipValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, right: right, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let right = right.stateValue
         let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        right.listen { self._changed(to: ClipValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: ClipValue(top: top, right: right.wrappedValue, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: ClipValue(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)
+        right.listen { self._changed(to: ClipValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top, right: right.wrappedValue, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <A, B, C, D>(top: A, right: B, bottom: C, left: D) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let right = right.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)
+        right.listen { self._changed(to: ClipValue(top: top, right: $0, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: ClipValue(top: top, right: right.wrappedValue, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        bottom.listen { self._changed(to: ClipValue(top: top, right: right, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: ClipValue(top: top, right: right, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let top = top.stateValue
         let right = right.stateValue
         let bottom = bottom.stateValue
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)) }
+        right.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let right = right.stateValue
         let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        top.listen { self._changed(to: ClipValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        right.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)) }
+        right.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let right = right.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        right.listen { self._changed(to: ClipValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top, right: right.wrappedValue, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: ClipValue(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <A, B, C, D>(top: A, right: B, bottom: C, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let right = right.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: ClipValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        right.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: ClipValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0, important: important)) }
     }
 }
 
@@ -7450,33 +7797,41 @@ public class ClipValue: CustomStringConvertible, _PropertyValueInnerChangeable {
 
     var _changeHandler = {}
 
-    private static func values(top: CustomStringConvertible, right: CustomStringConvertible, bottom: CustomStringConvertible, left: CustomStringConvertible) -> String {
-        "rect(" + [top.description, right.description, bottom.description, left.description].joined(separator: ", ") + ")"
+    private static func values(top: CustomStringConvertible, right: CustomStringConvertible, bottom: CustomStringConvertible, left: CustomStringConvertible, important: Bool? = nil) -> String {
+        var importantFlag = ""
+        if important == true {
+            importantFlag = "!important"
+        }
+        return "rect(" + [top.description, right.description, bottom.description, left.description].joined(separator: ", ") + ")" + importantFlag
     }
 
-    public init <U: UnitValuable>(all: U) {
-        value = all.description
+    public init <U: UnitValuable>(all: U, important: Bool? = nil) {
+        if important == true {
+            value = all.description + "!important"
+        } else {
+            value = all.description
+        }
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) {
-        value = Self.values(top: v, right: h, bottom: v, left: h)
+    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) {
+        value = Self.values(top: v, right: h, bottom: v, left: h, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) {
-        value = Self.values(top: top, right: h, bottom: bottom, left: h)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) {
+        value = Self.values(top: top, right: h, bottom: bottom, left: h, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) {
-        value = Self.values(top: top, right: right, bottom: bottom, left: left)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) {
+        value = Self.values(top: top, right: right, bottom: bottom, left: left, important: important)
         $value.listen {
             self._changeHandler()
         }
@@ -7493,15 +7848,15 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U: UnitValuable>(all: U) -> Self {
-        _addProperty(ClipProperty(all: all))
+    public func clip<U: UnitValuable>(all: U, important: Bool? = nil) -> Self {
+        _addProperty(ClipProperty(all: all, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<A>(all type: A) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(ClipProperty(all: type))
+    public func clip<A>(all type: A, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(ClipProperty(all: type, important: important))
         return self
     }
 
@@ -7509,29 +7864,29 @@ extension CSSRulable {
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) -> Self {
-        _addProperty(ClipProperty(v: v, h: h))
+    public func clip<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) -> Self {
+        _addProperty(ClipProperty(v: v, h: h, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, A>(v: A, h: U1) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(ClipProperty(v: v, h: h))
+    public func clip<U1: UnitValuable, A>(v: A, h: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(ClipProperty(v: v, h: h, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, B>(v: U1, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(ClipProperty(v: v, h: h))
+    public func clip<U1: UnitValuable, B>(v: U1, h: B, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(ClipProperty(v: v, h: h, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<A, B>(v: A, h: B) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(ClipProperty(v: v, h: h))
+    public func clip<A, B>(v: A, h: B, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(ClipProperty(v: v, h: h, important: important))
         return self
     }
 
@@ -7539,57 +7894,57 @@ extension CSSRulable {
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) -> Self {
-        _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
+    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) -> Self {
+        _addProperty(ClipProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
+    public func clip<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
+    public func clip<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
+    public func clip<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
+    public func clip<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
+    public func clip<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
+    public func clip<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<A, B, C>(top: A, h: B, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, h: h, bottom: bottom))
+    public func clip<A, B, C>(top: A, h: B, bottom: C, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
@@ -7597,113 +7952,113 @@ extension CSSRulable {
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) -> Self {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) -> Self {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) -> Self where C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) -> Self where D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D, important: Bool? = nil) -> Self where D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Clips an absolutely positioned element
     @discardableResult
-    public func clip<A, B, C, D>(top: A, right: B, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left))
+    public func clip<A, B, C, D>(top: A, right: B, bottom: C, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(ClipProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 }
@@ -7736,68 +8091,108 @@ public class ColorProperty: _Property {
         }
     }
 
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -7828,37 +8223,37 @@ extension CSSRulable {
     
     /// Sets the color of text
     @discardableResult
-    public func color <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func color <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(ColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(ColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Sets the color of text
     @discardableResult
-    public func color <R, G, B>(r: R, g: G, b: B) -> Self
+    public func color <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(ColorProperty(r: r, g: g, b: b))
+        _addProperty(ColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Sets the color of text
     @discardableResult
-    public func color <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func color <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(ColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(ColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Sets the color of text
     @discardableResult
-    public func color <H, S, L>(h: H, s: S, l: L) -> Self
+    public func color <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(ColorProperty(h: h, s: s, l: l))
+        _addProperty(ColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -7976,15 +8371,15 @@ public class ColumnGapProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init <D>(_ value: D, _ unit: Unit) where D: UniValue, D.UniValue == Double {
-        self.init(UnitValue(value.uniValue, unit))
-        value.uniStateValue?.listen { self._changed(to: UnitValue($0.doubleValue, unit)) }
+    public convenience init <D>(_ value: D, _ unit: Unit, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value.uniValue, unit, important: important))
+        value.uniStateValue?.listen { self._changed(to: UnitValue($0.doubleValue, unit, important: important)) }
     }
     
-    public convenience init <D>(_ value: D, _ unit: State<Unit>) where D: UniValue, D.UniValue == Double {
-        self.init(UnitValue(value.uniValue, unit.wrappedValue))
-        value.uniStateValue?.listen { self._changed(to: UnitValue($0.doubleValue, unit.wrappedValue)) }
-        unit.listen { self._changed(to: UnitValue(value.uniValue, $0)) }
+    public convenience init <D>(_ value: D, _ unit: State<Unit>, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value.uniValue, unit.wrappedValue, important: important))
+        value.uniStateValue?.listen { self._changed(to: UnitValue($0.doubleValue, unit.wrappedValue, important: important)) }
+        unit.listen { self._changed(to: UnitValue(value.uniValue, $0, important: important)) }
     }
 }
 
@@ -8010,15 +8405,15 @@ extension CSSRulable {
 
     /// Specifies the gap between the columns
     @discardableResult
-    public func columnGap <D>(_ value: D, _ unit: Unit) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(ColumnGapProperty(value, unit))
+    public func columnGap <D>(_ value: D, _ unit: Unit, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(ColumnGapProperty(value, unit, important: important))
         return self
     }
     
     /// Specifies the gap between the columns
     @discardableResult
-    public func columnGap <D>(_ value: D, _ unit: State<Unit>) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(ColumnGapProperty(value, unit))
+    public func columnGap <D>(_ value: D, _ unit: State<Unit>, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(ColumnGapProperty(value, unit, important: important))
         return self
     }
 }
@@ -8049,68 +8444,108 @@ public class ColumnRuleColorProperty: _Property {
         }
     }
 
-    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A)
+    public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(.rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
         r.uniStateValue?.listen {
-            let color: Color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         g.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         b.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+            } else {
+                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <R, G, B>(r: R, g: G, b: B)
+    public convenience init <R, G, B>(r: R, g: G, b: B, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        self.init(r: r, g:g, b: b, a: 1)
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A)
+    public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
         h.uniStateValue?.listen {
-            let color: Color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         s.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         l.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
         a.uniStateValue?.listen {
-            let color: Color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            let color: Color
+            if important == true {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+            } else {
+                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+            }
             self.propertyValue = color
             self._content._changeHandler(color)
         }
     }
 
-    public convenience init <H, S, L>(h: H, s: S, l: L)
+    public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        self.init(h: h, s: s, l: l, a: 1)
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -8141,37 +8576,37 @@ extension CSSRulable {
     
     /// Specifies the color of the rule between columns
     @discardableResult
-    public func columnRuleColor <R, G, B, A>(r: R, g: G, b: B, a: A) -> Self
+    public func columnRuleColor <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        _addProperty(ColumnRuleColorProperty(r: r, g: g, b: b, a: a))
+        _addProperty(ColumnRuleColorProperty(r: r, g: g, b: b, a: a, important: important))
         return self
     }
 
     /// Specifies the color of the rule between columns
     @discardableResult
-    public func columnRuleColor <R, G, B>(r: R, g: G, b: B) -> Self
+    public func columnRuleColor <R, G, B>(r: R, g: G, b: B, important: Bool? = nil) -> Self
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int {
-        _addProperty(ColumnRuleColorProperty(r: r, g: g, b: b))
+        _addProperty(ColumnRuleColorProperty(r: r, g: g, b: b, important: important))
         return self
     }
 
     /// Specifies the color of the rule between columns
     @discardableResult
-    public func columnRuleColor <H, S, L, A>(h: H, s: S, l: L, a: A) -> Self
+    public func columnRuleColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        _addProperty(ColumnRuleColorProperty(h: h, s: s, l: l, a: a))
+        _addProperty(ColumnRuleColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
 
     /// Specifies the color of the rule between columns
     @discardableResult
-    public func columnRuleColor <H, S, L>(h: H, s: S, l: L) -> Self
+    public func columnRuleColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
-        _addProperty(ColumnRuleColorProperty(h: h, s: s, l: l))
+        _addProperty(ColumnRuleColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
 }
@@ -8190,8 +8625,8 @@ public class ColumnRuleProperty: _Property {
     public var propertyValue: ColumnRuleValue
     var _content = _PropertyContent<ColumnRuleValue>()
 
-    public init (width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Color) {
-        propertyValue = ColumnRuleValue(width: width, style: style, color: color)
+    public init (width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Color, important: Bool? = nil) {
+        propertyValue = ColumnRuleValue(width: width, style: style, color: color, important: important)
     }
 }
 
@@ -8203,8 +8638,8 @@ extension PropertyKey {
 public struct ColumnRuleValue: CustomStringConvertible {
     public let value: String
 
-    public init (width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Color) {
-        value = [width.value, style.value, color.description].joined(separator: " ")
+    public init (width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Color, important: Bool? = nil) {
+        value = [width.value, style.value, color.description, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
     }
 
     public var description: String { value }
@@ -8218,15 +8653,15 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for all the column-rule-* properties
     @discardableResult
-    public func columnRule(width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Color) -> Self {
-        _addProperty(ColumnRuleProperty(width: width, style: style, color: color))
+    public func columnRule(width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Color, important: Bool? = nil) -> Self {
+        _addProperty(ColumnRuleProperty(width: width, style: style, color: color, important: important))
         return self
     }
 
     /// A shorthand property for all the column-rule-* properties
     @discardableResult
-    public func columnRule<W: UnitValuable>(width: W, style: ColumnRuleStyleType, color: Color) -> Self {
-        columnRule(width: .length(width), style: style, color: color)
+    public func columnRule<W: UnitValuable>(width: W, style: ColumnRuleStyleType, color: Color, important: Bool? = nil) -> Self {
+        columnRule(width: .length(width), style: style, color: color, important: important)
     }
 }
 
@@ -8394,10 +8829,10 @@ public class ColumnsProperty: _Property {
     public var propertyValue: ColumnsValue
     var _content = _PropertyContent<ColumnsValue>()
 
-    public init<W, C>(width: W, count: C) where W: UniValue, W.UniValue: UnitValuable, C: UniValue, C.UniValue == Int {
-        propertyValue = ColumnsValue(width: width.uniValue, count: count.uniValue)
-        width.uniStateValue?.listen { self._changed(to: ColumnsValue(width: $0, count: count.uniValue)) }
-        count.uniStateValue?.listen { self._changed(to: ColumnsValue(width: width.uniValue, count: $0)) }
+    public init<W, C>(width: W, count: C, important: Bool? = nil) where W: UniValue, W.UniValue: UnitValuable, C: UniValue, C.UniValue == Int {
+        propertyValue = ColumnsValue(width: width.uniValue, count: count.uniValue, important: important)
+        width.uniStateValue?.listen { self._changed(to: ColumnsValue(width: $0, count: count.uniValue, important: important)) }
+        count.uniStateValue?.listen { self._changed(to: ColumnsValue(width: width.uniValue, count: $0, important: important)) }
     }
 }
 
@@ -8408,8 +8843,12 @@ extension PropertyKey {
 public struct ColumnsValue: CustomStringConvertible {
     public let value: String
 
-    public init<U: UnitValuable>(width: U, count: Int) {
-        value = width.description + " \(count)"
+    public init<U: UnitValuable>(width: U, count: Int, important: Bool? = nil) {
+        var importantFlag = ""
+        if important == true {
+            importantFlag = "!important"
+        }
+        value = width.description + " \(count)" + importantFlag
     }
 
     public var description: String { value }
@@ -8423,8 +8862,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for column-width and column-count
     @discardableResult
-    public func columns<W, C>(width: W, count: C) -> Self where W: UniValue, W.UniValue: UnitValuable, C: UniValue, C.UniValue == Int {
-        _addProperty(ColumnsProperty(width: width, count: count))
+    public func columns<W, C>(width: W, count: C, important: Bool? = nil) -> Self where W: UniValue, W.UniValue: UnitValuable, C: UniValue, C.UniValue == Int {
+        _addProperty(ColumnsProperty(width: width, count: count, important: important))
         return self
     }
 }
@@ -8450,15 +8889,15 @@ public class ColumnWidthProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init <D>(_ value: D, _ unit: Unit) where D: UniValue, D.UniValue == Double {
-        self.init(UnitValue(value.uniValue, unit))
-        value.uniStateValue?.listen { self._changed(to: UnitValue($0.doubleValue, unit)) }
+    public convenience init <D>(_ value: D, _ unit: Unit, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value.uniValue, unit, important: important))
+        value.uniStateValue?.listen { self._changed(to: UnitValue($0.doubleValue, unit, important: important)) }
     }
     
-    public convenience init <D>(_ value: D, _ unit: State<Unit>) where D: UniValue, D.UniValue == Double {
-        self.init(UnitValue(value.uniValue, unit.wrappedValue))
-        value.uniStateValue?.listen { self._changed(to: UnitValue($0.doubleValue, unit.wrappedValue)) }
-        unit.listen { self._changed(to: UnitValue(value.uniValue, $0)) }
+    public convenience init <D>(_ value: D, _ unit: State<Unit>, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value.uniValue, unit.wrappedValue, important: important))
+        value.uniStateValue?.listen { self._changed(to: UnitValue($0.doubleValue, unit.wrappedValue, important: important)) }
+        unit.listen { self._changed(to: UnitValue(value.uniValue, $0, important: important)) }
     }
 }
 
@@ -8483,14 +8922,14 @@ extension CSSRulable {
     // MARK: Extended
 
     /// Specifies the column width
-    public func columnWidth <D>(_ value: D, _ unit: Unit) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(ColumnWidthProperty(value, unit))
+    public func columnWidth <D>(_ value: D, _ unit: Unit, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(ColumnWidthProperty(value, unit, important: important))
         return self
     }
     
     /// Specifies the column width
-    public func columnWidth <D>(_ value: D, _ unit: State<Unit>) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(ColumnWidthProperty(value, unit))
+    public func columnWidth <D>(_ value: D, _ unit: State<Unit>, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(ColumnWidthProperty(value, unit, important: important))
         return self
     }
 }
@@ -8916,15 +9355,15 @@ public class FlexBasisProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init <D>(_ value: D, _ unit: Unit) where D: UniValue, D.UniValue == Double {
-        self.init(UnitValue(value.uniValue, unit))
-        value.uniStateValue?.listen { self._changed(to: UnitValue($0, unit)) }
+    public convenience init <D>(_ value: D, _ unit: Unit, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value.uniValue, unit, important: important))
+        value.uniStateValue?.listen { self._changed(to: UnitValue($0, unit, important: important)) }
     }
     
-    public convenience init <D>(_ value: D, _ unit: State<Unit>) where D: UniValue, D.UniValue == Double {
-        self.init(UnitValue(value.uniValue, unit.wrappedValue))
-        value.uniStateValue?.listen { self._changed(to: UnitValue($0, unit.wrappedValue)) }
-        unit.listen { self._changed(to: UnitValue(value.uniValue, $0)) }
+    public convenience init <D>(_ value: D, _ unit: State<Unit>, important: Bool? = nil) where D: UniValue, D.UniValue == Double {
+        self.init(UnitValue(value.uniValue, unit.wrappedValue, important: important))
+        value.uniStateValue?.listen { self._changed(to: UnitValue($0, unit.wrappedValue, important: important)) }
+        unit.listen { self._changed(to: UnitValue(value.uniValue, $0, important: important)) }
     }
 }
 
@@ -8950,15 +9389,15 @@ extension CSSRulable {
 
     /// Specifies the initial length of a flexible item
     @discardableResult
-    public func flexBasis <D>(_ value: D, _ unit: Unit) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(FlexBasisProperty(value, unit))
+    public func flexBasis <D>(_ value: D, _ unit: Unit, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(FlexBasisProperty(value, unit, important: important))
         return self
     }
     
     /// Specifies the initial length of a flexible item
     @discardableResult
-    public func flexBasis <D>(_ value: D, _ unit: State<Unit>) -> Self where D: UniValue, D.UniValue == Double {
-        _addProperty(FlexBasisProperty(value, unit))
+    public func flexBasis <D>(_ value: D, _ unit: State<Unit>, important: Bool? = nil) -> Self where D: UniValue, D.UniValue == Double {
+        _addProperty(FlexBasisProperty(value, unit, important: important))
         return self
     }
 }
@@ -9027,20 +9466,20 @@ public class FlexFlowProperty: _Property {
     public var propertyValue: FlexFlowValue
     var _content = _PropertyContent<FlexFlowValue>()
 
-    public init (direction: FlexDirectionType, wrap: FlexWrapType) {
-        propertyValue = .init(direction: direction, wrap: wrap)
+    public init (direction: FlexDirectionType, wrap: FlexWrapType, important: Bool? = nil) {
+        propertyValue = .init(direction: direction, wrap: wrap, important: important)
     }
 
-    public init (direction: State<FlexDirectionType>, wrap: FlexWrapType) {
-        propertyValue = .init(direction: direction, wrap: wrap)
+    public init (direction: State<FlexDirectionType>, wrap: FlexWrapType, important: Bool? = nil) {
+        propertyValue = .init(direction: direction, wrap: wrap, important: important)
     }
 
-    public init (direction: FlexDirectionType, wrap: State<FlexWrapType>) {
-        propertyValue = .init(direction: direction, wrap: wrap)
+    public init (direction: FlexDirectionType, wrap: State<FlexWrapType>, important: Bool? = nil) {
+        propertyValue = .init(direction: direction, wrap: wrap, important: important)
     }
 
-    public init (direction: State<FlexDirectionType>, wrap: State<FlexWrapType>) {
-        propertyValue = .init(direction: direction, wrap: wrap)
+    public init (direction: State<FlexDirectionType>, wrap: State<FlexWrapType>, important: Bool? = nil) {
+        propertyValue = .init(direction: direction, wrap: wrap, important: important)
     }
 }
 
@@ -9054,34 +9493,34 @@ public class FlexFlowValue: CustomStringConvertible, _PropertyValueInnerChangeab
 
     var _changeHandler = {}
 
-    public init (direction: FlexDirectionType, wrap: FlexWrapType) {
-        value = [direction.value, wrap.value].joined(separator: " ")
+    public init (direction: FlexDirectionType, wrap: FlexWrapType, important: Bool? = nil) {
+        value = [direction.value, wrap.value, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
     }
 
-    public convenience init (direction: State<FlexDirectionType>, wrap: FlexWrapType) {
-        self.init(direction: direction.wrappedValue, wrap: wrap)
+    public convenience init (direction: State<FlexDirectionType>, wrap: FlexWrapType, important: Bool? = nil) {
+        self.init(direction: direction.wrappedValue, wrap: wrap, important: important)
         direction.listen {
-            self.value = [$0.value, wrap.value].joined(separator: " ")
+            self.value = [$0.value, wrap.value, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
             self._changeHandler()
         }
     }
 
-    public convenience init (direction: FlexDirectionType, wrap: State<FlexWrapType>) {
-        self.init(direction: direction, wrap: wrap.wrappedValue)
+    public convenience init (direction: FlexDirectionType, wrap: State<FlexWrapType>, important: Bool? = nil) {
+        self.init(direction: direction, wrap: wrap.wrappedValue, important: important)
         wrap.listen {
-            self.value = [direction.value, $0.value].joined(separator: " ")
+            self.value = [direction.value, $0.value, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
             self._changeHandler()
         }
     }
 
-    public convenience init (direction: State<FlexDirectionType>, wrap: State<FlexWrapType>) {
+    public convenience init (direction: State<FlexDirectionType>, wrap: State<FlexWrapType>, important: Bool? = nil) {
         self.init(direction: direction.wrappedValue, wrap: wrap.wrappedValue)
         direction.listen {
-            self.value = [$0.value, wrap.wrappedValue.value].joined(separator: " ")
+            self.value = [$0.value, wrap.wrappedValue.value, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
             self._changeHandler()
         }
         wrap.listen {
-            self.value = [direction.wrappedValue.value, $0.value].joined(separator: " ")
+            self.value = [direction.wrappedValue.value, $0.value, important == true ? "!important" : nil].compactMap { $0 }.joined(separator: " ")
             self._changeHandler()
         }
     }
@@ -9097,29 +9536,29 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for the flex-direction and the flex-wrap properties
     @discardableResult
-    public func flexFlow(direction: FlexDirectionType, wrap: FlexWrapType) -> Self {
-        _addProperty(FlexFlowProperty(direction: direction, wrap: wrap))
+    public func flexFlow(direction: FlexDirectionType, wrap: FlexWrapType, important: Bool? = nil) -> Self {
+        _addProperty(FlexFlowProperty(direction: direction, wrap: wrap, important: important))
         return self
     }
 
     /// A shorthand property for the flex-direction and the flex-wrap properties
     @discardableResult
-    public func flexFlow(direction: State<FlexDirectionType>, wrap: FlexWrapType) -> Self {
-        _addProperty(FlexFlowProperty(direction: direction, wrap: wrap))
+    public func flexFlow(direction: State<FlexDirectionType>, wrap: FlexWrapType, important: Bool? = nil) -> Self {
+        _addProperty(FlexFlowProperty(direction: direction, wrap: wrap, important: important))
         return self
     }
 
     /// A shorthand property for the flex-direction and the flex-wrap properties
     @discardableResult
-    public func flexFlow(direction: FlexDirectionType, wrap: State<FlexWrapType>) -> Self {
-        _addProperty(FlexFlowProperty(direction: direction, wrap: wrap))
+    public func flexFlow(direction: FlexDirectionType, wrap: State<FlexWrapType>, important: Bool? = nil) -> Self {
+        _addProperty(FlexFlowProperty(direction: direction, wrap: wrap, important: important))
         return self
     }
 
     /// A shorthand property for the flex-direction and the flex-wrap properties
     @discardableResult
-    public func flexFlow(direction: State<FlexDirectionType>, wrap: State<FlexWrapType>) -> Self {
-        _addProperty(FlexFlowProperty(direction: direction, wrap: wrap))
+    public func flexFlow(direction: State<FlexDirectionType>, wrap: State<FlexWrapType>, important: Bool? = nil) -> Self {
+        _addProperty(FlexFlowProperty(direction: direction, wrap: wrap, important: important))
         return self
     }
 }
@@ -9138,8 +9577,8 @@ public class FlexGrowProperty: _Property {
     public var propertyValue: NumericValueContainer
     var _content = _PropertyContent<NumericValueContainer>()
 
-    public init <N>(_ n: N) where N: UniValue, N.UniValue: NumericValue {
-        propertyValue = NumericValueContainer(n)
+    public init <N>(_ n: N, important: Bool? = nil) where N: UniValue, N.UniValue: NumericValue {
+        propertyValue = NumericValueContainer(n, important: important)
     }
 }
 
@@ -9156,8 +9595,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies how much the item will grow relative to the rest
     @discardableResult
-    public func flexGrow<N>(_ n: N) -> Self where N: UniValue, N.UniValue: NumericValue {
-        _addProperty(FlexGrowProperty(n))
+    public func flexGrow<N>(_ n: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue: NumericValue {
+        _addProperty(FlexGrowProperty(n, important: important))
         return self
     }
 }
@@ -9178,12 +9617,12 @@ public class FlexProperty: _Property {
     public var propertyAliases: [AnyProperty]
     var _content = _PropertyContent<FlexValue>()
 
-    public init<G, S, B>(grow: G, shrink: S, basis: B) where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
-        propertyValue = .init(grow: grow.uniValue, shrink: shrink.uniValue, basis: basis.uniValue)
-        propertyAliases = [MS(grow: grow, shrink: shrink, basis: basis)]
-        grow.uniStateValue?.listen { self._changed(to: .init(grow: $0, shrink: shrink.uniValue, basis: basis.uniValue)) }
-        shrink.uniStateValue?.listen { self._changed(to: .init(grow: grow.uniValue, shrink: $0, basis: basis.uniValue)) }
-        basis.uniStateValue?.listen { self._changed(to: .init(grow: grow.uniValue, shrink: shrink.uniValue, basis:$0)) }
+    public init<G, S, B>(grow: G, shrink: S, basis: B, important: Bool? = nil) where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
+        propertyValue = .init(grow: grow.uniValue, shrink: shrink.uniValue, basis: basis.uniValue, important: important)
+        propertyAliases = [MS(grow: grow, shrink: shrink, basis: basis, important: important)]
+        grow.uniStateValue?.listen { self._changed(to: .init(grow: $0, shrink: shrink.uniValue, basis: basis.uniValue, important: important)) }
+        shrink.uniStateValue?.listen { self._changed(to: .init(grow: grow.uniValue, shrink: $0, basis: basis.uniValue, important: important)) }
+        basis.uniStateValue?.listen { self._changed(to: .init(grow: grow.uniValue, shrink: shrink.uniValue, basis:$0, important: important)) }
     }
 }
 
@@ -9197,8 +9636,8 @@ extension PropertyKey {
 public struct FlexValue: CustomStringConvertible {
     public let value: String
 
-    public init<U: UnitValuable>(grow: NumericValue, shrink: NumericValue, basis: U) {
-        value = [grow.numericValue, shrink.numericValue, basis.description].joined(separator: " ")
+    public init<U: UnitValuable>(grow: NumericValue, shrink: NumericValue, basis: U, important: Bool? = nil) {
+        value = [grow.numericValue, shrink.numericValue, basis.description].joined(separator: " ") + (important == true ? "!important" : "")
     }
 
     public var description: String { value }
@@ -9212,8 +9651,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for the flex-grow, flex-shrink, and the flex-basis properties
     @discardableResult
-    public func flex<G, S, B>(grow: G, shrink: S, basis: B) -> Self where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
-        _addProperty(FlexProperty(grow: grow, shrink: shrink, basis: basis))
+    public func flex<G, S, B>(grow: G, shrink: S, basis: B, important: Bool? = nil) -> Self where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
+        _addProperty(FlexProperty(grow: grow, shrink: shrink, basis: basis, important: important))
         return self
     }
 }
@@ -9224,11 +9663,11 @@ extension FlexProperty {
         public var propertyValue: FlexValue
         var _content = _PropertyContent<FlexValue>()
 
-        public init<G, S, B>(grow: G, shrink: S, basis: B) where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
-            propertyValue = .init(grow: grow.uniValue, shrink: shrink.uniValue, basis: basis.uniValue)
-            grow.uniStateValue?.listen { self._changed(to: .init(grow: $0, shrink: shrink.uniValue, basis: basis.uniValue)) }
-            shrink.uniStateValue?.listen { self._changed(to: .init(grow: grow.uniValue, shrink: $0, basis: basis.uniValue)) }
-            basis.uniStateValue?.listen { self._changed(to: .init(grow: grow.uniValue, shrink: shrink.uniValue, basis:$0)) }
+        public init<G, S, B>(grow: G, shrink: S, basis: B, important: Bool? = nil) where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
+            propertyValue = .init(grow: grow.uniValue, shrink: shrink.uniValue, basis: basis.uniValue, important: important)
+            grow.uniStateValue?.listen { self._changed(to: .init(grow: $0, shrink: shrink.uniValue, basis: basis.uniValue, important: important)) }
+            shrink.uniStateValue?.listen { self._changed(to: .init(grow: grow.uniValue, shrink: $0, basis: basis.uniValue, important: important)) }
+            basis.uniStateValue?.listen { self._changed(to: .init(grow: grow.uniValue, shrink: shrink.uniValue, basis:$0, important: important)) }
         }
     }
 }
@@ -9247,8 +9686,8 @@ public class FlexShrinkProperty: _Property {
     public var propertyValue: NumericValueContainer
     var _content = _PropertyContent<NumericValueContainer>()
 
-    public init<N>(_ n: N) where N: UniValue, N.UniValue: NumericValue {
-        propertyValue = NumericValueContainer(n)
+    public init<N>(_ n: N, important: Bool? = nil) where N: UniValue, N.UniValue: NumericValue {
+        propertyValue = NumericValueContainer(n, important: important)
     }
 }
 
@@ -9265,8 +9704,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies how the item will shrink relative to the rest
     @discardableResult
-    public func flexShrink<N>(_ n: N) -> Self where N: UniValue, N.UniValue: NumericValue {
-        _addProperty(FlexShrinkProperty(n))
+    public func flexShrink<N>(_ n: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue: NumericValue {
+        _addProperty(FlexShrinkProperty(n, important: important))
         return self
     }
 }
@@ -9390,34 +9829,34 @@ public class FontFamilyProperty: _Property {
     public var propertyValue: FontFamilyValue
     var _content = _PropertyContent<FontFamilyValue>()
 
-    public init (_ types: [FontFamilyType]) {
-        propertyValue = .init(types)
+    public init (_ types: [FontFamilyType], important: Bool? = nil) {
+        propertyValue = .init(types, important: important)
     }
 
-    public convenience init (_ types: FontFamilyType...) {
-        self.init(types)
+    public convenience init (_ types: FontFamilyType..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init (_ types: [State<FontFamilyType>]) {
-        self.init(types.map { $0.wrappedValue })
+    public convenience init (_ types: [State<FontFamilyType>], important: Bool? = nil) {
+        self.init(types.map { $0.wrappedValue }, important: important)
         types.forEach {
-            $0.listen { self._changed(to: .init(types.map { $0.wrappedValue })) }
+            $0.listen { self._changed(to: .init(types.map { $0.wrappedValue }, important: important)) }
         }
     }
     
-    public convenience init (_ types: State<FontFamilyType>...) {
-        self.init(types)
+    public convenience init (_ types: State<FontFamilyType>..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <T>(mixed types: [T]) where T: UniValue, T.UniValue == FontFamilyType {
-        self.init(types.map { $0.uniValue })
+    public convenience init <T>(mixed types: [T], important: Bool? = nil) where T: UniValue, T.UniValue == FontFamilyType {
+        self.init(types.map { $0.uniValue }, important: important)
         types.forEach {
-            $0.uniStateValue?.listen { self._changed(to: .init(types.map { $0.uniValue })) }
+            $0.uniStateValue?.listen { self._changed(to: .init(types.map { $0.uniValue }, important: important)) }
         }
     }
     
-    public convenience init <T>(mixed types: T...) where T: UniValue, T.UniValue == FontFamilyType {
-        self.init(mixed: types)
+    public convenience init <T>(mixed types: T..., important: Bool? = nil) where T: UniValue, T.UniValue == FontFamilyType {
+        self.init(mixed: types, important: important)
     }
 }
 
@@ -9431,27 +9870,27 @@ public class FontFamilyValue: CustomStringConvertible, _PropertyValueInnerChange
 
     var _changeHandler = {}
 
-    public init (_ type: [FontFamilyType]) {
-        value = type.map { $0.value }.joined(separator: ", ")
+    public init (_ type: [FontFamilyType], important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: ", ") + (important == true ? "!important" : "")
     }
 
-    public convenience init (_ type: FontFamilyType...) {
-        self.init(type)
+    public convenience init (_ type: FontFamilyType..., important: Bool? = nil) {
+        self.init(type, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontFamilyType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontFamilyType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.map { $0.value }.joined(separator: ", ")
+            self.value = $0.map { $0.value }.joined(separator: ", ") + (important == true ? "!important" : "")
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontFamilyType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontFamilyType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.value
+            self.value = $0.value + (important == true ? "!important" : "")
         }
     }
 
@@ -9466,42 +9905,42 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies the font family for text
     @discardableResult
-    public func fontFamily(_ types: [FontFamilyType]) -> Self {
-        _addProperty(FontFamilyProperty(types))
+    public func fontFamily(_ types: [FontFamilyType], important: Bool? = nil) -> Self {
+        _addProperty(FontFamilyProperty(types, important: important))
         return self
     }
 
     /// Specifies the font family for text
     @discardableResult
-    public func fontFamily(_ types: FontFamilyType...) -> Self {
-        fontFamily(types)
+    public func fontFamily(_ types: FontFamilyType..., important: Bool? = nil) -> Self {
+        fontFamily(types, important: important)
     }
 
     /// Specifies the font family for text
     @discardableResult
-    public func fontFamily (_ types: [State<FontFamilyType>]) -> Self {
-        _addProperty(FontFamilyProperty(types))
+    public func fontFamily (_ types: [State<FontFamilyType>], important: Bool? = nil) -> Self {
+        _addProperty(FontFamilyProperty(types, important: important))
         return self
     }
     
     /// Specifies the font family for text
     @discardableResult
-    public func fontFamily (_ types: State<FontFamilyType>...) -> Self {
-        _addProperty(FontFamilyProperty(types))
+    public func fontFamily (_ types: State<FontFamilyType>..., important: Bool? = nil) -> Self {
+        _addProperty(FontFamilyProperty(types, important: important))
         return self
     }
 
     /// Specifies the font family for text
     @discardableResult
-    public func fontFamily <T>(mixed types: [T]) -> Self where T: UniValue, T.UniValue == FontFamilyType {
-        _addProperty(FontFamilyProperty(mixed: types))
+    public func fontFamily <T>(mixed types: [T], important: Bool? = nil) -> Self where T: UniValue, T.UniValue == FontFamilyType {
+        _addProperty(FontFamilyProperty(mixed: types, important: important))
         return self
     }
     
     /// Specifies the font family for text
     @discardableResult
-    public func fontFamily <T>(mixed types: T...) -> Self where T: UniValue, T.UniValue == FontFamilyType {
-        _addProperty(FontFamilyProperty(mixed: types))
+    public func fontFamily <T>(mixed types: T..., important: Bool? = nil) -> Self where T: UniValue, T.UniValue == FontFamilyType {
+        _addProperty(FontFamilyProperty(mixed: types, important: important))
         return self
     }
 }
@@ -9649,8 +10088,9 @@ public class FontProperty: _Property {
         weight: FontWeightType? = nil,
         fontSize: F? = nil,
         lineHeight: L? = nil,
-        fontFamily: [FontFamilyType]? = nil) {
-        propertyValue = .init(style: style, variant: variant, weight: weight, fontSize: fontSize, lineHeight: lineHeight, fontFamily: fontFamily)
+        fontFamily: [FontFamilyType]? = nil,
+        important: Bool? = nil) {
+        propertyValue = .init(style: style, variant: variant, weight: weight, fontSize: fontSize, lineHeight: lineHeight, fontFamily: fontFamily, important: important)
     }
 }
 
@@ -9682,7 +10122,8 @@ public class FontValue: CustomStringConvertible, _PropertyValueInnerChangeable {
         weight: FontWeightType? = nil,
         fontSize: F? = nil,
         lineHeight: L? = nil,
-        fontFamily: [FontFamilyType]? = nil) {
+        fontFamily: [FontFamilyType]? = nil,
+        important: Bool? = nil) {
         var value = ""
         if let style = style {
             value = style.value
@@ -9712,7 +10153,10 @@ public class FontValue: CustomStringConvertible, _PropertyValueInnerChangeable {
             if value.count > 0 {
                 value += " "
             }
-            value = fontFamily.map { $0.value }.joined(separator: ", ")
+            value += fontFamily.map { $0.value }.joined(separator: ", ")
+        }
+        if important == true {
+            value += "!important"
         }
         self.value = value
     }
@@ -9748,8 +10192,9 @@ extension CSSRulable {
         weight: FontWeightType? = nil,
         fontSize: F? = nil,
         lineHeight: L? = nil,
-        fontFamily: [FontFamilyType]? = nil) -> Self {
-        _addProperty(FontProperty(style: style, variant: variant, weight: weight, fontSize: fontSize, lineHeight: lineHeight, fontFamily: fontFamily))
+        fontFamily: [FontFamilyType]? = nil,
+        important: Bool? = nil) -> Self {
+        _addProperty(FontProperty(style: style, variant: variant, weight: weight, fontSize: fontSize, lineHeight: lineHeight, fontFamily: fontFamily, important: important))
         return self
     }
 }
@@ -9778,9 +10223,9 @@ public class FontSizeAdjustProperty: _Property {
         type.listen { self._changed(to: .init($0)) }
     }
 
-    public init <N>(_ numeric: N) where N: UniValue, N.UniValue: NumericValue {
-        propertyValue = .init(numeric.uniValue)
-        numeric.uniStateValue?.listen { self._changed(to: .init($0)) }
+    public init <N>(_ numeric: N, important: Bool? = nil) where N: UniValue, N.UniValue: NumericValue {
+        propertyValue = .init(numeric.uniValue, important: important)
+        numeric.uniStateValue?.listen { self._changed(to: .init($0, important: important)) }
     }
 }
 
@@ -9807,15 +10252,15 @@ public class FontSizeAdjustValue: CustomStringConvertible, _PropertyValueInnerCh
         }
     }
 
-    public init (_ numeric: NumericValue) {
-        value = numeric.numericValue
+    public init (_ numeric: NumericValue, important: Bool? = nil) {
+        value = numeric.numericValue + (important == true ? "!important" : "")
     }
 
-    public convenience init <T>(_ numeric: T) where T: StateConvertible, T.Value == NumericValue {
+    public convenience init <T>(_ numeric: T, important: Bool? = nil) where T: StateConvertible, T.Value == NumericValue {
         let numeric = numeric.stateValue
-        self.init(numeric.wrappedValue)
+        self.init(numeric.wrappedValue, important : important)
         numeric.listen {
-            self.value = $0.numericValue
+            self.value = $0.numericValue + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
@@ -9845,8 +10290,8 @@ extension CSSRulable {
 
     /// Preserves the readability of text when font fallback occurs
     @discardableResult
-    public func fontSizeAdjust <N>(_ numeric: N) -> Self where N: UniValue, N.UniValue: NumericValue {
-        _addProperty(FontSizeAdjustProperty(numeric))
+    public func fontSizeAdjust <N>(_ numeric: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue: NumericValue {
+        _addProperty(FontSizeAdjustProperty(numeric, important: important))
         return self
     }
 }
@@ -10131,34 +10576,34 @@ public class FontVariantAlternatesProperty: _Property {
     public var propertyValue: FontVariantAlternatesValue
     var _content = _PropertyContent<FontVariantAlternatesValue>()
 
-    public init (_ types: [FontVariantAlternatesType]) {
+    public init (_ types: [FontVariantAlternatesType], important: Bool? = nil) {
         propertyValue = .init(types)
     }
 
-    public convenience init (_ types: FontVariantAlternatesType...) {
+    public convenience init (_ types: FontVariantAlternatesType..., important: Bool? = nil) {
         self.init(types)
     }
 
-    public convenience init (_ types: [State<FontVariantAlternatesType>]) {
-        self.init(types.map { $0.wrappedValue })
+    public convenience init (_ types: [State<FontVariantAlternatesType>], important: Bool? = nil) {
+        self.init(types.map { $0.wrappedValue }, important: important)
         types.forEach {
-            $0.listen { self._changed(to: .init(types.map { $0.wrappedValue })) }
+            $0.listen { self._changed(to: .init(types.map { $0.wrappedValue }, important: important)) }
         }
     }
     
-    public convenience init (_ types: State<FontVariantAlternatesType>...) {
-        self.init(types)
+    public convenience init (_ types: State<FontVariantAlternatesType>..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <T>(mixed types: [T]) where T: UniValue, T.UniValue == FontVariantAlternatesType {
-        self.init(types.map { $0.uniValue })
+    public convenience init <T>(mixed types: [T], important: Bool? = nil) where T: UniValue, T.UniValue == FontVariantAlternatesType {
+        self.init(types.map { $0.uniValue }, important: important)
         types.forEach {
-            $0.uniStateValue?.listen { self._changed(to: .init(types.map { $0.uniValue })) }
+            $0.uniStateValue?.listen { self._changed(to: .init(types.map { $0.uniValue }, important: important)) }
         }
     }
     
-    public convenience init <T>(mixed types: T...) where T: UniValue, T.UniValue == FontVariantAlternatesType {
-        self.init(mixed: types)
+    public convenience init <T>(mixed types: T..., important: Bool? = nil) where T: UniValue, T.UniValue == FontVariantAlternatesType {
+        self.init(mixed: types, important: important)
     }
 }
 
@@ -10172,27 +10617,39 @@ public class FontVariantAlternatesValue: CustomStringConvertible, _PropertyValue
 
     var _changeHandler = {}
 
-    public init (_ type: [FontVariantAlternatesType]) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: [FontVariantAlternatesType], important: Bool? = nil) {
+        var vals = type.map { $0.value }
+        if important == true {
+            vals.append("!important")
+        }
+        value = vals.joined(separator: " ")
     }
 
-    public convenience init (_ type: FontVariantAlternatesType...) {
-        self.init(type)
+    public convenience init (_ type: FontVariantAlternatesType..., important: Bool? = nil) {
+        self.init(type, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantAlternatesType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantAlternatesType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
-        types.listen {
-            self.value = $0.map { $0.value }.joined(separator: " ")
+        self.init(types.wrappedValue, important: important)
+        types.listen { types in
+            var vals = types.map { $0.value }
+            if important == true {
+                vals.append("!important")
+            }
+            self.value = vals.joined(separator: " ")
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantAlternatesType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantAlternatesType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.value
+            if important == true {
+                self.value = $0.value + "!important"
+            } else {
+                self.value = $0.value
+            }
         }
     }
 
@@ -10207,41 +10664,41 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
     @discardableResult
-    public func fontVariantAlternates(_ types: [FontVariantAlternatesType]) -> Self {
-        _addProperty(FontVariantAlternatesProperty(types))
+    public func fontVariantAlternates(_ types: [FontVariantAlternatesType], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantAlternatesProperty(types, important: important))
         return self
     }
 
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
     @discardableResult
-    public func fontVariantAlternates(_ types: FontVariantAlternatesType...) -> Self {
-        fontVariantAlternates(types)
+    public func fontVariantAlternates(_ types: FontVariantAlternatesType..., important: Bool? = nil) -> Self {
+        fontVariantAlternates(types, important: important)
     }
 
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
     @discardableResult
-    public func fontVariantAlternates (_ types: [State<FontVariantAlternatesType>]) -> Self {
-        _addProperty(FontVariantAlternatesProperty(types))
-        return self
-    }
-    
-    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
-    @discardableResult
-    public func fontVariantAlternates (_ types: State<FontVariantAlternatesType>...) -> Self {
-        fontVariantAlternates(types)
-    }
-
-    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
-    @discardableResult
-    public func fontVariantAlternates <T>(mixed types: [T]) -> Self where T: UniValue, T.UniValue == FontVariantAlternatesType {
-        _addProperty(FontVariantAlternatesProperty(mixed: types))
+    public func fontVariantAlternates (_ types: [State<FontVariantAlternatesType>], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantAlternatesProperty(types, important: important))
         return self
     }
     
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
     @discardableResult
-    public func fontVariantAlternates <T>(mixed types: T...) -> Self where T: UniValue, T.UniValue == FontVariantAlternatesType {
-        fontVariantAlternates(mixed: types)
+    public func fontVariantAlternates (_ types: State<FontVariantAlternatesType>..., important: Bool? = nil) -> Self {
+        fontVariantAlternates(types, important: important)
+    }
+
+    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    @discardableResult
+    public func fontVariantAlternates <T>(mixed types: [T], important: Bool? = nil) -> Self where T: UniValue, T.UniValue == FontVariantAlternatesType {
+        _addProperty(FontVariantAlternatesProperty(mixed: types, important: important))
+        return self
+    }
+    
+    /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
+    @discardableResult
+    public func fontVariantAlternates <T>(mixed types: T..., important: Bool? = nil) -> Self where T: UniValue, T.UniValue == FontVariantAlternatesType {
+        fontVariantAlternates(mixed: types, important: important)
     }
 }
 
@@ -10265,34 +10722,34 @@ public class FontVariantCapsProperty: _Property {
     public var propertyValue: FontVariantCapsValue
     var _content = _PropertyContent<FontVariantCapsValue>()
 
-    public init (_ types: [FontVariantCapsType]) {
-        propertyValue = .init(types)
+    public init (_ types: [FontVariantCapsType], important: Bool? = nil) {
+        propertyValue = .init(types, important: important)
     }
 
-    public convenience init (_ types: FontVariantCapsType...) {
-        self.init(types)
+    public convenience init (_ types: FontVariantCapsType..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init (_ types: [State<FontVariantCapsType>]) {
-        self.init(types.map { $0.wrappedValue })
+    public convenience init (_ types: [State<FontVariantCapsType>], important: Bool? = nil) {
+        self.init(types.map { $0.wrappedValue }, important: important)
         types.forEach {
-            $0.listen { self._changed(to: .init(types.map { $0.wrappedValue })) }
+            $0.listen { self._changed(to: .init(types.map { $0.wrappedValue }, important: important)) }
         }
     }
     
-    public convenience init (_ types: State<FontVariantCapsType>...) {
-        self.init(types)
+    public convenience init (_ types: State<FontVariantCapsType>..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <T>(mixed types: [T]) where T: UniValue, T.UniValue == FontVariantCapsType {
-        self.init(types.map { $0.uniValue })
+    public convenience init <T>(mixed types: [T], important: Bool? = nil) where T: UniValue, T.UniValue == FontVariantCapsType {
+        self.init(types.map { $0.uniValue }, important: important)
         types.forEach {
-            $0.uniStateValue?.listen { self._changed(to: .init(types.map { $0.uniValue })) }
+            $0.uniStateValue?.listen { self._changed(to: .init(types.map { $0.uniValue }, important: important)) }
         }
     }
     
-    public convenience init <T>(mixed types: T...) where T: UniValue, T.UniValue == FontVariantCapsType {
-        self.init(mixed: types)
+    public convenience init <T>(mixed types: T..., important: Bool? = nil) where T: UniValue, T.UniValue == FontVariantCapsType {
+        self.init(mixed: types, important: important)
     }
 }
 
@@ -10306,27 +10763,27 @@ public class FontVariantCapsValue: CustomStringConvertible, _PropertyValueInnerC
 
     var _changeHandler = {}
 
-    public init (_ type: [FontVariantCapsType]) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: [FontVariantCapsType], important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init (_ type: FontVariantCapsType...) {
-        self.init(type)
+    public convenience init (_ type: FontVariantCapsType..., important: Bool? = nil) {
+        self.init(type, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantCapsType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantCapsType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.map { $0.value }.joined(separator: " ")
+            self.value = $0.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantCapsType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantCapsType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.value
+            self.value = $0.value + (important == true ? "!important" : "")
         }
     }
 
@@ -10341,41 +10798,41 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Controls the usage of alternate glyphs for capital letters
     @discardableResult
-    public func fontVariantCaps(_ types: [FontVariantCapsType]) -> Self {
-        _addProperty(FontVariantCapsProperty(types))
+    public func fontVariantCaps(_ types: [FontVariantCapsType], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantCapsProperty(types, important: important))
         return self
     }
 
     /// Controls the usage of alternate glyphs for capital letters
     @discardableResult
-    public func fontVariantCaps(_ types: FontVariantCapsType...) -> Self {
-        fontVariantCaps(types)
+    public func fontVariantCaps(_ types: FontVariantCapsType..., important: Bool? = nil) -> Self {
+        fontVariantCaps(types, important: important)
     }
 
     /// Controls the usage of alternate glyphs for capital letters
     @discardableResult
-    public func fontVariantCaps (_ types: [State<FontVariantCapsType>]) -> Self {
-        _addProperty(FontVariantCapsProperty(types))
-        return self
-    }
-    
-    /// Controls the usage of alternate glyphs for capital letters
-    @discardableResult
-    public func fontVariantCaps (_ types: State<FontVariantCapsType>...) -> Self {
-        fontVariantCaps(types)
-    }
-
-    /// Controls the usage of alternate glyphs for capital letters
-    @discardableResult
-    public func fontVariantCaps <T>(mixed types: [T]) -> Self where T: UniValue, T.UniValue == FontVariantCapsType {
-        _addProperty(FontVariantCapsProperty(mixed: types))
+    public func fontVariantCaps (_ types: [State<FontVariantCapsType>], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantCapsProperty(types, important: important))
         return self
     }
     
     /// Controls the usage of alternate glyphs for capital letters
     @discardableResult
-    public func fontVariantCaps <T>(mixed types: T...) -> Self where T: UniValue, T.UniValue == FontVariantCapsType {
-        fontVariantCaps(mixed: types)
+    public func fontVariantCaps (_ types: State<FontVariantCapsType>..., important: Bool? = nil) -> Self {
+        fontVariantCaps(types, important: important)
+    }
+
+    /// Controls the usage of alternate glyphs for capital letters
+    @discardableResult
+    public func fontVariantCaps <T>(mixed types: [T], important: Bool? = nil) -> Self where T: UniValue, T.UniValue == FontVariantCapsType {
+        _addProperty(FontVariantCapsProperty(mixed: types, important: important))
+        return self
+    }
+    
+    /// Controls the usage of alternate glyphs for capital letters
+    @discardableResult
+    public func fontVariantCaps <T>(mixed types: T..., important: Bool? = nil) -> Self where T: UniValue, T.UniValue == FontVariantCapsType {
+        fontVariantCaps(mixed: types, important: important)
     }
 }
 
@@ -10403,34 +10860,34 @@ public class FontVariantEastAsianProperty: _Property {
     public var propertyValue: FontVariantEastAsianValue
     var _content = _PropertyContent<FontVariantEastAsianValue>()
 
-    public init (_ types: [FontVariantEastAsianType]) {
-        propertyValue = .init(types)
+    public init (_ types: [FontVariantEastAsianType], important: Bool? = nil) {
+        propertyValue = .init(types, important: important)
     }
 
-    public convenience init (_ types: FontVariantEastAsianType...) {
-        self.init(types)
+    public convenience init (_ types: FontVariantEastAsianType..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init (_ types: [State<FontVariantEastAsianType>]) {
-        self.init(types.map { $0.wrappedValue })
+    public convenience init (_ types: [State<FontVariantEastAsianType>], important: Bool? = nil) {
+        self.init(types.map { $0.wrappedValue }, important: important)
         types.forEach {
-            $0.listen { self._changed(to: .init(types.map { $0.wrappedValue })) }
+            $0.listen { self._changed(to: .init(types.map { $0.wrappedValue }, important: important)) }
         }
     }
     
-    public convenience init (_ types: State<FontVariantEastAsianType>...) {
-        self.init(types)
+    public convenience init (_ types: State<FontVariantEastAsianType>..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <T>(mixed types: [T]) where T: UniValue, T.UniValue == FontVariantEastAsianType {
-        self.init(types.map { $0.uniValue })
+    public convenience init <T>(mixed types: [T], important: Bool? = nil) where T: UniValue, T.UniValue == FontVariantEastAsianType {
+        self.init(types.map { $0.uniValue }, important: important)
         types.forEach {
-            $0.uniStateValue?.listen { self._changed(to: .init(types.map { $0.uniValue })) }
+            $0.uniStateValue?.listen { self._changed(to: .init(types.map { $0.uniValue }, important: important)) }
         }
     }
     
-    public convenience init <T>(mixed types: T...) where T: UniValue, T.UniValue == FontVariantEastAsianType {
-        self.init(mixed: types)
+    public convenience init <T>(mixed types: T..., important: Bool? = nil) where T: UniValue, T.UniValue == FontVariantEastAsianType {
+        self.init(mixed: types, important: important)
     }
 }
 
@@ -10444,27 +10901,27 @@ public class FontVariantEastAsianValue: CustomStringConvertible, _PropertyValueI
 
     var _changeHandler = {}
 
-    public init (_ type: [FontVariantEastAsianType]) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: [FontVariantEastAsianType], important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init (_ type: FontVariantEastAsianType...) {
-        self.init(type)
+    public convenience init (_ type: FontVariantEastAsianType..., important: Bool? = nil) {
+        self.init(type, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantEastAsianType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantEastAsianType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.map { $0.value }.joined(separator: " ")
+            self.value = $0.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantEastAsianType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantEastAsianType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.value
+            self.value = $0.value + (important == true ? "!important" : "")
         }
     }
 
@@ -10479,41 +10936,41 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
     @discardableResult
-    public func fontVariantEastAsian(_ types: [FontVariantEastAsianType]) -> Self {
-        _addProperty(FontVariantEastAsianProperty(types))
+    public func fontVariantEastAsian(_ types: [FontVariantEastAsianType], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantEastAsianProperty(types, important: important))
         return self
     }
 
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
     @discardableResult
-    public func fontVariantEastAsian(_ types: FontVariantEastAsianType...) -> Self {
-        fontVariantEastAsian(types)
+    public func fontVariantEastAsian(_ types: FontVariantEastAsianType..., important: Bool? = nil) -> Self {
+        fontVariantEastAsian(types, important: important)
     }
 
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
     @discardableResult
-    public func fontVariantEastAsian (_ types: [State<FontVariantEastAsianType>]) -> Self {
-        _addProperty(FontVariantEastAsianProperty(types))
-        return self
-    }
-    
-    /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
-    @discardableResult
-    public func fontVariantEastAsian (_ types: State<FontVariantEastAsianType>...) -> Self {
-        fontVariantEastAsian(types)
-    }
-
-    /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
-    @discardableResult
-    public func fontVariantEastAsian <T>(mixed types: [T]) -> Self where T: UniValue, T.UniValue == FontVariantEastAsianType {
-        _addProperty(FontVariantEastAsianProperty(mixed: types))
+    public func fontVariantEastAsian (_ types: [State<FontVariantEastAsianType>], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantEastAsianProperty(types, important: important))
         return self
     }
     
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
     @discardableResult
-    public func fontVariantEastAsian <T>(mixed types: T...) -> Self where T: UniValue, T.UniValue == FontVariantEastAsianType {
-        fontVariantEastAsian(mixed: types)
+    public func fontVariantEastAsian (_ types: State<FontVariantEastAsianType>..., important: Bool? = nil) -> Self {
+        fontVariantEastAsian(types, important: important)
+    }
+
+    /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
+    @discardableResult
+    public func fontVariantEastAsian <T>(mixed types: [T], important: Bool? = nil) -> Self where T: UniValue, T.UniValue == FontVariantEastAsianType {
+        _addProperty(FontVariantEastAsianProperty(mixed: types, important: important))
+        return self
+    }
+    
+    /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
+    @discardableResult
+    public func fontVariantEastAsian <T>(mixed types: T..., important: Bool? = nil) -> Self where T: UniValue, T.UniValue == FontVariantEastAsianType {
+        fontVariantEastAsian(mixed: types, important: important)
     }
 }
 
@@ -10540,27 +10997,27 @@ public class FontVariantLigaturesProperty: _Property {
     public var propertyValue: FontVariantLigaturesValue
     var _content = _PropertyContent<FontVariantLigaturesValue>()
 
-    public init (_ types: [FontVariantLigaturesType]) {
-        propertyValue = .init(types)
+    public init (_ types: [FontVariantLigaturesType], important: Bool? = nil) {
+        propertyValue = .init(types, important: important)
     }
 
-    public convenience init (_ types: FontVariantLigaturesType...) {
-        self.init(types)
+    public convenience init (_ types: FontVariantLigaturesType..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantLigaturesType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantLigaturesType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self._changed(to: .init($0))
+            self._changed(to: .init($0, important: important))
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantLigaturesType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantLigaturesType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self._changed(to: .init($0))
+            self._changed(to: .init($0, important: important))
         }
     }
 }
@@ -10575,27 +11032,27 @@ public class FontVariantLigaturesValue: CustomStringConvertible, _PropertyValueI
 
     var _changeHandler = {}
 
-    public init (_ type: [FontVariantLigaturesType]) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: [FontVariantLigaturesType], important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init (_ type: FontVariantLigaturesType...) {
-        self.init(type)
+    public convenience init (_ type: FontVariantLigaturesType..., important: Bool? = nil) {
+        self.init(type, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantLigaturesType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantLigaturesType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.map { $0.value }.joined(separator: " ")
+            self.value = $0.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantLigaturesType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantLigaturesType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.value
+            self.value = $0.value + (important == true ? "!important" : "")
         }
     }
 
@@ -10610,28 +11067,28 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
     @discardableResult
-    public func fontVariantLigatures(_ types: [FontVariantLigaturesType]) -> Self {
-        _addProperty(FontVariantLigaturesProperty(types))
+    public func fontVariantLigatures(_ types: [FontVariantLigaturesType], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantLigaturesProperty(types, important: important))
         return self
     }
 
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
     @discardableResult
-    public func fontVariantLigatures(_ types: FontVariantLigaturesType...) -> Self {
-        fontVariantLigatures(types)
+    public func fontVariantLigatures(_ types: FontVariantLigaturesType..., important: Bool? = nil) -> Self {
+        fontVariantLigatures(types, important: important)
     }
 
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
     @discardableResult
-    public func fontVariantLigatures<V>(_ types: V) -> Self where V: StateConvertible, V.Value == [FontVariantLigaturesType] {
-        _addProperty(FontVariantLigaturesProperty(types))
+    public func fontVariantLigatures<V>(_ types: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == [FontVariantLigaturesType] {
+        _addProperty(FontVariantLigaturesProperty(types, important: important))
         return self
     }
 
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
     @discardableResult
-    public func fontVariantLigatures<V>(_ types: V) -> Self where V: StateConvertible, V.Value == FontVariantLigaturesType {
-        _addProperty(FontVariantLigaturesProperty(types))
+    public func fontVariantLigatures<V>(_ types: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == FontVariantLigaturesType {
+        _addProperty(FontVariantLigaturesProperty(types, important: important))
         return self
     }
 }
@@ -10659,27 +11116,27 @@ public class FontVariantNumericProperty: _Property {
     public var propertyValue: FontVariantNumericValue
     var _content = _PropertyContent<FontVariantNumericValue>()
 
-    public init (_ types: [FontVariantNumericType]) {
-        propertyValue = .init(types)
+    public init (_ types: [FontVariantNumericType], important: Bool? = nil) {
+        propertyValue = .init(types, important: important)
     }
 
-    public convenience init (_ types: FontVariantNumericType...) {
-        self.init(types)
+    public convenience init (_ types: FontVariantNumericType..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantNumericType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantNumericType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self._changed(to: .init($0))
+            self._changed(to: .init($0, important: important))
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantNumericType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantNumericType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self._changed(to: .init($0))
+            self._changed(to: .init($0, important: important))
         }
     }
 }
@@ -10694,27 +11151,27 @@ public class FontVariantNumericValue: CustomStringConvertible, _PropertyValueInn
 
     var _changeHandler = {}
 
-    public init (_ type: [FontVariantNumericType]) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ type: [FontVariantNumericType], important: Bool? = nil) {
+        value = type.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init (_ type: FontVariantNumericType...) {
-        self.init(type)
+    public convenience init (_ type: FontVariantNumericType..., important: Bool? = nil) {
+        self.init(type, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantNumericType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantNumericType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.map { $0.value }.joined(separator: " ")
+            self.value = $0.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantNumericType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantNumericType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.value
+            self.value = $0.value + (important == true ? "!important" : "")
         }
     }
 
@@ -10729,28 +11186,28 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
     @discardableResult
-    public func fontVariantNumeric(_ types: [FontVariantNumericType]) -> Self {
-        _addProperty(FontVariantNumericProperty(types))
+    public func fontVariantNumeric(_ types: [FontVariantNumericType], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantNumericProperty(types, important: important))
         return self
     }
 
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
     @discardableResult
-    public func fontVariantNumeric(_ types: FontVariantNumericType...) -> Self {
-        fontVariantNumeric(types)
+    public func fontVariantNumeric(_ types: FontVariantNumericType..., important: Bool? = nil) -> Self {
+        fontVariantNumeric(types, important: important)
     }
 
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
     @discardableResult
-    public func fontVariantNumeric<V>(_ types: V) -> Self where V: StateConvertible, V.Value == [FontVariantNumericType] {
-        _addProperty(FontVariantNumericProperty(types))
+    public func fontVariantNumeric<V>(_ types: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == [FontVariantNumericType] {
+        _addProperty(FontVariantNumericProperty(types, important: important))
         return self
     }
 
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
     @discardableResult
-    public func fontVariantNumeric<V>(_ types: V) -> Self where V: StateConvertible, V.Value == FontVariantNumericType {
-        _addProperty(FontVariantNumericProperty(types))
+    public func fontVariantNumeric<V>(_ types: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == FontVariantNumericType {
+        _addProperty(FontVariantNumericProperty(types, important: important))
         return self
     }
 }
@@ -10822,27 +11279,27 @@ public class FontVariantProperty: _Property {
     public var propertyValue: FontVariantValue
     var _content = _PropertyContent<FontVariantValue>()
 
-    public init (_ types: [FontVariantType]) {
-        propertyValue = .init(types)
+    public init (_ types: [FontVariantType], important: Bool? = nil) {
+        propertyValue = .init(types, important: important)
     }
 
-    public convenience init (_ types: FontVariantType...) {
-        self.init(types)
+    public convenience init (_ types: FontVariantType..., important: Bool? = nil) {
+        self.init(types, important: important)
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantType] {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self._changed(to: .init($0))
+            self._changed(to: .init($0, important: important))
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantType {
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantType {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self._changed(to: .init($0))
+            self._changed(to: .init($0, important: important))
         }
     }
 }
@@ -10857,27 +11314,39 @@ public class FontVariantValue: CustomStringConvertible, _PropertyValueInnerChang
 
     var _changeHandler = {}
 
-    public init (_ type: [FontVariantType]) {
-        value = type.map { $0.value }.joined(separator: " ")
-    }
-
-    public convenience init (_ type: FontVariantType...) {
-        self.init(type)
-    }
-
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == [FontVariantType] {
-        let types = types.stateValue
-        self.init(types.wrappedValue)
-        types.listen {
-            self.value = $0.map { $0.value }.joined(separator: " ")
+    public init (_ types: [FontVariantType], important: Bool? = nil) {
+        if important == true {
+            value = types.map { $0.value }.joined(separator: " ") + "!important"
+        } else {
+            value = types.map { $0.value }.joined(separator: " ")
         }
     }
 
-    public convenience init <V>(_ types: V) where V: StateConvertible, V.Value == FontVariantType {
+    public convenience init (_ type: FontVariantType..., important: Bool? = nil) {
+        self.init(type, important: important)
+    }
+
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == [FontVariantType] {
         let types = types.stateValue
-        self.init(types.wrappedValue)
+        self.init(types.wrappedValue, important: important)
         types.listen {
-            self.value = $0.value
+            if important == true {
+                self.value = $0.map { $0.value }.joined(separator: " ") + "!important"
+            } else {
+                self.value = $0.map { $0.value }.joined(separator: " ")
+            }
+        }
+    }
+
+    public convenience init <V>(_ types: V, important: Bool? = nil) where V: StateConvertible, V.Value == FontVariantType {
+        let types = types.stateValue
+        self.init(types.wrappedValue, important: important)
+        types.listen {
+            if important == true {
+                self.value = $0.value + "!important"
+            } else {
+                self.value = $0.value
+            }
         }
     }
 
@@ -10892,28 +11361,28 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies whether or not a text should be displayed in a small-caps font
     @discardableResult
-    public func fontVariant(_ types: [FontVariantType]) -> Self {
-        _addProperty(FontVariantProperty(types))
+    public func fontVariant(_ types: [FontVariantType], important: Bool? = nil) -> Self {
+        _addProperty(FontVariantProperty(types, important: important))
         return self
     }
 
     /// Specifies whether or not a text should be displayed in a small-caps font
     @discardableResult
-    public func fontVariant(_ types: FontVariantType...) -> Self {
-        fontVariant(types)
+    public func fontVariant(_ types: FontVariantType..., important: Bool? = nil) -> Self {
+        fontVariant(types, important: important)
     }
 
     /// Specifies whether or not a text should be displayed in a small-caps font
     @discardableResult
-    public func fontVariant<V>(_ types: V) -> Self where V: StateConvertible, V.Value == [FontVariantType] {
-        _addProperty(FontVariantProperty(types))
+    public func fontVariant<V>(_ types: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == [FontVariantType] {
+        _addProperty(FontVariantProperty(types, important: important))
         return self
     }
 
     /// Specifies whether or not a text should be displayed in a small-caps font
     @discardableResult
-    public func fontVariant<V>(_ types: V) -> Self where V: StateConvertible, V.Value == FontVariantType {
-        _addProperty(FontVariantProperty(types))
+    public func fontVariant<V>(_ types: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == FontVariantType {
+        _addProperty(FontVariantProperty(types, important: important))
         return self
     }
 }
@@ -10940,12 +11409,12 @@ public class FontWeightProperty: _Property {
         propertyValue = .init(type)
     }
 
-    public init (_ n: Int) {
-        propertyValue = .init(n)
+    public init (_ n: Int, important: Bool? = nil) {
+        propertyValue = .init(n, important: important)
     }
 
-    public init <V>(_ n: V) where V: StateConvertible, V.Value == Int {
-        propertyValue = .init(n)
+    public init <V>(_ n: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
+        propertyValue = .init(n, important: important)
     }
 }
 
@@ -10972,15 +11441,15 @@ public class FontWeightValue: CustomStringConvertible, _PropertyValueInnerChange
         }
     }
 
-    public init (_ n: Int) {
-        value = "\(n)"
+    public init (_ n: Int, important: Bool? = nil) {
+        value = "\(n)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <V>(_ n: V) where V: StateConvertible, V.Value == Int {
+    public convenience init <V>(_ n: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         let n = n.stateValue
-        self.init(n.wrappedValue)
+        self.init(n.wrappedValue, important: important)
         n.listen {
-            self.value = "\($0)"
+            self.value = "\($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
@@ -11010,15 +11479,15 @@ extension CSSRulable {
 
     /// Specifies the weight of a font
     @discardableResult
-    public func fontWeight(_ n: Int) -> Self {
-        _addProperty(FontWeightProperty(n))
+    public func fontWeight(_ n: Int, important: Bool? = nil) -> Self {
+        _addProperty(FontWeightProperty(n, important: important))
         return self
     }
 
     /// Specifies the weight of a font
     @discardableResult
-    public func fontWeight<V>(_ n: V) -> Self where V: StateConvertible, V.Value == Int {
-        _addProperty(FontWeightProperty(n))
+    public func fontWeight<V>(_ n: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == Int {
+        _addProperty(FontWeightProperty(n, important: important))
         return self
     }
 }
@@ -11038,19 +11507,19 @@ public class GridAreaProperty: _Property {
     public var propertyValue: GridAreaValue
     var _content = _PropertyContent<GridAreaValue>()
 
-    public init (rowStart: GridRowStartValue, columnStart: GridColumnStartValue, rowEnd: GridRowEndValue, columnEnd: GridColumnEndValue) {
-        propertyValue = .init(rowStart: rowStart, columnStart: columnStart, rowEnd: rowEnd, columnEnd: columnEnd)
+    public init (rowStart: GridRowStartValue, columnStart: GridColumnStartValue, rowEnd: GridRowEndValue, columnEnd: GridColumnEndValue, important: Bool? = nil) {
+        propertyValue = .init(rowStart: rowStart, columnStart: columnStart, rowEnd: rowEnd, columnEnd: columnEnd, important: important)
     }
 
-    public init (_ area: String) {
-        propertyValue = .init(area)
+    public init (_ area: String, important: Bool? = nil) {
+        propertyValue = .init(area, important: important)
     }
 
-    public convenience init <S>(_ area: S) where S: StateConvertible, S.Value == String {
+    public convenience init <S>(_ area: S, important: Bool? = nil) where S: StateConvertible, S.Value == String {
         let area = area.stateValue
-        self.init(area.wrappedValue)
+        self.init(area.wrappedValue, important: important)
         area.listen {
-            self._changed(to: .init($0))
+            self._changed(to: .init($0, important: important))
         }
     }
 }
@@ -11064,12 +11533,12 @@ extension PropertyKey {
 public struct GridAreaValue: CustomStringConvertible {
     public let value: String
 
-    public init (rowStart: GridRowStartValue, columnStart: GridColumnStartValue, rowEnd: GridRowEndValue, columnEnd: GridColumnEndValue) {
-        value = rowStart.value + " / " + columnStart.value + " / " + rowEnd.value + " / " + columnEnd.value
+    public init (rowStart: GridRowStartValue, columnStart: GridColumnStartValue, rowEnd: GridRowEndValue, columnEnd: GridColumnEndValue, important: Bool? = nil) {
+        value = rowStart.value + " / " + columnStart.value + " / " + rowEnd.value + " / " + columnEnd.value + (important == true ? "!important" : "")
     }
 
-    public init (_ area: String) {
-        value = area
+    public init (_ area: String, important: Bool? = nil) {
+        value = area + (important == true ? "!important" : "")
     }
 
     public var description: String { value }
@@ -11085,24 +11554,24 @@ extension CSSRulable {
     /// Either specifies a name for the grid item, or this property is a shorthand property
     /// for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties
     @discardableResult
-    public func gridArea(rowStart: GridRowStartValue, columnStart: GridColumnStartValue, rowEnd: GridRowEndValue, columnEnd: GridColumnEndValue) -> Self {
-        _addProperty(GridAreaProperty(rowStart: rowStart, columnStart: columnStart, rowEnd: rowEnd, columnEnd: columnEnd))
+    public func gridArea(rowStart: GridRowStartValue, columnStart: GridColumnStartValue, rowEnd: GridRowEndValue, columnEnd: GridColumnEndValue, important: Bool? = nil) -> Self {
+        _addProperty(GridAreaProperty(rowStart: rowStart, columnStart: columnStart, rowEnd: rowEnd, columnEnd: columnEnd, important: important))
         return self
     }
 
     /// Either specifies a name for the grid item, or this property is a shorthand property
     /// for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties
     @discardableResult
-    public func gridArea(_ area: String) -> Self {
-        _addProperty(GridAreaProperty(area))
+    public func gridArea(_ area: String, important: Bool? = nil) -> Self {
+        _addProperty(GridAreaProperty(area, important: important))
         return self
     }
 
     /// Either specifies a name for the grid item, or this property is a shorthand property
     /// for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties
     @discardableResult
-    public func gridArea<S>(_ area: S) -> Self where S: StateConvertible, S.Value == String {
-        _addProperty(GridAreaProperty(area))
+    public func gridArea<S>(_ area: S, important: Bool? = nil) -> Self where S: StateConvertible, S.Value == String {
+        _addProperty(GridAreaProperty(area, important: important))
         return self
     }
 }
@@ -11122,22 +11591,22 @@ public class GridAutoColumnsProperty: _Property {
     public var propertyValue: GridAutoColumnsValue
     var _content = _PropertyContent<GridAutoColumnsValue>()
 
-    public init (_ type: GridAutoColumnsType...) {
-        propertyValue = .init(type)
+    public init (_ type: GridAutoColumnsType..., important: Bool? = nil) {
+        propertyValue = .init(type, important: important)
     }
 
-    public init (_ type: [GridAutoColumnsType]) {
-        propertyValue = .init(type)
+    public init (_ type: [GridAutoColumnsType], important: Bool? = nil) {
+        propertyValue = .init(type, important: important)
     }
 
-    public convenience init (_ type: State<GridAutoColumnsType>) {
-        self.init(type.wrappedValue)
-        type.listen { self._changed(to: .init($0)) }
+    public convenience init (_ type: State<GridAutoColumnsType>, important: Bool? = nil) {
+        self.init(type.wrappedValue, important: important)
+        type.listen { self._changed(to: .init($0, important: important)) }
     }
 
-    public convenience init (_ type: State<[GridAutoColumnsType]>) {
-        self.init(type.wrappedValue)
-        type.listen { self._changed(to: .init($0)) }
+    public convenience init (_ type: State<[GridAutoColumnsType]>, important: Bool? = nil) {
+        self.init(type.wrappedValue, important: important)
+        type.listen { self._changed(to: .init($0, important: important)) }
     }
 }
 
@@ -11149,12 +11618,12 @@ extension PropertyKey {
 public struct GridAutoColumnsValue: CustomStringConvertible {
     public let value: String
 
-    public init (_ type: GridAutoColumnsType...) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ types: GridAutoColumnsType..., important: Bool? = nil) {
+        value = types.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public init (_ type: [GridAutoColumnsType]) {
-        value = type.map { $0.value }.joined(separator: " ")
+    public init (_ types: [GridAutoColumnsType], important: Bool? = nil) {
+        value = types.map { $0.value }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
     public var description: String { value }
@@ -11168,53 +11637,53 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies a default column size
     @discardableResult
-    public func gridAutoColumns(_ type: [GridAutoColumnsType]) -> Self {
-        _addProperty(.gridAutoColumns, .init(type))
+    public func gridAutoColumns(_ type: [GridAutoColumnsType], important: Bool? = nil) -> Self {
+        _addProperty(.gridAutoColumns, .init(type, important: important))
         return self
     }
 
     /// Specifies a default column size
     @discardableResult
-    public func gridAutoColumns(_ type: GridAutoColumnsType...) -> Self {
-        gridAutoColumns(type)
+    public func gridAutoColumns(_ type: GridAutoColumnsType..., important: Bool? = nil) -> Self {
+        gridAutoColumns(type, important: important)
     }
 
     /// Specifies a default column size
     @discardableResult
-    public func gridAutoColumns<U: UnitValuable>(_ type: [U]) -> Self {
-        gridAutoColumns(type.map { .length($0) })
+    public func gridAutoColumns<U: UnitValuable>(_ type: [U], important: Bool? = nil) -> Self {
+        gridAutoColumns(type.map { .length($0) }, important: important)
     }
 
     /// Specifies a default column size
     @discardableResult
-    public func gridAutoColumns<U: UnitValuable>(_ type: U...) -> Self {
-        gridAutoColumns(type.map { .length($0) })
+    public func gridAutoColumns<U: UnitValuable>(_ type: U..., important: Bool? = nil) -> Self {
+        gridAutoColumns(type.map { .length($0) }, important: important)
     }
 
     /// Specifies a default column size
     @discardableResult
-    public func gridAutoColumns(_ type: State<[GridAutoColumnsType]>) -> Self {
-        _addProperty(GridAutoColumnsProperty(type))
+    public func gridAutoColumns(_ type: State<[GridAutoColumnsType]>, important: Bool? = nil) -> Self {
+        _addProperty(GridAutoColumnsProperty(type, important: important))
         return self
     }
 
     /// Specifies a default column size
     @discardableResult
-    public func gridAutoColumns<U: UnitValuable>(_ type: State<[U]>) -> Self {
-        gridAutoColumns(type.map { $0.map { .length($0) } })
+    public func gridAutoColumns<U: UnitValuable>(_ type: State<[U]>, important: Bool? = nil) -> Self {
+        gridAutoColumns(type.map { $0.map { .length($0) } }, important: important)
     }
 
     /// Specifies a default column size
     @discardableResult
-    public func gridAutoColumns(_ type: State<GridAutoColumnsType>) -> Self {
-        _addProperty(GridAutoColumnsProperty(type))
+    public func gridAutoColumns(_ type: State<GridAutoColumnsType>, important: Bool? = nil) -> Self {
+        _addProperty(GridAutoColumnsProperty(type, important: important))
         return self
     }
 
     /// Specifies a default column size
     @discardableResult
-    public func gridAutoColumns<U: UnitValuable>(_ type: State<U>) -> Self {
-        gridAutoColumns(type.map { .length($0) })
+    public func gridAutoColumns<U: UnitValuable>(_ type: State<U>, important: Bool? = nil) -> Self {
+        gridAutoColumns(type.map { .length($0) }, important: important)
     }
 }
 
@@ -11345,31 +11814,31 @@ public class GridColumnEndProperty: _Property {
     var _content = _PropertyContent<GridColumnEndValue>()
 
     // Means `auto`
-    public init() {
-        propertyValue = .auto
+    public init(important: Bool? = nil) {
+        propertyValue = .init(important: important)
     }
 
-    public init (columnLine: Int) {
+    public init (columnLine: Int, important: Bool? = nil) {
         propertyValue = .columnLine(columnLine)
     }
 
-    public init <V>(columnLine: V) where V: StateConvertible, V.Value == Int {
+    public init <V>(columnLine: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         propertyValue = .columnLine(columnLine)
     }
 
-    public init (span n: Int) {
+    public init (span n: Int, important: Bool? = nil) {
         propertyValue = .span(n)
     }
 
-    public init <V>(span n: V) where V: StateConvertible, V.Value == Int {
+    public init <V>(span n: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         propertyValue = .span(n)
     }
 
     public static var auto: GridColumnEndValue { .init() }
-    public static func columnLine(_ v: Int) -> GridColumnEndValue { .init(columnLine: v) }
-    public static func columnLine<V>(_ v: V) -> GridColumnEndValue where V: StateConvertible, V.Value == Int { .init(columnLine: v) }
-    public static func span(_ n: Int) -> GridColumnEndValue { .init(span: n) }
-    public static func span<V>(_ n: V) -> GridColumnEndValue where V: StateConvertible, V.Value == Int { .init(span: n) }
+    public static func columnLine(_ v: Int, important: Bool? = nil) -> GridColumnEndValue { .init(columnLine: v) }
+    public static func columnLine<V>(_ v: V, important: Bool? = nil) -> GridColumnEndValue where V: StateConvertible, V.Value == Int { .init(columnLine: v) }
+    public static func span(_ n: Int, important: Bool? = nil) -> GridColumnEndValue { .init(span: n) }
+    public static func span<V>(_ n: V, important: Bool? = nil) -> GridColumnEndValue where V: StateConvertible, V.Value == Int { .init(span: n) }
 }
 
 extension PropertyKey {
@@ -11382,41 +11851,41 @@ public class GridColumnEndValue: CustomStringConvertible, _PropertyValueInnerCha
 
     var _changeHandler = {}
 
-    public init() {
-        value = "auto"
+    public init(important: Bool? = nil) {
+        value = "auto" + (important == true ? "!important" : "")
     }
 
-    public init (columnLine: Int) {
-        value = "\(columnLine)"
+    public init (columnLine: Int, important: Bool? = nil) {
+        value = "\(columnLine)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <V>(columnLine: V) where V: StateConvertible, V.Value == Int {
+    public convenience init <V>(columnLine: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         let columnLine = columnLine.stateValue
-        self.init(columnLine: columnLine.wrappedValue)
+        self.init(columnLine: columnLine.wrappedValue, important: important)
         columnLine.listen {
-            self.value = "\($0)"
+            self.value = "\($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public init (span n: Int) {
-        value = "span \(n)"
+    public init (span n: Int, important: Bool? = nil) {
+        value = "span \(n)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <V>(span n: V) where V: StateConvertible, V.Value == Int {
+    public convenience init <V>(span n: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         let n = n.stateValue
-        self.init(span: n.wrappedValue)
+        self.init(span: n.wrappedValue, important: important)
         n.listen {
-            self.value = "span \($0)"
+            self.value = "span \($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
     public static var auto: GridColumnEndValue { .init() }
-    public static func columnLine(_ v: Int) -> GridColumnEndValue { .init(columnLine: v) }
-    public static func columnLine<V>(_ v: V) -> GridColumnEndValue where V: StateConvertible, V.Value == Int { .init(columnLine: v) }
-    public static func span(_ n: Int) -> GridColumnEndValue { .init(span: n) }
-    public static func span<V>(_ n: V) -> GridColumnEndValue where V: StateConvertible, V.Value == Int { .init(span: n) }
+    public static func columnLine(_ v: Int, important: Bool? = nil) -> GridColumnEndValue { .init(columnLine: v, important: important) }
+    public static func columnLine<V>(_ v: V, important: Bool? = nil) -> GridColumnEndValue where V: StateConvertible, V.Value == Int { .init(columnLine: v, important: important) }
+    public static func span(_ n: Int, important: Bool? = nil) -> GridColumnEndValue { .init(span: n, important: important) }
+    public static func span<V>(_ n: V, important: Bool? = nil) -> GridColumnEndValue where V: StateConvertible, V.Value == Int { .init(span: n, important: important) }
 
     public var description: String { value }
 }
@@ -11428,37 +11897,38 @@ extension Stylesheetable {
 
 extension CSSRulable {
     /// Specifies where to end the grid item
+    /// means **auto**
     @discardableResult
-    public func gridColumnEnd() -> Self {
-        _addProperty(GridColumnEndProperty())
+    public func gridColumnEnd(important: Bool? = nil) -> Self {
+        _addProperty(GridColumnEndProperty(important: important))
         return self
     }
 
     /// Specifies where to end the grid item
     @discardableResult
-    public func gridColumnEnd(columnLine: Int) -> Self {
-        _addProperty(GridColumnEndProperty(columnLine: columnLine))
+    public func gridColumnEnd(columnLine: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridColumnEndProperty(columnLine: columnLine, important: important))
         return self
     }
 
     /// Specifies where to end the grid item
     @discardableResult
-    public func gridColumnEnd<V>(columnLine: V) -> Self where V: StateConvertible, V.Value == Int {
-        _addProperty(GridColumnEndProperty(columnLine: columnLine))
+    public func gridColumnEnd<V>(columnLine: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == Int {
+        _addProperty(GridColumnEndProperty(columnLine: columnLine, important: important))
         return self
     }
 
     /// Specifies where to end the grid item
     @discardableResult
-    public func gridColumnEnd(span n: Int) -> Self {
-        _addProperty(GridColumnEndProperty(span: n))
+    public func gridColumnEnd(span n: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridColumnEndProperty(span: n, important: important))
         return self
     }
 
     /// Specifies where to end the grid item
     @discardableResult
-    public func gridColumnEnd<V>(span n: V) -> Self where V: StateConvertible, V.Value == Int {
-        _addProperty(GridColumnEndProperty(span: n))
+    public func gridColumnEnd<V>(span n: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == Int {
+        _addProperty(GridColumnEndProperty(span: n, important: important))
         return self
     }
 }
@@ -11488,20 +11958,20 @@ public class GridColumnGapProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -11534,29 +12004,29 @@ extension CSSRulable {
 
     /// Specifies the size of the gap between columns
     @discardableResult
-    public func gridColumnGap(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.gridColumnGap, UnitValue(value, unit))
+    public func gridColumnGap(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.gridColumnGap, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the size of the gap between columns
     @discardableResult
-    public func gridColumnGap(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.gridColumnGap, UnitValue(value, unit))
+    public func gridColumnGap(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.gridColumnGap, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the size of the gap between columns
     @discardableResult
-    public func gridColumnGap(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.gridColumnGap, UnitValue(value, unit))
+    public func gridColumnGap(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.gridColumnGap, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the size of the gap between columns
     @discardableResult
-    public func gridColumnGap(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.gridColumnGap, UnitValue(value, unit))
+    public func gridColumnGap(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.gridColumnGap, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -11575,20 +12045,20 @@ public class GridColumnProperty: _Property {
     public var propertyValue: GridColumnValue
     var _content = _PropertyContent<GridColumnValue>()
 
-    public init (start: Int, end: Int) {
-        propertyValue = GridColumnValue(start: start, end: end)
+    public init (start: Int, end: Int, important: Bool? = nil) {
+        propertyValue = GridColumnValue(start: start, end: end, important: important)
     }
 
-    public init <S>(start: S, end: Int) where S: StateConvertible, S.Value == Int {
-        propertyValue = GridColumnValue(start: start, end: end)
+    public init <S>(start: S, end: Int, important: Bool? = nil) where S: StateConvertible, S.Value == Int {
+        propertyValue = GridColumnValue(start: start, end: end, important: important)
     }
 
-    public init <E>(start: Int, end: E) where E: StateConvertible, E.Value == Int {
-        propertyValue = GridColumnValue(start: start, end: end)
+    public init <E>(start: Int, end: E, important: Bool? = nil) where E: StateConvertible, E.Value == Int {
+        propertyValue = GridColumnValue(start: start, end: end, important: important)
     }
 
-    public init <S, E>(start: S, end: E) where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
-        propertyValue = GridColumnValue(start: start, end: end)
+    public init <S, E>(start: S, end: E, important: Bool? = nil) where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
+        propertyValue = GridColumnValue(start: start, end: end, important: important)
     }
 }
 
@@ -11602,38 +12072,38 @@ public class GridColumnValue: CustomStringConvertible, _PropertyValueInnerChange
 
     var _changeHandler = {}
 
-    public init (start: Int, end: Int) {
-        value = "\(start) / \(end)"
+    public init (start: Int, end: Int, important: Bool? = nil) {
+        value = "\(start) / \(end)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <S>(start: S, end: Int) where S: StateConvertible, S.Value == Int {
+    public convenience init <S>(start: S, end: Int, important: Bool? = nil) where S: StateConvertible, S.Value == Int {
         let start = start.stateValue
-        self.init(start: start.wrappedValue, end: end)
+        self.init(start: start.wrappedValue, end: end, important: important)
         start.listen {
-            self.value = "\($0) / \(end)"
+            self.value = "\($0) / \(end)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init <E>(start: Int, end: E) where E: StateConvertible, E.Value == Int {
+    public convenience init <E>(start: Int, end: E, important: Bool? = nil) where E: StateConvertible, E.Value == Int {
         let end = end.stateValue
-        self.init(start: start, end: end.wrappedValue)
+        self.init(start: start, end: end.wrappedValue, important: important)
         end.listen {
-            self.value = "\(start) / \($0)"
+            self.value = "\(start) / \($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init <S, E>(start: S, end: E) where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
+    public convenience init <S, E>(start: S, end: E, important: Bool? = nil) where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
         let start = start.stateValue
         let end = end.stateValue
-        self.init(start: start.wrappedValue, end: end.wrappedValue)
+        self.init(start: start.wrappedValue, end: end.wrappedValue, important: important)
         start.listen {
-            self.value = "\($0) / \(end)"
+            self.value = "\($0) / \(end)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
         end.listen {
-            self.value = "\(start) / \($0)"
+            self.value = "\(start) / \($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
@@ -11649,29 +12119,29 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for the grid-column-start and the grid-column-end properties
     @discardableResult
-    public func gridColumn(start: Int, end: Int) -> Self {
-        _addProperty(GridColumnProperty(start: start, end: end))
+    public func gridColumn(start: Int, end: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridColumnProperty(start: start, end: end, important: important))
         return self
     }
 
     /// A shorthand property for the grid-column-start and the grid-column-end properties
     @discardableResult
-    public func gridColumn<S>(start: S, end: Int) -> Self where S: StateConvertible, S.Value == Int {
-        _addProperty(GridColumnProperty(start: start, end: end))
+    public func gridColumn<S>(start: S, end: Int, important: Bool? = nil) -> Self where S: StateConvertible, S.Value == Int {
+        _addProperty(GridColumnProperty(start: start, end: end, important: important))
         return self
     }
 
     /// A shorthand property for the grid-column-start and the grid-column-end properties
     @discardableResult
-    public func gridColumn<E>(start: Int, end: E) -> Self where E: StateConvertible, E.Value == Int {
-        _addProperty(GridColumnProperty(start: start, end: end))
+    public func gridColumn<E>(start: Int, end: E, important: Bool? = nil) -> Self where E: StateConvertible, E.Value == Int {
+        _addProperty(GridColumnProperty(start: start, end: end, important: important))
         return self
     }
 
     /// A shorthand property for the grid-column-start and the grid-column-end properties
     @discardableResult
-    public func gridColumn<S, E>(start: S, end: E) -> Self where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
-        _addProperty(GridColumnProperty(start: start, end: end))
+    public func gridColumn<S, E>(start: S, end: E, important: Bool? = nil) -> Self where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
+        _addProperty(GridColumnProperty(start: start, end: end, important: important))
         return self
     }
 }
@@ -11691,31 +12161,35 @@ public class GridColumnStartProperty: _Property {
     var _content = _PropertyContent<GridColumnStartValue>()
 
     // Means `auto`
-    public init() {
-        propertyValue = .auto
+    public init(important: Bool? = nil) {
+        if important == true {
+            propertyValue = .auto.important
+        } else {
+            propertyValue = .auto
+        }
     }
 
-    public init (columnLine: Int) {
-        propertyValue = .columnLine(columnLine)
+    public init (columnLine: Int, important: Bool? = nil) {
+        propertyValue = .columnLine(columnLine, important: important)
     }
 
-    public init <V>(columnLine: V) where V: StateConvertible, V.Value == Int {
-        propertyValue = .columnLine(columnLine)
+    public init <V>(columnLine: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
+        propertyValue = .columnLine(columnLine, important: important)
     }
 
-    public init (span n: Int) {
-        propertyValue = .span(n)
+    public init (span n: Int, important: Bool? = nil) {
+        propertyValue = .span(n, important: important)
     }
 
-    public init <V>(span n: V) where V: StateConvertible, V.Value == Int {
-        propertyValue = .span(n)
+    public init <V>(span n: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
+        propertyValue = .span(n, important: important)
     }
 
     public static var auto: GridColumnStartValue { .init() }
-    public static func columnLine(_ v: Int) -> GridColumnStartValue { .init(columnLine: v) }
-    public static func columnLine<V>(_ v: V) -> GridColumnStartValue where V: StateConvertible, V.Value == Int { .init(columnLine: v) }
-    public static func span(_ n: Int) -> GridColumnStartValue { .init(span: n) }
-    public static func span<V>(_ n: V) -> GridColumnStartValue where V: StateConvertible, V.Value == Int { .init(span: n) }
+    public static func columnLine(_ v: Int, important: Bool? = nil) -> GridColumnStartValue { .init(columnLine: v, important: important) }
+    public static func columnLine<V>(_ v: V, important: Bool? = nil) -> GridColumnStartValue where V: StateConvertible, V.Value == Int { .init(columnLine: v, important: important) }
+    public static func span(_ n: Int, important: Bool? = nil) -> GridColumnStartValue { .init(span: n, important: important) }
+    public static func span<V>(_ n: V, important: Bool? = nil) -> GridColumnStartValue where V: StateConvertible, V.Value == Int { .init(span: n, important: important) }
 }
 
 extension PropertyKey {
@@ -11723,46 +12197,50 @@ extension PropertyKey {
     public static var gridColumnStart: PropertyKey<GridColumnStartValue> { "grid-column-start".propertyKey() }
 }
 
-public class GridColumnStartValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+public final class GridColumnStartValue: PropertyValueImportantable, _StringPropertyValue, _PropertyValueInnerChangeable {
     public var value: String
 
     var _changeHandler = {}
-
-    public init() {
-        value = "auto"
+    
+    init (_ value: String) {
+        self.value = value
+    }
+    
+    public init(important: Bool? = nil) {
+        value = "auto" + (important == true ? "!important" : "")
     }
 
-    public init (columnLine: Int) {
-        value = "\(columnLine)"
+    public init (columnLine: Int, important: Bool? = nil) {
+        value = "\(columnLine)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <V>(columnLine: V) where V: StateConvertible, V.Value == Int {
+    public convenience init <V>(columnLine: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         let columnLine = columnLine.stateValue
-        self.init(columnLine: columnLine.wrappedValue)
+        self.init(columnLine: columnLine.wrappedValue, important: important)
         columnLine.listen {
             self.value = "\($0)"
             self._changeHandler()
         }
     }
 
-    public init (span n: Int) {
-        value = "span \(n)"
+    public init (span n: Int, important: Bool? = nil) {
+        value = "span \(n)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <V>(span n: V) where V: StateConvertible, V.Value == Int {
+    public convenience init <V>(span n: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         let n = n.stateValue
-        self.init(span: n.wrappedValue)
+        self.init(span: n.wrappedValue, important: important)
         n.listen {
-            self.value = "span \($0)"
+            self.value = "span \($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
     public static var auto: GridColumnStartValue { .init() }
-    public static func columnLine(_ v: Int) -> GridColumnStartValue { .init(columnLine: v) }
-    public static func columnLine<V>(_ v: V) -> GridColumnStartValue where V: StateConvertible, V.Value == Int { .init(columnLine: v) }
-    public static func span(_ n: Int) -> GridColumnStartValue { .init(span: n) }
-    public static func span<V>(_ n: V) -> GridColumnStartValue where V: StateConvertible, V.Value == Int { .init(span: n) }
+    public static func columnLine(_ v: Int, important: Bool? = nil) -> GridColumnStartValue { .init(columnLine: v, important: important) }
+    public static func columnLine<V>(_ v: V, important: Bool? = nil) -> GridColumnStartValue where V: StateConvertible, V.Value == Int { .init(columnLine: v, important: important) }
+    public static func span(_ n: Int, important: Bool? = nil) -> GridColumnStartValue { .init(span: n, important: important) }
+    public static func span<V>(_ n: V, important: Bool? = nil) -> GridColumnStartValue where V: StateConvertible, V.Value == Int { .init(span: n, important: important) }
 
     public var description: String { value }
 }
@@ -11774,37 +12252,38 @@ extension Stylesheetable {
 
 extension CSSRulable {
     /// Specifies where to start the grid item
+    /// means **auto**
     @discardableResult
-    public func gridColumnStart() -> Self {
-        _addProperty(GridColumnStartProperty())
+    public func gridColumnStart(important: Bool? = nil) -> Self {
+        _addProperty(GridColumnStartProperty(important: important))
         return self
     }
 
     /// Specifies where to start the grid item
     @discardableResult
-    public func gridColumnStart(columnLine: Int) -> Self {
-        _addProperty(GridColumnStartProperty(columnLine: columnLine))
+    public func gridColumnStart(columnLine: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridColumnStartProperty(columnLine: columnLine, important: important))
         return self
     }
 
     /// Specifies where to start the grid item
     @discardableResult
-    public func gridColumnStart<V>(columnLine: V) -> Self where V: StateConvertible, V.Value == Int {
-        _addProperty(GridColumnStartProperty(columnLine: columnLine))
+    public func gridColumnStart<V>(columnLine: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == Int {
+        _addProperty(GridColumnStartProperty(columnLine: columnLine, important: important))
         return self
     }
 
     /// Specifies where to start the grid item
     @discardableResult
-    public func gridColumnStart(span n: Int) -> Self {
-        _addProperty(GridColumnStartProperty(span: n))
+    public func gridColumnStart(span n: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridColumnStartProperty(span: n, important: important))
         return self
     }
 
     /// Specifies where to start the grid item
     @discardableResult
-    public func gridColumnStart<V>(span n: V) -> Self where V: StateConvertible, V.Value == Int {
-        _addProperty(GridColumnStartProperty(span: n))
+    public func gridColumnStart<V>(span n: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == Int {
+        _addProperty(GridColumnStartProperty(span: n, important: important))
         return self
     }
 }
@@ -11831,20 +12310,20 @@ public class GridGapProperty: _Property {
         propertyValue = .init(rowGap)
     }
 
-    public init<R: UnitValuable, C: UnitValuable>(_ rowGap: R, _ columnGap: C) {
-        propertyValue = .init(rowGap, columnGap)
+    public init<R: UnitValuable, C: UnitValuable>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) {
+        propertyValue = .init(rowGap, columnGap, important: important)
     }
 
-    public init<R, C: UnitValuable>(_ rowGap: R, _ columnGap: C) where R: StateConvertible, R.Value: UnitValuable {
-        propertyValue = .init(rowGap, columnGap)
+    public init<R, C: UnitValuable>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) where R: StateConvertible, R.Value: UnitValuable {
+        propertyValue = .init(rowGap, columnGap, important: important)
     }
 
-    public init<R: UnitValuable, C>(_ rowGap: R, _ columnGap: C) where C: StateConvertible, C.Value: UnitValuable {
-        propertyValue = .init(rowGap, columnGap)
+    public init<R: UnitValuable, C>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
+        propertyValue = .init(rowGap, columnGap, important: important)
     }
 
-    public init<R, C>(_ rowGap: R, _ columnGap: C) where R: StateConvertible, R.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        propertyValue = .init(rowGap, columnGap)
+    public init<R, C>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) where R: StateConvertible, R.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        propertyValue = .init(rowGap, columnGap, important: important)
     }
 }
 
@@ -11871,38 +12350,38 @@ public class GridGapValue: CustomStringConvertible, _PropertyValueInnerChangeabl
         }
     }
 
-    public init<R: UnitValuable, C: UnitValuable>(_ rowGap: R, _ columnGap: C) {
-        value = [rowGap.description, columnGap.description].joined(separator: " ")
+    public init<R: UnitValuable, C: UnitValuable>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) {
+        value = [rowGap.description, columnGap.description].joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init<R, C: UnitValuable>(_ rowGap: R, _ columnGap: C) where R: StateConvertible, R.Value: UnitValuable {
+    public convenience init<R, C: UnitValuable>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) where R: StateConvertible, R.Value: UnitValuable {
         let rowGap = rowGap.stateValue
-        self.init(rowGap.wrappedValue, columnGap)
+        self.init(rowGap.wrappedValue, columnGap, important: important)
         rowGap.listen {
-            self.value = [$0.description, columnGap.description].joined(separator: " ")
+            self.value = [$0.description, columnGap.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init<R: UnitValuable, C>(_ rowGap: R, _ columnGap: C) where C: StateConvertible, C.Value: UnitValuable {
+    public convenience init<R: UnitValuable, C>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
         let columnGap = columnGap.stateValue
-        self.init(rowGap, columnGap.wrappedValue)
+        self.init(rowGap, columnGap.wrappedValue, important: important)
         columnGap.listen {
-            self.value = [rowGap.description, $0.description].joined(separator: " ")
+            self.value = [rowGap.description, $0.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init<R, C>(_ rowGap: R, _ columnGap: C) where R: StateConvertible, R.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+    public convenience init<R, C>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) where R: StateConvertible, R.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let rowGap = rowGap.stateValue
         let columnGap = columnGap.stateValue
-        self.init(rowGap.wrappedValue, columnGap.wrappedValue)
+        self.init(rowGap.wrappedValue, columnGap.wrappedValue, important: important)
         rowGap.listen {
-            self.value = [$0.description, columnGap.wrappedValue.description].joined(separator: " ")
+            self.value = [$0.description, columnGap.wrappedValue.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         columnGap.listen {
-            self.value = [rowGap.wrappedValue.description, $0.description].joined(separator: " ")
+            self.value = [rowGap.wrappedValue.description, $0.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
@@ -11932,29 +12411,29 @@ extension CSSRulable {
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
     @discardableResult
-    public func gridGap<R: UnitValuable, C: UnitValuable>(_ rowGap: R, _ columnGap: C) -> Self {
-        _addProperty(GridGapProperty(rowGap, columnGap))
+    public func gridGap<R: UnitValuable, C: UnitValuable>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) -> Self {
+        _addProperty(GridGapProperty(rowGap, columnGap, important: important))
         return self
     }
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
     @discardableResult
-    public func gridGap<R, C: UnitValuable>(_ rowGap: R, _ columnGap: C) -> Self where R: StateConvertible, R.Value: UnitValuable {
-        _addProperty(GridGapProperty(rowGap, columnGap))
+    public func gridGap<R, C: UnitValuable>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) -> Self where R: StateConvertible, R.Value: UnitValuable {
+        _addProperty(GridGapProperty(rowGap, columnGap, important: important))
         return self
     }
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
     @discardableResult
-    public func gridGap<R: UnitValuable, C>(_ rowGap: R, _ columnGap: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(GridGapProperty(rowGap, columnGap))
+    public func gridGap<R: UnitValuable, C>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(GridGapProperty(rowGap, columnGap, important: important))
         return self
     }
 
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
     @discardableResult
-    public func gridGap<R, C>(_ rowGap: R, _ columnGap: C) -> Self where R: StateConvertible, R.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(GridGapProperty(rowGap, columnGap))
+    public func gridGap<R, C>(_ rowGap: R, _ columnGap: C, important: Bool? = nil) -> Self where R: StateConvertible, R.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(GridGapProperty(rowGap, columnGap, important: important))
         return self
     }
 }
@@ -11975,37 +12454,37 @@ public class GridProperty: _Property {
     var _content = _PropertyContent<GridValue>()
 
     /// Specifies the size(s) of the columns and rows
-    public init (templateRows: GridTemplateRowsType, templateColumns: GridTemplateColumnsType) {
-        propertyValue = GridValue(templateRows: templateRows, templateColumns: templateColumns)
+    public init (templateRows: GridTemplateRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) {
+        propertyValue = GridValue(templateRows: templateRows, templateColumns: templateColumns, important: important)
     }
 
     /// Specifies the grid layout using named items
-    public init (_ area: [String]) {
-        propertyValue = GridValue(area)
+    public init (_ area: [String], important: Bool? = nil) {
+        propertyValue = GridValue(area, important: important)
     }
 
     /// Specifies the grid layout using named items
-    public convenience init (_ area: String...) {
-        self.init(area)
+    public convenience init (_ area: String..., important: Bool? = nil) {
+        self.init(area, important: important)
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
-    public init (templateRows: GridTemplateRowsType, autoColumns: GridAutoColumnsValue) {
-        propertyValue = GridValue(templateRows: templateRows, autoColumns: autoColumns)
+    public init (templateRows: GridTemplateRowsType, autoColumns: GridAutoColumnsValue, important: Bool? = nil) {
+        propertyValue = GridValue(templateRows: templateRows, autoColumns: autoColumns, important: important)
     }
 
     /// Specifies the auto size of the rows, and sets the grid-template-columns property
-    public init (autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) {
-        propertyValue = GridValue(autoRows: autoRows, templateColumns: templateColumns)
+    public init (autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) {
+        propertyValue = GridValue(autoRows: autoRows, templateColumns: templateColumns, important: important)
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
-    public init (templateRows: GridTemplateRowsType, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue) {
-        propertyValue = GridValue(templateRows: templateRows, autoFlow: autoFlow, autoColumns: autoColumns)
+    public init (templateRows: GridTemplateRowsType, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue, important: Bool? = nil) {
+        propertyValue = GridValue(templateRows: templateRows, autoFlow: autoFlow, autoColumns: autoColumns, important: important)
     }
 
-    public init (autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) {
-        propertyValue = GridValue(autoFlow: autoFlow, autoRows: autoRows, templateColumns: templateColumns)
+    public init (autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) {
+        propertyValue = GridValue(autoFlow: autoFlow, autoRows: autoRows, templateColumns: templateColumns, important: important)
     }
 }
 
@@ -12019,37 +12498,37 @@ public struct GridValue: CustomStringConvertible {
     public let value: String
 
     /// Specifies the size(s) of the columns and rows
-    public init (templateRows: GridTemplateRowsType, templateColumns: GridTemplateColumnsType) {
-        value = templateRows.value + " / " + templateColumns.value
+    public init (templateRows: GridTemplateRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) {
+        value = templateRows.value + " / " + templateColumns.value + (important == true ? "!important" : "")
     }
 
     /// Specifies the grid layout using named items
-    public init (_ area: String...) {
-        value = "\"\(area.joined(separator: " "))\""
+    public init (_ area: String..., important: Bool? = nil) {
+        value = "\"\(area.joined(separator: " "))\"" + (important == true ? "!important" : "")
     }
 
     /// Specifies the grid layout using named items
-    public init (_ area: [String]) {
-        value = "\"\(area.joined(separator: " "))\""
+    public init (_ area: [String], important: Bool? = nil) {
+        value = "\"\(area.joined(separator: " "))\"" + (important == true ? "!important" : "")
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
-    public init (templateRows: GridTemplateRowsType, autoColumns: GridAutoColumnsValue) {
-        value = templateRows.value + " / " + autoColumns.value
+    public init (templateRows: GridTemplateRowsType, autoColumns: GridAutoColumnsValue, important: Bool? = nil) {
+        value = templateRows.value + " / " + autoColumns.value + (important == true ? "!important" : "")
     }
 
     /// Specifies the auto size of the rows, and sets the grid-template-columns property
-    public init (autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) {
-        value = autoRows.value + " / " + templateColumns.value
+    public init (autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) {
+        value = autoRows.value + " / " + templateColumns.value + (important == true ? "!important" : "")
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
-    public init (templateRows: GridTemplateRowsType, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue) {
-        value = templateRows.value + " / " + autoFlow.value + " " + autoColumns.value
+    public init (templateRows: GridTemplateRowsType, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue, important: Bool? = nil) {
+        value = templateRows.value + " / " + autoFlow.value + " " + autoColumns.value + (important == true ? "!important" : "")
     }
 
-    public init (autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) {
-        value = autoFlow.value + " " + autoRows.value + " / " + templateColumns.value
+    public init (autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) {
+        value = autoFlow.value + " " + autoRows.value + " / " + templateColumns.value + (important == true ? "!important" : "")
     }
 
     public var description: String { value }
@@ -12064,101 +12543,101 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies the size(s) of the columns and rows
     @discardableResult
-    public func grid(templateRows: GridTemplateRowsType, templateColumns: GridTemplateColumnsType) -> Self {
-        _addProperty(GridProperty(templateRows: templateRows, templateColumns: templateColumns))
+    public func grid(templateRows: GridTemplateRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
+        _addProperty(GridProperty(templateRows: templateRows, templateColumns: templateColumns, important: important))
         return self
     }
 
     /// Specifies the size(s) of the columns and rows
     @discardableResult
-    public func grid<U: UnitValuable>(templateRows: U, templateColumns: GridTemplateColumnsType) -> Self {
-        grid(templateRows: .length(templateRows), templateColumns: templateColumns)
+    public func grid<U: UnitValuable>(templateRows: U, templateColumns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
+        grid(templateRows: .length(templateRows), templateColumns: templateColumns, important: important)
     }
 
     /// Specifies the grid layout using named items
     @discardableResult
-    public func grid(_ area: [String]) -> Self {
-        _addProperty(GridProperty(area))
+    public func grid(_ area: [String], important: Bool? = nil) -> Self {
+        _addProperty(GridProperty(area, important: important))
         return self
     }
 
     /// Specifies the grid layout using named items
     @discardableResult
-    public func grid(_ area: String...) -> Self {
-        grid(area)
+    public func grid(_ area: String..., important: Bool? = nil) -> Self {
+        grid(area, important: important)
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
     @discardableResult
-    public func grid(templateRows: GridTemplateRowsType, autoColumns: GridAutoColumnsValue) -> Self {
-        _addProperty(GridProperty(templateRows: templateRows, autoColumns: autoColumns))
-        return self
-    }
-
-    /// Specifies the size (height) of the rows, and the auto size of the columns
-    @discardableResult
-    public func grid<U: UnitValuable>(templateRows: U, autoColumns: GridAutoColumnsValue) -> Self {
-        grid(templateRows: .length(templateRows), autoColumns: autoColumns)
-    }
-
-    /// Specifies the auto size of the rows, and sets the grid-template-columns property
-    @discardableResult
-    public func grid(autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) -> Self {
-        _addProperty(GridProperty(autoRows: autoRows, templateColumns: templateColumns))
-        return self
-    }
-
-    /// Specifies the auto size of the rows, and sets the grid-template-columns property
-    @discardableResult
-    public func grid<U: UnitValuable>(autoRows: GridAutoRowsType, templateColumns: U) -> Self {
-        grid(autoRows: autoRows, templateColumns: .length(templateColumns))
-    }
-
-    /// Specifies the auto size of the rows, and sets the grid-template-columns property
-    @discardableResult
-    public func grid<U: UnitValuable>(autoRows: U, templateColumns: GridTemplateColumnsType) -> Self {
-        grid(autoRows: .length(autoRows), templateColumns: templateColumns)
-    }
-
-    /// Specifies the auto size of the rows, and sets the grid-template-columns property
-    @discardableResult
-    public func grid<U1: UnitValuable, U2: UnitValuable>(autoRows: U1, templateColumns: U2) -> Self {
-        grid(autoRows: .length(autoRows), templateColumns: .length(templateColumns))
-    }
-
-    /// Specifies the size (height) of the rows, and the auto size of the columns
-    @discardableResult
-    public func grid(templateRows: GridTemplateRowsType, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue) -> Self {
-        _addProperty(GridProperty(templateRows: templateRows, autoFlow: autoFlow, autoColumns: autoColumns))
+    public func grid(templateRows: GridTemplateRowsType, autoColumns: GridAutoColumnsValue, important: Bool? = nil) -> Self {
+        _addProperty(GridProperty(templateRows: templateRows, autoColumns: autoColumns, important: important))
         return self
     }
 
     /// Specifies the size (height) of the rows, and the auto size of the columns
     @discardableResult
-    public func grid<U: UnitValuable>(templateRows: U, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue) -> Self {
-        grid(templateRows: .length(templateRows), autoFlow: autoFlow, autoColumns: autoColumns)
+    public func grid<U: UnitValuable>(templateRows: U, autoColumns: GridAutoColumnsValue, important: Bool? = nil) -> Self {
+        grid(templateRows: .length(templateRows), autoColumns: autoColumns, important: important)
+    }
+
+    /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    @discardableResult
+    public func grid(autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
+        _addProperty(GridProperty(autoRows: autoRows, templateColumns: templateColumns, important: important))
+        return self
+    }
+
+    /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    @discardableResult
+    public func grid<U: UnitValuable>(autoRows: GridAutoRowsType, templateColumns: U, important: Bool? = nil) -> Self {
+        grid(autoRows: autoRows, templateColumns: .length(templateColumns), important: important)
+    }
+
+    /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    @discardableResult
+    public func grid<U: UnitValuable>(autoRows: U, templateColumns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
+        grid(autoRows: .length(autoRows), templateColumns: templateColumns, important: important)
+    }
+
+    /// Specifies the auto size of the rows, and sets the grid-template-columns property
+    @discardableResult
+    public func grid<U1: UnitValuable, U2: UnitValuable>(autoRows: U1, templateColumns: U2, important: Bool? = nil) -> Self {
+        grid(autoRows: .length(autoRows), templateColumns: .length(templateColumns), important: important)
+    }
+
+    /// Specifies the size (height) of the rows, and the auto size of the columns
+    @discardableResult
+    public func grid(templateRows: GridTemplateRowsType, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue, important: Bool? = nil) -> Self {
+        _addProperty(GridProperty(templateRows: templateRows, autoFlow: autoFlow, autoColumns: autoColumns, important: important))
+        return self
+    }
+
+    /// Specifies the size (height) of the rows, and the auto size of the columns
+    @discardableResult
+    public func grid<U: UnitValuable>(templateRows: U, autoFlow: GridAutoFlowType, autoColumns: GridAutoColumnsValue, important: Bool? = nil) -> Self {
+        grid(templateRows: .length(templateRows), autoFlow: autoFlow, autoColumns: autoColumns, important: important)
     }
     
     @discardableResult
-    public func grid(autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType) -> Self {
-        _addProperty(GridProperty(autoFlow: autoFlow, autoRows: autoRows, templateColumns: templateColumns))
+    public func grid(autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
+        _addProperty(GridProperty(autoFlow: autoFlow, autoRows: autoRows, templateColumns: templateColumns, important: important))
         return self
     }
     
     @discardableResult
-    public func grid<U: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: U) -> Self {
-        _addProperty(GridProperty(autoFlow: autoFlow, autoRows: autoRows, templateColumns: .length(templateColumns)))
+    public func grid<U: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: GridAutoRowsType, templateColumns: U, important: Bool? = nil) -> Self {
+        _addProperty(GridProperty(autoFlow: autoFlow, autoRows: autoRows, templateColumns: .length(templateColumns), important: important))
         return self
     }
     
     @discardableResult
-    public func grid<U: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: U, templateColumns: GridTemplateColumnsType) -> Self {
-        grid(autoFlow: autoFlow, autoRows: .length(autoRows), templateColumns: templateColumns)
+    public func grid<U: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: U, templateColumns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
+        grid(autoFlow: autoFlow, autoRows: .length(autoRows), templateColumns: templateColumns, important: important)
     }
     
     @discardableResult
-    public func grid<U1: UnitValuable, U2: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: U1, templateColumns: U2) -> Self {
-        grid(autoFlow: autoFlow, autoRows: .length(autoRows), templateColumns: .length(templateColumns))
+    public func grid<U1: UnitValuable, U2: UnitValuable>(autoFlow: GridAutoFlowType, autoRows: U1, templateColumns: U2, important: Bool? = nil) -> Self {
+        grid(autoFlow: autoFlow, autoRows: .length(autoRows), templateColumns: .length(templateColumns), important: important)
     }
 }
 
@@ -12177,31 +12656,35 @@ public class GridRowEndProperty: _Property {
     var _content = _PropertyContent<GridRowEndValue>()
 
     // Means `auto`
-    public init() {
-        propertyValue = .auto
+    public init(important: Bool? = nil) {
+        if important == true {
+            propertyValue = .auto.important
+        } else {
+            propertyValue = .auto
+        }
     }
 
-    public init (rowLine: Int) {
-        propertyValue = .rowLine(rowLine)
+    public init (rowLine: Int, important: Bool? = nil) {
+        propertyValue = .rowLine(rowLine, important: important)
     }
 
-    public init <V>(rowLine: V) where V: StateConvertible, V.Value == Int {
-        propertyValue = .rowLine(rowLine)
+    public init <V>(rowLine: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
+        propertyValue = .rowLine(rowLine, important: important)
     }
 
-    public init (span n: Int) {
-        propertyValue = .span(n)
+    public init (span n: Int, important: Bool? = nil) {
+        propertyValue = .span(n, important: important)
     }
 
-    public init <V>(span n: V) where V: StateConvertible, V.Value == Int {
-        propertyValue = .span(n)
+    public init <V>(span n: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
+        propertyValue = .span(n, important: important)
     }
 
     public static var auto: GridRowEndValue { .init() }
-    public static func rowLine(_ v: Int) -> GridRowEndValue { .init(rowLine: v) }
-    public static func rowLine<V>(_ v: V) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(rowLine: v) }
-    public static func span(_ n: Int) -> GridRowEndValue { .init(span: n) }
-    public static func span<V>(_ n: V) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(span: n) }
+    public static func rowLine(_ v: Int, important: Bool? = nil) -> GridRowEndValue { .init(rowLine: v, important: important) }
+    public static func rowLine<V>(_ v: V, important: Bool? = nil) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(rowLine: v, important: important) }
+    public static func span(_ n: Int, important: Bool? = nil) -> GridRowEndValue { .init(span: n, important: important) }
+    public static func span<V>(_ n: V, important: Bool? = nil) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(span: n, important: important) }
 }
 
 extension PropertyKey {
@@ -12209,46 +12692,52 @@ extension PropertyKey {
     public static var gridRowEnd: PropertyKey<GridRowEndValue> { "grid-row-end".propertyKey() }
 }
 
-public class GridRowEndValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+public final class GridRowEndValue: CustomStringConvertible, _PropertyValueInnerChangeable {
     public var value: String
 
     var _changeHandler = {}
+    
+    init (_ value: String) {
+        self.value = value
+    }
+    
+    public var important: Self { .init(value + "!important") }
 
     public init() {
         value = "auto"
     }
 
-    public init (rowLine: Int) {
+    public init (rowLine: Int, important: Bool? = nil) {
         value = "\(rowLine)"
     }
 
-    public convenience init <V>(rowLine: V) where V: StateConvertible, V.Value == Int {
+    public convenience init <V>(rowLine: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         let rowLine = rowLine.stateValue
-        self.init(rowLine: rowLine.wrappedValue)
+        self.init(rowLine: rowLine.wrappedValue, important: important)
         rowLine.listen {
-            self.value = "\($0)"
+            self.value = "\($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public init (span n: Int) {
-        value = "span \(n)"
+    public init (span n: Int, important: Bool? = nil) {
+        value = "span \(n)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <V>(span n: V) where V: StateConvertible, V.Value == Int {
+    public convenience init <V>(span n: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         let n = n.stateValue
-        self.init(span: n.wrappedValue)
+        self.init(span: n.wrappedValue, important: important)
         n.listen {
-            self.value = "span \($0)"
+            self.value = "span \($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
     public static var auto: GridRowEndValue { .init() }
-    public static func rowLine(_ v: Int) -> GridRowEndValue { .init(rowLine: v) }
-    public static func rowLine<V>(_ v: V) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(rowLine: v) }
-    public static func span(_ n: Int) -> GridRowEndValue { .init(span: n) }
-    public static func span<V>(_ n: V) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(span: n) }
+    public static func rowLine(_ v: Int, important: Bool? = nil) -> GridRowEndValue { .init(rowLine: v, important: important) }
+    public static func rowLine<V>(_ v: V, important: Bool? = nil) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(rowLine: v, important: important) }
+    public static func span(_ n: Int, important: Bool? = nil) -> GridRowEndValue { .init(span: n, important: important) }
+    public static func span<V>(_ n: V, important: Bool? = nil) -> GridRowEndValue where V: StateConvertible, V.Value == Int { .init(span: n, important: important) }
 
     public var description: String { value }
 }
@@ -12260,37 +12749,38 @@ extension Stylesheetable {
 
 extension CSSRulable {
     /// Specifies where to end the grid item
+    /// means **auto**
     @discardableResult
-    public func gridRowEnd() -> Self {
-        _addProperty(GridRowEndProperty())
+    public func gridRowEnd(important: Bool? = nil) -> Self {
+        _addProperty(GridRowEndProperty(important: important))
         return self
     }
 
     /// Specifies where to end the grid item
     @discardableResult
-    public func gridRowEnd(rowLine: Int) -> Self {
-        _addProperty(GridRowEndProperty(rowLine: rowLine))
+    public func gridRowEnd(rowLine: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridRowEndProperty(rowLine: rowLine, important: important))
         return self
     }
 
     /// Specifies where to end the grid item
     @discardableResult
-    public func gridRowEnd<V>(rowLine: V) -> Self where V: StateConvertible, V.Value == Int {
-        _addProperty(GridRowEndProperty(rowLine: rowLine))
+    public func gridRowEnd<V>(rowLine: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == Int {
+        _addProperty(GridRowEndProperty(rowLine: rowLine, important: important))
         return self
     }
 
     /// Specifies where to end the grid item
     @discardableResult
-    public func gridRowEnd(span n: Int) -> Self {
-        _addProperty(GridRowEndProperty(span: n))
+    public func gridRowEnd(span n: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridRowEndProperty(span: n, important: important))
         return self
     }
 
     /// Specifies where to end the grid item
     @discardableResult
-    public func gridRowEnd<V>(span n: V) -> Self where V: StateConvertible, V.Value == Int {
-        _addProperty(GridRowEndProperty(span: n))
+    public func gridRowEnd<V>(span n: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == Int {
+        _addProperty(GridRowEndProperty(span: n, important: important))
         return self
     }
 }
@@ -12320,20 +12810,20 @@ public class GridRowGapProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -12366,29 +12856,29 @@ extension CSSRulable {
 
     /// Specifies the size of the gap between rows
     @discardableResult
-    public func gridRowGap(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.gridRowGap, UnitValue(value, unit))
+    public func gridRowGap(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.gridRowGap, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the size of the gap between rows
     @discardableResult
-    public func gridRowGap(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.gridRowGap, UnitValue(value, unit))
+    public func gridRowGap(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.gridRowGap, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the size of the gap between rows
     @discardableResult
-    public func gridRowGap(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.gridRowGap, UnitValue(value, unit))
+    public func gridRowGap(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.gridRowGap, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the size of the gap between rows
     @discardableResult
-    public func gridRowGap(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.gridRowGap, UnitValue(value, unit))
+    public func gridRowGap(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.gridRowGap, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -12407,20 +12897,20 @@ public class GridRowProperty: _Property {
     public var propertyValue: GridRowValue
     var _content = _PropertyContent<GridRowValue>()
 
-    public init (start: Int, end: Int) {
-        propertyValue = GridRowValue(start: start, end: end)
+    public init (start: Int, end: Int, important: Bool? = nil) {
+        propertyValue = GridRowValue(start: start, end: end, important: important)
     }
 
-    public init <S>(start: S, end: Int) where S: StateConvertible, S.Value == Int {
-        propertyValue = GridRowValue(start: start, end: end)
+    public init <S>(start: S, end: Int, important: Bool? = nil) where S: StateConvertible, S.Value == Int {
+        propertyValue = GridRowValue(start: start, end: end, important: important)
     }
 
-    public init <E>(start: Int, end: E) where E: StateConvertible, E.Value == Int {
-        propertyValue = GridRowValue(start: start, end: end)
+    public init <E>(start: Int, end: E, important: Bool? = nil) where E: StateConvertible, E.Value == Int {
+        propertyValue = GridRowValue(start: start, end: end, important: important)
     }
 
-    public init <S, E>(start: S, end: E) where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
-        propertyValue = GridRowValue(start: start, end: end)
+    public init <S, E>(start: S, end: E, important: Bool? = nil) where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
+        propertyValue = GridRowValue(start: start, end: end, important: important)
     }
 }
 
@@ -12434,38 +12924,38 @@ public class GridRowValue: CustomStringConvertible, _PropertyValueInnerChangeabl
 
     var _changeHandler = {}
 
-    public init (start: Int, end: Int) {
-        value = "\(start) / \(end)"
+    public init (start: Int, end: Int, important: Bool? = nil) {
+        value = "\(start) / \(end)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <S>(start: S, end: Int) where S: StateConvertible, S.Value == Int {
+    public convenience init <S>(start: S, end: Int, important: Bool? = nil) where S: StateConvertible, S.Value == Int {
         let start = start.stateValue
-        self.init(start: start.wrappedValue, end: end)
+        self.init(start: start.wrappedValue, end: end, important: important)
         start.listen {
-            self.value = "\($0) / \(end)"
+            self.value = "\($0) / \(end)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init <E>(start: Int, end: E) where E: StateConvertible, E.Value == Int {
+    public convenience init <E>(start: Int, end: E, important: Bool? = nil) where E: StateConvertible, E.Value == Int {
         let end = end.stateValue
-        self.init(start: start, end: end.wrappedValue)
+        self.init(start: start, end: end.wrappedValue, important: important)
         end.listen {
-            self.value = "\(start) / \($0)"
+            self.value = "\(start) / \($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init <S, E>(start: S, end: E) where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
+    public convenience init <S, E>(start: S, end: E, important: Bool? = nil) where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
         let start = start.stateValue
         let end = end.stateValue
-        self.init(start: start.wrappedValue, end: end.wrappedValue)
+        self.init(start: start.wrappedValue, end: end.wrappedValue, important: important)
         start.listen {
-            self.value = "\($0) / \(end)"
+            self.value = "\($0) / \(end)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
         end.listen {
-            self.value = "\(start) / \($0)"
+            self.value = "\(start) / \($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
@@ -12481,29 +12971,29 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for the grid-row-start and the grid-row-end properties
     @discardableResult
-    public func gridRow(start: Int, end: Int) -> Self {
-        _addProperty(GridRowProperty(start: start, end: end))
+    public func gridRow(start: Int, end: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridRowProperty(start: start, end: end, important: important))
         return self
     }
 
     /// A shorthand property for the grid-row-start and the grid-row-end properties
     @discardableResult
-    public func gridRow<S>(start: S, end: Int) -> Self where S: StateConvertible, S.Value == Int {
-        _addProperty(GridRowProperty(start: start, end: end))
+    public func gridRow<S>(start: S, end: Int, important: Bool? = nil) -> Self where S: StateConvertible, S.Value == Int {
+        _addProperty(GridRowProperty(start: start, end: end, important: important))
         return self
     }
 
     /// A shorthand property for the grid-row-start and the grid-row-end properties
     @discardableResult
-    public func gridRow<E>(start: Int, end: E) -> Self where E: StateConvertible, E.Value == Int {
-        _addProperty(GridRowProperty(start: start, end: end))
+    public func gridRow<E>(start: Int, end: E, important: Bool? = nil) -> Self where E: StateConvertible, E.Value == Int {
+        _addProperty(GridRowProperty(start: start, end: end, important: important))
         return self
     }
 
     /// A shorthand property for the grid-row-start and the grid-row-end properties
     @discardableResult
-    public func gridRow<S, E>(start: S, end: E) -> Self where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
-        _addProperty(GridRowProperty(start: start, end: end))
+    public func gridRow<S, E>(start: S, end: E, important: Bool? = nil) -> Self where S: StateConvertible, S.Value == Int, E: StateConvertible, E.Value == Int {
+        _addProperty(GridRowProperty(start: start, end: end, important: important))
         return self
     }
 }
@@ -12523,52 +13013,62 @@ public class GridRowStartProperty: _Property {
     var _content = _PropertyContent<GridRowStartValue>()
 
     // Means `auto`
-    public init() {
-        propertyValue = .auto
+    public init(important: Bool? = nil) {
+        if important == true {
+            propertyValue = .auto.important
+        } else {
+            propertyValue = .auto
+        }
     }
 
-    public init (rowLine: Int) {
-        propertyValue = .rowLine(rowLine)
+    public init (rowLine: Int, important: Bool? = nil) {
+        propertyValue = .rowLine(rowLine, important: important)
     }
 
-    public init <V>(rowLine: V) where V: StateConvertible, V.Value == Int {
-        propertyValue = .rowLine(rowLine)
+    public init <V>(rowLine: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
+        propertyValue = .rowLine(rowLine, important: important)
     }
 
     public static var auto: GridRowStartProperty { .init() }
-    public static func rowLine(_ v: Int) -> GridRowStartProperty { .init(rowLine: v) }
-    public static func rowLine<V>(_ v: V) -> GridRowStartProperty where V: StateConvertible, V.Value == Int { .init(rowLine: v) }
+    public static func rowLine(_ v: Int, important: Bool? = nil) -> GridRowStartProperty { .init(rowLine: v, important: important) }
+    public static func rowLine<V>(_ v: V, important: Bool? = nil) -> GridRowStartProperty where V: StateConvertible, V.Value == Int { .init(rowLine: v, important: important) }
 }
 
 extension PropertyKey {
     public static var gridRowStart: PropertyKey<GridRowStartValue> { "grid-row-start".propertyKey() }
 }
 
-public class GridRowStartValue: CustomStringConvertible, _PropertyValueInnerChangeable {
+public final class GridRowStartValue: CustomStringConvertible, _PropertyValueInnerChangeable {
     public var value: String
 
     var _changeHandler = {}
 
+    init(_ value: String) {
+        self.value = value
+    }
+    
+    public var important: Self { .init(value + "!important") }
+    
     public init() {
         value = "auto"
     }
 
-    public init (rowLine: Int) {
-        value = "\(rowLine)"
+    public init (rowLine: Int, important: Bool? = nil) {
+        value = "\(rowLine)" + (important == true ? "!important" : "")
     }
 
-    public convenience init <V>(rowLine: V) where V: StateConvertible, V.Value == Int {
+    public convenience init <V>(rowLine: V, important: Bool? = nil) where V: StateConvertible, V.Value == Int {
         let rowLine = rowLine.stateValue
-        self.init(rowLine: rowLine.wrappedValue)
+        self.init(rowLine: rowLine.wrappedValue, important: important)
         rowLine.listen {
-            self.value = "\($0)"
+            self.value = "\($0)" + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
     public static var auto: GridRowStartValue { .init() }
-    public static func rowLine(_ v: Int) -> GridRowStartValue { .init(rowLine: v) }
-    public static func rowLine<V>(_ v: V) -> GridRowStartValue where V: StateConvertible, V.Value == Int { .init(rowLine: v) }
+    public static func rowLine(_ v: Int, important: Bool? = nil) -> GridRowStartValue { .init(rowLine: v, important: important) }
+    public static func rowLine<V>(_ v: V, important: Bool? = nil) -> GridRowStartValue where V: StateConvertible, V.Value == Int { .init(rowLine: v, important: important) }
 
     public var description: String { value }
 }
@@ -12580,23 +13080,24 @@ extension Stylesheetable {
 
 extension CSSRulable {
     /// Specifies where to start the grid item
+    /// means **auto**
     @discardableResult
-    public func gridRowStart() -> Self {
-        _addProperty(GridRowStartProperty())
+    public func gridRowStart(important: Bool? = nil) -> Self {
+        _addProperty(GridRowStartProperty(important: important))
         return self
     }
 
     /// Specifies where to start the grid item
     @discardableResult
-    public func gridRowStart(rowLine: Int) -> Self {
-        _addProperty(GridRowStartProperty(rowLine: rowLine))
+    public func gridRowStart(rowLine: Int, important: Bool? = nil) -> Self {
+        _addProperty(GridRowStartProperty(rowLine: rowLine, important: important))
         return self
     }
 
     /// Specifies where to start the grid item
     @discardableResult
-    public func gridRowStart<V>(rowLine: V) -> Self where V: StateConvertible, V.Value == Int {
-        _addProperty(GridRowStartProperty(rowLine: rowLine))
+    public func gridRowStart<V>(rowLine: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == Int {
+        _addProperty(GridRowStartProperty(rowLine: rowLine, important: important))
         return self
     }
 }
@@ -12621,18 +13122,18 @@ public class GridTemplateAreasProperty: _Property {
     public var propertyValue: GridTemplateAreasValue
     var _content = _PropertyContent<GridTemplateAreasValue>()
 
-    public init (_ areas: [String]) {
+    public init (_ areas: [String], important: Bool? = nil) {
         propertyValue = .init(areas)
     }
 
-    public convenience init (_ areas: String...) {
+    public convenience init (_ areas: String..., important: Bool? = nil) {
         self.init(areas)
     }
 
-    public convenience init <V>(_ areas: V) where V: StateConvertible, V.Value == [String] {
+    public convenience init <V>(_ areas: V, important: Bool? = nil) where V: StateConvertible, V.Value == [String] {
         let areas = areas.stateValue
-        self.init(areas.wrappedValue)
-        areas.listen { self._changed(to: .init($0)) }
+        self.init(areas.wrappedValue, important: important)
+        areas.listen { self._changed(to: .init($0, important: important)) }
     }
 }
 
@@ -12645,20 +13146,20 @@ public class GridTemplateAreasValue: CustomStringConvertible, _PropertyValueInne
 
     var _changeHandler = {}
 
-    public init (_ area: [String]) {
-        value = "\"\(area.joined(separator: " "))\""
+    public init (_ area: [String], important: Bool? = nil) {
+        value = "\"\(area.joined(separator: " "))\"" + (important == true ? "!important" : "")
         $value.listen { self._changeHandler() }
     }
 
-    public convenience init (_ areas: String...) {
-        self.init(areas)
+    public convenience init (_ areas: String..., important: Bool? = nil) {
+        self.init(areas, important: important)
     }
 
-    public convenience init <V>(_ area: V) where V: StateConvertible, V.Value == [String] {
+    public convenience init <V>(_ area: V, important: Bool? = nil) where V: StateConvertible, V.Value == [String] {
         let area = area.stateValue
-        self.init(area.wrappedValue)
+        self.init(area.wrappedValue, important: important)
         area.listen {
-            self.value = "\"\($0.joined(separator: " "))\""
+            self.value = "\"\($0.joined(separator: " "))\"" + (important == true ? "!important" : "")
         }
     }
 
@@ -12673,21 +13174,21 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies how to display columns and rows, using named grid items
     @discardableResult
-    public func gridTemplateAreas(_ type: String...) -> Self {
-        gridTemplateAreas(type)
+    public func gridTemplateAreas(_ type: String..., important: Bool? = nil) -> Self {
+        gridTemplateAreas(type, important: important)
     }
 
     /// Specifies how to display columns and rows, using named grid items
     @discardableResult
-    public func gridTemplateAreas(_ type: [String]) -> Self {
-        _addProperty(GridTemplateAreasProperty(type))
+    public func gridTemplateAreas(_ type: [String], important: Bool? = nil) -> Self {
+        _addProperty(GridTemplateAreasProperty(type, important: important))
         return self
     }
 
     /// Specifies how to display columns and rows, using named grid items
     @discardableResult
-    public func gridTemplateAreas<V>(_ type: V) -> Self where V: StateConvertible, V.Value == [String] {
-        _addProperty(GridTemplateAreasProperty(type))
+    public func gridTemplateAreas<V>(_ type: V, important: Bool? = nil) -> Self where V: StateConvertible, V.Value == [String] {
+        _addProperty(GridTemplateAreasProperty(type, important: important))
         return self
     }
 }
@@ -12769,16 +13270,16 @@ public class GridTemplateProperty: _Property {
     public var propertyValue: GridTemplateValue
     var _content = _PropertyContent<GridTemplateValue>()
 
-    public init (rows: GridTemplateRowsType, columns: GridTemplateColumnsType) {
-        propertyValue = GridTemplateValue(rows: rows, columns: columns)
+    public init (rows: GridTemplateRowsType, columns: GridTemplateColumnsType, important: Bool? = nil) {
+        propertyValue = GridTemplateValue(rows: rows, columns: columns, important: important)
     }
 
-    public init (_ area: String...) {
-        propertyValue = GridTemplateValue(area)
+    public init (_ area: String..., important: Bool? = nil) {
+        propertyValue = GridTemplateValue(area, important: important)
     }
 
-    public init (_ area: [String]) {
-        propertyValue = GridTemplateValue(area)
+    public init (_ area: [String], important: Bool? = nil) {
+        propertyValue = GridTemplateValue(area, important: important)
     }
 }
 
@@ -12790,16 +13291,16 @@ extension PropertyKey {
 public struct GridTemplateValue: CustomStringConvertible {
     let value: String
 
-    public init (rows: GridTemplateRowsType, columns: GridTemplateColumnsType) {
-        value = [rows.value, columns.value].joined(separator: " / ")
+    public init (rows: GridTemplateRowsType, columns: GridTemplateColumnsType, important: Bool? = nil) {
+        value = [rows.value, columns.value].joined(separator: " / ") + (important == true ? "!important" : "")
     }
 
-    public init (_ area: String...) {
-        value = "\"\(area.joined(separator: " "))\""
+    public init (_ area: String..., important: Bool? = nil) {
+        value = "\"\(area.joined(separator: " "))\"" + (important == true ? "!important" : "")
     }
 
-    public init (_ area: [String]) {
-        value = "\"\(area.joined(separator: " "))\""
+    public init (_ area: [String], important: Bool? = nil) {
+        value = "\"\(area.joined(separator: " "))\"" + (important == true ? "!important" : "")
     }
 
     public var description: String { value }
@@ -12813,27 +13314,27 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
     @discardableResult
-    public func gridTemplate(rows: GridTemplateRowsType, columns: GridTemplateColumnsType) -> Self {
-        _addProperty(GridTemplateProperty(rows: rows, columns: columns))
+    public func gridTemplate(rows: GridTemplateRowsType, columns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
+        _addProperty(GridTemplateProperty(rows: rows, columns: columns, important: important))
         return self
     }
 
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
     @discardableResult
-    public func gridTemplate<U: UnitValuable>(rows: U, columns: GridTemplateColumnsType) -> Self {
-        gridTemplate(rows: .length(rows), columns: columns)
+    public func gridTemplate<U: UnitValuable>(rows: U, columns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
+        gridTemplate(rows: .length(rows), columns: columns, important: important)
     }
 
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
     @discardableResult
-    public func gridTemplate(_ area: String...) -> Self {
-        gridTemplate(area)
+    public func gridTemplate(_ area: String..., important: Bool? = nil) -> Self {
+        gridTemplate(area, important: important)
     }
 
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
     @discardableResult
-    public func gridTemplate(_ area: [String]) -> Self {
-        _addProperty(GridTemplateProperty(area))
+    public func gridTemplate(_ area: [String], important: Bool? = nil) -> Self {
+        _addProperty(GridTemplateProperty(area, important: important))
         return self
     }
 }
@@ -12975,20 +13476,20 @@ public class HeightProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -13021,29 +13522,29 @@ extension CSSRulable {
 
     /// Sets the height of an element
     @discardableResult
-    public func height(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.height, UnitValue(value, unit))
+    public func height(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.height, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the height of an element
     @discardableResult
-    public func height(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.height, UnitValue(value, unit))
+    public func height(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.height, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the height of an element
     @discardableResult
-    public func height(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.height, UnitValue(value, unit))
+    public func height(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.height, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the height of an element
     @discardableResult
-    public func height(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.height, UnitValue(value, unit))
+    public func height(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.height, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -13335,20 +13836,20 @@ public class LeftProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -13381,29 +13882,29 @@ extension CSSRulable {
 
     /// Specifies the left position of a positioned element
     @discardableResult
-    public func left(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.left, UnitValue(value, unit))
+    public func left(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.left, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the left position of a positioned element
     @discardableResult
-    public func left(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.left, UnitValue(value, unit))
+    public func left(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.left, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the left position of a positioned element
     @discardableResult
-    public func left(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.left, UnitValue(value, unit))
+    public func left(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.left, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the left position of a positioned element
     @discardableResult
-    public func left(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.left, UnitValue(value, unit))
+    public func left(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.left, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -13731,8 +14232,8 @@ public class ListStyleProperty: _Property {
     public var propertyValue: ListStyleValue
     var _content = _PropertyContent<ListStyleValue>()
 
-    public init (_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue) {
-        propertyValue = ListStyleValue(type, position, url)
+    public init (_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue, important: Bool? = nil) {
+        propertyValue = ListStyleValue(type, position, url, important: important)
     }
 }
 
@@ -13744,8 +14245,8 @@ extension PropertyKey {
 public struct ListStyleValue: CustomStringConvertible {
     let value: String
 
-    public init (_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue) {
-        value = [type.value, position.value, url.cssURLValue].joined(separator: " ")
+    public init (_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue, important: Bool? = nil) {
+        value = [type.value, position.value, url.cssURLValue].joined(separator: " ") + (important == true ? "!important" : "")
     }
 
     public var description: String { value }
@@ -13759,8 +14260,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Sets all the properties for a list in one declaration
     @discardableResult
-    public func listStyle(_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue) -> Self {
-        _addProperty(ListStyleProperty(type, position, url))
+    public func listStyle(_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue, important: Bool? = nil) -> Self {
+        _addProperty(ListStyleProperty(type, position, url, important: important))
         return self
     }
 }
@@ -13847,20 +14348,20 @@ public class MarginBottomProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -13884,18 +14385,18 @@ public final class MarginSideValue: Autoable, CustomStringConvertible, _Property
         self.init(type.value)
     }
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init("\(value)\(unit.rawValue)")
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init("\(value)\(unit.value)" + (important == true ? "!important" : ""))
     }
 
-    public convenience init<U: UnitValuable>(_ value: U) {
-        self.init(value.value.doubleValue, value.unit)
+    public convenience init<U: UnitValuable>(_ value: U, important: Bool? = nil) {
+        self.init(value.value.doubleValue, value.unit, important: important)
     }
 
-    public convenience init <U: UnitValuable>(_ value: State<U>) {
-        self.init(value.wrappedValue)
+    public convenience init <U: UnitValuable>(_ value: State<U>, important: Bool? = nil) {
+        self.init(value.wrappedValue, important: important)
         value.listen {
-            self.value = "\($0.value.doubleValue)\($0.unit.rawValue)"
+            self.value = "\($0.value.doubleValue)\($0.unit.value)" + (important == true ? "!important" : "")
         }
     }
 
@@ -13933,29 +14434,29 @@ extension CSSRulable {
 
     /// Sets the bottom margin of an element
     @discardableResult
-    public func marginBottom(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.marginBottom, .init(UnitValue(value, unit)))
+    public func marginBottom(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.marginBottom, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the bottom margin of an element
     @discardableResult
-    public func marginBottom(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.marginBottom, .init(UnitValue(value, unit)))
+    public func marginBottom(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.marginBottom, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the bottom margin of an element
     @discardableResult
-    public func marginBottom(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.marginBottom, .init(UnitValue(value, unit)))
+    public func marginBottom(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.marginBottom, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the bottom margin of an element
     @discardableResult
-    public func marginBottom(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.marginBottom, .init(UnitValue(value, unit)))
+    public func marginBottom(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.marginBottom, .init(UnitValue(value, unit, important: important)))
         return self
     }
 }
@@ -13989,20 +14490,20 @@ public class MarginLeftProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -14041,29 +14542,29 @@ extension CSSRulable {
 
     /// Sets the left margin of an element
     @discardableResult
-    public func marginLeft(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.marginLeft, .init(UnitValue(value, unit)))
+    public func marginLeft(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.marginLeft, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the left margin of an element
     @discardableResult
-    public func marginLeft(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.marginLeft, .init(UnitValue(value, unit)))
+    public func marginLeft(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.marginLeft, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the left margin of an element
     @discardableResult
-    public func marginLeft(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.marginLeft, .init(UnitValue(value, unit)))
+    public func marginLeft(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.marginLeft, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the left margin of an element
     @discardableResult
-    public func marginLeft(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.marginLeft, .init(UnitValue(value, unit)))
+    public func marginLeft(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.marginLeft, .init(UnitValue(value, unit, important: important)))
         return self
     }
 }
@@ -14094,260 +14595,260 @@ public class MarginProperty: _Property {
 
     // MARK: V/H
 
-    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) {
-        propertyValue = MarginValue(v: v, h: h)
+    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) {
+        propertyValue = MarginValue(v: v, h: h, important: important)
     }
 
-    public init <U2: UnitValuable>(v: MarginSideValue, h: U2) {
-        propertyValue = MarginValue(v: v, h: h)
+    public init <U2: UnitValuable>(v: MarginSideValue, h: U2, important: Bool? = nil) {
+        propertyValue = MarginValue(v: v, h: h, important: important)
     }
 
-    public init <U1: UnitValuable>(v: U1, h: MarginSideValue) {
-        propertyValue = MarginValue(v: v, h: h)
+    public init <U1: UnitValuable>(v: U1, h: MarginSideValue, important: Bool? = nil) {
+        propertyValue = MarginValue(v: v, h: h, important: important)
     }
 
-    public convenience init <A, U2: UnitValuable>(v: A, h: U2) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <A, U2: UnitValuable>(v: A, h: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let v = v.stateValue
-        self.init(v: v.wrappedValue, h: h)
-        v.listen { self._changed(to: MarginValue(v: $0, h: h)) }
+        self.init(v: v.wrappedValue, h: h, important: important)
+        v.listen { self._changed(to: MarginValue(v: $0, h: h, important: important)) }
     }
 
-    public convenience init <A>(v: A, h: MarginSideValue) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <A>(v: A, h: MarginSideValue, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let v = v.stateValue
-        self.init(v: v.wrappedValue, h: h)
-        v.listen { self._changed(to: MarginValue(v: $0, h: h)) }
+        self.init(v: v.wrappedValue, h: h, important: important)
+        v.listen { self._changed(to: MarginValue(v: $0, h: h, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, B>(v: U1, h: B) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, B>(v: U1, h: B, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let h = h.stateValue
-        self.init(v: v, h: h.wrappedValue)
-        h.listen { self._changed(to: MarginValue(v: v, h: $0)) }
+        self.init(v: v, h: h.wrappedValue, important: important)
+        h.listen { self._changed(to: MarginValue(v: v, h: $0, important: important)) }
     }
 
-    public convenience init <B>(v: MarginSideValue, h: B) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <B>(v: MarginSideValue, h: B, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let h = h.stateValue
-        self.init(v: v, h: h.wrappedValue)
-        h.listen { self._changed(to: MarginValue(v: v, h: $0)) }
+        self.init(v: v, h: h.wrappedValue, important: important)
+        h.listen { self._changed(to: MarginValue(v: v, h: $0, important: important)) }
     }
 
-    public convenience init <A, B>(v: A, h: B) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <A, B>(v: A, h: B, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let v = v.stateValue
         let h = h.stateValue
-        self.init(v: v.wrappedValue, h: h.wrappedValue)
-        v.listen { self._changed(to: MarginValue(v: $0, h: h.wrappedValue)) }
-        h.listen { self._changed(to: MarginValue(v: v.wrappedValue, h: $0)) }
+        self.init(v: v.wrappedValue, h: h.wrappedValue, important: important)
+        v.listen { self._changed(to: MarginValue(v: $0, h: h.wrappedValue, important: important)) }
+        h.listen { self._changed(to: MarginValue(v: v.wrappedValue, h: $0, important: important)) }
     }
 
     // MARK: Top/H/Bottom
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) {
-        propertyValue = MarginValue(top: top, h: h, bottom: bottom)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) {
+        propertyValue = MarginValue(top: top, h: h, bottom: bottom, important: important)
     }
 
-    public init <U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3) {
-        propertyValue = MarginValue(top: top, h: h, bottom: bottom)
+    public init <U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3, important: Bool? = nil) {
+        propertyValue = MarginValue(top: top, h: h, bottom: bottom, important: important)
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let top = top.stateValue
-        self.init(top: top.wrappedValue, h: h, bottom: bottom)
-        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom)) }
+        self.init(top: top.wrappedValue, h: h, bottom: bottom, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom, important: important)) }
     }
 
-    public convenience init <U3: UnitValuable, A>(top: A, h: MarginSideValue, bottom: U3) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U3: UnitValuable, A>(top: A, h: MarginSideValue, bottom: U3, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let top = top.stateValue
-        self.init(top: top.wrappedValue, h: h, bottom: bottom)
-        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom)) }
+        self.init(top: top.wrappedValue, h: h, bottom: bottom, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let h = h.stateValue
-        self.init(top: top, h: h.wrappedValue, bottom: bottom)
-        h.listen { self._changed(to: MarginValue(top: top, h: $0, bottom: bottom)) }
+        self.init(top: top, h: h.wrappedValue, bottom: bottom, important: important)
+        h.listen { self._changed(to: MarginValue(top: top, h: $0, bottom: bottom, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) where C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
         let bottom = bottom.stateValue
-        self.init(top: top, h: h, bottom: bottom.wrappedValue)
-        bottom.listen { self._changed(to: MarginValue(top: top, h: h, bottom: $0)) }
+        self.init(top: top, h: h, bottom: bottom.wrappedValue, important: important)
+        bottom.listen { self._changed(to: MarginValue(top: top, h: h, bottom: $0, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, C>(top: U1, h: MarginSideValue, bottom: C) where C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, C>(top: U1, h: MarginSideValue, bottom: C, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
         let bottom = bottom.stateValue
-        self.init(top: top, h: h, bottom: bottom.wrappedValue)
-        bottom.listen { self._changed(to: MarginValue(top: top, h: h, bottom: $0)) }
+        self.init(top: top, h: h, bottom: bottom.wrappedValue, important: important)
+        bottom.listen { self._changed(to: MarginValue(top: top, h: h, bottom: $0, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        let top = top.stateValue
-        let h = h.stateValue
-        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom)
-        top.listen { self._changed(to: MarginValue(top: $0, h: h.wrappedValue, bottom: bottom)) }
-        h.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: $0, bottom: bottom)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let top = top.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue)
-        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: h, bottom: $0)) }
-    }
-
-    public convenience init <A, C>(top: A, h: MarginSideValue, bottom: C) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let top = top.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue)
-        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: h, bottom: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let h = h.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top, h: h.wrappedValue, bottom: bottom.wrappedValue)
-        h.listen { self._changed(to: MarginValue(top: top, h: $0, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: MarginValue(top: top, h: h.wrappedValue, bottom: $0)) }
-    }
-
-    public convenience init <A, B, C>(top: A, h: B, bottom: C) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, A, B>(top: A, h: B, bottom: U1, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let top = top.stateValue
         let h = h.stateValue
+        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, h: h.wrappedValue, bottom: bottom, important: important)) }
+        h.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: $0, bottom: bottom, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, C>(top: A, h: U1, bottom: C, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let top = top.stateValue
         let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom.wrappedValue)
-        top.listen { self._changed(to: MarginValue(top: $0, h: h.wrappedValue, bottom: bottom.wrappedValue)) }
-        h.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: $0, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: h.wrappedValue, bottom: $0)) }
+        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: h, bottom: $0, important: important)) }
+    }
+
+    public convenience init <A, C>(top: A, h: MarginSideValue, bottom: C, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let top = top.stateValue
+        let bottom = bottom.stateValue
+        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, h: h, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: h, bottom: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, B, C>(top: U1, h: B, bottom: C, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let h = h.stateValue
+        let bottom = bottom.stateValue
+        self.init(top: top, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)
+        h.listen { self._changed(to: MarginValue(top: top, h: $0, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top, h: h.wrappedValue, bottom: $0, important: important)) }
+    }
+
+    public convenience init <A, B, C>(top: A, h: B, bottom: C, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let top = top.stateValue
+        let h = h.stateValue
+        let bottom = bottom.stateValue
+        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)) }
+        h.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: $0, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, h: h.wrappedValue, bottom: $0, important: important)) }
     }
 
     // MARK: Top/Right/Bottom/Left
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) {
-        propertyValue = MarginValue(top: top, right: right, bottom: bottom, left: left)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) {
+        propertyValue = MarginValue(top: top, right: right, bottom: bottom, left: left, important: important)
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let top = top.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left)
-        top.listen { self._changed(to: MarginValue(top: $0, right: right, bottom: bottom, left: left)) }
+        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, right: right, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let right = right.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left)
-        right.listen { self._changed(to: MarginValue(top: top, right: $0, bottom: bottom, left: left)) }
+        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left, important: important)
+        right.listen { self._changed(to: MarginValue(top: top, right: $0, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) where C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
         let bottom = bottom.stateValue
-        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left)
-        bottom.listen { self._changed(to: MarginValue(top: top, right: right, bottom: $0, left: left)) }
+        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left, important: important)
+        bottom.listen { self._changed(to: MarginValue(top: top, right: right, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) where D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D, important: Bool? = nil) where D: StateConvertible, D.Value: UnitValuable {
         let left = left.stateValue
-        self.init(top: top, right: right, bottom: bottom, left: left.wrappedValue)
-        left.listen { self._changed(to: MarginValue(top: top, right: right, bottom: bottom, left: $0)) }
+        self.init(top: top, right: right, bottom: bottom, left: left.wrappedValue, important: important)
+        left.listen { self._changed(to: MarginValue(top: top, right: right, bottom: bottom, left: $0, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        let top = top.stateValue
-        let right = right.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left)
-        top.listen { self._changed(to: MarginValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left)) }
-        right.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let top = top.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left)
-        top.listen { self._changed(to: MarginValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right, bottom: $0, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let top = top.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left.wrappedValue)
-        top.listen { self._changed(to: MarginValue(top: $0, right: right, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let right = right.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)
-        right.listen { self._changed(to: MarginValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: MarginValue(top: top, right: right.wrappedValue, bottom: $0, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let right = right.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)
-        right.listen { self._changed(to: MarginValue(top: top, right: $0, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: MarginValue(top: top, right: right.wrappedValue, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        bottom.listen { self._changed(to: MarginValue(top: top, right: right, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: MarginValue(top: top, right: right, bottom: bottom.wrappedValue, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let top = top.stateValue
         let right = right.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)
-        top.listen { self._changed(to: MarginValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)) }
-        right.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left)) }
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left, important: important)) }
+        right.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let top = top.stateValue
-        let right = right.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)
-        top.listen { self._changed(to: MarginValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)) }
-        right.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let top = top.stateValue
         let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        top.listen { self._changed(to: MarginValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, right: right, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let right = right.stateValue
         let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        right.listen { self._changed(to: MarginValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: MarginValue(top: top, right: right.wrappedValue, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: MarginValue(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)
+        right.listen { self._changed(to: MarginValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top, right: right.wrappedValue, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <A, B, C, D>(top: A, right: B, bottom: C, left: D) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let right = right.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)
+        right.listen { self._changed(to: MarginValue(top: top, right: $0, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: MarginValue(top: top, right: right.wrappedValue, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        bottom.listen { self._changed(to: MarginValue(top: top, right: right, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: MarginValue(top: top, right: right, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let top = top.stateValue
         let right = right.stateValue
         let bottom = bottom.stateValue
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)) }
+        right.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let right = right.stateValue
         let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        top.listen { self._changed(to: MarginValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        right.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)) }
+        right.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let right = right.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        right.listen { self._changed(to: MarginValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top, right: right.wrappedValue, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: MarginValue(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <A, B, C, D>(top: A, right: B, bottom: C, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let right = right.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: MarginValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        right.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: MarginValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0, important: important)) }
     }
 }
 
@@ -14360,8 +14861,8 @@ public class MarginValue: CustomStringConvertible, _PropertyValueInnerChangeable
 
     var _changeHandler = {}
 
-    private static func values(_ v: CustomStringConvertible...) -> String {
-        v.map { $0.description }.joined(separator: " ")
+    private static func values(_ v: CustomStringConvertible..., important: Bool? = nil) -> String {
+        v.map { $0.description }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
     public init <U: UnitValuable>(all: U) {
@@ -14379,43 +14880,43 @@ public class MarginValue: CustomStringConvertible, _PropertyValueInnerChangeable
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) {
-        value = Self.values(v, h)
+    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) {
+        value = Self.values(v, h, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U2: UnitValuable>(v: MarginSideValue, h: U2) {
-        value = Self.values(v, h)
+    public init <U2: UnitValuable>(v: MarginSideValue, h: U2, important: Bool? = nil) {
+        value = Self.values(v, h, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable>(v: U1, h: MarginSideValue) {
-        value = Self.values(v, h)
+    public init <U1: UnitValuable>(v: U1, h: MarginSideValue, important: Bool? = nil) {
+        value = Self.values(v, h, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) {
-        value = Self.values(top, h, bottom)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) {
+        value = Self.values(top, h, bottom, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3) {
-        value = Self.values(top, h, bottom)
+    public init <U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3, important: Bool? = nil) {
+        value = Self.values(top, h, bottom, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) {
-        value = Self.values(top, right, bottom, left)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) {
+        value = Self.values(top, right, bottom, left, important: important)
         $value.listen {
             self._changeHandler()
         }
@@ -14448,57 +14949,57 @@ extension CSSRulable {
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) -> Self {
-        _addProperty(.margin, MarginValue(v: v, h: h))
+    public func margin<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) -> Self {
+        _addProperty(.margin, MarginValue(v: v, h: h, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable>(v: U1, h: MarginSideValue) -> Self {
-        _addProperty(.margin, MarginValue(v: v, h: h))
+    public func margin<U1: UnitValuable>(v: U1, h: MarginSideValue, important: Bool? = nil) -> Self {
+        _addProperty(.margin, MarginValue(v: v, h: h, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U2: UnitValuable>(v: MarginSideValue, h: U2) -> Self {
-        _addProperty(.margin, MarginValue(v: v, h: h))
+    public func margin<U2: UnitValuable>(v: MarginSideValue, h: U2, important: Bool? = nil) -> Self {
+        _addProperty(.margin, MarginValue(v: v, h: h, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, A>(v: A, h: U1) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(MarginProperty(v: v, h: h))
+    public func margin<U1: UnitValuable, A>(v: A, h: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(MarginProperty(v: v, h: h, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<A>(v: A, h: MarginSideValue) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(MarginProperty(v: v, h: h))
+    public func margin<A>(v: A, h: MarginSideValue, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(MarginProperty(v: v, h: h, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, B>(v: U1, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(MarginProperty(v: v, h: h))
+    public func margin<U1: UnitValuable, B>(v: U1, h: B, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(MarginProperty(v: v, h: h, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<B>(v: MarginSideValue, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(MarginProperty(v: v, h: h))
+    public func margin<B>(v: MarginSideValue, h: B, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(MarginProperty(v: v, h: h, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<A, B>(v: A, h: B) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(MarginProperty(v: v, h: h))
+    public func margin<A, B>(v: A, h: B, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(MarginProperty(v: v, h: h, important: important))
         return self
     }
 
@@ -14506,85 +15007,85 @@ extension CSSRulable {
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) -> Self {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) -> Self {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3) -> Self {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, U3: UnitValuable>(top: U1, h: MarginSideValue, bottom: U3, important: Bool? = nil) -> Self {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U2: UnitValuable, A>(top: A, h: MarginSideValue, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U2: UnitValuable, A>(top: A, h: MarginSideValue, bottom: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, C>(top: U1, h: MarginSideValue, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, C>(top: U1, h: MarginSideValue, bottom: C, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<A, C>(top: A, h: MarginSideValue, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<A, C>(top: A, h: MarginSideValue, bottom: C, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<A, B, C>(top: A, h: B, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, h: h, bottom: bottom))
+    public func margin<A, B, C>(top: A, h: B, bottom: C, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
@@ -14592,113 +15093,113 @@ extension CSSRulable {
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) -> Self {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) -> Self {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) -> Self where C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) -> Self where D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D, important: Bool? = nil) -> Self where D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// Sets all the margin properties in one declaration
     @discardableResult
-    public func margin<A, B, C, D>(top: A, right: B, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left))
+    public func margin<A, B, C, D>(top: A, right: B, bottom: C, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(MarginProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 }
@@ -14732,20 +15233,20 @@ public class MarginRightProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -14784,29 +15285,29 @@ extension CSSRulable {
 
     /// Sets the top margin of an element
     @discardableResult
-    public func marginRight(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.marginRight, .init(UnitValue(value, unit)))
+    public func marginRight(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.marginRight, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the top margin of an element
     @discardableResult
-    public func marginRight(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.marginRight, .init(UnitValue(value, unit)))
+    public func marginRight(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.marginRight, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the top margin of an element
     @discardableResult
-    public func marginRight(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.marginRight, .init(UnitValue(value, unit)))
+    public func marginRight(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.marginRight, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the top margin of an element
     @discardableResult
-    public func marginRight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.marginRight, .init(UnitValue(value, unit)))
+    public func marginRight(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.marginRight, .init(UnitValue(value, unit, important: important)))
         return self
     }
 }
@@ -14840,20 +15341,20 @@ public class MarginTopProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -14893,29 +15394,29 @@ extension CSSRulable {
 
     /// Sets the top margin of an element
     @discardableResult
-    public func marginTop(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.marginTop, .init(UnitValue(value, unit)))
+    public func marginTop(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.marginTop, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the top margin of an element
     @discardableResult
-    public func marginTop(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.marginTop, .init(UnitValue(value, unit)))
+    public func marginTop(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.marginTop, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the top margin of an element
     @discardableResult
-    public func marginTop(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.marginTop, .init(UnitValue(value, unit)))
+    public func marginTop(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.marginTop, .init(UnitValue(value, unit, important: important)))
         return self
     }
 
     /// Sets the top margin of an element
     @discardableResult
-    public func marginTop(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.marginTop, .init(UnitValue(value, unit)))
+    public func marginTop(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.marginTop, .init(UnitValue(value, unit, important: important)))
         return self
     }
 }
@@ -14945,20 +15446,20 @@ public class MaxHeightProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -14990,29 +15491,29 @@ extension CSSRulable {
 
     /// Sets the maximum height of an element
     @discardableResult
-    public func maxHeight(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.maxHeight, UnitValue(value, unit))
+    public func maxHeight(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.maxHeight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the maximum height of an element
     @discardableResult
-    public func maxHeight(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.maxHeight, UnitValue(value, unit))
+    public func maxHeight(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.maxHeight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the maximum height of an element
     @discardableResult
-    public func maxHeight(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.maxHeight, UnitValue(value, unit))
+    public func maxHeight(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.maxHeight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the maximum height of an element
     @discardableResult
-    public func maxHeight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.maxHeight, UnitValue(value, unit))
+    public func maxHeight(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.maxHeight, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -15042,20 +15543,20 @@ public class MaxWidthProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -15088,29 +15589,29 @@ extension CSSRulable {
 
     /// Sets the maximum width of an element
     @discardableResult
-    public func maxWidth(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.maxWidth, UnitValue(value, unit))
+    public func maxWidth(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.maxWidth, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the maximum width of an element
     @discardableResult
-    public func maxWidth(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.maxWidth, UnitValue(value, unit))
+    public func maxWidth(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.maxWidth, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the maximum width of an element
     @discardableResult
-    public func maxWidth(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.maxWidth, UnitValue(value, unit))
+    public func maxWidth(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.maxWidth, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the maximum width of an element
     @discardableResult
-    public func maxWidth(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.maxWidth, UnitValue(value, unit))
+    public func maxWidth(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.maxWidth, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -15140,20 +15641,20 @@ public class MinHeightProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -15186,29 +15687,29 @@ extension CSSRulable {
 
     /// Sets the minimum height of an element
     @discardableResult
-    public func minHeight(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.minHeight, UnitValue(value, unit))
+    public func minHeight(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.minHeight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the minimum height of an element
     @discardableResult
-    public func minHeight(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.minHeight, UnitValue(value, unit))
+    public func minHeight(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.minHeight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the minimum height of an element
     @discardableResult
-    public func minHeight(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.minHeight, UnitValue(value, unit))
+    public func minHeight(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.minHeight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the minimum height of an element
     @discardableResult
-    public func minHeight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.minHeight, UnitValue(value, unit))
+    public func minHeight(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.minHeight, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -15238,20 +15739,20 @@ public class MinWidthProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -15284,29 +15785,29 @@ extension CSSRulable {
 
     /// Sets the minimum width of an element
     @discardableResult
-    public func minWidth(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.minWidth, UnitValue(value, unit))
+    public func minWidth(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.minWidth, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the minimum width of an element
     @discardableResult
-    public func minWidth(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.minWidth, UnitValue(value, unit))
+    public func minWidth(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.minWidth, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the minimum width of an element
     @discardableResult
-    public func minWidth(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.minWidth, UnitValue(value, unit))
+    public func minWidth(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.minWidth, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the minimum width of an element
     @discardableResult
-    public func minWidth(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.minWidth, UnitValue(value, unit))
+    public func minWidth(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.minWidth, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -15448,20 +15949,20 @@ public class ObjectPositionProperty: _Property {
         propertyValue = .init(y: y)
     }
 
-    public init (x: ObjectPositionXType, y: ObjectPositionYType) {
-        propertyValue = .init(x: x, y: y)
+    public init (x: ObjectPositionXType, y: ObjectPositionYType, important: Bool? = nil) {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init <X>(x: X, y: ObjectPositionYType) where X: StateConvertible, X.Value == ObjectPositionXType {
-        propertyValue = .init(x: x, y: y)
+    public init <X>(x: X, y: ObjectPositionYType, important: Bool? = nil) where X: StateConvertible, X.Value == ObjectPositionXType {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init <Y>(x: ObjectPositionXType, y: Y) where Y: StateConvertible, Y.Value == ObjectPositionYType {
-        propertyValue = .init(x: x, y: y)
+    public init <Y>(x: ObjectPositionXType, y: Y, important: Bool? = nil) where Y: StateConvertible, Y.Value == ObjectPositionYType {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init <X, Y>(x: X, y: Y) where X: StateConvertible, X.Value == ObjectPositionXType, Y: StateConvertible, Y.Value == ObjectPositionYType {
-        propertyValue = .init(x: x, y: y)
+    public init <X, Y>(x: X, y: Y, important: Bool? = nil) where X: StateConvertible, X.Value == ObjectPositionXType, Y: StateConvertible, Y.Value == ObjectPositionYType {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
     public init<X: UnitValuable>(x: X) {
@@ -15480,36 +15981,36 @@ public class ObjectPositionProperty: _Property {
         propertyValue = .init(y: y)
     }
 
-    public init<X: UnitValuable, Y: UnitValuable>(x: X, y: Y) {
-        propertyValue = .init(x: x, y: y)
+    public init<X: UnitValuable, Y: UnitValuable>(x: X, y: Y, important: Bool? = nil) {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init<X, Y: UnitValuable>(x: X, y: Y) where X: StateConvertible, X.Value: UnitValuable {
-        propertyValue = .init(x: x, y: y)
+    public init<X, Y: UnitValuable>(x: X, y: Y, important: Bool? = nil) where X: StateConvertible, X.Value: UnitValuable {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init<X: UnitValuable, Y>(x: X, y: Y) where Y: StateConvertible, Y.Value: UnitValuable {
-        propertyValue = .init(x: x, y: y)
+    public init<X: UnitValuable, Y>(x: X, y: Y, important: Bool? = nil) where Y: StateConvertible, Y.Value: UnitValuable {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init<X, Y>(x: X, y: Y) where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
-        propertyValue = .init(x: x, y: y)
+    public init<X, Y>(x: X, y: Y, important: Bool? = nil) where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init<X: UnitValuable>(x: X, y: ObjectPositionYType) {
-        propertyValue = .init(x: x, y: y)
+    public init<X: UnitValuable>(x: X, y: ObjectPositionYType, important: Bool? = nil) {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init<X>(x: X, y: ObjectPositionYType) where X: StateConvertible, X.Value: UnitValuable {
-        propertyValue = .init(x: x, y: y)
+    public init<X>(x: X, y: ObjectPositionYType, important: Bool? = nil) where X: StateConvertible, X.Value: UnitValuable {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init<Y: UnitValuable>(x: ObjectPositionXType, y: Y) {
-        propertyValue = .init(x: x, y: y)
+    public init<Y: UnitValuable>(x: ObjectPositionXType, y: Y, important: Bool? = nil) {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 
-    public init<Y>(x: ObjectPositionXType, y: Y) where Y: StateConvertible, Y.Value: UnitValuable {
-        propertyValue = .init(x: x, y: y)
+    public init<Y>(x: ObjectPositionXType, y: Y, important: Bool? = nil) where Y: StateConvertible, Y.Value: UnitValuable {
+        propertyValue = .init(x: x, y: y, important: important)
     }
 }
 
@@ -15549,38 +16050,38 @@ public class ObjectPositionValue: CustomStringConvertible, _PropertyValueInnerCh
         }
     }
 
-    public init (x: ObjectPositionXType, y: ObjectPositionYType) {
-        value = [x.value, y.value].joined(separator: " ")
+    public init (x: ObjectPositionXType, y: ObjectPositionYType, important: Bool? = nil) {
+        value = [x.value, y.value].joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init <X>(x: X, y: ObjectPositionYType) where X: StateConvertible, X.Value == ObjectPositionXType {
+    public convenience init <X>(x: X, y: ObjectPositionYType, important: Bool? = nil) where X: StateConvertible, X.Value == ObjectPositionXType {
         let x = x.stateValue
-        self.init(x: x.wrappedValue, y: y)
+        self.init(x: x.wrappedValue, y: y, important: important)
         x.listen {
-            self.value = [$0.value, y.value].joined(separator: " ")
+            self.value = [$0.value, y.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init <Y>(x: ObjectPositionXType, y: Y) where Y: StateConvertible, Y.Value == ObjectPositionYType {
+    public convenience init <Y>(x: ObjectPositionXType, y: Y, important: Bool? = nil) where Y: StateConvertible, Y.Value == ObjectPositionYType {
         let y = y.stateValue
-        self.init(x: x, y: y.wrappedValue)
+        self.init(x: x, y: y.wrappedValue, important: important)
         y.listen {
-            self.value = [x.value, $0.value].joined(separator: " ")
+            self.value = [x.value, $0.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init <X, Y>(x: X, y: Y) where X: StateConvertible, X.Value == ObjectPositionXType, Y: StateConvertible, Y.Value == ObjectPositionYType {
+    public convenience init <X, Y>(x: X, y: Y, important: Bool? = nil) where X: StateConvertible, X.Value == ObjectPositionXType, Y: StateConvertible, Y.Value == ObjectPositionYType {
         let x = x.stateValue
         let y = y.stateValue
-        self.init(x: x.wrappedValue, y: y.wrappedValue)
+        self.init(x: x.wrappedValue, y: y.wrappedValue, important: important)
         x.listen {
-            self.value = [$0.value, y.wrappedValue.value].joined(separator: " ")
+            self.value = [$0.value, y.wrappedValue.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         y.listen {
-            self.value = [x.wrappedValue.value, $0.value].joined(separator: " ")
+            self.value = [x.wrappedValue.value, $0.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
@@ -15611,64 +16112,64 @@ public class ObjectPositionValue: CustomStringConvertible, _PropertyValueInnerCh
         }
     }
 
-    public init<X: UnitValuable, Y: UnitValuable>(x: X, y: Y) {
-        value = [x.description, y.description].joined(separator: " ")
+    public init<X: UnitValuable, Y: UnitValuable>(x: X, y: Y, important: Bool? = nil) {
+        value = [x.description, y.description].joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init<X, Y: UnitValuable>(x: X, y: Y) where X: StateConvertible, X.Value: UnitValuable {
+    public convenience init<X, Y: UnitValuable>(x: X, y: Y, important: Bool? = nil) where X: StateConvertible, X.Value: UnitValuable {
         let x = x.stateValue
-        self.init(x: x.wrappedValue, y: y)
+        self.init(x: x.wrappedValue, y: y, important: important)
         x.listen {
-            self.value = [$0.description, y.description].joined(separator: " ")
+            self.value = [$0.description, y.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init<X: UnitValuable, Y>(x: X, y: Y) where Y: StateConvertible, Y.Value: UnitValuable {
+    public convenience init<X: UnitValuable, Y>(x: X, y: Y, important: Bool? = nil) where Y: StateConvertible, Y.Value: UnitValuable {
         let y = y.stateValue
-        self.init(x: x, y: y.wrappedValue)
+        self.init(x: x, y: y.wrappedValue, important: important)
         y.listen {
-            self.value = [x.description, $0.description].joined(separator: " ")
+            self.value = [x.description, $0.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init<X, Y>(x: X, y: Y) where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
+    public convenience init<X, Y>(x: X, y: Y, important: Bool? = nil) where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
         let x = x.stateValue
         let y = y.stateValue
-        self.init(x: x.wrappedValue, y: y.wrappedValue)
+        self.init(x: x.wrappedValue, y: y.wrappedValue, important: important)
         x.listen {
-            self.value = [$0.description, y.wrappedValue.description].joined(separator: " ")
+            self.value = [$0.description, y.wrappedValue.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         y.listen {
-            self.value = [x.wrappedValue.description, $0.description].joined(separator: " ")
+            self.value = [x.wrappedValue.description, $0.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public init<X: UnitValuable>(x: X, y: ObjectPositionYType) {
-        value = [x.description, y.value].joined(separator: " ")
+    public init<X: UnitValuable>(x: X, y: ObjectPositionYType, important: Bool? = nil) {
+        value = [x.description, y.value].joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init<X>(x: X, y: ObjectPositionYType) where X: StateConvertible, X.Value: UnitValuable {
+    public convenience init<X>(x: X, y: ObjectPositionYType, important: Bool? = nil) where X: StateConvertible, X.Value: UnitValuable {
         let x = x.stateValue
-        self.init(x: x.wrappedValue, y: y)
+        self.init(x: x.wrappedValue, y: y, important: important)
         x.listen {
-            self.value = [$0.description, y.value].joined(separator: " ")
+            self.value = [$0.description, y.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public init<Y: UnitValuable>(x: ObjectPositionXType, y: Y) {
-        value = [x.value, y.description].joined(separator: " ")
+    public init<Y: UnitValuable>(x: ObjectPositionXType, y: Y, important: Bool? = nil) {
+        value = [x.value, y.description].joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init<Y>(x: ObjectPositionXType, y: Y) where Y: StateConvertible, Y.Value: UnitValuable {
+    public convenience init<Y>(x: ObjectPositionXType, y: Y, important: Bool? = nil) where Y: StateConvertible, Y.Value: UnitValuable {
         let y = y.stateValue
-        self.init(x: x, y: y.wrappedValue)
+        self.init(x: x, y: y.wrappedValue, important: important)
         y.listen {
-            self.value = [x.value, $0.description].joined(separator: " ")
+            self.value = [x.value, $0.description].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
@@ -15712,29 +16213,29 @@ extension CSSRulable {
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition(x: ObjectPositionXType, y: ObjectPositionYType) -> Self {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition(x: ObjectPositionXType, y: ObjectPositionYType, important: Bool? = nil) -> Self {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<X>(x: X, y: ObjectPositionYType) -> Self where X: StateConvertible, X.Value == ObjectPositionXType {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<X>(x: X, y: ObjectPositionYType, important: Bool? = nil) -> Self where X: StateConvertible, X.Value == ObjectPositionXType {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<Y>(x: ObjectPositionXType, y: Y) -> Self where Y: StateConvertible, Y.Value == ObjectPositionYType {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<Y>(x: ObjectPositionXType, y: Y, important: Bool? = nil) -> Self where Y: StateConvertible, Y.Value == ObjectPositionYType {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<X, Y>(x: X, y: Y) -> Self where X: StateConvertible, X.Value == ObjectPositionXType, Y: StateConvertible, Y.Value == ObjectPositionYType {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<X, Y>(x: X, y: Y, important: Bool? = nil) -> Self where X: StateConvertible, X.Value == ObjectPositionXType, Y: StateConvertible, Y.Value == ObjectPositionYType {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
@@ -15768,57 +16269,57 @@ extension CSSRulable {
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<X: UnitValuable, Y: UnitValuable>(x: X, y: Y) -> Self {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<X: UnitValuable, Y: UnitValuable>(x: X, y: Y, important: Bool? = nil) -> Self {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<X, Y: UnitValuable>(x: X, y: Y) -> Self where X: StateConvertible, X.Value: UnitValuable {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<X, Y: UnitValuable>(x: X, y: Y, important: Bool? = nil) -> Self where X: StateConvertible, X.Value: UnitValuable {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<X: UnitValuable, Y>(x: X, y: Y) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<X: UnitValuable, Y>(x: X, y: Y, important: Bool? = nil) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<X, Y>(x: X, y: Y) -> Self where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<X, Y>(x: X, y: Y, important: Bool? = nil) -> Self where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<X: UnitValuable>(x: X, y: ObjectPositionYType) -> Self {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<X: UnitValuable>(x: X, y: ObjectPositionYType, important: Bool? = nil) -> Self {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<X>(x: X, y: ObjectPositionYType) -> Self where X: StateConvertible, X.Value: UnitValuable {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<X>(x: X, y: ObjectPositionYType, important: Bool? = nil) -> Self where X: StateConvertible, X.Value: UnitValuable {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<Y: UnitValuable>(x: ObjectPositionXType, y: Y) -> Self {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<Y: UnitValuable>(x: ObjectPositionXType, y: Y, important: Bool? = nil) -> Self {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
-    public func objectPosition<Y>(x: ObjectPositionXType, y: Y) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
-        _addProperty(ObjectPositionProperty(x: x, y: y))
+    public func objectPosition<Y>(x: ObjectPositionXType, y: Y, important: Bool? = nil) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
+        _addProperty(ObjectPositionProperty(x: x, y: y, important: important))
         return self
     }
 }
@@ -15837,8 +16338,8 @@ public class OpacityProperty: _Property {
     public var propertyValue: NumericValueContainer
     var _content = _PropertyContent<NumericValueContainer>()
 
-    public init <N>(_ value: N) where N: UniValue, N.UniValue: NumericValue {
-        propertyValue = NumericValueContainer(value)
+    public init <N>(_ value: N, important: Bool? = nil) where N: UniValue, N.UniValue: NumericValue {
+        propertyValue = NumericValueContainer(value, important: important)
     }
 }
 
@@ -15855,8 +16356,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Sets the opacity level for an element
     @discardableResult
-    public func opacity<N>(_ value: N) -> Self where N: UniValue, N.UniValue: NumericValue {
-        _addProperty(.opacity, NumericValueContainer(value))
+    public func opacity<N>(_ value: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue: NumericValue {
+        _addProperty(.opacity, NumericValueContainer(value, important: important))
         return self
     }
 }
@@ -15874,23 +16375,23 @@ extension CSSRulable {
 ///
 /// [Learn more](https://www.w3schools.com/cssref/css3_pr_order.asp)
 public class OrderProperty: _Property {
-    public var propertyKey: PropertyKey<Int> { .order }
-    public var propertyValue: Int
-    var _content = _PropertyContent<Int>()
+    public var propertyKey: PropertyKey<String> { .order }
+    public var propertyValue: String
+    var _content = _PropertyContent<String>()
 
-    public init (_ v: Int) {
-        propertyValue = v
+    public init (_ v: Int, important: Bool? = nil) {
+        propertyValue = "\(v)" + (important == true ? "!important" : "")
     }
 
-    public convenience init (_ type: State<Int>) {
-        self.init(type.wrappedValue)
-        type.listen { self._changed(to: $0) }
+    public convenience init (_ type: State<Int>, important: Bool? = nil) {
+        self.init(type.wrappedValue, important: important)
+        type.listen { self._changed(to: "\($0)" + (important == true ? "!important" : "")) }
     }
 }
 
 extension PropertyKey {
     /// Sets the order of the flexible item, relative to the rest
-    public static var order: PropertyKey<Int> { "order".propertyKey() }
+    public static var order: PropertyKey<String> { "order".propertyKey() }
 }
 
 extension Stylesheetable {
@@ -15901,15 +16402,15 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Sets the order of the flexible item, relative to the rest
     @discardableResult
-    public func order(_ type: Int) -> Self {
-        _addProperty(.order, type)
+    public func order(_ type: Int, important: Bool? = nil) -> Self {
+        _addProperty(.order, "\(type)", important: important)
         return self
     }
 
     /// Sets the order of the flexible item, relative to the rest
     @discardableResult
-    public func order(_ type: State<Int>) -> Self {
-        _addProperty(OrderProperty(type))
+    public func order(_ type: State<Int>, important: Bool? = nil) -> Self {
+        _addProperty(OrderProperty(type, important: important))
         return self
     }
 }
@@ -15925,23 +16426,23 @@ extension CSSRulable {
 ///
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/CSS/orphans)
 public class OrphansProperty: _Property {
-    public var propertyKey: PropertyKey<Int> { .orphans }
-    public var propertyValue: Int
-    var _content = _PropertyContent<Int>()
+    public var propertyKey: PropertyKey<String> { .orphans }
+    public var propertyValue: String
+    var _content = _PropertyContent<String>()
 
-    public init (_ v: Int) {
-        propertyValue = v
+    public init (_ v: Int, important: Bool? = nil) {
+        propertyValue = "\(v)" + (important == true ? "!important" : "")
     }
 
-    public convenience init (_ type: State<Int>) {
-        self.init(type.wrappedValue)
-        type.listen { self._changed(to: $0) }
+    public convenience init (_ type: State<Int>, important: Bool? = nil) {
+        self.init(type.wrappedValue, important: important)
+        type.listen { self._changed(to: "\($0)" + (important == true ? "!important" : "")) }
     }
 }
 
 extension PropertyKey {
     /// Sets the minimum number of lines that must be left at the bottom of a page when a page break occurs inside an element
-    public static var orphans: PropertyKey<Int> { "orphans".propertyKey() }
+    public static var orphans: PropertyKey<String> { "orphans".propertyKey() }
 }
 
 extension Stylesheetable {
@@ -15952,15 +16453,15 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Sets the minimum number of lines that must be left at the bottom of a page when a page break occurs inside an element
     @discardableResult
-    public func orphans(_ type: Int) -> Self {
-        _addProperty(.orphans, type)
+    public func orphans(_ type: Int, important: Bool? = nil) -> Self {
+        _addProperty(.orphans, "\(type)", important: important)
         return self
     }
 
     /// Sets the minimum number of lines that must be left at the bottom of a page when a page break occurs inside an element
     @discardableResult
-    public func orphans(_ type: State<Int>) -> Self {
-        _addProperty(OrphansProperty(type))
+    public func orphans(_ type: State<Int>, important: Bool? = nil) -> Self {
+        _addProperty(OrphansProperty(type, important: important))
         return self
     }
 }
@@ -15991,20 +16492,20 @@ public class OutlineColorProperty: _Property {
         }
     }
 
-    public convenience init (r: Int, g: Int, b: Int, a: Double) {
-        self.init(.rgba(r: r, g: g, b: b, a: a))
+    public convenience init (r: Int, g: Int, b: Int, a: Double, important: Bool? = nil) {
+        self.init(important == true ? .rgba(r: r, g: g, b: b, a: a).important : .rgba(r: r, g: g, b: b, a: a))
     }
 
-    public convenience init (r: Int, g: Int, b: Int) {
-        self.init(r: r, g:g, b: b, a: 1)
+    public convenience init (r: Int, g: Int, b: Int, important: Bool? = nil) {
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init (h: Int, s: Int, l: Int, a: Double) {
-        self.init(.hsla(h: h, s: s, l: l, a: a))
+    public convenience init (h: Int, s: Int, l: Int, a: Double, important: Bool? = nil) {
+        self.init(important == true ? .hsla(h: h, s: s, l: l, a: a).important : .hsla(h: h, s: s, l: l, a: a))
     }
 
-    public convenience init (h: Int, s: Int, l: Int) {
-        self.init(h: h, s: s, l: l, a: 1)
+    public convenience init (h: Int, s: Int, l: Int, important: Bool? = nil) {
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -16059,20 +16560,20 @@ public class OutlineOffsetProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -16104,29 +16605,29 @@ extension CSSRulable {
 
     /// Offsets an outline, and draws it beyond the border edge
     @discardableResult
-    public func outlineOffset(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.outlineOffset, UnitValue(value, unit))
+    public func outlineOffset(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.outlineOffset, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Offsets an outline, and draws it beyond the border edge
     @discardableResult
-    public func outlineOffset(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.outlineOffset, UnitValue(value, unit))
+    public func outlineOffset(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.outlineOffset, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Offsets an outline, and draws it beyond the border edge
     @discardableResult
-    public func outlineOffset(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.outlineOffset, UnitValue(value, unit))
+    public func outlineOffset(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.outlineOffset, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Offsets an outline, and draws it beyond the border edge
     @discardableResult
-    public func outlineOffset(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.outlineOffset, UnitValue(value, unit))
+    public func outlineOffset(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.outlineOffset, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -16145,8 +16646,8 @@ public class OutlineProperty: _Property {
     public var propertyValue: OutlineValue
     var _content = _PropertyContent<OutlineValue>()
 
-    public init<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color) {
-        propertyValue = OutlineValue(width: width, style: style, color: color)
+    public init<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color, important: Bool? = nil) {
+        propertyValue = OutlineValue(width: width, style: style, color: color, important: important)
     }
 }
 
@@ -16159,15 +16660,17 @@ public struct OutlineValue: CustomStringConvertible {
     let width: UnitValue
     let style: OutlineStyleType
     let color: Color
+    let important: Bool?
 
-    public init<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color) {
+    public init<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color, important: Bool? = nil) {
         self.width = UnitValue(width.value.doubleValue, width.unit)
         self.style = style
         self.color = color
+        self.important = important
     }
 
     public var description: String {
-        [width.description, style.value, color.description].joined(separator: " ")
+        [width.description, style.value, color.description].joined(separator: " ") + (important == true ? "!important" : "")
     }
 }
 
@@ -16179,8 +16682,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for the outline-width, outline-style, and the outline-color properties
     @discardableResult
-    public func outline<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color) -> Self {
-        _addProperty(OutlineProperty(width: width, style: style, color: color))
+    public func outline<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color, important: Bool? = nil) -> Self {
+        _addProperty(OutlineProperty(width: width, style: style, color: color, important: important))
         return self
     }
 }
@@ -16538,20 +17041,20 @@ public class PaddingBottomProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -16582,29 +17085,29 @@ extension CSSRulable {
 
     /// Sets the bottom padding of an element
     @discardableResult
-    public func paddingBottom(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.paddingBottom, UnitValue(value, unit))
+    public func paddingBottom(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.paddingBottom, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the bottom padding of an element
     @discardableResult
-    public func paddingBottom(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.paddingBottom, UnitValue(value, unit))
+    public func paddingBottom(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.paddingBottom, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the bottom padding of an element
     @discardableResult
-    public func paddingBottom(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.paddingBottom, UnitValue(value, unit))
+    public func paddingBottom(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.paddingBottom, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the bottom padding of an element
     @discardableResult
-    public func paddingBottom(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.paddingBottom, UnitValue(value, unit))
+    public func paddingBottom(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.paddingBottom, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -16634,20 +17137,20 @@ public class PaddingLeftProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -16680,29 +17183,29 @@ extension CSSRulable {
 
     /// Sets the left padding of an element
     @discardableResult
-    public func paddingLeft(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.paddingLeft, UnitValue(value, unit))
+    public func paddingLeft(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.paddingLeft, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the left padding of an element
     @discardableResult
-    public func paddingLeft(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.paddingLeft, UnitValue(value, unit))
+    public func paddingLeft(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.paddingLeft, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the left padding of an element
     @discardableResult
-    public func paddingLeft(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.paddingLeft, UnitValue(value, unit))
+    public func paddingLeft(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.paddingLeft, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the left padding of an element
     @discardableResult
-    public func paddingLeft(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.paddingLeft, UnitValue(value, unit))
+    public func paddingLeft(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.paddingLeft, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -16733,216 +17236,216 @@ public class PaddingProperty: _Property {
 
     // MARK: V/H
 
-    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) {
-        propertyValue = PaddingValue(v: v, h: h)
+    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) {
+        propertyValue = PaddingValue(v: v, h: h, important: important)
     }
 
-    public convenience init <U1: UnitValuable, A>(v: A, h: U1) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, A>(v: A, h: U1, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let v = v.stateValue
-        self.init(v: v.wrappedValue, h: h)
-        v.listen { self._changed(to: PaddingValue(v: $0, h: h)) }
+        self.init(v: v.wrappedValue, h: h, important: important)
+        v.listen { self._changed(to: PaddingValue(v: $0, h: h, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, B>(v: U1, h: B) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, B>(v: U1, h: B, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let h = h.stateValue
-        self.init(v: v, h: h.wrappedValue)
-        h.listen { self._changed(to: PaddingValue(v: v, h: $0)) }
+        self.init(v: v, h: h.wrappedValue, important: important)
+        h.listen { self._changed(to: PaddingValue(v: v, h: $0, important: important)) }
     }
 
-    public convenience init <A, B>(v: A, h: B) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <A, B>(v: A, h: B, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let v = v.stateValue
         let h = h.stateValue
-        self.init(v: v.wrappedValue, h: h.wrappedValue)
-        v.listen { self._changed(to: PaddingValue(v: $0, h: h.wrappedValue)) }
-        h.listen { self._changed(to: PaddingValue(v: v.wrappedValue, h: $0)) }
+        self.init(v: v.wrappedValue, h: h.wrappedValue, important: important)
+        v.listen { self._changed(to: PaddingValue(v: $0, h: h.wrappedValue, important: important)) }
+        h.listen { self._changed(to: PaddingValue(v: v.wrappedValue, h: $0, important: important)) }
     }
 
     // MARK: Top/H/Bottom
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) {
-        propertyValue = PaddingValue(top: top, h: h, bottom: bottom)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) {
+        propertyValue = PaddingValue(top: top, h: h, bottom: bottom, important: important)
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let top = top.stateValue
-        self.init(top: top.wrappedValue, h: h, bottom: bottom)
-        top.listen { self._changed(to: PaddingValue(top: $0, h: h, bottom: bottom)) }
+        self.init(top: top.wrappedValue, h: h, bottom: bottom, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, h: h, bottom: bottom, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let h = h.stateValue
-        self.init(top: top, h: h.wrappedValue, bottom: bottom)
-        h.listen { self._changed(to: PaddingValue(top: top, h: $0, bottom: bottom)) }
+        self.init(top: top, h: h.wrappedValue, bottom: bottom, important: important)
+        h.listen { self._changed(to: PaddingValue(top: top, h: $0, bottom: bottom, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) where C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
         let bottom = bottom.stateValue
-        self.init(top: top, h: h, bottom: bottom.wrappedValue)
-        bottom.listen { self._changed(to: PaddingValue(top: top, h: h, bottom: $0)) }
+        self.init(top: top, h: h, bottom: bottom.wrappedValue, important: important)
+        bottom.listen { self._changed(to: PaddingValue(top: top, h: h, bottom: $0, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        let top = top.stateValue
-        let h = h.stateValue
-        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom)
-        top.listen { self._changed(to: PaddingValue(top: $0, h: h.wrappedValue, bottom: bottom)) }
-        h.listen { self._changed(to: PaddingValue(top: top.wrappedValue, h: $0, bottom: bottom)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let top = top.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue)
-        top.listen { self._changed(to: PaddingValue(top: $0, h: h, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, h: h, bottom: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let h = h.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top, h: h.wrappedValue, bottom: bottom.wrappedValue)
-        h.listen { self._changed(to: PaddingValue(top: top, h: $0, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top, h: h.wrappedValue, bottom: $0)) }
-    }
-
-    public convenience init <A, B, C>(top: A, h: B, bottom: C) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, A, B>(top: A, h: B, bottom: U1, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let top = top.stateValue
         let h = h.stateValue
+        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, h: h.wrappedValue, bottom: bottom, important: important)) }
+        h.listen { self._changed(to: PaddingValue(top: top.wrappedValue, h: $0, bottom: bottom, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, C>(top: A, h: U1, bottom: C, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let top = top.stateValue
         let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom.wrappedValue)
-        top.listen { self._changed(to: PaddingValue(top: $0, h: h.wrappedValue, bottom: bottom.wrappedValue)) }
-        h.listen { self._changed(to: PaddingValue(top: top.wrappedValue, h: $0, bottom: bottom.wrappedValue)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, h: h.wrappedValue, bottom: $0)) }
+        self.init(top: top.wrappedValue, h: h, bottom: bottom.wrappedValue, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, h: h, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, h: h, bottom: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, B, C>(top: U1, h: B, bottom: C, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let h = h.stateValue
+        let bottom = bottom.stateValue
+        self.init(top: top, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)
+        h.listen { self._changed(to: PaddingValue(top: top, h: $0, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top, h: h.wrappedValue, bottom: $0, important: important)) }
+    }
+
+    public convenience init <A, B, C>(top: A, h: B, bottom: C, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        let top = top.stateValue
+        let h = h.stateValue
+        let bottom = bottom.stateValue
+        self.init(top: top.wrappedValue, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, h: h.wrappedValue, bottom: bottom.wrappedValue, important: important)) }
+        h.listen { self._changed(to: PaddingValue(top: top.wrappedValue, h: $0, bottom: bottom.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, h: h.wrappedValue, bottom: $0, important: important)) }
     }
 
     // MARK: Top/Right/Bottom/Left
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) {
-        propertyValue = PaddingValue(top: top, right: right, bottom: bottom, left: left)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) {
+        propertyValue = PaddingValue(top: top, right: right, bottom: bottom, left: left, important: important)
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) where A: StateConvertible, A.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable {
         let top = top.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left)
-        top.listen { self._changed(to: PaddingValue(top: $0, right: right, bottom: bottom, left: left)) }
+        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, right: right, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) where B: StateConvertible, B.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable {
         let right = right.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left)
-        right.listen { self._changed(to: PaddingValue(top: top, right: $0, bottom: bottom, left: left)) }
+        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left, important: important)
+        right.listen { self._changed(to: PaddingValue(top: top, right: $0, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) where C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable {
         let bottom = bottom.stateValue
-        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left)
-        bottom.listen { self._changed(to: PaddingValue(top: top, right: right, bottom: $0, left: left)) }
+        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left, important: important)
+        bottom.listen { self._changed(to: PaddingValue(top: top, right: right, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) where D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D, important: Bool? = nil) where D: StateConvertible, D.Value: UnitValuable {
         let left = left.stateValue
-        self.init(top: top, right: right, bottom: bottom, left: left.wrappedValue)
-        left.listen { self._changed(to: PaddingValue(top: top, right: right, bottom: bottom, left: $0)) }
+        self.init(top: top, right: right, bottom: bottom, left: left.wrappedValue, important: important)
+        left.listen { self._changed(to: PaddingValue(top: top, right: right, bottom: bottom, left: $0, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        let top = top.stateValue
-        let right = right.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left)
-        top.listen { self._changed(to: PaddingValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left)) }
-        right.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let top = top.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left)
-        top.listen { self._changed(to: PaddingValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right, bottom: $0, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let top = top.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left.wrappedValue)
-        top.listen { self._changed(to: PaddingValue(top: $0, right: right, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        let right = right.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)
-        right.listen { self._changed(to: PaddingValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top, right: right.wrappedValue, bottom: $0, left: left)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let right = right.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)
-        right.listen { self._changed(to: PaddingValue(top: top, right: $0, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: PaddingValue(top: top, right: right.wrappedValue, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        bottom.listen { self._changed(to: PaddingValue(top: top, right: right, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: PaddingValue(top: top, right: right, bottom: bottom.wrappedValue, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
         let top = top.stateValue
         let right = right.stateValue
-        let bottom = bottom.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)
-        top.listen { self._changed(to: PaddingValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left)) }
-        right.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left)) }
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left, important: important)) }
+        right.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        let top = top.stateValue
-        let right = right.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)
-        top.listen { self._changed(to: PaddingValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue)) }
-        right.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left.wrappedValue)) }
-        left.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: $0)) }
-    }
-
-    public convenience init <U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let top = top.stateValue
         let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        top.listen { self._changed(to: PaddingValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right, bottom: bottom, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, right: right, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let right = right.stateValue
         let bottom = bottom.stateValue
-        let left = left.stateValue
-        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        right.listen { self._changed(to: PaddingValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top, right: right.wrappedValue, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: PaddingValue(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)
+        right.listen { self._changed(to: PaddingValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top, right: right.wrappedValue, bottom: $0, left: left, important: important)) }
     }
 
-    public convenience init <A, B, C, D>(top: A, right: B, bottom: C, left: D) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+    public convenience init <U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let right = right.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)
+        right.listen { self._changed(to: PaddingValue(top: top, right: $0, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: PaddingValue(top: top, right: right.wrappedValue, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D, important: Bool? = nil) where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        bottom.listen { self._changed(to: PaddingValue(top: top, right: right, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: PaddingValue(top: top, right: right, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
         let top = top.stateValue
         let right = right.stateValue
         let bottom = bottom.stateValue
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left, important: important)) }
+        right.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let right = right.stateValue
         let left = left.stateValue
-        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)
-        top.listen { self._changed(to: PaddingValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        right.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue)) }
-        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left.wrappedValue)) }
-        left.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0)) }
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, right: right.wrappedValue, bottom: bottom, left: left.wrappedValue, important: important)) }
+        right.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: $0, bottom: bottom, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, right: right, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D, important: Bool? = nil) where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let right = right.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        right.listen { self._changed(to: PaddingValue(top: top, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top, right: right.wrappedValue, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: PaddingValue(top: top, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0, important: important)) }
+    }
+
+    public convenience init <A, B, C, D>(top: A, right: B, bottom: C, left: D, important: Bool? = nil) where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        let top = top.stateValue
+        let right = right.stateValue
+        let bottom = bottom.stateValue
+        let left = left.stateValue
+        self.init(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)
+        top.listen { self._changed(to: PaddingValue(top: $0, right: right.wrappedValue, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        right.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: $0, bottom: bottom.wrappedValue, left: left.wrappedValue, important: important)) }
+        bottom.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right.wrappedValue, bottom: $0, left: left.wrappedValue, important: important)) }
+        left.listen { self._changed(to: PaddingValue(top: top.wrappedValue, right: right.wrappedValue, bottom: bottom.wrappedValue, left: $0, important: important)) }
     }
 }
 
@@ -16956,8 +17459,8 @@ public class PaddingValue: CustomStringConvertible, _PropertyValueInnerChangeabl
 
     var _changeHandler = {}
 
-    private static func values(_ v: CustomStringConvertible...) -> String {
-        v.map { $0.description }.joined(separator: " ")
+    private static func values(_ v: CustomStringConvertible..., important: Bool? = nil) -> String {
+        v.map { $0.description }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 
     public init <U: UnitValuable>(all: U) {
@@ -16967,22 +17470,22 @@ public class PaddingValue: CustomStringConvertible, _PropertyValueInnerChangeabl
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) {
-        value = Self.values(v, h)
+    public init <U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) {
+        value = Self.values(v, h, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) {
-        value = Self.values(top, h, bottom)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) {
+        value = Self.values(top, h, bottom, important: important)
         $value.listen {
             self._changeHandler()
         }
     }
 
-    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) {
-        value = Self.values(top, right, bottom, left)
+    public init <U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) {
+        value = Self.values(top, right, bottom, left, important: important)
         $value.listen {
             self._changeHandler()
         }
@@ -17006,7 +17509,7 @@ extension CSSRulable {
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<A>(all type: A) -> Self where A: StateConvertible, A.Value: UnitValuable {
+    public func padding<A>(all type: A, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
         _addProperty(PaddingProperty(all: type))
         return self
     }
@@ -17015,29 +17518,29 @@ extension CSSRulable {
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2) -> Self {
-        _addProperty(PaddingProperty(v: v, h: h))
+    public func padding<U1: UnitValuable, U2: UnitValuable>(v: U1, h: U2, important: Bool? = nil) -> Self {
+        _addProperty(PaddingProperty(v: v, h: h, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, A>(v: A, h: U1) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(PaddingProperty(v: v, h: h))
+    public func padding<U1: UnitValuable, A>(v: A, h: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(PaddingProperty(v: v, h: h, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, B>(v: U1, h: B) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(PaddingProperty(v: v, h: h))
+    public func padding<U1: UnitValuable, B>(v: U1, h: B, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(PaddingProperty(v: v, h: h, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<A, B>(v: A, h: B) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(PaddingProperty(v: v, h: h))
+    public func padding<A, B>(v: A, h: B, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(PaddingProperty(v: v, h: h, important: important))
         return self
     }
 
@@ -17045,57 +17548,57 @@ extension CSSRulable {
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3) -> Self {
-        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
+    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable>(top: U1, h: U2, bottom: U3, important: Bool? = nil) -> Self {
+        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
+    public func padding<U1: UnitValuable, U2: UnitValuable, A>(top: A, h: U1, bottom: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
+    public func padding<U1: UnitValuable, U2: UnitValuable, B>(top: U1, h: B, bottom: U2, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C) -> Self where C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
+    public func padding<U1: UnitValuable, U2: UnitValuable, C>(top: U1, h: U2, bottom: C, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
+    public func padding<U1: UnitValuable, A, B>(top: A, h: B, bottom: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
+    public func padding<U1: UnitValuable, A, C>(top: A, h: U1, bottom: C, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
+    public func padding<U1: UnitValuable, B, C>(top: U1, h: B, bottom: C, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<A, B, C>(top: A, h: B, bottom: C) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom))
+    public func padding<A, B, C>(top: A, h: B, bottom: C, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, h: h, bottom: bottom, important: important))
         return self
     }
 
@@ -17103,113 +17606,113 @@ extension CSSRulable {
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4) -> Self {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, U4: UnitValuable>(top: U1, right: U2, bottom: U3, left: U4, important: Bool? = nil) -> Self {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3) -> Self where A: StateConvertible, A.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, A>(top: A, right: U1, bottom: U2, left: U3, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3) -> Self where B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, B>(top: U1, right: B, bottom: U2, left: U3, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3) -> Self where C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, C>(top: U1, right: U2, bottom: C, left: U3, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D) -> Self where D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, U3: UnitValuable, D>(top: U1, right: U2, bottom: U3, left: D, important: Bool? = nil) -> Self where D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, A, B>(top: A, right: B, bottom: U1, left: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, A, C>(top: A, right: U1, bottom: C, left: U2, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, A, D>(top: A, right: U1, bottom: U2, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, B, C>(top: U1, right: B, bottom: C, left: U2, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, B, D>(top: U1, right: B, bottom: U2, left: D, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, U2: UnitValuable, C, D>(top: U1, right: U2, bottom: C, left: D, important: Bool? = nil) -> Self where C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, A, B, C>(top: A, right: B, bottom: C, left: U1, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, A, B, D>(top: A, right: B, bottom: U1, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, A, C, D>(top: A, right: U1, bottom: C, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<U1: UnitValuable, B, C, D>(top: U1, right: B, bottom: C, left: D, important: Bool? = nil) -> Self where B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 
     /// A shorthand property for all the padding-* properties
     @discardableResult
-    public func padding<A, B, C, D>(top: A, right: B, bottom: C, left: D) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
-        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left))
+    public func padding<A, B, C, D>(top: A, right: B, bottom: C, left: D, important: Bool? = nil) -> Self where A: StateConvertible, A.Value: UnitValuable, B: StateConvertible, B.Value: UnitValuable, C: StateConvertible, C.Value: UnitValuable, D: StateConvertible, D.Value: UnitValuable {
+        _addProperty(PaddingProperty(top: top, right: right, bottom: bottom, left: left, important: important))
         return self
     }
 }
@@ -17239,20 +17742,20 @@ public class PaddingRightProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -17285,29 +17788,29 @@ extension CSSRulable {
 
     /// Sets the right padding of an element
     @discardableResult
-    public func paddingRight(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.paddingRight, UnitValue(value, unit))
+    public func paddingRight(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.paddingRight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the right padding of an element
     @discardableResult
-    public func paddingRight(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.paddingRight, UnitValue(value, unit))
+    public func paddingRight(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.paddingRight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the right padding of an element
     @discardableResult
-    public func paddingRight(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.paddingRight, UnitValue(value, unit))
+    public func paddingRight(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.paddingRight, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the right padding of an element
     @discardableResult
-    public func paddingRight(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.paddingRight, UnitValue(value, unit))
+    public func paddingRight(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.paddingRight, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -17337,20 +17840,20 @@ public class PaddingTopProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -17383,29 +17886,29 @@ extension CSSRulable {
 
     /// Sets the top padding of an element
     @discardableResult
-    public func paddingTop(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.paddingTop, UnitValue(value, unit))
+    public func paddingTop(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.paddingTop, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the top padding of an element
     @discardableResult
-    public func paddingTop(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.paddingTop, UnitValue(value, unit))
+    public func paddingTop(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.paddingTop, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the top padding of an element
     @discardableResult
-    public func paddingTop(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.paddingTop, UnitValue(value, unit))
+    public func paddingTop(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.paddingTop, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the top padding of an element
     @discardableResult
-    public func paddingTop(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.paddingTop, UnitValue(value, unit))
+    public func paddingTop(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.paddingTop, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -17574,20 +18077,20 @@ public class PerspectiveOriginProperty: _Property {
     public var propertyValue: PerspectiveOriginValue
     var _content = _PropertyContent<PerspectiveOriginValue>()
 
-    public init (_ xAxis: XAxis, _ yAxis: YAxis) {
-        propertyValue = PerspectiveOriginValue(xAxis, yAxis)
+    public init (_ xAxis: XAxis, _ yAxis: YAxis, important: Bool? = nil) {
+        propertyValue = PerspectiveOriginValue(xAxis, yAxis, important: important)
     }
 
-    public init <X>(_ xAxis: X, _ yAxis: YAxis) where X: StateConvertible, X.Value == XAxis {
-        propertyValue = PerspectiveOriginValue(xAxis, yAxis)
+    public init <X>(_ xAxis: X, _ yAxis: YAxis, important: Bool? = nil) where X: StateConvertible, X.Value == XAxis {
+        propertyValue = PerspectiveOriginValue(xAxis, yAxis, important: important)
     }
 
-    public init <Y>(_ xAxis: XAxis, _ yAxis: Y) where Y: StateConvertible, Y.Value == YAxis {
-        propertyValue = PerspectiveOriginValue(xAxis, yAxis)
+    public init <Y>(_ xAxis: XAxis, _ yAxis: Y, important: Bool? = nil) where Y: StateConvertible, Y.Value == YAxis {
+        propertyValue = PerspectiveOriginValue(xAxis, yAxis, important: important)
     }
 
-    public init <X, Y>(_ xAxis: X, _ yAxis: Y) where X: StateConvertible, X.Value == XAxis, Y: StateConvertible, Y.Value == YAxis {
-        propertyValue = PerspectiveOriginValue(xAxis, yAxis)
+    public init <X, Y>(_ xAxis: X, _ yAxis: Y, important: Bool? = nil) where X: StateConvertible, X.Value == XAxis, Y: StateConvertible, Y.Value == YAxis {
+        propertyValue = PerspectiveOriginValue(xAxis, yAxis, important: important)
     }
 
     public init (_ xAxis: XAxis) {
@@ -17617,38 +18120,38 @@ public class PerspectiveOriginValue: CustomStringConvertible, _PropertyValueInne
 
     var _changeHandler = {}
 
-    public init (_ xAxis: XAxis, _ yAxis: YAxis) {
-        value = [xAxis.value, yAxis.value].joined(separator: " ")
+    public init (_ xAxis: XAxis, _ yAxis: YAxis, important: Bool? = nil) {
+        value = [xAxis.value, yAxis.value].joined(separator: " ") + (important == true ? "!important" : "")
     }
 
-    public convenience init <X>(_ xAxis: X, _ yAxis: YAxis) where X: StateConvertible, X.Value == XAxis {
+    public convenience init <X>(_ xAxis: X, _ yAxis: YAxis, important: Bool? = nil) where X: StateConvertible, X.Value == XAxis {
         let xAxis = xAxis.stateValue
-        self.init(xAxis.wrappedValue, yAxis)
+        self.init(xAxis.wrappedValue, yAxis, important: important)
         xAxis.listen {
-            self.value = [$0.value, yAxis.value].joined(separator: " ")
+            self.value = [$0.value, yAxis.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init <Y>(_ xAxis: XAxis, _ yAxis: Y) where Y: StateConvertible, Y.Value == YAxis {
+    public convenience init <Y>(_ xAxis: XAxis, _ yAxis: Y, important: Bool? = nil) where Y: StateConvertible, Y.Value == YAxis {
         let yAxis = yAxis.stateValue
-        self.init(xAxis, yAxis.wrappedValue)
+        self.init(xAxis, yAxis.wrappedValue, important: important)
         yAxis.listen {
-            self.value = [xAxis.value, $0.value].joined(separator: " ")
+            self.value = [xAxis.value, $0.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
 
-    public convenience init <X, Y>(_ xAxis: X, _ yAxis: Y) where X: StateConvertible, X.Value == XAxis, Y: StateConvertible, Y.Value == YAxis {
+    public convenience init <X, Y>(_ xAxis: X, _ yAxis: Y, important: Bool? = nil) where X: StateConvertible, X.Value == XAxis, Y: StateConvertible, Y.Value == YAxis {
         let xAxis = xAxis.stateValue
         let yAxis = yAxis.stateValue
-        self.init(xAxis.wrappedValue, yAxis.wrappedValue)
+        self.init(xAxis.wrappedValue, yAxis.wrappedValue, important: important)
         xAxis.listen {
-            self.value = [$0.value, yAxis.wrappedValue.value].joined(separator: " ")
+            self.value = [$0.value, yAxis.wrappedValue.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
         yAxis.listen {
-            self.value = [xAxis.wrappedValue.value, $0.value].joined(separator: " ")
+            self.value = [xAxis.wrappedValue.value, $0.value].joined(separator: " ") + (important == true ? "!important" : "")
             self._changeHandler()
         }
     }
@@ -17690,54 +18193,54 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
-    public func perspectiveOrigin(_ xAxis: XAxis, _ yAxis: YAxis) -> Self {
-        _addProperty(PerspectiveOriginProperty(xAxis, yAxis))
+    public func perspectiveOrigin(_ xAxis: XAxis, _ yAxis: YAxis, important: Bool? = nil) -> Self {
+        _addProperty(PerspectiveOriginProperty(xAxis, yAxis, important: important))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
-    public func perspectiveOrigin<X: UnitValuable>(_ xAxis: X, _ yAxis: YAxis) -> Self {
-        perspectiveOrigin(.length(xAxis), yAxis)
+    public func perspectiveOrigin<X: UnitValuable>(_ xAxis: X, _ yAxis: YAxis, important: Bool? = nil) -> Self {
+        perspectiveOrigin(.length(xAxis), yAxis, important: important)
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
-    public func perspectiveOrigin<X>(_ xAxis: X, _ yAxis: YAxis) -> Self where X: StateConvertible, X.Value == XAxis {
-        _addProperty(PerspectiveOriginProperty(xAxis, yAxis))
+    public func perspectiveOrigin<X>(_ xAxis: X, _ yAxis: YAxis, important: Bool? = nil) -> Self where X: StateConvertible, X.Value == XAxis {
+        _addProperty(PerspectiveOriginProperty(xAxis, yAxis, important: important))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
-    public func perspectiveOrigin<X>(_ xAxis: X, _ yAxis: YAxis) -> Self where X: StateConvertible, X.Value: UnitValuable {
-        perspectiveOrigin(xAxis.stateValue.map { .length($0) }, yAxis)
+    public func perspectiveOrigin<X>(_ xAxis: X, _ yAxis: YAxis, important: Bool? = nil) -> Self where X: StateConvertible, X.Value: UnitValuable {
+        perspectiveOrigin(xAxis.stateValue.map { .length($0) }, yAxis, important: important)
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
-    public func perspectiveOrigin<Y>(_ xAxis: XAxis, _ yAxis: Y) -> Self where Y: StateConvertible, Y.Value == YAxis {
-        _addProperty(PerspectiveOriginProperty(xAxis, yAxis))
+    public func perspectiveOrigin<Y>(_ xAxis: XAxis, _ yAxis: Y, important: Bool? = nil) -> Self where Y: StateConvertible, Y.Value == YAxis {
+        _addProperty(PerspectiveOriginProperty(xAxis, yAxis, important: important))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
-    public func perspectiveOrigin<Y>(_ xAxis: XAxis, _ yAxis: Y) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
-        perspectiveOrigin(xAxis, yAxis.stateValue.map { .length($0) })
+    public func perspectiveOrigin<Y>(_ xAxis: XAxis, _ yAxis: Y, important: Bool? = nil) -> Self where Y: StateConvertible, Y.Value: UnitValuable {
+        perspectiveOrigin(xAxis, yAxis.stateValue.map { .length($0) }, important: important)
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
-    public func perspectiveOrigin<X, Y>(_ xAxis: X, _ yAxis: Y) -> Self where X: StateConvertible, X.Value == XAxis, Y: StateConvertible, Y.Value == YAxis {
-        _addProperty(PerspectiveOriginProperty(xAxis, yAxis))
+    public func perspectiveOrigin<X, Y>(_ xAxis: X, _ yAxis: Y, important: Bool? = nil) -> Self where X: StateConvertible, X.Value == XAxis, Y: StateConvertible, Y.Value == YAxis {
+        _addProperty(PerspectiveOriginProperty(xAxis, yAxis, important: important))
         return self
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
-    public func perspectiveOrigin<X, Y>(_ xAxis: X, _ yAxis: Y) -> Self where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
-        perspectiveOrigin(xAxis.stateValue.map { .length($0) }, yAxis.stateValue.map { .length($0) })
+    public func perspectiveOrigin<X, Y>(_ xAxis: X, _ yAxis: Y, important: Bool? = nil) -> Self where X: StateConvertible, X.Value: UnitValuable, Y: StateConvertible, Y.Value: UnitValuable {
+        perspectiveOrigin(xAxis.stateValue.map { .length($0) }, yAxis.stateValue.map { .length($0) }, important: important)
     }
 
     /// Defines at which position the user is looking at the 3D-positioned element
@@ -17806,20 +18309,20 @@ public class PerspectiveProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -17852,29 +18355,29 @@ extension CSSRulable {
 
     /// Gives a 3D-positioned element some perspective
     @discardableResult
-    public func perspective(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.perspective, UnitValue(value, unit))
+    public func perspective(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.perspective, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Gives a 3D-positioned element some perspective
     @discardableResult
-    public func perspective(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.perspective, UnitValue(value, unit))
+    public func perspective(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.perspective, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Gives a 3D-positioned element some perspective
     @discardableResult
-    public func perspective(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.perspective, UnitValue(value, unit))
+    public func perspective(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.perspective, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Gives a 3D-positioned element some perspective
     @discardableResult
-    public func perspective(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.perspective, UnitValue(value, unit))
+    public func perspective(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.perspective, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -18126,20 +18629,20 @@ public class RightProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -18172,29 +18675,29 @@ extension CSSRulable {
 
     /// Specifies the right position of a positioned element
     @discardableResult
-    public func right(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.right, UnitValue(value, unit))
+    public func right(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.right, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the right position of a positioned element
     @discardableResult
-    public func right(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.right, UnitValue(value, unit))
+    public func right(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.right, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the right position of a positioned element
     @discardableResult
-    public func right(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.right, UnitValue(value, unit))
+    public func right(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.right, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the right position of a positioned element
     @discardableResult
-    public func right(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.right, UnitValue(value, unit))
+    public func right(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.right, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -18560,20 +19063,20 @@ public class TextDecorationColorProperty: _Property {
         }
     }
 
-    public convenience init (r: Int, g: Int, b: Int, a: Double) {
-        self.init(.rgba(r: r, g: g, b: b, a: a))
+    public convenience init (r: Int, g: Int, b: Int, a: Double, important: Bool? = nil) {
+        self.init(important == true ? .rgba(r: r, g: g, b: b, a: a).important : .rgba(r: r, g: g, b: b, a: a))
     }
 
-    public convenience init (r: Int, g: Int, b: Int) {
-        self.init(r: r, g:g, b: b, a: 1)
+    public convenience init (r: Int, g: Int, b: Int, important: Bool? = nil) {
+        self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init (h: Int, s: Int, l: Int, a: Double) {
-        self.init(.hsla(h: h, s: s, l: l, a: a))
+    public convenience init (h: Int, s: Int, l: Int, a: Double, important: Bool? = nil) {
+        self.init(important == true ? .hsla(h: h, s: s, l: l, a: a).important : .hsla(h: h, s: s, l: l, a: a))
     }
 
-    public convenience init (h: Int, s: Int, l: Int) {
-        self.init(h: h, s: s, l: l, a: 1)
+    public convenience init (h: Int, s: Int, l: Int, important: Bool? = nil) {
+        self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
 
@@ -18695,8 +19198,8 @@ public class TextDecorationProperty: _Property {
     public var propertyValue: TextDecorationValue
     var _content = _PropertyContent<TextDecorationValue>()
 
-    public init (_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil) {
-        propertyValue = TextDecorationValue(line, color, style)
+    public init (_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil, important: Bool? = nil) {
+        propertyValue = TextDecorationValue(line, color, style, important: important)
     }
 }
 
@@ -18708,15 +19211,17 @@ public struct TextDecorationValue: CustomStringConvertible {
     let line: TextDecorationLineType
     let color: Color?
     let style: TextDecorationStyleType?
+    let important: Bool?
 
-    public init (_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil) {
+    public init (_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil, important: Bool? = nil) {
         self.line = line
         self.color = color
         self.style = style
+        self.important = important
     }
 
     public var description: String {
-        [line.value, color?.description, style?.value].compactMap { $0 }.joined(separator: " ")
+        [line.value, color?.description, style?.value].compactMap { $0 }.joined(separator: " ") + (important == true ? "!important" : "")
     }
 }
 
@@ -18728,8 +19233,8 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Specifies the decoration added to text
     @discardableResult
-    public func textDecoration(_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil) -> Self {
-        _addProperty(TextDecorationProperty(line, color, style))
+    public func textDecoration(_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil, important: Bool? = nil) -> Self {
+        _addProperty(TextDecorationProperty(line, color, style, important: important))
         return self
     }
 }
@@ -19304,20 +19809,20 @@ public class TopProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -19350,29 +19855,29 @@ extension CSSRulable {
 
     /// Specifies the top position of a positioned element
     @discardableResult
-    public func top(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.top, UnitValue(value, unit))
+    public func top(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.top, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the top position of a positioned element
     @discardableResult
-    public func top(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.top, UnitValue(value, unit))
+    public func top(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.top, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the top position of a positioned element
     @discardableResult
-    public func top(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.top, UnitValue(value, unit))
+    public func top(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.top, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Specifies the top position of a positioned element
     @discardableResult
-    public func top(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.top, UnitValue(value, unit))
+    public func top(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.top, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -19670,12 +20175,12 @@ public class TransitionProperty: _Property {
     public var propertyValue: TransitionValue
     var _content = _PropertyContent<TransitionValue>()
 
-    public init (_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) {
-        propertyValue = TransitionValue(properties, duration: duration, timingFunction: timingFunction, delay: delay)
+    public init (_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil, important: Bool? = nil) {
+        propertyValue = TransitionValue(properties, duration: duration, timingFunction: timingFunction, delay: delay, important: important)
     }
 
-    public convenience init (_ properties: TransitionPropertyType..., duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) {
-        self.init(properties, duration: duration, timingFunction: timingFunction, delay: delay)
+    public convenience init (_ properties: TransitionPropertyType..., duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil, important: Bool? = nil) {
+        self.init(properties, duration: duration, timingFunction: timingFunction, delay: delay, important: important)
     }
 }
 
@@ -19689,12 +20194,14 @@ public struct TransitionValue: CustomStringConvertible {
     let duration: TimeType
     let timingFunction: TransitionTimingFunctionType?
     let delay: TimeType?
+    let important: Bool?
 
-    public init (_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) {
+    public init (_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil, important: Bool? = nil) {
         self.properties = properties
         self.duration = duration
         self.timingFunction = timingFunction
         self.delay = delay
+        self.important = important
     }
 
     public var description: String {
@@ -19706,6 +20213,9 @@ public struct TransitionValue: CustomStringConvertible {
         }
         if let delay = delay {
             values.append(delay.value)
+        }
+        if important == true {
+            values.append("!important")
         }
         return values.joined(separator: " ")
     }
@@ -19719,15 +20229,15 @@ extension Stylesheetable {
 extension CSSRulable {
     /// A shorthand property for all the transition-* properties
     @discardableResult
-    public func transition(_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) -> Self {
-        _addProperty(TransitionProperty(properties, duration: duration, timingFunction: timingFunction, delay: delay))
+    public func transition(_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil, important: Bool? = nil) -> Self {
+        _addProperty(TransitionProperty(properties, duration: duration, timingFunction: timingFunction, delay: delay, important: important))
         return self
     }
 
     /// A shorthand property for all the transition-* properties
     @discardableResult
-    public func transition(_ properties: TransitionPropertyType..., duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil) -> Self {
-        transition(properties, duration: duration, timingFunction: timingFunction, delay: delay)
+    public func transition(_ properties: TransitionPropertyType..., duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil, important: Bool? = nil) -> Self {
+        transition(properties, duration: duration, timingFunction: timingFunction, delay: delay, important: important)
     }
 }
 
@@ -20268,20 +20778,20 @@ public class WidthProperty: _Property {
 
     // MARK: Extended
 
-    public convenience init (_ value: Double, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: Unit) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: Unit, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: Double, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: Double, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 
-    public convenience init (_ value: State<Double>, _ unit: State<Unit>) {
-        self.init(UnitValue(value, unit))
+    public convenience init (_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) {
+        self.init(UnitValue(value, unit, important: important))
     }
 }
 
@@ -20314,29 +20824,29 @@ extension CSSRulable {
 
     /// Sets the width of an element
     @discardableResult
-    public func width(_ value: Double, _ unit: Unit) -> Self {
-        _addProperty(.width, UnitValue(value, unit))
+    public func width(_ value: Double, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.width, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the width of an element
     @discardableResult
-    public func width(_ value: State<Double>, _ unit: Unit) -> Self {
-        _addProperty(.width, UnitValue(value, unit))
+    public func width(_ value: State<Double>, _ unit: Unit, important: Bool? = nil) -> Self {
+        _addProperty(.width, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the width of an element
     @discardableResult
-    public func width(_ value: Double, _ unit: State<Unit>) -> Self {
-        _addProperty(.width, UnitValue(value, unit))
+    public func width(_ value: Double, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.width, UnitValue(value, unit, important: important))
         return self
     }
 
     /// Sets the width of an element
     @discardableResult
-    public func width(_ value: State<Double>, _ unit: State<Unit>) -> Self {
-        _addProperty(.width, UnitValue(value, unit))
+    public func width(_ value: State<Double>, _ unit: State<Unit>, important: Bool? = nil) -> Self {
+        _addProperty(.width, UnitValue(value, unit, important: important))
         return self
     }
 }
@@ -20584,23 +21094,23 @@ extension CSSRulable {
 ///
 /// [Learn more](https://www.w3schools.com/cssref/pr_pos_z-index.asp)
 public class ZIndexProperty: _Property {
-    public var propertyKey: PropertyKey<Int> { .zIndex }
-    public var propertyValue: Int
-    var _content = _PropertyContent<Int>()
+    public var propertyKey: PropertyKey<String> { .zIndex }
+    public var propertyValue: String
+    var _content = _PropertyContent<String>()
 
-    public init (_ value: Int) {
-        propertyValue = value
+    public init (_ value: Int, important: Bool? = nil) {
+        propertyValue = "\(value)" + (important == true ? "!important" : "")
     }
 
-    public convenience init (_ type: State<Int>) {
-        self.init(type.wrappedValue)
-        type.listen { self._changed(to: $0) }
+    public convenience init (_ value: State<Int>, important: Bool? = nil) {
+        self.init(value.wrappedValue, important: important)
+        value.listen { self._changed(to: "\($0)" + (important == true ? "!important" : "")) }
     }
 }
 
 extension PropertyKey {
     /// Sets the stack order of a positioned element
-    public static var zIndex: PropertyKey<Int> { "z-index".propertyKey() }
+    public static var zIndex: PropertyKey<String> { "z-index".propertyKey() }
 }
 
 extension Stylesheetable {
@@ -20611,15 +21121,15 @@ extension Stylesheetable {
 extension CSSRulable {
     /// Sets the stack order of a positioned element
     @discardableResult
-    public func zIndex(_ type: Int) -> Self {
-        _addProperty(.zIndex, type)
+    public func zIndex(_ value: Int, important: Bool? = nil) -> Self {
+        _addProperty(.zIndex, "\(value)", important: important)
         return self
     }
 
     /// Sets the stack order of a positioned element
     @discardableResult
-    public func zIndex(_ type: State<Int>) -> Self {
-        _addProperty(ZIndexProperty(type))
+    public func zIndex(_ value: State<Int>, important: Bool? = nil) -> Self {
+        _addProperty(ZIndexProperty(value, important: important))
         return self
     }
 }

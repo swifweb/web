@@ -17,15 +17,17 @@ public protocol TimeUnitValue: CustomStringConvertible {
 public class TimeUnitValueContainer: TimeUnitValue, UniValue, CustomStringConvertible, _PropertyValueInnerChangeable {
     @State public var value: Double = 0
     @State public var timeUnit: TimeUnit = .ms
+    public let important: Bool
     
     public var uniValue: TimeUnitValueContainer { self }
     public lazy var uniStateValue: State<TimeUnitValueContainer>? = .init(wrappedValue: self)
     
     var _changeHandler = {}
     
-    init <D, T>(_ value: D, _ timeUnit: T) where D: UniValue, D.UniValue == Double, T: UniValue, T.UniValue == TimeUnit {
+    init <D, T>(_ value: D, _ timeUnit: T, important: Bool? = nil) where D: UniValue, D.UniValue == Double, T: UniValue, T.UniValue == TimeUnit {
         self.value = value.uniValue
         self.timeUnit = timeUnit.uniValue
+        self.important = important == true
         if let state = value.uniStateValue {
             $value.merge(with: state, leftChanged: { _ in
                 self._changeHandler()
@@ -56,11 +58,11 @@ public class TimeUnitValueContainer: TimeUnitValue, UniValue, CustomStringConver
         }
     }
     
-    public var description: String { "\(value)\(timeUnit.rawValue)" }
+    public var description: String { "\(value)\(timeUnit.value)\(important ? "!important" : "")" }
 }
 
 extension TimeUnitValue {
-    public var description: String { "\(value)\(timeUnit.rawValue)" }
+    public var description: String { "\(value)\(timeUnit.value)" }
     
     public var ms: ValueWithTimeUnit<V> { .init(value, .ms) }
     public var s: ValueWithTimeUnit<V> { .init(value, .s) }

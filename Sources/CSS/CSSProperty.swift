@@ -36,10 +36,6 @@ public protocol Property: AnyProperty, PropertiesContent {
     var propertyKey: PropertyKey<Value> { get }
     var propertyValue: Value { get }
     var propertyAliases: [AnyProperty] { get }
-    
-    
-    
-//    var important: Self { get }
 }
 
 extension Property {
@@ -49,11 +45,6 @@ extension Property {
     public var value: String { propertyValue.description }
     
     public var propertyAliases: [AnyProperty] { [] }
-//    /// Adds `!important` to the end of value
-//    public var important: Self {
-//        value += "!important"
-//        return self
-//    }
 }
 
 class _PropertyContent<Value: CustomStringConvertible> {
@@ -71,4 +62,20 @@ extension _Property {
     func _changed(to newValue: Value) {
         _content._changeHandler(newValue)
     }
+}
+
+public protocol PropertyValueImportantable {
+    /// Adds **!important** to the value
+    var important: Self { get }
+}
+
+protocol _StringPropertyValue: CustomStringConvertible, PropertyValueImportantable {
+    var value: String { get }
+
+    init (_ value: String)
+}
+
+extension _StringPropertyValue {
+    /// Adds **!important** to the value
+    public var important: Self { .init(value + "!important") }
 }
