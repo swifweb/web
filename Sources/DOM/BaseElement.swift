@@ -49,7 +49,7 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget 
     
     open func postInit() {
         #if arch(wasm32)
-        domElement.id = properties._id.jsValue()
+        domElement.id = properties._id.jsValue
         #endif
     }
     

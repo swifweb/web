@@ -72,7 +72,7 @@ extension DOMElement {
 
     #if arch(wasm32)
     private func _setAttribute(_ key: String, _ value: JSValue) {
-        domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, value.jsValue())
+        domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, value.jsValue)
     }
     #endif
     
@@ -80,7 +80,7 @@ extension DOMElement {
     
     func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .short) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue())
+        _setAttribute(key, value.jsValue)
         #else
         #if WEBPREVIEW
         let stringValue: String?
@@ -101,7 +101,7 @@ extension DOMElement {
     
     func setAttribute(_ key: String, _ value: Double) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue())
+        _setAttribute(key, value.jsValue)
         #else
         setAttribute(key, "\(value)")
         #endif
@@ -109,7 +109,7 @@ extension DOMElement {
     
     func setAttribute(_ key: String, _ value: Int) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue())
+        _setAttribute(key, value.jsValue)
         #else
         setAttribute(key, "\(value)")
         #endif
@@ -121,7 +121,7 @@ extension DOMElement {
     
     func setAttribute(_ key: String, _ value: String) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue())
+        _setAttribute(key, value.jsValue)
         #else
         #if WEBPREVIEW
         properties.attributes[key] = value

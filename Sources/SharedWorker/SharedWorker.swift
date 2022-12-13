@@ -58,9 +58,9 @@ open class SharedWorker {
     public func onConnect(_ handler: @escaping (MessagePort) -> Void) -> Self {
         JSObject.global.onconnect = JSOneshotClosure { args -> JSValue in
             guard let portObject = args.first?.array?.first else { return .undefined }
-            handler(MessagePort(portObject.jsValue()))
+            handler(MessagePort(portObject.jsValue))
             return .undefined
-        }.jsValue()
+        }.jsValue
         return self
     }
     
@@ -75,7 +75,7 @@ open class SharedWorker {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope/importScripts)
     public func importScripts(_ paths: [String]) {
-        JSObject.global.importScripts.function?.callAsFunction(paths.jsValue())
+        JSObject.global.importScripts.function?.callAsFunction(paths.jsValue)
     }
     
     /// Synchronously imports one or more scripts into the worker's scope.
@@ -93,10 +93,10 @@ open class SharedWorker {
     /// Location associated with the worker.
     ///
     /// It is a specific location object, mostly a subset of the `Location` for browsing scopes, but adapted to workers.
-    public var location: WorkerLocation { .init(JSObject.global.location.jsValue()) }
+    public var location: WorkerLocation { .init(JSObject.global.location.jsValue) }
     
     /// The `WorkerNavigator` associated with the worker.
     ///
     /// It is a specific navigator object, mostly a subset of the `Navigator` for browsing scopes, but adapted to workers.
-    public var navigator: WorkerNavigator { .init(JSObject.global.navigator.jsValue()) }
+    public var navigator: WorkerNavigator { .init(JSObject.global.navigator.jsValue) }
 }

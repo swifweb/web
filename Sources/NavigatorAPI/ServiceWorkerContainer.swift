@@ -261,7 +261,7 @@ public class ServiceWorkerRegistration: EventTarget {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/installing)
     public var installing: ServiceWorker? {
-        let value = jsValue.installing.jsValue()
+        let value = jsValue.installing.jsValue
         guard !value.isNull, !value.isUndefined else { return nil }
         return .init(value)
     }
@@ -271,7 +271,7 @@ public class ServiceWorkerRegistration: EventTarget {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/waiting)
     public var waiting: ServiceWorker? {
-        let value = jsValue.waiting.jsValue()
+        let value = jsValue.waiting.jsValue
         guard !value.isNull, !value.isUndefined else { return nil }
         return .init(value)
     }
@@ -281,14 +281,14 @@ public class ServiceWorkerRegistration: EventTarget {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/waiting)
     public var active: ServiceWorker? {
-        let value = jsValue.active.jsValue()
+        let value = jsValue.active.jsValue
         guard !value.isNull, !value.isUndefined else { return nil }
         return .init(value)
     }
     
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/navigationPreload)
     public var navigationPreload: NavigationPreloadManager? {
-        let value = jsValue.navigationPreload.jsValue()
+        let value = jsValue.navigationPreload.jsValue
         guard !value.isNull, !value.isUndefined else { return nil }
         return .init(value)
     }
@@ -331,7 +331,7 @@ public class ServiceWorkerRegistration: EventTarget {
         }
         
 		public var jsValue: JSValue {
-            ["tag": tag].jsValue()
+            ["tag": tag].jsValue
         }
     }
     
@@ -453,7 +453,7 @@ public final class ServiceWorker: Worker {
     }
     
     private func subscribeToEvents() {
-        jsValue.onstatechange = onstatechangeClosure.jsValue()
+        jsValue.onstatechange = onstatechangeClosure.jsValue
     }
     
     /// This method do nothing with service worker, don't call it.

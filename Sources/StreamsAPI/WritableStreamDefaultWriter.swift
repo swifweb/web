@@ -20,7 +20,7 @@ public class WritableStreamDefaultWriter {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStreamDefaultWriter/WritableStreamDefaultWriter)
     public init (_ stream: WritableStream) {
-        self.jsValue = JSObject.global.WritableStreamDefaultWriter.function?.new(stream.jsValue).jsValue() ?? .undefined
+        self.jsValue = JSObject.global.WritableStreamDefaultWriter.function?.new(stream.jsValue).jsValue ?? .undefined
     }
     
     /// Allows you to write code that responds to an end to the streaming process.
@@ -134,7 +134,7 @@ public class WritableStreamDefaultWriter {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/WritableStreamDefaultWriter/write)
     public func write(_ chunk: [UInt8], _ closure: ((Result<Void, Error>) -> Void)? = nil) {
-        guard let promise = jsValue.write.function?.callAsFunction(optionalThis: jsValue.object, chunk.jsValue())?.object else {
+        guard let promise = jsValue.write.function?.callAsFunction(optionalThis: jsValue.object, chunk.jsValue)?.object else {
             closure?(.failure(JSError(message: "WritableStreamDefaultWriter `write` method is nil")))
             return
         }

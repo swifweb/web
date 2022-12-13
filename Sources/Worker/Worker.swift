@@ -51,10 +51,10 @@ open class Worker {
     /// Location associated with the worker.
     ///
     /// It is a specific location object, mostly a subset of the `Location` for browsing scopes, but adapted to workers.
-    public var location: WorkerLocation { .init(JSObject.global.location.jsValue()) }
+    public var location: WorkerLocation { .init(JSObject.global.location.jsValue) }
     
     /// The `WorkerNavigator` associated with the worker.
     ///
     /// It is a specific navigator object, mostly a subset of the `Navigator` for browsing scopes, but adapted to workers.
-    public var navigator: WorkerNavigator { .init(JSObject.global.navigator.jsValue()) }
+    public var navigator: WorkerNavigator { .init(JSObject.global.navigator.jsValue) }
 }

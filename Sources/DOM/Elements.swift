@@ -279,12 +279,12 @@ open class Link: BaseActiveElement, ErrorHandleable, LoadHandleable {
 open class Meta: BaseElement {
     public var name: String {
         get { domElement.name.string ?? "" }
-        set { domElement.name = newValue.jsValue() }
+        set { domElement.name = newValue.jsValue }
     }
 
     public var content: String {
         get { domElement.content.string ?? "" }
-        set { domElement.content = newValue.jsValue() }
+        set { domElement.content = newValue.jsValue }
     }
 }
 
@@ -542,8 +542,8 @@ open class InputCheckbox: BaseActiveElement, ChangeHandleable, InvalidHandleable
 
     /// Convenience method to toggle checkbox
     public func toggle() {
-        domElement.indeterminate = false.jsValue()
-        domElement.checked = (!checked).jsValue()
+        domElement.indeterminate = false.jsValue
+        domElement.checked = (!checked).jsValue
         indeterminate = false
         checked = !checked
     }

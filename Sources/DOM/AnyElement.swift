@@ -48,7 +48,7 @@ extension BaseContentElementable {
         get { s?.domElement.innerText.string ?? "" }
         set {
             s?.properties.removeSubelementsRecursively()
-            s?.domElement.innerText = newValue.jsValue()
+            s?.domElement.innerText = newValue.jsValue
         }
     }
     
@@ -56,7 +56,7 @@ extension BaseContentElementable {
         get { s?.domElement.innerHTML.string ?? "" }
         set {
             s?.properties.removeSubelementsRecursively()
-            s?.domElement.innerHTML = newValue.jsValue()
+            s?.domElement.innerHTML = newValue.jsValue
         }
     }
     #else

@@ -79,7 +79,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
             style.append(_keyframes.map { $0.render() }.joined(separator: "\n"))
             style.append(_medias.map { $0.render() }.joined(separator: "\n"))
             style.append("\r\n")
-            domElement.innerHTML = style.jsValue()
+            domElement.innerHTML = style.jsValue
         }
     }
     
@@ -92,7 +92,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     /// Representing the advisory title of the current style sheet.
     public var title: String {
         get { domElement.title.string ?? "" }
-        set { domElement.title = newValue.jsValue() }
+        set { domElement.title = newValue.jsValue }
     }
     
     /// Deletes the rule at the specified index into the stylesheet's rule list
@@ -108,7 +108,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     /// Shows whether the current stylesheet has been applied or not
     public var disabled: Bool {
         get { sheet.disabled.boolean ?? false }
-        set { sheet.disabled = newValue.jsValue() }
+        set { sheet.disabled = newValue.jsValue }
     }
 
     /// Representing the location of the stylesheet
@@ -142,7 +142,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     @discardableResult
     public func disabled(_ value: Bool) -> Self {
         #if !WEBPREVIEW
-        domElement.disabled = value.jsValue()
+        domElement.disabled = value.jsValue
         #endif
         _disabled = value
         return self

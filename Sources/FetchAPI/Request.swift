@@ -20,7 +20,7 @@ public class Request: Bodyable {
     ///   - request: Another request object to copy settings from
     ///   - options: Custom settings that you want to apply to the request
     public init (_ request: Request, options: RequestOptions? = nil) {
-        jsValue = JSObject.global.Request.function?.new(request.jsValue, options?.jsValue).jsValue() ?? .undefined
+        jsValue = JSObject.global.Request.function?.new(request.jsValue, options?.jsValue).jsValue ?? .undefined
     }
     
     /// Initializer
@@ -28,7 +28,7 @@ public class Request: Bodyable {
     ///   - url: The direct URL of the resource you want to fetch
     ///   - options: Custom settings that you want to apply to the request
     public init (_ url: URLValue, options: RequestOptions? = nil) {
-        jsValue = JSObject.global.Request.function?.new(url.urlValue, options?.jsValue).jsValue() ?? .undefined
+        jsValue = JSObject.global.Request.function?.new(url.urlValue, options?.jsValue).jsValue ?? .undefined
     }
     
     /// Contains the cache mode of the request.

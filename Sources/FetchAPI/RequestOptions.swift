@@ -44,18 +44,18 @@ public class RequestOptions {
     
     public init () {
         jsValue = [:].jsValue
-        jsValue.method = method.rawValue.jsValue()
-        jsValue.headers = headers.jsValue()
-        jsValue.mode = mode.rawValue.jsValue()
-        jsValue.credentials = credentials.rawValue.jsValue()
-        jsValue.redirect = redirect.rawValue.jsValue()
+        jsValue.method = method.rawValue.jsValue
+        jsValue.headers = headers.jsValue
+        jsValue.mode = mode.rawValue.jsValue
+        jsValue.credentials = credentials.rawValue.jsValue
+        jsValue.redirect = redirect.rawValue.jsValue
     }
     
     /// The request method, e.g., GET, POST. The default is GET.
     @discardableResult
     public func method(_ value: RequestMethod) -> Self {
         method = value
-        jsValue.method = method.rawValue.jsValue()
+        jsValue.method = method.rawValue.jsValue
         return self
     }
     
@@ -63,7 +63,7 @@ public class RequestOptions {
     @discardableResult
     public func headers(_ value: [String: String]) -> Self {
         headers = value
-        jsValue.headers = headers.jsValue()
+        jsValue.headers = headers.jsValue
         return self
     }
     
@@ -71,7 +71,7 @@ public class RequestOptions {
     @discardableResult
     public func header(_ key: String, _ value: String) -> Self {
         headers[key] = value
-        jsValue.headers = headers.jsValue()
+        jsValue.headers = headers.jsValue
         return self
     }
     
@@ -116,7 +116,7 @@ public class RequestOptions {
     /// Note that a request using the `GET` or `HEAD` method cannot have a body.
     @discardableResult
     public func body(_ value: String) -> Self {
-        self.body = value.jsValue()
+        self.body = value.jsValue
         return self
     }
     
@@ -135,7 +135,7 @@ public class RequestOptions {
     @discardableResult
     public func mode(_ value: RequestMode) -> Self {
         mode = value
-        jsValue.mode = mode.rawValue.jsValue()
+        jsValue.mode = mode.rawValue.jsValue
         return self
     }
     
@@ -145,7 +145,7 @@ public class RequestOptions {
     @discardableResult
     public func credentials(_ value: RequestCredentials) -> Self {
         credentials = value
-        jsValue.credentials = credentials.rawValue.jsValue()
+        jsValue.credentials = credentials.rawValue.jsValue
         return self
     }
     
@@ -153,7 +153,7 @@ public class RequestOptions {
     @discardableResult
     public func cache(_ value: String) -> Self {
         cache = value
-        jsValue.cache = cache.jsValue()
+        jsValue.cache = cache.jsValue
         return self
     }
     
@@ -163,7 +163,7 @@ public class RequestOptions {
     @discardableResult
     public func redirect(_ value: RedirectMode) -> Self {
         redirect = value
-        jsValue.redirect = redirect.rawValue.jsValue()
+        jsValue.redirect = redirect.rawValue.jsValue
         return self
     }
     
@@ -173,7 +173,7 @@ public class RequestOptions {
     @discardableResult
     public func referrer(_ value: String) -> Self {
         referrer = value
-        jsValue.referrer = referrer.jsValue()
+        jsValue.referrer = referrer.jsValue
         return self
     }
     
@@ -182,7 +182,7 @@ public class RequestOptions {
     @discardableResult
     public func integrity(_ value: String) -> Self {
         integrity = value
-        jsValue.integrity = integrity.jsValue()
+        jsValue.integrity = integrity.jsValue
         return self
     }
 }

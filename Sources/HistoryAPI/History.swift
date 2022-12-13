@@ -151,7 +151,7 @@ public final class History: InnerStateChangeable, Equatable {
     /// The data is treated as opaque by the DOM; you may specify any JavaScript object that can be serialized.
     /// Note that all browsers but Safari currently ignore the title parameter.
     public func pushState<D: ConvertibleToJSValue>(_ data: D, title: String = "", path: String? = nil) {
-        domElement.pushState.function!.callAsFunction(optionalThis: domElement.object, data.jsValue(), title, path)
+        domElement.pushState.function!.callAsFunction(optionalThis: domElement.object, data.jsValue, title, path)
         updateState(data)
     }
     
@@ -166,7 +166,7 @@ public final class History: InnerStateChangeable, Equatable {
     /// The data is treated as opaque by the DOM; you may specify any JavaScript object that can be serialized.
     /// Note that all browsers but Safari currently ignore the title
     public func replaceState(_ data: [String: String] = [:], title: String = "", path: String) {
-        domElement.replaceState.function!.callAsFunction(optionalThis: domElement.object, data.jsValue(), title, path)
+        domElement.replaceState.function!.callAsFunction(optionalThis: domElement.object, data.jsValue, title, path)
     }
     
     /// Updates the most recent entry on the history stack to have the specified data, title, and, if provided, URL.
@@ -198,6 +198,6 @@ public final class History: InnerStateChangeable, Equatable {
     // MARK: Equatable
     
     public static func == (lhs: History, rhs: History) -> Bool {
-        lhs.length == rhs.length && lhs.state?.jsValue() == rhs.state?.jsValue()
+        lhs.length == rhs.length && lhs.state?.jsValue == rhs.state?.jsValue
     }
 }

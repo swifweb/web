@@ -88,13 +88,13 @@ open class CSSRule: RulesContent, CSSRulable {
     /// use the properties on the specialized interface for the rule's type.
     var cssText: String {
         get { domElement?.cssText.string ?? "" }//selectorText + "{ " + style.map { "\($0.key): \($0.value)" }.joined(separator: "; ") + "}" }
-        set { domElement?.cssText = newValue.jsValue() }
+        set { domElement?.cssText = newValue.jsValue }
     }
     
     /// Represents selector for the rule
     var selectorText: String {
         get { domElement?.selectorText.string ?? "" }//selectorElements.joined(separator: ",") }
-        set { domElement?.selectorText = newValue.jsValue() }
+        set { domElement?.selectorText = newValue.jsValue }
     }
     
     /// Returns the containing rule, otherwise null.
@@ -114,7 +114,7 @@ open class CSSRule: RulesContent, CSSRulable {
     func set(_ key: String, _ value: String) {
         _properties[key] = value
         #if !WEBPREVIEW
-        domElement?.style.object?[key] = value.jsValue()
+        domElement?.style.object?[key] = value.jsValue
         #endif
     }
     
@@ -192,7 +192,7 @@ extension CSSRulable {
         if let s = self as? CSSRule {
             s.set(key, value)
         } else if let s = self as? DOMElement {
-            s.domElement.style.object?[key] = value.jsValue()
+            s.domElement.style.object?[key] = value.jsValue
         }
         #else
         #if WEBPREVIEW

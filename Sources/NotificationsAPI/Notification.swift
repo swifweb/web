@@ -117,11 +117,11 @@ open class Notification: ConvertibleToJSValue {
         if let image = image { options["image"] = image }
         if let renotify = renotify { options["renotify"] = renotify }
         if let requireInteraction = requireInteraction { options["requireInteraction"] = requireInteraction }
-        if let actions = actions { options["actions"] = actions.jsValue() }
-        if let vibrate = vibrate { options["vibrate"] = vibrate.jsValue() }
+        if let actions = actions { options["actions"] = actions.jsValue }
+        if let vibrate = vibrate { options["vibrate"] = vibrate.jsValue }
         if let silent = silent { options["silent"] = silent }
         if let timestamp = timestamp { options["timestamp"] = timestamp / 1_000 }
-		_jsValue = JSObject.global.Notification.function?.new(title, options.jsValue).jsValue() ?? .undefined
+		_jsValue = JSObject.global.Notification.function?.new(title, options.jsValue).jsValue ?? .undefined
     }
     
     /// Used to close/remove a previously displayed notification.

@@ -17,7 +17,7 @@ class DarkModeDetector {
             handler(v.first?.matches.boolean == true)
             return .null
         }
-        setJSValue(this: mediaQuery.object!, name: "onchange", value: closure.jsValue())
+        setJSValue(this: mediaQuery.object!, name: "onchange", value: closure.jsValue)
         handler(mediaQuery.matches.boolean == true)
         #else
         handler(false)

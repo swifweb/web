@@ -14,7 +14,7 @@ public final class Headers: ExpressibleByDictionaryLiteral {
     
     /// Initializer
     public init () {
-        jsValue = JSObject.global.Headers.function?.new().jsValue() ?? .undefined
+        jsValue = JSObject.global.Headers.function?.new().jsValue ?? .undefined
     }
     
     init (_ jsValue: JSValue) {
@@ -22,7 +22,7 @@ public final class Headers: ExpressibleByDictionaryLiteral {
     }
     
     public init(dictionaryLiteral elements: (String, String)...) {
-        jsValue = JSObject.global.Headers.function?.new().jsValue() ?? .undefined
+        jsValue = JSObject.global.Headers.function?.new().jsValue ?? .undefined
         elements.forEach { key, value in
             set(key, value)
         }

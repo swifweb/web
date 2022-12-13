@@ -165,7 +165,7 @@ open class WebApp: _PreviewableApp {
         } catch {
             // TODO: use predefined beautiful error handler which should be customizable
             #if arch(wasm32)
-            document.domElement.body.object?.innerHTML = "\(error)".jsValue()
+            document.domElement.body.object?.innerHTML = "\(error)".jsValue
             #endif
         }
     }

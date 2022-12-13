@@ -21,7 +21,7 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
 	///
 	/// Set `uploading`to `true` in order to have correct `progress` events.
 	public init (uploading: Bool = false) {
-		jsValue = JSObject.global.XMLHttpRequest.function?.new().jsValue() ?? .undefined
+		jsValue = JSObject.global.XMLHttpRequest.function?.new().jsValue ?? .undefined
 		_isForUploading = uploading
     }
 	
@@ -49,7 +49,7 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
     /// Is an enumerated value that defines the response type.
     public var responseType: ResponseType {
         get { ResponseType(rawValue: jsValue.responseType.string ?? "") ?? .default }
-        set { jsValue.responseType = newValue.rawValue.jsValue() }
+        set { jsValue.responseType = newValue.rawValue.jsValue }
     }
     
     /// Contains the response entity body.
@@ -78,7 +78,7 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
     ///
     /// Not available in workers.
     public var responseXML: JSValue? {
-        let xml = jsValue.responseXML.jsValue()
+        let xml = jsValue.responseXML.jsValue
         guard !xml.isNull else { return nil }
         return xml
     }
@@ -102,7 +102,7 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
     /// Set request timeout
     /// - Parameter time: Time interval in seconds
     public func setTimeout(_ time: TimeInterval) -> Self {
-        jsValue.timeout = (time / 1_000).jsValue()
+        jsValue.timeout = (time / 1_000).jsValue
         return self
     }
 	

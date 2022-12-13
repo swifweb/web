@@ -15,7 +15,7 @@ extension DOMEventable {
     func setDOMHandlerIfNeeded(_ key: String, _ container: AnyContainer) -> Self {
         #if arch(wasm32)
         guard !container.isAddedToDOM else { return self }
-        domElement[dynamicMember: key] = container.closure.jsValue()
+        domElement[dynamicMember: key] = container.closure.jsValue
         container.isAddedToDOM = true
         #endif
         return self

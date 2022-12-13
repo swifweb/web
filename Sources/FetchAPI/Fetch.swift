@@ -25,7 +25,7 @@ public final class Fetch {
     
     @discardableResult
     public convenience init (_ url: URLValue, _ options: RequestOptions? = nil, _ handler: @escaping (Result<Response, Error>) -> Void) {
-        self.init(url.urlValue.jsValue(), options, handler)
+        self.init(url.urlValue.jsValue, options, handler)
     }
     
     @discardableResult

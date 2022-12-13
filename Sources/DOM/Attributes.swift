@@ -543,7 +543,7 @@ extension BufferedAttrable {
     /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/buffered)
     public var buffered: TimeInterval {
         #if arch(wasm32)
-        return domElement.buffered.jsValue().number ?? 0
+        return domElement.buffered.jsValue.number ?? 0
         #endif
         return 0
     }
@@ -788,7 +788,7 @@ extension ClassAttrable {
         #if arch(wasm32)
         let classList = domElement[dynamicMember: "classList"].object
         for className in value.names {
-            classList?.toggle.function?.callAsFunction(optionalThis: classList, className.jsValue())
+            classList?.toggle.function?.callAsFunction(optionalThis: classList, className.jsValue)
         }
         #endif
         return self

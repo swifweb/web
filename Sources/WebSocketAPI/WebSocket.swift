@@ -19,7 +19,7 @@ public class WebSocket {
     ///   These strings are used to indicate sub-protocols, so that a single server can implement multiple WebSocket sub-protocols
     ///   (for example, you might want one server to be able to handle different types of interactions depending on the specified protocol).
     public init (_ url: URLValue, protocols: [String]) {
-        jsValue = JSObject.global.WebSocket.function?.new(url.urlValue, protocols.jsValue()).jsValue() ?? .undefined
+        jsValue = JSObject.global.WebSocket.function?.new(url.urlValue, protocols.jsValue).jsValue ?? .undefined
     }
     
     /// Initializer
@@ -36,7 +36,7 @@ public class WebSocket {
     /// The binary data type used by the connection.
     public var binaryType: BinaryType {
         get { jsValue.binaryType.string == "arrayBuffer" ? .arrayBuffer : .blob }
-        set { jsValue.binaryType = newValue.rawValue.jsValue() } // FUTUREFIX: 'arrayBuffer' is not a valid value for binaryType; binaryType remains unchanged.
+        set { jsValue.binaryType = newValue.rawValue.jsValue } // FUTUREFIX: 'arrayBuffer' is not a valid value for binaryType; binaryType remains unchanged.
     }
     
     /// The number of bytes of queued data.

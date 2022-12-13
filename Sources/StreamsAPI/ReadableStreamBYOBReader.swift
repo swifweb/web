@@ -58,7 +58,7 @@ public class ReadableStreamBYOBReader {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBReader/read)
     public func read(_ closure: @escaping (Result<[UInt8], Error>) -> Void) {
-        guard let view = JSObject.global.Uint8Array.function?.new().jsValue() else {
+        guard let view = JSObject.global.Uint8Array.function?.new().jsValue else {
             closure(.failure(JSError(message: "Unable to create view to read stream into.")))
             return
         }

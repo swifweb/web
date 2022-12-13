@@ -78,9 +78,9 @@ public final class LocalStorage {
     /// Use this method to add/update value in the storage
     public func set<V: ConvertibleToJSValue>(_ value: V, forKey key: String) {
         let oldValue = self.value(forKey: key) ?? .null
-        domElement.setItem.function!.callAsFunction(optionalThis: domElement.object, key, value.jsValue())
+        domElement.setItem.function!.callAsFunction(optionalThis: domElement.object, key, value.jsValue)
         update()
-        notifyAboutChanges(key: key, oldValue: oldValue, newValue: value.jsValue())
+        notifyAboutChanges(key: key, oldValue: oldValue, newValue: value.jsValue)
     }
     
     /// Returns absract value for `key`

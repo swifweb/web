@@ -48,14 +48,14 @@ open class ServiceWorker {
             JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._activate?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
         contentDeletePromiseClosure = JSClosure { args in
             debugPrint("contentDelete_event: \(String(describing: args.first))")
             return JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._contentDelete?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
         fetchPromiseClosure = JSClosure { args in
             debugPrint("fetch_event: \(String(describing: args.first))")
@@ -68,28 +68,28 @@ open class ServiceWorker {
             return JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._fetch?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
         messagePromiseClosure = JSClosure { args in
             debugPrint("message_event: \(String(describing: args.first))")
             return JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._message?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
         notificationClickPromiseClosure = JSClosure { args in
             debugPrint("notificationClick_event: \(String(describing: args.first))")
             return JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._notificationClick?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
         notificationClosePromiseClosure = JSClosure { args in
             debugPrint("notificationClose_event: \(String(describing: args.first))")
             return JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._notificationClose?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
         pushPromiseClosure = JSClosure { args in
             debugPrint("push_event: \(String(describing: args.first))")
@@ -105,21 +105,21 @@ open class ServiceWorker {
             return JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._push?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
         pushSubscriptionChangePromiseClosure = JSClosure { args in
             debugPrint("pushSubscriptionChange_event: \(String(describing: args.first))")
             return JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._pushSubscriptionChange?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
         syncPromiseClosure = JSClosure { args in
             debugPrint("sync_event: \(String(describing: args.first))")
             return JSPromise(resolver: { handler in
                 self.lifeCycles.forEach { $0._sync?() }
                 handler(.success(.undefined))
-            }).jsValue()
+            }).jsValue
         }
     }
     
@@ -156,24 +156,24 @@ open class ServiceWorker {
                         case .success:
                             callInstall()
                         case .failure(let error):
-                            JSObject.global.serviceInstallationError = error.localizedDescription.jsValue()
+                            JSObject.global.serviceInstallationError = error.localizedDescription.jsValue
                         }
                     }
                 } else {
-                    JSObject.global.serviceInstalled = true.jsValue()
+                    JSObject.global.serviceInstalled = true.jsValue
                 }
             }
             callInstall()
         }
-        JSObject.global["activate"] = activatePromiseClosure?.jsValue() ?? .null
-        JSObject.global["contentDelete"] = contentDeletePromiseClosure?.jsValue() ?? .null
-        JSObject.global["fetch"] = fetchPromiseClosure?.jsValue() ?? .null
-        JSObject.global["message"] = messagePromiseClosure?.jsValue() ?? .null
-        JSObject.global["notificationClick"] = notificationClickPromiseClosure?.jsValue() ?? .null
-        JSObject.global["notificationClose"] = notificationClosePromiseClosure?.jsValue() ?? .null
-        JSObject.global["push"] = pushPromiseClosure?.jsValue() ?? .null
-        JSObject.global["pushSubscriptionChange"] = pushSubscriptionChangePromiseClosure?.jsValue() ?? .null
-        JSObject.global["sync"] = syncPromiseClosure?.jsValue() ?? .null
+        JSObject.global["activate"] = activatePromiseClosure?.jsValue ?? .null
+        JSObject.global["contentDelete"] = contentDeletePromiseClosure?.jsValue ?? .null
+        JSObject.global["fetch"] = fetchPromiseClosure?.jsValue ?? .null
+        JSObject.global["message"] = messagePromiseClosure?.jsValue ?? .null
+        JSObject.global["notificationClick"] = notificationClickPromiseClosure?.jsValue ?? .null
+        JSObject.global["notificationClose"] = notificationClosePromiseClosure?.jsValue ?? .null
+        JSObject.global["push"] = pushPromiseClosure?.jsValue ?? .null
+        JSObject.global["pushSubscriptionChange"] = pushSubscriptionChangePromiseClosure?.jsValue ?? .null
+        JSObject.global["sync"] = syncPromiseClosure?.jsValue ?? .null
         #else
         printManifestData()
         #endif

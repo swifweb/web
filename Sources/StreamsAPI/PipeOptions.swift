@@ -42,13 +42,13 @@ public struct PipeOptions: ConvertibleToJSValue {
 	public var jsValue: JSValue {
         var result: [String: ConvertibleToJSValue] = [:]
         if let preventClose = preventClose {
-            result["preventClose"] = preventClose.jsValue()
+            result["preventClose"] = preventClose.jsValue
         }
         if let preventAbort = preventAbort {
-            result["preventAbort"] = preventAbort.jsValue()
+            result["preventAbort"] = preventAbort.jsValue
         }
         if let preventCancel = preventCancel {
-            result["preventCancel"] = preventCancel.jsValue()
+            result["preventCancel"] = preventCancel.jsValue
         }
         if let signal = signal {
             result["signal"] = signal.jsValue

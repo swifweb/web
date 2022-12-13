@@ -22,7 +22,7 @@ public class ReadableStreamDefaultReader {
     ///
     /// - Parameter stream: The `ReadableStream` to be read.
     public init (_ stream: ReadableStream) {
-        jsValue = JSObject.global.ReadableStreamDefaultReader.function?.new(stream.jsValue).jsValue() ?? .undefined
+        jsValue = JSObject.global.ReadableStreamDefaultReader.function?.new(stream.jsValue).jsValue ?? .undefined
     }
     
     /// Success calls when the stream closes or the reader's lock is released,
@@ -68,7 +68,7 @@ public class ReadableStreamDefaultReader {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamDefaultReader/read)
     public func read(_ closure: @escaping (Result<[UInt8], Error>) -> Void) {
-        guard let view = JSObject.global.Uint8Array.function?.new().jsValue() else {
+        guard let view = JSObject.global.Uint8Array.function?.new().jsValue else {
             closure(.failure(JSError(message: "Unable to create view to read stream into.")))
             return
         }
