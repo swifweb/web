@@ -123,6 +123,7 @@ open class ServiceWorker {
         }
     }
     
+    @discardableResult
     public static func start() -> ServiceWorker {
         guard serviceworker == nil else { return serviceworker }
         serviceworker = Self()

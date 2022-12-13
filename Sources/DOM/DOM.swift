@@ -23,7 +23,7 @@ private struct EmptyContent: DOMContent {
 
 extension String: DOMContent {
     public var domContentItem: DOMItem {
-        var div = Div()
+        let div = Div()
         div.innerHTML = self
         return .elements([div])
     }
