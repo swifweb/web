@@ -69,6 +69,7 @@ let package = Package(
         .library(name: "DOM", type: .static, targets: ["DOM"]),
         .library(name: "CSS", type: .static, targets: ["CSS"]),
         .library(name: "Web", type: .static, targets: ["Web"]),
+        .library(name: "ARIA", type: .static, targets: ["ARIA"]),
         .library(name: "ServiceWorker", type: .static, targets: ["ServiceWorker"]),
         .library(name: "Worker", type: .static, targets: ["Worker"]),
         .library(name: "SharedWorker", type: .static, targets: ["SharedWorker"]),
@@ -133,6 +134,11 @@ let package = Package(
             .target(name: "FetchAPI"),
             .target(name: "WebSocketAPI"),
             .target(name: "XMLHttpRequest")
+        ]),
+        .target(name: "ARIA", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "DOM"),
+            .target(name: "CSS")
         ]),
         .target(name: "ServiceWorker", dependencies: [
             .target(name: "WebFoundation"),
