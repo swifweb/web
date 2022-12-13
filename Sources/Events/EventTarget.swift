@@ -230,7 +230,16 @@ class EventListenerContainer: AnyStorageValue {
         handlers = [handler]
     }
     
+    deinit {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        closure.release()
+        #endif
+    }
+    
     func shutdown() {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        closure.release()
+        #endif
         handlers.removeAll()
     }
 }

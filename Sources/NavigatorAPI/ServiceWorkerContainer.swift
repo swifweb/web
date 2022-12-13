@@ -249,6 +249,12 @@ public class ServiceWorkerRegistration: EventTarget {
         self.jsValue = jsValue
     }
     
+    deinit {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        onupdatefoundClosure.release()
+        #endif
+    }
+    
     /// A unique identifier for a service worker registration.
     ///
     /// The service worker must be on the same origin as the document that registers the `ServiceWorker`.
@@ -460,6 +466,9 @@ public final class ServiceWorker: Worker {
     public override func terminate() {}
     
     private func shutdown() {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        onstatechangeClosure.release()
+        #endif
         onstatechangeHandlers.removeAll()
     }
     

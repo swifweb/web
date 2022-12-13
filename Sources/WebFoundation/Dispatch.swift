@@ -29,6 +29,9 @@ public struct Dispatch {
         var function: JSClosure!
         function = .init { _ -> JSValue in
             closure()
+            #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+            function.release()
+            #endif
             dispatch.functions[uid] = nil
             return .null
         }
@@ -69,6 +72,9 @@ public struct Dispatch {
                 }
                 closure(task!)
             }
+            #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+            function.release()
+            #endif
             return .null
         }
         dispatch.functions[uid] = function

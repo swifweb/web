@@ -23,4 +23,10 @@ class DarkModeDetector {
         handler(false)
         #endif
     }
+    
+    deinit {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        closure?.release()
+        #endif
+    }
 }

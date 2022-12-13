@@ -49,6 +49,15 @@ public class WebSocket {
         jsValue.extensions.string ?? ""
     }
     
+    deinit {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        closeClosures.forEach { $0.release() }
+        errorClosures.forEach { $0.release() }
+        messageClosures.forEach { $0.release() }
+        openClosures.forEach { $0.release() }
+        #endif
+    }
+    
     private var closeClosures: [JSClosure] = []
     
     /// An event listener to be called when the connection is closed.

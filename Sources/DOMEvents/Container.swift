@@ -22,6 +22,12 @@ class Container<Event: AnyEvent>: GenericContainer {
     required init (_ handler: @escaping (Event) -> Void) {
         handlers = [handler]
     }
+    
+    deinit {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        closure.release()
+        #endif
+    }
 }
 
 protocol AnyContainer: AnyObject {

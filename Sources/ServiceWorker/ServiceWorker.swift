@@ -43,6 +43,20 @@ open class ServiceWorker {
         #endif
     }
     
+    deinit {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        activatePromiseClosure?.release()
+        contentDeletePromiseClosure?.release()
+        fetchPromiseClosure?.release()
+        messagePromiseClosure?.release()
+        notificationClickPromiseClosure?.release()
+        notificationClosePromiseClosure?.release()
+        pushPromiseClosure?.release()
+        pushSubscriptionChangePromiseClosure?.release()
+        syncPromiseClosure?.release()
+        #endif
+    }
+    
     private func setupPromises() {
         activatePromiseClosure = JSClosure { args in // [object ExtendableEvent]
             JSPromise(resolver: { handler in

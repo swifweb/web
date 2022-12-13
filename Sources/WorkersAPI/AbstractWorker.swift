@@ -42,6 +42,12 @@ class AbstractWorkerErrorHandler: AnyStorageValue, StorageKey {
         self.handler = handler
     }
     
+    deinit {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        closure.release()
+        #endif
+    }
+    
     func shutdown() {
         handler = nil
     }

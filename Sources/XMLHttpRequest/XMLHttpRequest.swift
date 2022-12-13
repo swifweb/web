@@ -30,6 +30,19 @@ public final class XMLHttpRequest: _XMLHttpRequestEventTarget {
 		_isForUploading = uploading
 	}
     
+    deinit {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        readyStateChangeClosures.forEach { $0.release() }
+        loadStartClosures.forEach { $0.release() }
+        progressClosures.forEach { $0.release() }
+        abortClosures.forEach { $0.release() }
+        errorClosures.forEach { $0.release() }
+        loadClosures.forEach { $0.release() }
+        timeoutClosures.forEach { $0.release() }
+        loadEndClosures.forEach { $0.release() }
+        #endif
+    }
+    
     public var readyState: ReadyState {
         ReadyState(rawValue: Int(jsValue.readyState.number ?? -1)) ?? .unknown
     }

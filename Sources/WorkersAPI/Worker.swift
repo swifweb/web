@@ -187,6 +187,10 @@ open class Worker: AbstractWorker, EventTarget {
     }
     
     private func shutdown() {
+        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+        onmessageClosure.release()
+        onmessageerrorClosure.release()
+        #endif
         stringMessageHandlers.removeAll()
         eventMessageHandlers.removeAll()
         errorMessageHandlers.removeAll()
