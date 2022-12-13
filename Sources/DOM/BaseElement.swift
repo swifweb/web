@@ -8,7 +8,7 @@
 import WebFoundation
 import Events
 
-open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget {
+open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget, Equatable, Hashable {
     // MARK: Storageable
     
     public lazy var storage: Storage = .init()
@@ -64,4 +64,16 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget 
 //
 //        #endif
 //    }
+    
+    // MARK: Equatable
+    
+    public static func == (lhs: BaseElement, rhs: BaseElement) -> Bool {
+        lhs.properties.uid == rhs.properties.uid
+    }
+    
+    // MARK: Hashable
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(properties.uid)
+    }
 }
