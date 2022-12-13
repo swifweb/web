@@ -80,7 +80,20 @@ extension DOMElement {
     
     func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .short) {
         #if arch(wasm32)
-        _setAttribute(key, value.jsValue)
+        switch mode {
+        case .full:
+            domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, value.jsValue)
+        case .long:
+            if value {
+                domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, key.jsValue)
+            } else {
+                domElement[dynamicMember: "removeAttribute"].function?.callAsFunction(optionalThis: domElement.object, key)
+            }
+        case .modern:
+            domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, (value ? "yes" : "no").jsValue)
+        case .short:
+            domElement[dynamicMember: key] = value.jsValue()
+        }
         #else
         #if WEBPREVIEW
         let stringValue: String?
