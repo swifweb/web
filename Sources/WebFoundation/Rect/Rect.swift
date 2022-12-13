@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class Rect: InnerStateChangeable, Equatable {
+public final class Rect: InnerStateChangeable, Equatable, CustomStringConvertible {
     @State public var x: Double = 0
     @State public var y: Double = 0
     @State public var width: Double = 0
