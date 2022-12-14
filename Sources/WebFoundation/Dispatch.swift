@@ -69,12 +69,12 @@ public struct Dispatch {
             } else {
                 task = IntervalTask(timer) {
                     dispatch.functions[uid] = nil
+                    #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+                    function.release()
+                    #endif
                 }
                 closure(task!)
             }
-            #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
-            function.release()
-            #endif
             return .null
         }
         dispatch.functions[uid] = function
