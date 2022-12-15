@@ -197,6 +197,7 @@ public final class DOMElementProperties {
 
     public internal(set) var parent: DOMElement? = nil
     public internal(set) var subElements: [DOMElement] = []
+    public var positionChangeListeners: [() -> Void] = []
     #if !arch(wasm32)
     public var styles: [String: String] = [:]
     public var attributes: [String: String] = [:]

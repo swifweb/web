@@ -141,18 +141,54 @@ extension BaseElement: CSSRulable {}
 extension CSSRulable {
     func _addProperty<P: _Property>(_ property: P) {
         let key = property.key
+        func invokeResizeEvent() {
+            if let s = self as? BaseElement, [
+                PropertyType.left.description,
+                PropertyType.right.description,
+                PropertyType.top.description,
+                PropertyType.bottom.description,
+                PropertyType.margin.description,
+                PropertyType.marginLeft.description,
+                PropertyType.marginTop.description,
+                PropertyType.marginRight.description,
+                PropertyType.marginBottom.description,
+                PropertyType.padding.description,
+                PropertyType.paddingLeft.description,
+                PropertyType.paddingTop.description,
+                PropertyType.paddingRight.description,
+                PropertyType.paddingBottom.description,
+                PropertyType.visibility.description,
+                PropertyType.display.description,
+                PropertyType.border.description,
+                PropertyType.borderTop.description,
+                PropertyType.borderLeft.description,
+                PropertyType.borderRight.description,
+                PropertyType.borderBottom.description,
+                PropertyType.borderWidth.description,
+                PropertyType.borderTopWidth.description,
+                PropertyType.borderLeftWidth.description,
+                PropertyType.borderRightWidth.description,
+                PropertyType.borderBottomWidth.description
+            ].contains(property.key) {
+                s.invokeResizeEvent()
+            }
+        }
         _setProperty(key, property.value, important: false)
+        invokeResizeEvent()
         if let internalChangeable = property.propertyValue as? _PropertyValueInnerChangeable {
             internalChangeable._changeHandler = {
                 self._setProperty(key, property.propertyValue.description, important: false)
+                invokeResizeEvent()
             }
         }
         property._content._changeHandler = { newValue in
             guard let newValue = newValue else {
                 self._removeProperty(key)
+                invokeResizeEvent()
                 return
             }
             self._setProperty(key, newValue.description, important: false)
+            invokeResizeEvent()
         }
     }
     
@@ -203,5 +239,20 @@ extension CSSRulable {
         }
         #endif
         #endif
+    }
+}
+
+extension BaseElement {
+    func invokeResizeEvent() {
+        func notifyListeners(_ element: DOMElement) {
+            element.properties.subElements.forEach { (el: DOMElement) in
+                el.properties.positionChangeListeners.forEach { $0() }
+                notifyListeners(el)
+            }
+        }
+        Dispatch.async { [weak self] in
+            guard let self = self else { return }
+            notifyListeners(self)
+        }
     }
 }
