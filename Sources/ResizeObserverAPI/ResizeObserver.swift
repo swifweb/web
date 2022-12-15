@@ -36,6 +36,11 @@ public class ResizeObserver {
         jsValue = JSObject.global.ResizeObserver.function?.new(closure).jsValue ?? .undefined
     }
     
+    @discardableResult
+    public convenience init () {
+        self.init({ _, _ in })
+    }
+    
     deinit {
         #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
         closure?.release()
