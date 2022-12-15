@@ -224,6 +224,14 @@ public class Window: EventListenerCompatibleObject, EventTarget {
         finishLaunchingHandlers.forEach { $0() }
     }
     
+    public func getComputedStyle(_ element: DOMElement, for key: String) -> String? {
+        #if arch(wasm32)
+        return domElement.getComputedStyle.function?.callAsFunction(optionalThis: domElement.object, element.domElement)?.object?[key].string
+        #else
+        return nil
+        #endif
+    }
+    
     /// Called when app just started
     public func onFinishLaunching(_ handler: @escaping () -> Void) -> Self {
         finishLaunchingHandlers.append(handler)
