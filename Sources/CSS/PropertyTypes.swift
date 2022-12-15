@@ -162,7 +162,7 @@ public enum PropertyType: String, CustomStringConvertible {
     case marginBottom = "margin-bottom"
     case marginLeft = "margin-left"
     case marginRight = "margin-right"
-    case margintop = "margin-top"
+    case marginTop = "margin-top"
     case maxHeight = "max-height"
     case maxWidth = "max-width"
     case media
