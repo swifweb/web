@@ -44,7 +44,7 @@ extension DOMElement {
         domElement.appendChild.function?.callAsFunction(optionalThis: domElement.object, element.domElement)
         properties.subElements.append(element)
         element.properties.parent = self
-        element.didAddToDOM()
+        Dispatch.async(element.didAddToDOM)
         #endif
         #if WEBPREVIEW
         properties.subElements.append(element)
