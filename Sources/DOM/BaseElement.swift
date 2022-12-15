@@ -30,8 +30,32 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget,
     
     public var domElement: JSValue
     
-    open func didAddToDOM() {}
-    open func didRemoveFromDOM() {}
+    var addToDOMHandlers: [() -> Void] = []
+    var removeFromDOMHandlers: [() -> Void] = []
+    
+    public private(set) var isInDOM = false
+    
+    open func didAddToDOM() {
+        isInDOM = true
+        addToDOMHandlers.forEach { $0() }
+    }
+    
+    open func didRemoveFromDOM() {
+        isInDOM = false
+        removeFromDOMHandlers.forEach { $0() }
+    }
+    
+    @discardableResult
+    public func onDidAddToDOM(_ handler: @escaping () -> Void) -> Self {
+        addToDOMHandlers.append(handler)
+        return self
+    }
+    
+    @discardableResult
+    public func onDidRemoveFromDOM(_ handler: @escaping () -> Void) -> Self {
+        removeFromDOMHandlers.append(handler)
+        return self
+    }
     
     public init (_ domElement: JSValue?) {
         self.domElement = domElement ?? JSValue.boolean(false)
