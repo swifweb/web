@@ -102,6 +102,7 @@ let package = Package(
         .library(name: "WebSocketAPI", type: .static, targets: ["WebSocketAPI"]),
         .library(name: "WorkersAPI", type: .static, targets: ["WorkersAPI"]),
         .library(name: "XMLHttpRequest", type: .static, targets: ["XMLHttpRequest"]),
+        .library(name: "ResizeObserverAPI", type: .static, targets: ["ResizeObserverAPI"]),
     ],
     dependencies: deps.map { $0.package },
     targets: [
@@ -133,7 +134,8 @@ let package = Package(
             .target(name: "CSS"),
             .target(name: "FetchAPI"),
             .target(name: "WebSocketAPI"),
-            .target(name: "XMLHttpRequest")
+            .target(name: "XMLHttpRequest"),
+            .target(name: "ResizeObserverAPI")
         ]),
         .target(name: "ARIA", dependencies: [
             .target(name: "WebFoundation"),
@@ -252,6 +254,10 @@ let package = Package(
         .target(name: "XMLHttpRequest", dependencies: [
             .target(name: "WebFoundation"),
             .target(name: "Events")
+        ]),
+        .target(name: "ResizeObserverAPI", dependencies: [
+            .target(name: "WebFoundation"),
+            .target(name: "DOM")
         ]),
         .testTarget(name: "WebTests", dependencies: [
             .target(name: "Web")
