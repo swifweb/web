@@ -57,6 +57,8 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget,
         return self
     }
     
+    public var superview: BaseElement? { properties.parent as? BaseElement }
+    
     public init (_ domElement: JSValue?) {
         self.domElement = domElement ?? JSValue.boolean(false)
         postInit()
