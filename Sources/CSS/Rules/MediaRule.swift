@@ -113,11 +113,18 @@ public class MediaRule: RulesContent, CSSRulable {
     
     public struct MediaType: CustomStringConvertible {
         let value: String
+        let label: String?
         
-        public var description: String { value }
+        public var description: String { label ?? value }
         
-        init (_ value: String) {
+        public init (_ value: String, label: String? = nil) {
             self.value = value
+            self.label = label
+        }
+        
+        public init (_ mediaType: MediaType, label: String? = nil) {
+            self.value = mediaType.value
+            self.label = label
         }
         
         /// Suitable for all devices.
