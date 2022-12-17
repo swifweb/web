@@ -111,8 +111,10 @@ public class MediaRule: RulesContent, CSSRulable {
         return result
     }
     
-    public struct MediaType {
+    public struct MediaType: CustomStringConvertible {
         let value: String
+        
+        public var description: String { value }
         
         init (_ value: String) {
             self.value = value
