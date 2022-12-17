@@ -8,7 +8,7 @@
 import WebFoundation
 import Events
 
-open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget, Equatable, Hashable {
+open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget, Equatable, Hashable, CustomStringConvertible {
     // MARK: Storageable
     
     public lazy var storage: Storage = .init()
@@ -119,6 +119,12 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget,
         hasher.combine(properties.uid)
     }
     
+    // MARK: CustomStringConvertible
+    
+    public var description: String {
+        "\(Self.name)#\(properties._id)"
+    }
+    
     // MARK: Sizes
     
     public var boundingClientRect: Rect {
@@ -218,5 +224,13 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget,
     /// Returns height excluding border
     public var clientHeight: Double {
         domElement.object?["clientHeight"].number ?? 0
+    }
+}
+
+// MARK: CustomStringConvertible
+
+extension Array: CustomStringConvertible where Element == BaseElement {
+    public var description: String {
+        "[\(self.map { $0.description }.joined(separator: ", "))]"
     }
 }
