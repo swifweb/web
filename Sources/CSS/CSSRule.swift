@@ -46,6 +46,7 @@ open class CSSRule: RulesContent, CSSRulable {
     
     public init (_ pointers: [Pointerable], @Properties content: @escaping Properties.Block) {
         self._pointers = pointers
+        parsePropertiesItem(content().propertiesContent)
     }
     
     public convenience init (_ pointers: Pointerable...) {
