@@ -57,6 +57,9 @@ public class ResizeObserver {
             }
         }
         observers[baseElement] = handler
+        baseElement.onShutdown { [weak self] element in
+            self?.observers.removeValue(forKey: element)
+        }
     }
     
     /// An options object allowing you to set options for the observation.
