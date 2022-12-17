@@ -32,6 +32,7 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget,
     
     var addToDOMHandlers: [() -> Void] = []
     var removeFromDOMHandlers: [() -> Void] = []
+    var shutdownHandlers: [(BaseElement) -> Void] = []
     
     public private(set) var isInDOM = false
     
@@ -57,6 +58,12 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget,
         return self
     }
     
+    @discardableResult
+    public func onShutdown(_ handler: @escaping (BaseElement) -> Void) -> Self {
+        shutdownHandlers.append(handler)
+        return self
+    }
+    
     public var superview: BaseElement? { properties.parent as? BaseElement }
     
     public init (_ domElement: JSValue?) {
@@ -71,12 +78,21 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget,
     
     public convenience init (in document: Document) {
         self.init(document.createElement(Self.name))
+        self.shutdown()
     }
     
     open func postInit() {
         #if arch(wasm32)
         domElement.id = properties._id.jsValue
         #endif
+    }
+    
+    open func shutdown() {
+        storage.shutdown()
+        shutdownHandlers.forEach { [weak self] in
+            guard let self = self else { return }
+            $0(self)
+        }
     }
     
 //    var rootElement: JSValue?
