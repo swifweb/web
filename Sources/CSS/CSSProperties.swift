@@ -3544,6 +3544,16 @@ public class BorderRadiusProperty: _Property {
     public var propertyValue: BorderRadiusValue
     var _content = _PropertyContent<BorderRadiusValue>()
 
+    public init <U: UnitValuable>(_ value: U) {
+        propertyValue = BorderRadiusValue(all: .length(value))
+    }
+
+    public convenience init <U: UnitValuable>(_ state: State<U>) {
+        let s = state.stateValue
+        self.init(s.wrappedValue)
+        s.listen { self._changed(to: BorderRadiusValue(all: .length($0))) }
+    }
+    
     public init (all: BorderRadiusType) {
         propertyValue = BorderRadiusValue(all: all)
     }
@@ -4203,6 +4213,20 @@ extension Stylesheetable {
 }
 
 extension CSSRulable {
+    /// A shorthand property for the four border-*-radius properties
+    @discardableResult
+    public func borderRadius<U: UnitValuable>(_ value: U) -> Self {
+        _addProperty(BorderRadiusProperty(all: .length(value)))
+        return self
+    }
+
+    /// A shorthand property for the four border-*-radius properties
+    @discardableResult
+    public func borderRadius<U: UnitValuable>(_ state: State<U>) -> Self {
+        _addProperty(BorderRadiusProperty(state))
+        return self
+    }
+    
     /// A shorthand property for the four border-*-radius properties
     @discardableResult
     public func borderRadius(all: BorderRadiusType) -> Self {
