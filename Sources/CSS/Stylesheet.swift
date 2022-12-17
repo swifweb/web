@@ -50,28 +50,53 @@ open class Stylesheet: BaseElement, Stylesheetable {
         }
     }
     
+    public func deleteRule(_ index: Int) {
+        sheet.deleteRule.function?.callAsFunction(optionalThis: sheet.object, arguments: [index])
+    }
+    
+    @discardableResult
+    public func addRule(_ rule: CSSRule) -> Int {
+        let cssText = rule.render()
+        #if !WEBPREVIEW
+        guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
+        rule.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
+        return Int(index)
+        #endif
+        return -1
+    }
+    
+    @discardableResult
+    public func addKeyframesRule(_ kf: Keyframes) -> Int {
+        let cssText = kf.render()
+        #if !WEBPREVIEW
+        guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
+        kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
+        return Int(index)
+        #endif
+        return -1
+    }
+    
+    @discardableResult
+    public func addMediaRule(_ m: MediaRule) -> Int {
+        let cssText = m.render()
+        #if !WEBPREVIEW
+        guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
+        m.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
+        return Int(index)
+        #endif
+        return -1
+    }
+    
     public func processRules() {
         if sheet.object != nil {
-            _rules.enumerated().forEach { i, rule in
-                let cssText = rule.render()
-                #if !WEBPREVIEW
-                guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
-                rule.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
-                #endif
+            _rules.forEach {
+                addRule($0)
             }
-            _keyframes.enumerated().forEach { i, kf in
-                let cssText = kf.render()
-                #if !WEBPREVIEW
-                guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
-                kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
-                #endif
+            _keyframes.forEach {
+                addKeyframesRule($0)
             }
-            _medias.enumerated().forEach { i, m in
-                let cssText = m.render()
-                #if !WEBPREVIEW
-                guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
-                m.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
-                #endif
+            _medias.forEach {
+                addMediaRule($0)
             }
         } else {
             var style = "\r\n"
