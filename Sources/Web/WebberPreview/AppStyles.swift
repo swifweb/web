@@ -28,8 +28,16 @@ public enum AppStyles: WebPreviewRenderable, RenderBuilderContent {
         }
         var result = ""
         for style in styles {
-            guard style._rules.count > 0 else { continue }
-            result.append("<style id=\"\(style.properties._id)\">" + style._rules.map { $0.render() }.joined() + "</style>")
+            guard
+                style._rules.count > 0 ||
+                style._keyframes.count > 0 ||
+                style._medias.count > 0
+            else { continue }
+            result.append("<style id=\"\(style.properties._id)\">")
+            result.append(style._rules.map { $0.render() }.joined())
+            result.append(style._keyframes.map { $0.render() }.joined())
+            result.append(style._medias.map { $0.render() }.joined())
+            result.append("</style>")
         }
         return result
         #else

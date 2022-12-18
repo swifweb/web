@@ -70,7 +70,7 @@ public class Keyframes: RulesContent, CSSRulable, ExpressibleByStringLiteral {
         }
     }
     
-    func render() -> String {
+    public func render() -> String {
         var result = ""
         result.append(propertyKey + " " + name)
         result.append("{")

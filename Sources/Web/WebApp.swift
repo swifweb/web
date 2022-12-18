@@ -172,7 +172,11 @@ open class WebApp: _PreviewableApp {
     
     @AppBuilder open var body: AppBuilder.Content { _AppContent(appBuilderContent: .none) }
     
+    #if WEBPREVIEW
+    public var stylesheets: [Stylesheet] = []
+    #else
     var stylesheets: [Stylesheet] = []
+    #endif
     
     private func parseAppBuilderItem(_ item: AppBuilder.Item) {
         switch item {

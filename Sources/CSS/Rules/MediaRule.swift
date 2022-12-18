@@ -97,7 +97,7 @@ public class MediaRule: RulesContent, CSSRulable {
 //        }
     }
     
-    func render() -> String {
+    public func render() -> String {
         var result = "@media "
         result.append(_items.map { $0.value }.joined(separator: ", "))
         result.append("{")

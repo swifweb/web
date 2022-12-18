@@ -61,6 +61,8 @@ open class Stylesheet: BaseElement, Stylesheetable {
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
         rule.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
         return Int(index)
+        #else
+        _rules.append(rule)
         #endif
         return -1
     }
@@ -72,6 +74,8 @@ open class Stylesheet: BaseElement, Stylesheetable {
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
         kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
         return Int(index)
+        #else
+        _keyframes.append(kf)
         #endif
         return -1
     }
@@ -83,6 +87,8 @@ open class Stylesheet: BaseElement, Stylesheetable {
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
         m.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
         return Int(index)
+        #else
+        _medias.append(m)
         #endif
         return -1
     }
