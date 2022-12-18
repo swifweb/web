@@ -34,7 +34,7 @@ extension CSSRulable {
             }
             #else
             #if WEBPREVIEW
-            properties.styles[key] = value
+            s.properties.styles[key] = value.description
             #endif
             #endif
         } else {

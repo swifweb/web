@@ -23,8 +23,8 @@ public enum AppStyles: WebPreviewRenderable, RenderBuilderContent {
         case .enabled: styles = WebApp.shared.stylesheets.filter { !$0._disabled }
         case .ids(let ids): styles = WebApp.shared.stylesheets.filter { ids.map { $0.name }.contains($0.properties._id) }
         case .id(let id): styles = WebApp.shared.stylesheets.filter { $0.properties._id == id.name }
-        case .classes(let classes): styles = WebApp.shared.stylesheets.filter { Set(classes.map { $0.name }).isSubset(of: Set($0.properties._classes)) }
-        case .class(let `class`): styles = WebApp.shared.stylesheets.filter { $0.properties._classes.contains(`class`.name) }
+        case .classes(let classes): styles = WebApp.shared.stylesheets.filter { Set(classes.map { $0.names }.flatMap { $0 }).isSubset(of: Set($0.properties._classes)) }
+        case .class(let `class`): styles = WebApp.shared.stylesheets.filter { Set(`class`.names).isSubset(of: Set($0.properties._classes)) }
         }
         var result = ""
         for style in styles {
