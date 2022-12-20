@@ -7,6 +7,9 @@
 
 import DOM
 
+private struct RawStylesKey: StorageKey {
+    typealias Value = [String]
+}
 private struct RulesKey: StorageKey {
     typealias Value = [CSSRule]
 }
@@ -18,6 +21,10 @@ private struct MediaRuleKey: StorageKey {
 }
 
 extension Style {
+    public var rawStyles: [String] {
+        get { storage[RawStylesKey.self] ?? [] }
+        set { storage[RawStylesKey.self] = newValue }
+    }
     public var rules: [CSSRule] {
         get { storage[RulesKey.self] ?? [] }
         set { storage[RulesKey.self] = newValue }
@@ -39,6 +46,9 @@ extension Style {
 
     private func apply() {
         var result = ""
+        rawStyles.forEach { raw in
+            result.append(raw)
+        }
         rules.forEach { rule in
             result.append(rule._pointers.map { $0.pointer.selector }.joined(separator: ","))
             result.append("{")
@@ -56,6 +66,7 @@ extension Style {
 
     private func parseRulesItem(_ item: Rules.Item) {
         switch item {
+        case .raw(let v): rawStyles.append(v)
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): rules.append(v)
         case .keyframes(let v): keyframes.append(v)

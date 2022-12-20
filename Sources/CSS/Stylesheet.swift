@@ -16,6 +16,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     
     lazy var sheet: JSValue = domElement.sheet
     
+    public private(set) var _rawStyles: [String] = []
     public private(set) var _rules: [CSSRule] = []
     public private(set) var _keyframes: [Keyframes] = []
     public private(set) var _medias: [MediaRule] = []
@@ -42,6 +43,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     
     private func parseRulesItem(_ item: Rules.Item) {
         switch item {
+        case .raw(let v): _rawStyles.append(v)
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): _rules.append(v)
         case .keyframes(let v): _keyframes.append(v)
@@ -52,6 +54,17 @@ open class Stylesheet: BaseElement, Stylesheetable {
     
     public func deleteRule(_ index: Int) {
         sheet.deleteRule.function?.callAsFunction(optionalThis: sheet.object, arguments: [index])
+    }
+    
+    @discardableResult
+    public func addRawStyle(_ cssText: String) -> Int {
+        #if !WEBPREVIEW
+        guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
+        return Int(index)
+        #else
+        _rules.append(rule)
+        #endif
+        return -1
     }
     
     @discardableResult
@@ -95,6 +108,9 @@ open class Stylesheet: BaseElement, Stylesheetable {
     
     public func processRules() {
         if sheet.object != nil {
+            _rawStyles.forEach {
+                addRawStyle($0)
+            }
             _rules.forEach {
                 addRule($0)
             }
@@ -106,6 +122,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
             }
         } else {
             var style = "\r\n"
+            style.append(_rawStyles.joined(separator: "\n"))
             style.append(_rules.map { $0.render() }.joined(separator: "\n"))
             style.append(_keyframes.map { $0.render() }.joined(separator: "\n"))
             style.append(_medias.map { $0.render() }.joined(separator: "\n"))
@@ -193,9 +210,10 @@ open class RulesGroup: RulesContent, Stylesheetable {
     public typealias RuleItems = Rules.Content
     
     public var rulesContent: Rules.Item {
-        .items(_rules.map { .rule($0) } + [rules.rulesContent] + _keyframes.map { .keyframes($0) } + _medias.map { .media($0) })
+        .items(_rawStyles.map { .raw($0) } + _rules.map { .rule($0) } + [rules.rulesContent] + _keyframes.map { .keyframes($0) } + _medias.map { .media($0) })
     }
     
+    public private(set) var _rawStyles: [String] = []
     public private(set) var _rules: [CSSRule] = []
     public private(set) var _keyframes: [Keyframes] = []
     public private(set) var _medias: [MediaRule] = []
@@ -215,6 +233,7 @@ open class RulesGroup: RulesContent, Stylesheetable {
     
     private func parseRulesItem(_ item: Rules.Item) {
         switch item {
+        case .raw(let v): _rawStyles.append(v)
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): _rules.append(v)
         case .keyframes(let v): _keyframes.append(v)

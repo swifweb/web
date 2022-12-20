@@ -20,6 +20,10 @@ public prefix func ! (rhs: MediaRule.MediaType) -> MediaRule.MediaType {
     .init("not \(rhs.value)")
 }
 
+extension String: RulesContent {
+    public var rulesContent: Rules.Item { .raw(self) }
+}
+
 /// A conditional group rule that will apply its content
 /// if the device meets the criteria of the condition defined using a media query.
 /// Sets the style rules for different media types/devices/sizes
@@ -47,6 +51,7 @@ public class MediaRule: RulesContent, CSSRulable {
     
     public internal(set) var domElement: JSValue?
     var _items: [MediaType] = []
+    public private(set) var _rawStyles: [String] = []
     public private(set) var _rules: [CSSRule] = []
     public private(set) var _keyframes: [Keyframes] = []
     
@@ -71,6 +76,7 @@ public class MediaRule: RulesContent, CSSRulable {
     
     private func parseRulesItem(_ item: Rules.Item) {
         switch item {
+        case .raw(let v): _rawStyles.append(v)
         case .items(let v): v.forEach { parseRulesItem($0) }
         case .rule(let v): _rules.append(v)
         case .keyframes(let v): _keyframes.append(v)
@@ -101,6 +107,9 @@ public class MediaRule: RulesContent, CSSRulable {
         var result = "@media "
         result.append(_items.map { $0.value }.joined(separator: ", "))
         result.append("{")
+        _rawStyles.forEach { raw in
+            result.append(raw)
+        }
         _rules.forEach { rule in
             result.append(rule.render())
         }

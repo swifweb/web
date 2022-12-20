@@ -19,6 +19,7 @@ struct _RulesContent: Rules.Content {
     
     public enum Item {
         case none
+        case raw(String)
         case rule(CSSRule)
         case keyframes(Keyframes)
         case media(MediaRule)
