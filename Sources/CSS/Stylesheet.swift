@@ -62,7 +62,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
         return Int(index)
         #else
-        _rules.append(rule)
+        _rawStyles.append(cssText)
         #endif
         return -1
     }
