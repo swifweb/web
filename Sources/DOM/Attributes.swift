@@ -314,6 +314,52 @@ extension Area: AltAttrable {}
 extension Img: AltAttrable {}
 extension InputImage: AltAttrable {}
 
+// MARK: - AsAttrable
+
+public protocol AsAttrable: DOMElement {
+    @discardableResult
+    func `as`(_ value: AsType) -> Self
+    @discardableResult
+    func `as`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == AsType
+}
+
+extension AsAttrable {
+    /// It specifies the type of content being loaded by the `<link>`.
+    ///
+    /// It is necessary for request matching, application of correct content security policy, and setting of correct **Accept request** header.
+    ///
+    /// Furthermore, rel="preload" uses this as a signal for request prioritization.
+    /// The table below lists the valid values for this attribute and the elements or resources they apply to.
+    ///
+    /// Applicable to `<link>`
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link)
+    @discardableResult
+    public func `as`(_ value: AsType) -> Self {
+        attribute("as", value.value)
+        return self
+    }
+    
+    /// It specifies the type of content being loaded by the `<link>`.
+    ///
+    /// It is necessary for request matching, application of correct content security policy, and setting of correct **Accept request** header.
+    ///
+    /// Furthermore, rel="preload" uses this as a signal for request prioritization.
+    /// The table below lists the valid values for this attribute and the elements or resources they apply to.
+    ///
+    /// Applicable to `<link>`
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link)
+    @discardableResult
+    public func `as`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == AsType {
+        `as`(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.as($0) }
+        return self
+    }
+}
+
+extension Link: AsAttrable {}
+
 // MARK: - AsyncAttrable
 
 public protocol AsyncAttrable: DOMElement {
@@ -4420,8 +4466,15 @@ public protocol TypeAttrable: DOMElement {
 extension TypeAttrable {
     /// Defines the type of the element.
     ///
+    /// For `<link>` this attribute is used to define the type of the content linked to.
+    /// The value of the attribute should be a MIME type such as text/html, text/css, and so on.
+    /// The common use of this attribute is to define the type of stylesheet being referenced (such as text/css),
+    /// but given that CSS is the only stylesheet language used on the web, not only is it possible to omit the type attribute,
+    /// but is actually now recommended practice.
+    /// It is also used on rel="preload" link types, to make sure the browser only downloads file types that it supports. 
+    ///
     /// Applicable to `<button>`, `<input>`, `<embed>`,
-    /// `<object>`, `<script>`, `<source>`, `<style>`, `<menu>`
+    /// `<object>`, `<script>`, `<source>`, `<style>`, `<menu>`, `<link>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_type.asp)
     @discardableResult
@@ -4432,8 +4485,15 @@ extension TypeAttrable {
     
     /// Defines the type of the element.
     ///
+    /// For `<link>` this attribute is used to define the type of the content linked to.
+    /// The value of the attribute should be a MIME type such as text/html, text/css, and so on.
+    /// The common use of this attribute is to define the type of stylesheet being referenced (such as text/css),
+    /// but given that CSS is the only stylesheet language used on the web, not only is it possible to omit the type attribute,
+    /// but is actually now recommended practice.
+    /// It is also used on rel="preload" link types, to make sure the browser only downloads file types that it supports.
+    ///
     /// Applicable to `<button>`, `<input>`, `<embed>`,
-    /// `<object>`, `<script>`, `<source>`, `<style>`, `<menu>`
+    /// `<object>`, `<script>`, `<source>`, `<style>`, `<menu>`, `<link>`
     ///
     /// [More info →](https://www.w3schools.com/tags/att_type.asp)
     @discardableResult
@@ -4452,6 +4512,7 @@ extension Script: TypeAttrable {}
 extension Source: TypeAttrable {}
 extension Style: TypeAttrable {}
 extension Menu: TypeAttrable {}
+extension Link: TypeAttrable {}
 
 // MARK: - UseMapAttrable
 
