@@ -80,27 +80,27 @@ extension DOMElement {
     public func attribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .keyWithoutValue) -> Self {
         #if arch(wasm32)
         switch mode {
-        case .full:
+        case .trueFalse:
             domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, value.jsValue)
-        case .long:
+        case .keyAsValue:
             if value {
                 domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, key.jsValue)
             } else {
                 domElement[dynamicMember: "removeAttribute"].function?.callAsFunction(optionalThis: domElement.object, key)
             }
-        case .modern:
+        case .yesNo:
             domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: domElement.object, key, (value ? "yes" : "no").jsValue)
-        case .short:
+        case .keyWithoutValue:
             domElement[dynamicMember: key] = value.jsValue()
         }
         #else
         #if WEBPREVIEW
         let stringValue: String?
         switch mode {
-        case .full: stringValue = value ? "true" : "false"
-        case .long: stringValue = value ? key : nil
-        case .modern: stringValue = value ? "yes" : "no"
-        case .short: stringValue = value ? "" : nil
+        case .trueFalse: stringValue = value ? "true" : "false"
+        case .keyAsValue: stringValue = value ? key : nil
+        case .yesNo: stringValue = value ? "yes" : "no"
+        case .keyWithoutValue: stringValue = value ? "" : nil
         }
         if let value = stringValue {
             properties.attributes[key] = value

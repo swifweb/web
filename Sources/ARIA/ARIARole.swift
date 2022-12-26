@@ -480,7 +480,7 @@ public struct ARIARoleType {
 //    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
 //    @discardableResult
 //    public func role(_ value: Bool) -> Self {
-//        setter.attribute("role", value, .short)
+//        setter.attribute("role", value, .keyWithoutValue)
 //        return self
 //    }
 //
