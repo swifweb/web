@@ -959,10 +959,12 @@ extension CSSRulable {
 public class BackgroundClipProperty: _Property {
     public var propertyKey: PropertyKey<BackgroundClipType> { .backgroundClip }
     public var propertyValue: BackgroundClipType
+    public var propertyAliases: [AnyProperty]
     var _content = _PropertyContent<BackgroundClipType>()
 
     public init (_ type: BackgroundClipType) {
         propertyValue = type
+        propertyAliases = [Webkit(type)]
     }
 
     public convenience init (_ type: State<BackgroundClipType>) {
@@ -986,6 +988,7 @@ extension CSSRulable {
     @discardableResult
     public func backgroundClip(_ type: BackgroundClipType) -> Self {
         _addProperty(.backgroundClip, type)
+        _addProperty(.backgroundClip_webKit, type)
         return self
     }
 
@@ -993,8 +996,32 @@ extension CSSRulable {
     @discardableResult
     public func backgroundClip(_ type: State<BackgroundClipType>) -> Self {
         _addProperty(BackgroundClipProperty(type))
+        _addProperty(BackgroundClipProperty.Webkit(type))
         return self
     }
+}
+
+// MARK: BackgroundClipProperty / Webkit prefix
+
+extension BackgroundClipProperty {
+    public class Webkit: _Property {
+        public var propertyKey: PropertyKey<BackgroundClipType> { .backgroundClip_webKit }
+        public var propertyValue: BackgroundClipType
+        var _content = _PropertyContent<BackgroundClipType>()
+
+        public init (_ type: BackgroundClipType) {
+            propertyValue = type
+        }
+
+        public convenience init (_ type: State<BackgroundClipType>) {
+            self.init(type.wrappedValue)
+            type.listen { self._changed(to: $0) }
+        }
+    }
+}
+
+extension PropertyKey {
+    public static var backgroundClip_webKit: PropertyKey<BackgroundClipType> { "-webkit-background-clip".propertyKey() }
 }
 
 // MARK: - BackgroundColorProperty
@@ -6198,6 +6225,8 @@ extension CSSRulable {
     @discardableResult
     public func boxDecorationBreak(_ type: BoxDecorationBreakType) -> Self {
         _addProperty(.boxDecorationBreak, type)
+        _addProperty(.boxDecorationBreak_o, type)
+        _addProperty(.boxDecorationBreak_webKit, type)
         return self
     }
 
@@ -6205,6 +6234,8 @@ extension CSSRulable {
     @discardableResult
     public func boxDecorationBreak(_ type: State<BoxDecorationBreakType>) -> Self {
         _addProperty(BoxDecorationBreakProperty(type))
+        _addProperty(BoxDecorationBreakProperty.O(type))
+        _addProperty(BoxDecorationBreakProperty.Webkit(type))
         return self
     }
 }
@@ -9677,6 +9708,7 @@ extension CSSRulable {
     @discardableResult
     public func flex<G, S, B>(grow: G, shrink: S, basis: B, important: Bool? = nil) -> Self where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
         _addProperty(FlexProperty(grow: grow, shrink: shrink, basis: basis, important: important))
+        _addProperty(FlexProperty.MS(grow: grow, shrink: shrink, basis: basis, important: important))
         return self
     }
 }
@@ -13630,6 +13662,8 @@ extension CSSRulable {
     @discardableResult
     public func hyphens(_ type: HyphensType) -> Self {
         _addProperty(.hyphens, type)
+        _addProperty(.hyphens_ms, type)
+        _addProperty(.hyphens_webKit, type)
         return self
     }
 
@@ -13637,6 +13671,8 @@ extension CSSRulable {
     @discardableResult
     public func hyphens(_ type: State<HyphensType>) -> Self {
         _addProperty(HyphensProperty(type))
+        _addProperty(HyphensProperty.MS(type))
+        _addProperty(HyphensProperty.Webkit(type))
         return self
     }
 }
@@ -20487,6 +20523,8 @@ extension CSSRulable {
     @discardableResult
     public func userSelect(_ type: UserSelectType) -> Self {
         _addProperty(.userSelect, type)
+        _addProperty(.userSelect_ms, type)
+        _addProperty(.userSelect_webKit, type)
         return self
     }
 
@@ -20494,6 +20532,8 @@ extension CSSRulable {
     @discardableResult
     public func userSelect(_ type: State<UserSelectType>) -> Self {
         _addProperty(UserSelectProperty(type))
+        _addProperty(UserSelectProperty.MS(type))
+        _addProperty(UserSelectProperty.Webkit(type))
         return self
     }
 }
