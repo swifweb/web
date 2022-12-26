@@ -229,7 +229,11 @@ extension CSSRulable {
         if let s = self as? CSSRule {
             s.set(key, value)
         } else if let s = self as? DOMElement {
-            s.domElement.style.object?[key] = value.jsValue
+            if let existingStyleString = s.domElement[dynamicMember: "getAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style"]), !existingStyleString.isNull {
+                s.domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style", "\(existingStyleString)\(key):\(value);"])
+            } else {
+                s.domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style", "\(key):\(value);"])
+            }
         }
         #else
         #if WEBPREVIEW
