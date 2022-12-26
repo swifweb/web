@@ -1236,8 +1236,8 @@ public class BackgroundImageProperty: _Property {
         src.uniStateValue?.listen { self._changed(to: $0 + (important == true ? "!important" : "")) }
     }
 
-    public convenience init (_ function: CSSFunction) {
-        self.init(function.value)
+    public init (_ function: CSSFunction, important: Bool? = nil) {
+        propertyValue = function.description + (important == true ? "!important" : "")
     }
 }
 
@@ -1261,8 +1261,9 @@ extension CSSRulable {
     
     /// Specifies one or more background images for an element
     @discardableResult
-    public func backgroundImage(_ function: CSSFunction) -> Self {
-        backgroundImage(function.value)
+    public func backgroundImage(_ function: CSSFunction, important: Bool? = nil) -> Self {
+        _addProperty(BackgroundImageProperty(function, important: important))
+        return self
     }
 }
 
