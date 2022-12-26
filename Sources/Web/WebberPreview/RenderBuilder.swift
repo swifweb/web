@@ -21,6 +21,9 @@ struct _RenderBuilderContent: Preview.Content {
     
     public enum Item {
         case none
+        case language(Language)
+        case title(WebPreview.Title)
+        case size(WebPreview.Size)
         case item(WebPreviewRenderable)
         case items([Item])
     }

@@ -89,15 +89,16 @@ open class WebApp: _PreviewableApp {
             guard let classType = Bundle.main.classNamed(className) as? WebPreview.Type else {
                 fatalError("Class \(className) doesn't conform to WebberPreview")
             }
-            Localization.shared.defaultLanguage = classType.language
-            Localization.shared.currentLanguage = classType.language
-            guard let b64html = classType.html.data(using: .utf8)?.base64EncodedString() else {
+            
+            let previewData = classType.result
+            
+            guard let b64html = previewData.html.data(using: .utf8)?.base64EncodedString() else {
                 fatalError("Unable to encode into b64html")
             }
             result.previews.append(.init(
-                width: classType.width,
-                height: classType.height,
-                title: classType.title,
+                width: previewData.width,
+                height: previewData.height,
+                title: previewData.title,
                 module: passedPreview.module,
                 class: passedPreview.class,
                 html: b64html
