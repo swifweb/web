@@ -76,9 +76,8 @@ extension DOMElement {
     }
     #endif
     
-    public var setter: DOMElementSetter { .init(self) }
-    
-    func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .keyWithoutValue) {
+    @discardableResult
+    public func attribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .keyWithoutValue) -> Self {
         #if arch(wasm32)
         switch mode {
         case .full:
@@ -110,29 +109,36 @@ extension DOMElement {
         }
         #endif
         #endif
+        return self
     }
     
-    func setAttribute(_ key: String, _ value: Double) {
+    @discardableResult
+    public func attribute(_ key: String, _ value: Double) -> Self {
         #if arch(wasm32)
         _setAttribute(key, value.jsValue)
         #else
-        setAttribute(key, "\(value)")
+        attribute(key, "\(value)")
         #endif
+        return self
     }
     
-    func setAttribute(_ key: String, _ value: Int) {
+    @discardableResult
+    public func attribute(_ key: String, _ value: Int) -> Self {
         #if arch(wasm32)
         _setAttribute(key, value.jsValue)
         #else
-        setAttribute(key, "\(value)")
+        attribute(key, "\(value)")
         #endif
+        return self
     }
     
-    func setAttribute(_ key: String, _ value: UInt) {
-        setAttribute(key, Int(value))
+    @discardableResult
+    public func attribute(_ key: String, _ value: UInt) -> Self {
+        attribute(key, Int(value))
     }
     
-    func setAttribute(_ key: String, _ value: String) {
+    @discardableResult
+    public func attribute(_ key: String, _ value: String) -> Self {
         #if arch(wasm32)
         _setAttribute(key, value.jsValue)
         #else
@@ -140,6 +146,7 @@ extension DOMElement {
         properties.attributes[key] = value
         #endif
         #endif
+        return self
     }
     
     func callFunction(_ name: String, this: Bool = true, args: WebJSValue...) {
@@ -157,35 +164,6 @@ extension DOMElement {
 extension DOMElement {
     public func shutdown() {
         storage.shutdown()
-    }
-}
-
-/// Helper for libraries to access internal setters of `DOMElement`
-public struct DOMElementSetter {
-    let domElement: DOMElement
-    
-    init (_ domElement: DOMElement) {
-        self.domElement = domElement
-    }
-    
-    public func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .keyWithoutValue) {
-        domElement.setAttribute(key, value, mode)
-    }
-    
-    public func setAttribute(_ key: String, _ value: Double) {
-        domElement.setAttribute(key, value)
-    }
-    
-    public func setAttribute(_ key: String, _ value: Int) {
-        domElement.setAttribute(key, value)
-    }
-    
-    public func setAttribute(_ key: String, _ value: UInt) {
-        setAttribute(key, Int(value))
-    }
-    
-    public func setAttribute(_ key: String, _ value: String) {
-        domElement.setAttribute(key, value)
     }
 }
 

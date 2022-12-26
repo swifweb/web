@@ -29,7 +29,7 @@ extension AcceptAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
     @discardableResult
     private func accept(value: String) -> Self {
-        setAttribute("accept", value)
+        attribute("accept", value)
         return self
     }
     
@@ -102,7 +102,7 @@ extension AcceptCharsetAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept-charset)
     @discardableResult
     private func acceptCharset(value: String) -> Self {
-        setAttribute("acceptCharset", value)
+        attribute("acceptCharset", value)
         return self
     }
     
@@ -168,7 +168,7 @@ extension AccessKeyAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey)
     @discardableResult
     public func accessKey(_ value: String) -> Self {
-        setAttribute("accessKey", value)
+        attribute("accessKey", value)
         return self
     }
     
@@ -204,7 +204,7 @@ extension ActionAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/action)
     @discardableResult
     public func action<U: URLConformable>(_ value: U) -> Self {
-        setAttribute("action", value.stringValue)
+        attribute("action", value.stringValue)
         return self
     }
     
@@ -243,7 +243,7 @@ extension AlignAttrable {
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
     public func align(_ value: AlignType) -> Self {
-        setAttribute("align", value.value)
+        attribute("align", value.value)
         return self
     }
     
@@ -293,7 +293,7 @@ extension AltAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefalt)
     @discardableResult
     public func alt(_ value: String) -> Self {
-        setAttribute("alt", value)
+        attribute("alt", value)
         return self
     }
     
@@ -331,7 +331,7 @@ extension AsyncAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_script_async.asp)
     @discardableResult
     public func async(_ value: Bool) -> Self {
-        setAttribute("async", value, .keyWithoutValue)
+        attribute("async", value, .keyWithoutValue)
         return self
     }
     
@@ -365,7 +365,7 @@ extension AutocapitalizeAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autocapitalize)
     @discardableResult
     public func autocapitalize(_ value: AutocapitalizeType) -> Self {
-        setAttribute("autocapitalize", value.rawValue)
+        attribute("autocapitalize", value.rawValue)
         return self
     }
     
@@ -399,7 +399,7 @@ extension AutocompleteAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
     @discardableResult
     public func autocomplete(_ value: AutocompleteType) -> Self {
-        setAttribute("autocomplete", value.value)
+        attribute("autocomplete", value.value)
         return self
     }
     
@@ -449,7 +449,7 @@ extension AutofocusAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautofocus)
     @discardableResult
     public func autofocus(_ value: Bool) -> Self {
-        setAttribute("autofocus", value, .keyWithoutValue)
+        attribute("autofocus", value, .keyWithoutValue)
         return self
     }
     
@@ -509,7 +509,7 @@ extension AutoplayAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autoplay)
     @discardableResult
     public func autoplay(_ value: Bool) -> Self {
-        setAttribute("autoplay", value, .keyWithoutValue)
+        attribute("autoplay", value, .keyWithoutValue)
         return self
     }
     
@@ -570,7 +570,7 @@ extension CaptureAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/capture)
     @discardableResult
     public func capture(_ value: CaptureType) -> Self {
-        setAttribute("capture", value.value)
+        attribute("capture", value.value)
         return self
     }
     
@@ -610,7 +610,7 @@ extension CharsetAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_charset.asp)
     @discardableResult
     public func charset(_ value: String) -> Self {
-        setAttribute("charset", value)
+        attribute("charset", value)
         return self
     }
     
@@ -651,7 +651,7 @@ extension CheckedAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefchecked)
     @discardableResult
     public func checked(_ value: Bool) -> Self {
-        setAttribute("checked", value, .keyWithoutValue)
+        attribute("checked", value, .keyWithoutValue)
         return self
     }
     
@@ -688,7 +688,7 @@ extension CiteAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_cite.asp)
     @discardableResult
     public func cite<U: URLConformable>(_ value: U) -> Self {
-        setAttribute("cite", value.stringValue)
+        attribute("cite", value.stringValue)
         return self
     }
     
@@ -732,7 +732,7 @@ extension ClassAttrable {
         value.map { $0.names }.flatMap { $0 }.forEach {
             properties._classes.insert($0)
         }
-        setAttribute("class", properties._classes.joined(separator: " "))
+        attribute("class", properties._classes.joined(separator: " "))
         return self
     }
     
@@ -771,7 +771,7 @@ extension ClassAttrable {
         value.names.forEach { className in
             properties._classes.remove(className)
         }
-        setAttribute("class", properties._classes.joined(separator: " "))
+        attribute("class", properties._classes.joined(separator: " "))
         return self
     }
     
@@ -815,7 +815,7 @@ extension ColsAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/cols)
     @discardableResult
     public func cols(_ value: Int) -> Self {
-        setAttribute("cols", value)
+        attribute("cols", value)
         return self
     }
     
@@ -851,7 +851,7 @@ extension ColSpanAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_colspan.asp)
     @discardableResult
     public func colSpan(_ value: Int) -> Self {
-        setAttribute("colSpan", value)
+        attribute("colSpan", value)
         return self
     }
     
@@ -888,7 +888,7 @@ extension ContentAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/content)
     @discardableResult
     public func content(_ value: String) -> Self {
-        setAttribute("content", value)
+        attribute("content", value)
         return self
     }
     
@@ -922,7 +922,7 @@ extension ContentEditableAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
     @discardableResult
     public func contentEditable(_ value: Bool) -> Self {
-        setAttribute("contentEditable", value, .trueFalse)
+        attribute("contentEditable", value, .trueFalse)
         return self
     }
     
@@ -956,7 +956,7 @@ extension ContextMenuAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_contextmenu.asp)
     @discardableResult
     public func contextMenu(_ value: String) -> Self {
-        setAttribute("contextmenu", value)
+        attribute("contextmenu", value)
         return self
     }
     
@@ -998,7 +998,7 @@ extension ControlsAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_controls.asp)
     @discardableResult
     public func controls(_ value: Bool) -> Self {
-        setAttribute("controls", value, .keyWithoutValue)
+        attribute("controls", value, .keyWithoutValue)
         return self
     }
     
@@ -1037,7 +1037,7 @@ extension CoordsAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_coords.asp)
     @discardableResult
     private func coords(value: String) -> Self {
-        setAttribute("coords", value)
+        attribute("coords", value)
         return self
     }
     
@@ -1093,7 +1093,7 @@ extension CrossOriginAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin)
     @discardableResult
     public func crossOrigin(_ value: CrossOriginType) -> Self {
-        setAttribute("crossorigin", value.value)
+        attribute("crossorigin", value.value)
         return self
     }
     
@@ -1133,7 +1133,7 @@ extension DateTimeAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_time_datetime.asp)
     @discardableResult
     public func dateTime(_ value: String) -> Self {
-        setAttribute("datetime", value)
+        attribute("datetime", value)
         return self
     }
     
@@ -1171,7 +1171,7 @@ extension DecodingAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/decoding)
     @discardableResult
     public func decoding(_ value: DecodingType) -> Self {
-        setAttribute("decoding", value.value)
+        attribute("decoding", value.value)
         return self
     }
     
@@ -1207,7 +1207,7 @@ extension DefaultAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_default.asp)
     @discardableResult
     public func `default`(_ value: Bool) -> Self {
-        setAttribute("default", value, .keyWithoutValue)
+        attribute("default", value, .keyWithoutValue)
         return self
     }
     
@@ -1243,7 +1243,7 @@ extension DeferAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_defer.asp)
     @discardableResult
     public func `defer`(_ value: Bool) -> Self {
-        setAttribute("defer", value, .keyWithoutValue)
+        attribute("defer", value, .keyWithoutValue)
         return self
     }
     
@@ -1277,7 +1277,7 @@ extension DirAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir)
     @discardableResult
     public func dir(_ value: DirType) -> Self {
-        setAttribute("dir", value.value)
+        attribute("dir", value.value)
         return self
     }
     
@@ -1312,7 +1312,7 @@ extension DisabledAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
     @discardableResult
     public func disabled(_ value: Bool) -> Self {
-        setAttribute("disabled", value, .keyWithoutValue)
+        attribute("disabled", value, .keyWithoutValue)
         return self
     }
     
@@ -1377,7 +1377,7 @@ extension DownloadAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_a_download.asp)
     @discardableResult
     public func download(_ value: Bool) -> Self {
-        setAttribute("download", value, .keyWithoutValue)
+        attribute("download", value, .keyWithoutValue)
         return self
     }
     
@@ -1412,7 +1412,7 @@ extension DraggableAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/draggable)
     @discardableResult
     public func draggable(_ value: Bool) -> Self {
-        setAttribute("draggable", value, .trueFalse)
+        attribute("draggable", value, .trueFalse)
         return self
     }
     
@@ -1446,7 +1446,7 @@ extension EncTypeAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_form_enctype.asp)
     @discardableResult
     public func encType(_ value: EncType) -> Self {
-        setAttribute("enctype", value.value)
+        attribute("enctype", value.value)
         return self
     }
     
@@ -1481,7 +1481,7 @@ extension EnterKeyHintAttrable {
     /// [More info →](https://html.spec.whatwg.org/multipage/interaction.html#input-modalities:-the-enterkeyhint-attribute)
     @discardableResult
     public func enterKeyHint(_ value: EnterKeyHintType) -> Self {
-        setAttribute("enterkeyhint", value.value)
+        attribute("enterkeyhint", value.value)
         return self
     }
     
@@ -1524,7 +1524,7 @@ extension ForAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_for.asp)
     @discardableResult
     public func `for`(_ values: [String]) -> Self {
-        setAttribute("for", values.joined(separator: " "))
+        attribute("for", values.joined(separator: " "))
         return self
     }
     
@@ -1603,7 +1603,7 @@ extension FormActionAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_input_formaction.asp)
     @discardableResult
     public func formAction<U: URLConformable>(_ value: U) -> Self {
-        setAttribute("formaction", value.stringValue)
+        attribute("formaction", value.stringValue)
         return self
     }
     
@@ -1646,7 +1646,7 @@ extension FormAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_form.asp)
     @discardableResult
     public func form(_ value: String) -> Self {
-        setAttribute("form", value)
+        attribute("form", value)
         return self
     }
     
@@ -1737,7 +1737,7 @@ extension FormEncTypeAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_input_formenctype.asp)
     @discardableResult
     public func formEncType(_ value: EncType) -> Self {
-        setAttribute("formenctype", value.value)
+        attribute("formenctype", value.value)
         return self
     }
     
@@ -1777,7 +1777,7 @@ extension FormMethodAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_input_formmethod.asp)
     @discardableResult
     public func formMethod(_ value: MethodType) -> Self {
-        setAttribute("formmethod", value.value)
+        attribute("formmethod", value.value)
         return self
     }
     
@@ -1818,7 +1818,7 @@ extension FormNoValidateAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
     public func formNoValidate(_ value: Bool) -> Self {
-        setAttribute("formnovalidate", value, .keyWithoutValue)
+        attribute("formnovalidate", value, .keyWithoutValue)
         return self
     }
     
@@ -1859,7 +1859,7 @@ extension FormTargetAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_form_target.asp)
     @discardableResult
     public func formTarget(_ value: TargetType) -> Self {
-        setAttribute("formtarget", value.rawValue)
+        attribute("formtarget", value.rawValue)
         return self
     }
     
@@ -1900,7 +1900,7 @@ extension HeadersAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_headers.asp)
     @discardableResult
     public func headers(_ value: String) -> Self {
-        setAttribute("headers", value)
+        attribute("headers", value)
         return self
     }
     
@@ -1935,7 +1935,7 @@ extension HiddenAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_hidden.asp)
     @discardableResult
     public func hidden(_ value: Bool) -> Self {
-        setAttribute("hidden", value, .keyWithoutValue)
+        attribute("hidden", value, .keyWithoutValue)
         return self
     }
     
@@ -1969,7 +1969,7 @@ extension HighAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_high.asp)
     @discardableResult
     public func high(_ value: Double) -> Self {
-        setAttribute("high", value)
+        attribute("high", value)
         return self
     }
     
@@ -2005,7 +2005,7 @@ extension HrefAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/href)
     @discardableResult
     public func href<U: URLConformable>(_ value: U) -> Self {
-        setAttribute("href", value.stringValue)
+        attribute("href", value.stringValue)
         return self
     }
     
@@ -2044,7 +2044,7 @@ extension HrefLangAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_hreflang.asp)
     @discardableResult
     public func hrefLang(_ value: String) -> Self {
-        setAttribute("hreflang", value)
+        attribute("hreflang", value)
         return self
     }
     
@@ -2082,7 +2082,7 @@ extension HttpEquivAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_http-equiv.asp)
     @discardableResult
     public func httpEquiv(_ value: String) -> Self {
-        setAttribute("httpequiv", value)
+        attribute("httpequiv", value)
         return self
     }
     
@@ -2117,7 +2117,7 @@ extension IdAttrable {
     @discardableResult
     public func id(_ value: Id) -> Self {
         properties._id = value.name
-        setAttribute("id", value.name)
+        attribute("id", value.name)
         return self
     }
     
@@ -2154,7 +2154,7 @@ extension InputModeAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
     @discardableResult
     public func inputMode(_ value: InputTextType) -> Self {
-        setAttribute("inputmode", value.value)
+        attribute("inputmode", value.value)
         return self
     }
     
@@ -2205,7 +2205,7 @@ extension IntegrityAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
     @discardableResult
     public func integrity(_ value: String) -> Self {
-        setAttribute("integrity", value)
+        attribute("integrity", value)
         return self
     }
     
@@ -2240,7 +2240,7 @@ extension ItemPropAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemprop)
     @discardableResult
     public func itemprop(_ value: String) -> Self {
-        setAttribute("itemprop", value)
+        attribute("itemprop", value)
         return self
     }
     
@@ -2274,7 +2274,7 @@ extension KindAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_kind.asp)
     @discardableResult
     public func kind(_ value: String) -> Self {
-        setAttribute("kind", value)
+        attribute("kind", value)
         return self
     }
     
@@ -2310,7 +2310,7 @@ extension LabelAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_label.asp)
     @discardableResult
     public func label(_ value: String) -> Self {
-        setAttribute("label", value)
+        attribute("label", value)
         return self
     }
     
@@ -2346,7 +2346,7 @@ extension LangAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_lang.asp)
     @discardableResult
     public func lang(_ value: String) -> Self {
-        setAttribute("lang", value)
+        attribute("lang", value)
         return self
     }
     
@@ -2378,7 +2378,7 @@ extension LanguageAttrable {
     /// Applicable to `<script>`
     @discardableResult
     public func language(_ value: String) -> Self {
-        setAttribute("language", value)
+        attribute("language", value)
         return self
     }
     
@@ -2416,7 +2416,7 @@ extension ListAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_list.asp)
     @discardableResult
     public func list(_ value: String) -> Self {
-        setAttribute("list", value)
+        attribute("list", value)
         return self
     }
     
@@ -2476,7 +2476,7 @@ extension LoadingAttrable {
     /// [Development process →](https://github.com/whatwg/html/pull/3752)
     @discardableResult
     public func loading(_ value: LoadingType) -> Self {
-        setAttribute("loading", value.value)
+        attribute("loading", value.value)
         return self
     }
     
@@ -2514,7 +2514,7 @@ extension LoopAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_loop.asp)
     @discardableResult
     public func loop(_ value: Bool) -> Self {
-        setAttribute("loop", value, .keyWithoutValue)
+        attribute("loop", value, .keyWithoutValue)
         return self
     }
     
@@ -2551,7 +2551,7 @@ extension LowAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_low.asp)
     @discardableResult
     public func low(_ value: Double) -> Self {
-        setAttribute("low", value)
+        attribute("low", value)
         return self
     }
     
@@ -2587,7 +2587,7 @@ extension MaxAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_max.asp)
     @discardableResult
     public func max(_ value: Double) -> Self {
-        setAttribute("max", value)
+        attribute("max", value)
         return self
     }
     
@@ -2623,7 +2623,7 @@ extension MaxDateAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_max.asp)
     @discardableResult
     public func max(_ value: String) -> Self {
-        setAttribute("max", value)
+        attribute("max", value)
         return self
     }
     
@@ -2662,7 +2662,7 @@ extension MaxLengthAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/maxlength)
     @discardableResult
     public func maxlength(_ value: UInt) -> Self {
-        setAttribute("maxlength", value)
+        attribute("maxlength", value)
         return self
     }
     
@@ -2704,7 +2704,7 @@ extension MethodAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_method.asp)
     @discardableResult
     public func method(_ value: MethodType) -> Self {
-        setAttribute("method", value.value)
+        attribute("method", value.value)
         return self
     }
     
@@ -2741,7 +2741,7 @@ extension MinAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_min.asp)
     @discardableResult
     public func min(_ value: Double) -> Self {
-        setAttribute("min", value)
+        attribute("min", value)
         return self
     }
     
@@ -2774,9 +2774,9 @@ extension MinDateAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_min.asp)
     @discardableResult
     public func min<U>(_ value: U) -> Self where U: UniValue, U.UniValue == String {
-        setAttribute("min", value.uniValue)
+        attribute("min", value.uniValue)
         value.uniStateValue?.listen {
-            self.setAttribute("min", $0)
+            self.attribute("min", $0)
         }
         return self
     }
@@ -2804,7 +2804,7 @@ extension MinLengthAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/minlength)
     @discardableResult
     public func minlength(_ value: UInt) -> Self {
-        setAttribute("minlength", value)
+        attribute("minlength", value)
         return self
     }
     
@@ -2845,7 +2845,7 @@ extension MultipleAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
     @discardableResult
     public func multiple(_ value: Bool) -> Self {
-        setAttribute("multiple", value, .keyWithoutValue)
+        attribute("multiple", value, .keyWithoutValue)
         return self
     }
     
@@ -2883,7 +2883,7 @@ extension MutedAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_muted.asp)
     @discardableResult
     public func muted(_ value: Bool) -> Self {
-        setAttribute("muted", value, .keyWithoutValue)
+        attribute("muted", value, .keyWithoutValue)
         return self
     }
     
@@ -2921,7 +2921,7 @@ extension NameAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_name.asp)
     @discardableResult
     public func name(_ value: String) -> Self {
-        setAttribute("name", value)
+        attribute("name", value)
         return self
     }
     
@@ -2991,7 +2991,7 @@ extension NoValidateAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
     public func noValidate(_ value: Bool) -> Self {
-        setAttribute("novalidate", value, .keyWithoutValue)
+        attribute("novalidate", value, .keyWithoutValue)
         return self
     }
     
@@ -3028,7 +3028,7 @@ extension OpenAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_open.asp)
     @discardableResult
     public func open(_ value: Bool) -> Self {
-        setAttribute("open", value, .keyWithoutValue)
+        attribute("open", value, .keyWithoutValue)
         return self
     }
     
@@ -3064,7 +3064,7 @@ extension OptimumAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_optimum.asp)
     @discardableResult
     public func optimum(_ value: Double) -> Self {
-        setAttribute("optimum", value)
+        attribute("optimum", value)
         return self
     }
     
@@ -3100,7 +3100,7 @@ extension PatternAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
     @discardableResult
     public func pattern(_ value: String) -> Self {
-        setAttribute("pattern", value)
+        attribute("pattern", value)
         return self
     }
     
@@ -3142,7 +3142,7 @@ extension PingAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-ping)
     @discardableResult
     private func ping(value: URLConformable) -> Self {
-        setAttribute("ping", value.stringValue)
+        attribute("ping", value.stringValue)
         return self
     }
     
@@ -3211,7 +3211,7 @@ extension PlaceholderAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_placeholder.asp)
     @discardableResult
     public func placeholder(_ value: String) -> Self {
-        setAttribute("placeholder", value)
+        attribute("placeholder", value)
         return self
     }
     
@@ -3259,7 +3259,7 @@ extension PosterAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_poster.asp)
     @discardableResult
     public func poster<U: URLConformable>(_ value: U) -> Self {
-        setAttribute("poster", value.stringValue)
+        attribute("poster", value.stringValue)
         return self
     }
     
@@ -3295,7 +3295,7 @@ extension PreloadAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
     @discardableResult
     public func preload(_ value: PreloadType) -> Self {
-        setAttribute("preload", value.value)
+        attribute("preload", value.value)
         return self
     }
     
@@ -3332,7 +3332,7 @@ extension ReadOnlyAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
     @discardableResult
     public func readonly(_ value: Bool) -> Self {
-        setAttribute("readonly", value, .keyAsValue)
+        attribute("readonly", value, .keyAsValue)
         return self
     }
     
@@ -3390,7 +3390,7 @@ extension RelAttrable {
     /// [More info →](https://www.w3resource.com/html/attributes/html-align-attribute.php)
     @discardableResult
     public func rel(_ value: RelType) -> Self {
-        setAttribute("rel", value.value)
+        attribute("rel", value.value)
         return self
     }
     
@@ -3428,7 +3428,7 @@ extension RequiredAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
     @discardableResult
     public func required(_ value: Bool) -> Self {
-        setAttribute("required", value, .keyAsValue)
+        attribute("required", value, .keyAsValue)
         return self
     }
     
@@ -3487,7 +3487,7 @@ extension ReversedAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_reversed.asp)
     @discardableResult
     public func reversed(_ value: Bool) -> Self {
-        setAttribute("reversed", value, .keyWithoutValue)
+        attribute("reversed", value, .keyWithoutValue)
         return self
     }
     
@@ -3523,7 +3523,7 @@ extension RowSpanAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_rowspan.asp)
     @discardableResult
     public func rowSpan(_ value: Int) -> Self {
-        setAttribute("rowSpan", value)
+        attribute("rowSpan", value)
         return self
     }
     
@@ -3560,7 +3560,7 @@ extension RowsAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rows)
     @discardableResult
     public func rows(_ value: Int) -> Self {
-        setAttribute("rows", value)
+        attribute("rows", value)
         return self
     }
     
@@ -3596,7 +3596,7 @@ extension SandboxAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox)
     @discardableResult
     public func sandbox(_ value: Bool) -> Self {
-        setAttribute("sandbox", value, .keyWithoutValue)
+        attribute("sandbox", value, .keyWithoutValue)
         return self
     }
     
@@ -3632,7 +3632,7 @@ extension ScopeAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_scope.asp)
     @discardableResult
     public func scope(_ value: ScopeType) -> Self {
-        setAttribute("scope", value.value)
+        attribute("scope", value.value)
         return self
     }
     
@@ -3668,7 +3668,7 @@ extension SelectedAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_selected.asp)
     @discardableResult
     public func selected(_ value: Bool) -> Self {
-        setAttribute("selected", value, .keyWithoutValue)
+        attribute("selected", value, .keyWithoutValue)
         return self
     }
     
@@ -3704,7 +3704,7 @@ extension ShapeAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/area)
     @discardableResult
     public func shape(_ value: ShapeType) -> Self {
-        setAttribute("shape", value.value)
+        attribute("shape", value.value)
         return self
     }
     
@@ -3749,7 +3749,7 @@ extension SizeAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/size)
     @discardableResult
     public func size(_ value: Int) -> Self {
-        setAttribute("size", value)
+        attribute("size", value)
         return self
     }
     
@@ -3800,7 +3800,7 @@ extension SizesAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_sizes.asp)
     @discardableResult
     public func sizes(_ w: Int, _ h: Int) -> Self {
-        setAttribute("sizes", "\(w)x\(h)")
+        attribute("sizes", "\(w)x\(h)")
         return self
     }
     
@@ -3866,7 +3866,7 @@ extension SlotAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots)
     @discardableResult
     public func slot(_ value: String) -> Self {
-        setAttribute("slot", value)
+        attribute("slot", value)
         return self
     }
     
@@ -3902,7 +3902,7 @@ extension SpanAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_span.asp)
     @discardableResult
     public func span(_ value: Int) -> Self {
-        setAttribute("span", value)
+        attribute("span", value)
         return self
     }
     
@@ -3937,7 +3937,7 @@ extension SpellCheckAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/spellcheck)
     @discardableResult
     public func spellcheck(_ value: Bool) -> Self {
-        setAttribute("spellcheck", value, .trueFalse)
+        attribute("spellcheck", value, .trueFalse)
         return self
     }
     
@@ -3972,7 +3972,7 @@ extension SrcAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_src.asp)
     @discardableResult
     public func src<U: URLConformable>(_ value: U) -> Self {
-        setAttribute("src", value.stringValue)
+        attribute("src", value.stringValue)
         return self
     }
     
@@ -4019,7 +4019,7 @@ extension LoadAttrable {
         tempImg
         .src(value.stringValue)
         .onLoad {
-            self.setAttribute("src", value.stringValue)
+            self.attribute("src", value.stringValue)
             tempImg.remove()
         }
         return self
@@ -4045,7 +4045,7 @@ extension SrcDocAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots)
     @discardableResult
     public func srcDoc(_ value: String) -> Self {
-        setAttribute("srcdoc", value)
+        attribute("srcdoc", value)
         return self
     }
     
@@ -4083,7 +4083,7 @@ extension SrcLangAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_srclang.asp)
     @discardableResult
     public func srcLang(_ value: String) -> Self {
-        setAttribute("srclang", value)
+        attribute("srclang", value)
         return self
     }
     
@@ -4121,7 +4121,7 @@ extension SrcSetAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_source_srcset.asp)
     @discardableResult
     public func srcSet(_ value: String) -> Self {
-        setAttribute("srcset", value)
+        attribute("srcset", value)
         return self
     }
     
@@ -4158,7 +4158,7 @@ extension StartAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_start.asp)
     @discardableResult
     public func start(_ value: Int) -> Self {
-        setAttribute("start", value)
+        attribute("start", value)
         return self
     }
     
@@ -4197,7 +4197,7 @@ extension StepAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
     @discardableResult
     public func step(_ value: Double) -> Self {
-        setAttribute("step", value)
+        attribute("step", value)
         return self
     }
     
@@ -4246,7 +4246,7 @@ extension SummaryAttrable {
     /// [More info →](http://w3schools.sinsixx.com/tags/att_table_summary.asp.htm)
     @discardableResult
     public func summary(_ value: String) -> Self {
-        setAttribute("summary", value)
+        attribute("summary", value)
         return self
     }
     
@@ -4284,7 +4284,7 @@ extension TabIndexAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex)
     @discardableResult
     public func tabIndex(_ value: Int) -> Self {
-        setAttribute("tabIndex", value)
+        attribute("tabIndex", value)
         return self
     }
     
@@ -4319,7 +4319,7 @@ extension TargetAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/target)
     @discardableResult
     public func target(_ value: TargetType) -> Self {
-        setAttribute("target", value.rawValue)
+        attribute("target", value.rawValue)
         return self
     }
     
@@ -4357,7 +4357,7 @@ extension TitleAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title)
     @discardableResult
     public func title(_ value: String) -> Self {
-        setAttribute("title", value)
+        attribute("title", value)
         return self
     }
     
@@ -4390,7 +4390,7 @@ extension TranslateAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/translate)
     @discardableResult
     public func translate(_ value: Bool) -> Self {
-        setAttribute("translate", value, .yesNo)
+        attribute("translate", value, .yesNo)
         return self
     }
     
@@ -4426,7 +4426,7 @@ extension TypeAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_type.asp)
     @discardableResult
     public func type(_ value: String) -> Self {
-        setAttribute("type", value)
+        attribute("type", value)
         return self
     }
     
@@ -4475,7 +4475,7 @@ extension UseMapAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_usemap.asp)
     @discardableResult
     public func useMap(_ value: String) -> Self {
-        setAttribute("usemap", value)
+        attribute("usemap", value)
         return self
     }
     
@@ -4528,7 +4528,7 @@ extension ValueAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
     public func value(_ value: Bool) -> Self {
-        setAttribute("value", value ? "true" : "false")
+        attribute("value", value ? "true" : "false")
         return self
     }
     
@@ -4551,7 +4551,7 @@ extension ValueAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
     public func value(_ value: Double) -> Self {
-        setAttribute("value", value)
+        attribute("value", value)
         return self
     }
     
@@ -4574,7 +4574,7 @@ extension ValueAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_value.asp)
     @discardableResult
     public func value(_ value: String) -> Self {
-        setAttribute("value", value)
+        attribute("value", value)
         return self
     }
     
@@ -4634,7 +4634,7 @@ extension WrapAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
     @discardableResult
     public func wrap(_ value: WrapType) -> Self {
-        setAttribute("wrap", value.value)
+        attribute("wrap", value.value)
         return self
     }
     

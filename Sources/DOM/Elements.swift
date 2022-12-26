@@ -479,7 +479,7 @@ open class InputButton: BaseActiveElement {
 
     public required init() {
         super.init()
-        setAttribute("type", "button")
+        attribute("type", "button")
     }
 }
 
@@ -503,35 +503,35 @@ open class InputCheckbox: BaseActiveElement, ChangeHandleable, InvalidHandleable
             checked = domElement.checked.boolean ?? false
             indeterminate = domElement.indeterminate.boolean ?? false
         }
-        setAttribute("type", "checkbox")
+        attribute("type", "checkbox")
     }
 
     public required convenience init<C, I>(_ checked: C, indeterminate: I) where C: UniValue, C.UniValue == Bool, I: UniValue, I.UniValue == Bool {
         self.init()
-        setAttribute("checked", checked.uniValue, .keyWithoutValue)
-        setAttribute("indeterminate", indeterminate.uniValue, .keyWithoutValue)
+        attribute("checked", checked.uniValue, .keyWithoutValue)
+        attribute("indeterminate", indeterminate.uniValue, .keyWithoutValue)
         self.checked = checked.uniValue
         self.indeterminate = indeterminate.uniValue
         if let state = checked.uniStateValue {
             _checked.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("checked", $0, .keyWithoutValue)
+                self?.attribute("checked", $0, .keyWithoutValue)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("checked", $0, .keyWithoutValue)
+                self?.attribute("checked", $0, .keyWithoutValue)
             })
         } else {
             _checked.listen { [weak self] in
-                self?.setAttribute("checked", $0, .keyWithoutValue)
+                self?.attribute("checked", $0, .keyWithoutValue)
             }
         }
         if let state = indeterminate.uniStateValue {
             _indeterminate.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("indeterminate", $0, .keyWithoutValue)
+                self?.attribute("indeterminate", $0, .keyWithoutValue)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("indeterminate", $0, .keyWithoutValue)
+                self?.attribute("indeterminate", $0, .keyWithoutValue)
             })
         } else {
             _indeterminate.listen { [weak self] in
-                self?.setAttribute("indeterminate", $0, .keyWithoutValue)
+                self?.attribute("indeterminate", $0, .keyWithoutValue)
             }
         }
     }
@@ -585,25 +585,25 @@ open class InputColor: BaseActiveElement, ChangeHandleable, InvalidHandleable, I
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "color")
-        setAttribute("value", text)
+        attribute("type", "color")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -645,25 +645,25 @@ open class InputDate: BaseActiveElement, _StringInitializable, ChangeHandleable,
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "date")
-        setAttribute("value", text)
+        attribute("type", "date")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -724,25 +724,25 @@ open class InputDateTime: BaseActiveElement, _StringInitializable, ChangeHandlea
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "datetime-local")
-        setAttribute("value", text)
+        attribute("type", "datetime-local")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -804,25 +804,25 @@ open class InputEmail: BaseActiveElement, _StringInitializable, ChangeHandleable
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "email")
-        setAttribute("value", text)
+        attribute("type", "email")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -862,7 +862,7 @@ open class InputFile: BaseActiveElement, ChangeHandleable, InvalidHandleable, Se
                 self.files = files
             }
         }
-        setAttribute("type", "file")
+        attribute("type", "file")
     }
 }
 
@@ -882,25 +882,25 @@ open class InputHidden: BaseActiveElement {
 
     public required init() {
         super.init()
-        setAttribute("type", "hidden")
-        setAttribute("value", value)
+        attribute("type", "hidden")
+        attribute("value", value)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.value = value.uniValue
         if let state = value.uniStateValue {
             _value.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _value.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -921,7 +921,7 @@ open class InputImage: BaseActiveElement, ErrorHandleable {
 
     public required init() {
         super.init()
-        setAttribute("type", "image")
+        attribute("type", "image")
     }
 }
 
@@ -939,7 +939,7 @@ open class InputList: BaseActiveElement, ChangeHandleable, InvalidHandleable, Se
         onChange {
             // TODO: update
         }
-        setAttribute("type", "list")
+        attribute("type", "list")
     }
 }
 
@@ -978,25 +978,25 @@ open class InputMonth: BaseActiveElement, _StringInitializable, ChangeHandleable
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "text")
-        setAttribute("value", text)
+        attribute("type", "text")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1058,25 +1058,25 @@ open class InputNumber: BaseActiveElement, ChangeHandleable, InvalidHandleable, 
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "number")
-        setAttribute("value", text)
+        attribute("type", "number")
+        attribute("value", text)
     }
 
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1137,25 +1137,25 @@ open class InputPassword: BaseActiveElement, _StringInitializable, ChangeHandlea
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "password")
-        setAttribute("value", text)
+        attribute("type", "password")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1183,24 +1183,24 @@ open class InputRadio: BaseActiveElement, ChangeHandleable, InvalidHandleable, S
         onChange { [self] in
             checked = domElement.checked.boolean ?? false
         }
-        setAttribute("type", "radio")
+        attribute("type", "radio")
     }
 
     /// Bool initializer
     /// - Parameter value: Pass `Bool` or `State<Bool>`
     public required convenience init<U>(_ checked: U) where U: UniValue, U.UniValue == Bool {
         self.init()
-        setAttribute("checked", checked.uniValue, .keyWithoutValue)
+        attribute("checked", checked.uniValue, .keyWithoutValue)
         self.checked = checked.uniValue
         if let state = checked.uniStateValue {
             _checked.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("checked", $0, .keyWithoutValue)
+                self?.attribute("checked", $0, .keyWithoutValue)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("checked", $0, .keyWithoutValue)
+                self?.attribute("checked", $0, .keyWithoutValue)
             })
         } else {
             _checked.listen { [weak self] in
-                self?.setAttribute("checked", $0, .keyWithoutValue)
+                self?.attribute("checked", $0, .keyWithoutValue)
             }
         }
     }
@@ -1244,24 +1244,24 @@ open class InputRange: BaseActiveElement, ChangeHandleable, InputHandleable, Inv
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "range")
+        attribute("type", "range")
     }
 
     /// Double initializer
     /// - Parameter value: Pass `Double` or `State<Double>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == Double {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.value = value.uniValue
         if let state = value.uniStateValue {
             _value.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _value.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1304,7 +1304,7 @@ open class InputReset: BaseActiveElement {
 
     public required init() {
         super.init()
-        setAttribute("type", "reset")
+        attribute("type", "reset")
     }
 }
 
@@ -1347,25 +1347,25 @@ open class InputSearch: BaseActiveElement, _StringInitializable, ChangeHandleabl
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "search")
-        setAttribute("value", text)
+        attribute("type", "search")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1384,7 +1384,7 @@ open class InputSubmit: BaseActiveElement {
 
     public required init() {
         super.init()
-        setAttribute("type", "submit")
+        attribute("type", "submit")
     }
 }
 
@@ -1424,25 +1424,25 @@ open class InputTel: BaseActiveElement, _StringInitializable, ChangeHandleable, 
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "tel")
-        setAttribute("value", text)
+        attribute("type", "tel")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1484,25 +1484,25 @@ open class InputText: BaseActiveElement, _StringInitializable, ChangeHandleable,
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "text")
-        setAttribute("value", text)
+        attribute("type", "text")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1543,25 +1543,25 @@ open class InputTime: BaseActiveElement, _StringInitializable, ChangeHandleable,
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "time")
-        setAttribute("value", text)
+        attribute("type", "time")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1625,25 +1625,25 @@ open class InputURL: BaseActiveElement, _StringInitializable, ChangeHandleable, 
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "url")
-        setAttribute("value", text)
+        attribute("type", "url")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1684,25 +1684,25 @@ open class InputWeek: BaseActiveElement, _StringInitializable, ChangeHandleable,
             inputEventHasNeverFired = false
             _updateStateWithValue()
         }
-        setAttribute("type", "week")
-        setAttribute("value", text)
+        attribute("type", "week")
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -1793,17 +1793,17 @@ open class Meter: BaseActiveElement {
 
     public required convenience init<V, S>(_ value: V, _ shadowText: S) where V: UniValue, V.UniValue == Double, S: UniValue, S.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.value = value.uniValue
         if let state = value.uniStateValue {
             _value.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _value.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
         innerText = shadowText.uniValue
@@ -1836,17 +1836,17 @@ open class OptGroup: BaseActiveElement {
     /// - Parameter label: Pass `String` or `State<String>`
     public required convenience init<U>(_ label: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("label", label.uniValue)
+        attribute("label", label.uniValue)
         self.label = label.uniValue
         if let state = label.uniStateValue {
             _label.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("label", $0)
+                self?.attribute("label", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("label", $0)
+                self?.attribute("label", $0)
             })
         } else {
             _label.listen { [weak self] in
-                self?.setAttribute("label", $0)
+                self?.attribute("label", $0)
             }
         }
     }
@@ -1915,17 +1915,17 @@ open class Progress: BaseActiveElement {
     
     public required convenience init<V, S>(_ value: V, _ shadowText: S) where V: UniValue, V.UniValue == Double, S: UniValue, S.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.value = value.uniValue
         if let state = value.uniStateValue {
             _value.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _value.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
         innerText = shadowText.uniValue
@@ -1983,7 +1983,7 @@ open class Select: BaseActiveElement, ChangeHandleable, ScrollHandleable {
         onChange { [self] in
             _updateStateWithValue()
         }
-        setAttribute("value", text)
+        attribute("value", text)
     }
 
     public var value: String {
@@ -1994,17 +1994,17 @@ open class Select: BaseActiveElement, ChangeHandleable, ScrollHandleable {
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
@@ -2057,24 +2057,24 @@ open class TextArea: BaseActiveElement, _StringInitializable, ChangeHandleable, 
             self?.inputEventHasNeverFired = false
             self?._updateStateWithValue()
         }
-        setAttribute("value", text)
+        attribute("value", text)
     }
     
     /// String initializer
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        setAttribute("value", value.uniValue)
+        attribute("value", value.uniValue)
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             })
         } else {
             _text.listen { [weak self] in
-                self?.setAttribute("value", $0)
+                self?.attribute("value", $0)
             }
         }
     }
