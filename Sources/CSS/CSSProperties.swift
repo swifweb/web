@@ -12,7 +12,7 @@ import DOM
 // MARK: - Custom Property
 
 extension CSSRulable {
-    /// Sets custom property
+    /// Sets custom style property
     ///
     /// If you need **CSS** like this
     /// ```css
