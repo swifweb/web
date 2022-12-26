@@ -474,6 +474,9 @@ public struct BackgroundClipType: Initialable, Inheritable, PropertyValueImporta
     /// The background extends to the edge of the content box
     public static var contentBox: Self { .init("content-box") }
     
+    /// The background is painted within (clipped to) the foreground text.
+    public static var text: Self { .init("text") }
+    
     public var description: String { value }
 }
 
