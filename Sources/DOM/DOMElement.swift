@@ -78,7 +78,7 @@ extension DOMElement {
     
     public var setter: DOMElementSetter { .init(self) }
     
-    func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .short) {
+    func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .keyWithoutValue) {
         #if arch(wasm32)
         switch mode {
         case .full:
@@ -168,7 +168,7 @@ public struct DOMElementSetter {
         self.domElement = domElement
     }
     
-    public func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .short) {
+    public func setAttribute(_ key: String, _ value: Bool, _ mode: AttributeBoolMode = .keyWithoutValue) {
         domElement.setAttribute(key, value, mode)
     }
     
@@ -222,23 +222,23 @@ public enum AttributeBoolMode {
     /// ```html
     /// <audio muted>
     /// ```
-    case short
+    case keyWithoutValue
     
     /// like **true/false**
     /// ```html
     /// <p spellcheck="true">Text</p>
     /// ```
-    case full
+    case trueFalse
     
     /// like **yes/no**
     /// ```html
     /// <span translate="no">BrandName</span>
     /// ```
-    case modern
+    case yesNo
     
     /// like **checked="checked"**
     /// ```html
     /// <input checked="checked">
     /// ```
-    case long
+    case keyAsValue
 }

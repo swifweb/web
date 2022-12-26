@@ -508,30 +508,30 @@ open class InputCheckbox: BaseActiveElement, ChangeHandleable, InvalidHandleable
 
     public required convenience init<C, I>(_ checked: C, indeterminate: I) where C: UniValue, C.UniValue == Bool, I: UniValue, I.UniValue == Bool {
         self.init()
-        setAttribute("checked", checked.uniValue, .short)
-        setAttribute("indeterminate", indeterminate.uniValue, .short)
+        setAttribute("checked", checked.uniValue, .keyWithoutValue)
+        setAttribute("indeterminate", indeterminate.uniValue, .keyWithoutValue)
         self.checked = checked.uniValue
         self.indeterminate = indeterminate.uniValue
         if let state = checked.uniStateValue {
             _checked.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("checked", $0, .short)
+                self?.setAttribute("checked", $0, .keyWithoutValue)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("checked", $0, .short)
+                self?.setAttribute("checked", $0, .keyWithoutValue)
             })
         } else {
             _checked.listen { [weak self] in
-                self?.setAttribute("checked", $0, .short)
+                self?.setAttribute("checked", $0, .keyWithoutValue)
             }
         }
         if let state = indeterminate.uniStateValue {
             _indeterminate.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("indeterminate", $0, .short)
+                self?.setAttribute("indeterminate", $0, .keyWithoutValue)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("indeterminate", $0, .short)
+                self?.setAttribute("indeterminate", $0, .keyWithoutValue)
             })
         } else {
             _indeterminate.listen { [weak self] in
-                self?.setAttribute("indeterminate", $0, .short)
+                self?.setAttribute("indeterminate", $0, .keyWithoutValue)
             }
         }
     }
@@ -1190,17 +1190,17 @@ open class InputRadio: BaseActiveElement, ChangeHandleable, InvalidHandleable, S
     /// - Parameter value: Pass `Bool` or `State<Bool>`
     public required convenience init<U>(_ checked: U) where U: UniValue, U.UniValue == Bool {
         self.init()
-        setAttribute("checked", checked.uniValue, .short)
+        setAttribute("checked", checked.uniValue, .keyWithoutValue)
         self.checked = checked.uniValue
         if let state = checked.uniStateValue {
             _checked.merge(with: state, leftChanged: { [weak self] in
-                self?.setAttribute("checked", $0, .short)
+                self?.setAttribute("checked", $0, .keyWithoutValue)
             }, rightChanged: { [weak self] in
-                self?.setAttribute("checked", $0, .short)
+                self?.setAttribute("checked", $0, .keyWithoutValue)
             })
         } else {
             _checked.listen { [weak self] in
-                self?.setAttribute("checked", $0, .short)
+                self?.setAttribute("checked", $0, .keyWithoutValue)
             }
         }
     }

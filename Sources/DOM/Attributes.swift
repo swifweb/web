@@ -331,7 +331,7 @@ extension AsyncAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_script_async.asp)
     @discardableResult
     public func async(_ value: Bool) -> Self {
-        setAttribute("async", value, .short)
+        setAttribute("async", value, .keyWithoutValue)
         return self
     }
     
@@ -449,7 +449,7 @@ extension AutofocusAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautofocus)
     @discardableResult
     public func autofocus(_ value: Bool) -> Self {
-        setAttribute("autofocus", value, .short)
+        setAttribute("autofocus", value, .keyWithoutValue)
         return self
     }
     
@@ -509,7 +509,7 @@ extension AutoplayAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autoplay)
     @discardableResult
     public func autoplay(_ value: Bool) -> Self {
-        setAttribute("autoplay", value, .short)
+        setAttribute("autoplay", value, .keyWithoutValue)
         return self
     }
     
@@ -651,7 +651,7 @@ extension CheckedAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefchecked)
     @discardableResult
     public func checked(_ value: Bool) -> Self {
-        setAttribute("checked", value, .short)
+        setAttribute("checked", value, .keyWithoutValue)
         return self
     }
     
@@ -922,7 +922,7 @@ extension ContentEditableAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
     @discardableResult
     public func contentEditable(_ value: Bool) -> Self {
-        setAttribute("contentEditable", value, .full)
+        setAttribute("contentEditable", value, .trueFalse)
         return self
     }
     
@@ -998,7 +998,7 @@ extension ControlsAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_controls.asp)
     @discardableResult
     public func controls(_ value: Bool) -> Self {
-        setAttribute("controls", value, .short)
+        setAttribute("controls", value, .keyWithoutValue)
         return self
     }
     
@@ -1207,7 +1207,7 @@ extension DefaultAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_default.asp)
     @discardableResult
     public func `default`(_ value: Bool) -> Self {
-        setAttribute("default", value, .short)
+        setAttribute("default", value, .keyWithoutValue)
         return self
     }
     
@@ -1243,7 +1243,7 @@ extension DeferAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_defer.asp)
     @discardableResult
     public func `defer`(_ value: Bool) -> Self {
-        setAttribute("defer", value, .short)
+        setAttribute("defer", value, .keyWithoutValue)
         return self
     }
     
@@ -1312,7 +1312,7 @@ extension DisabledAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
     @discardableResult
     public func disabled(_ value: Bool) -> Self {
-        setAttribute("disabled", value, .short)
+        setAttribute("disabled", value, .keyWithoutValue)
         return self
     }
     
@@ -1377,7 +1377,7 @@ extension DownloadAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_a_download.asp)
     @discardableResult
     public func download(_ value: Bool) -> Self {
-        setAttribute("download", value, .short)
+        setAttribute("download", value, .keyWithoutValue)
         return self
     }
     
@@ -1412,7 +1412,7 @@ extension DraggableAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/draggable)
     @discardableResult
     public func draggable(_ value: Bool) -> Self {
-        setAttribute("draggable", value, .full)
+        setAttribute("draggable", value, .trueFalse)
         return self
     }
     
@@ -1818,7 +1818,7 @@ extension FormNoValidateAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
     public func formNoValidate(_ value: Bool) -> Self {
-        setAttribute("formnovalidate", value, .short)
+        setAttribute("formnovalidate", value, .keyWithoutValue)
         return self
     }
     
@@ -1935,7 +1935,7 @@ extension HiddenAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_hidden.asp)
     @discardableResult
     public func hidden(_ value: Bool) -> Self {
-        setAttribute("hidden", value, .short)
+        setAttribute("hidden", value, .keyWithoutValue)
         return self
     }
     
@@ -2514,7 +2514,7 @@ extension LoopAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_loop.asp)
     @discardableResult
     public func loop(_ value: Bool) -> Self {
-        setAttribute("loop", value, .short)
+        setAttribute("loop", value, .keyWithoutValue)
         return self
     }
     
@@ -2845,7 +2845,7 @@ extension MultipleAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
     @discardableResult
     public func multiple(_ value: Bool) -> Self {
-        setAttribute("multiple", value, .short)
+        setAttribute("multiple", value, .keyWithoutValue)
         return self
     }
     
@@ -2883,7 +2883,7 @@ extension MutedAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_muted.asp)
     @discardableResult
     public func muted(_ value: Bool) -> Self {
-        setAttribute("muted", value, .short)
+        setAttribute("muted", value, .keyWithoutValue)
         return self
     }
     
@@ -2991,7 +2991,7 @@ extension NoValidateAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_form_novalidate.asp)
     @discardableResult
     public func noValidate(_ value: Bool) -> Self {
-        setAttribute("novalidate", value, .short)
+        setAttribute("novalidate", value, .keyWithoutValue)
         return self
     }
     
@@ -3028,7 +3028,7 @@ extension OpenAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_open.asp)
     @discardableResult
     public func open(_ value: Bool) -> Self {
-        setAttribute("open", value, .short)
+        setAttribute("open", value, .keyWithoutValue)
         return self
     }
     
@@ -3332,7 +3332,7 @@ extension ReadOnlyAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
     @discardableResult
     public func readonly(_ value: Bool) -> Self {
-        setAttribute("readonly", value, .long)
+        setAttribute("readonly", value, .keyAsValue)
         return self
     }
     
@@ -3428,7 +3428,7 @@ extension RequiredAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
     @discardableResult
     public func required(_ value: Bool) -> Self {
-        setAttribute("required", value, .long)
+        setAttribute("required", value, .keyAsValue)
         return self
     }
     
@@ -3487,7 +3487,7 @@ extension ReversedAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_reversed.asp)
     @discardableResult
     public func reversed(_ value: Bool) -> Self {
-        setAttribute("reversed", value, .short)
+        setAttribute("reversed", value, .keyWithoutValue)
         return self
     }
     
@@ -3596,7 +3596,7 @@ extension SandboxAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox)
     @discardableResult
     public func sandbox(_ value: Bool) -> Self {
-        setAttribute("sandbox", value, .short)
+        setAttribute("sandbox", value, .keyWithoutValue)
         return self
     }
     
@@ -3668,7 +3668,7 @@ extension SelectedAttrable {
     /// [More info →](https://www.w3schools.com/tags/att_selected.asp)
     @discardableResult
     public func selected(_ value: Bool) -> Self {
-        setAttribute("selected", value, .short)
+        setAttribute("selected", value, .keyWithoutValue)
         return self
     }
     
@@ -3937,7 +3937,7 @@ extension SpellCheckAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/spellcheck)
     @discardableResult
     public func spellcheck(_ value: Bool) -> Self {
-        setAttribute("spellcheck", value, .full)
+        setAttribute("spellcheck", value, .trueFalse)
         return self
     }
     
@@ -4390,7 +4390,7 @@ extension TranslateAttrable {
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/translate)
     @discardableResult
     public func translate(_ value: Bool) -> Self {
-        setAttribute("translate", value, .modern)
+        setAttribute("translate", value, .yesNo)
         return self
     }
     
