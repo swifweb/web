@@ -52,6 +52,17 @@ open class Stylesheet: BaseElement, Stylesheetable {
         }
     }
     
+    public func findRuleIndex(by selector: String) -> Int? {
+        guard let ruleObject = sheet.cssRules.object else { return nil }
+        let keys: [String] = JSObject.global[dynamicMember: "Object"].jsValue.function?.keys?(ruleObject).array?.compactMap { $0.string } ?? []
+        for key in keys {
+            if sheet.cssRules[dynamicMember: key].selectorText.string == selector {
+                return Int(key)
+            }
+        }
+        return nil
+    }
+    
     public func deleteRule(_ index: Int) {
         sheet.deleteRule.function?.callAsFunction(optionalThis: sheet.object, arguments: [index])
     }
