@@ -72,7 +72,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
         let cssText = rule.render()
         #if !WEBPREVIEW
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
-        rule.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
+        rule.domElement = sheet.cssRules.item.function?.callAsFunction(optionalThis: sheet.cssRules.object, Int(index))
         return Int(index)
         #else
         _rules.append(rule)
