@@ -119,13 +119,12 @@ public class Document: DOMElement, EventTarget {
     public func didAddToDOM() {}
     public func didRemoveFromDOM() {}
     
-    // TODO: func querySelector
-    
     /// Returns the first Element within the document that matches the specified selector.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
     public func querySelector(_ selector: String) -> BaseElement? {
-        guard let element = domElement.querySelector.function?.callAsFunction(selector) else { return nil }
+        guard let element = domElement[dynamicMember: "querySelector"].function?.callAsFunction(optionalThis: domElement.object, selector) else { return nil }
+        guard !element.isNull && !element.isUndefined else { return nil }
         return BaseElement(element)
     }
     
