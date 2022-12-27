@@ -69,13 +69,20 @@ open class CSSRule: RulesContent, CSSRulable {
     private func parsePropertiesItem(_ item: Properties.Item) {
         switch item {
         case .items(let v): v.forEach { parsePropertiesItem($0) }
-        case .property(let v): _properties[v.key] = v.value
+        case .property(let v):
+            if let index = _properties.firstIndex(where: { $0.key == v.key }) {
+                _properties.remove(at: index)
+            }
+            _properties.append(_Property(key: v.key, value: v.value))
         case .none: break
         }
     }
     
     var _pointers: [Pointerable] = []
-    var _properties: [String: String] = [:]
+    struct _Property {
+        let key, value: String
+    }
+    var _properties: [_Property] = []
     
     /// Alternative way to set properties of the rule
     public func property<V>(_ property: PropertyKey<V>, _ value: V) -> Self { // TODO: need autocomplete for rhs value
@@ -113,14 +120,19 @@ open class CSSRule: RulesContent, CSSRulable {
     }
     
     func set(_ key: String, _ value: String) {
-        _properties[key] = value
+        if let index = _properties.firstIndex(where: { $0.key == key }) {
+            _properties.remove(at: index)
+        }
+        _properties.append(_Property(key: key, value: value))
         #if !WEBPREVIEW
         domElement?.style.object?[key] = value.jsValue
         #endif
     }
     
     func remove(_ key: String) {
-        _properties.removeValue(forKey: key)
+        if let index = _properties.firstIndex(where: { $0.key == key }) {
+            _properties.remove(at: index)
+        }
         #if !WEBPREVIEW
         domElement?.style.object?[key] = JSValue.null
         #endif
