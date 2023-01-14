@@ -11,6 +11,8 @@ import CSS
 private var webapp: WebApp!
 
 open class WebApp: _PreviewableApp {
+    public typealias Configuration = AppBuilder.Content
+    
     public static func main() {
         Self.start()
     }
@@ -117,7 +119,7 @@ open class WebApp: _PreviewableApp {
     #endif
     
     private func start() {
-        parseAppBuilderItem(body.appBuilderContent)
+        parseAppBuilderItem(app.appBuilderContent)
         stylesheets.forEach {
             document.head.appendChild($0)
             $0.processRules()
@@ -144,7 +146,7 @@ open class WebApp: _PreviewableApp {
     func _previewStart() {
         guard !_previewStarted else { return }
         _previewStarted = true
-        parseAppBuilderItem(body.appBuilderContent)
+        parseAppBuilderItem(app.appBuilderContent)
     }
     
     var lastResponse: Response?
@@ -171,7 +173,7 @@ open class WebApp: _PreviewableApp {
         }
     }
     
-    @AppBuilder open var body: AppBuilder.Content { _AppContent(appBuilderContent: .none) }
+    @AppBuilder open var app: AppBuilder.Content { _AppContent(appBuilderContent: .none) }
     
     #if WEBPREVIEW
     public var stylesheets: [Stylesheet] = []
@@ -187,5 +189,64 @@ open class WebApp: _PreviewableApp {
         case .stylesheet(let v): stylesheets.append(v)
         case .none: break
         }
+    }
+}
+
+extension WebApp {
+    /// Registers service worker by its name
+    ///
+    /// If your SwifWeb service target name is **Service** then pass just lowercased **service**
+    ///
+    /// If you register your custom js service file, then pass just the name
+    /// of the file without extension and place it in the root folder
+    public func registerServiceWorker(_ name: String) {
+        Navigator.shared.serviceWorker?.register("./\(name).js")
+    }
+    
+    public func addStylesheet(_ relativePath: String) {
+        document.head.appendChild(Link()
+            .rel(.stylesheet)
+            .type("text/css")
+            .href(relativePath))
+    }
+    
+    /// Adds font link into `<head>`
+    ///
+    /// Default type is **woff2**
+    public func addFont(_ relativePath: String, _ type: String? = nil) {
+        let type = type ?? relativePath.components(separatedBy: ".").last ?? "woff2"
+        document.head.appendChild(Link()
+            .as(.font)
+            .rel(.preLoad)
+            .type("font/\(type)")
+            .href(relativePath))
+    }
+    
+    public enum IconType: String {
+        case icon
+        case appleTouch = "apple-touch-icon"
+        case mask = "mask-icon"
+        case shortcut = "shortcut icon"
+    }
+    
+    /// Adds icon link into `<head>`
+    public func addIcon(_ relativePath: String, type: IconType = .icon, color: String? = nil) {
+        document.head.appendChild(Link()
+            .as(.font)
+            .rel(.init(type.rawValue))
+            .type("icons/\(type)")
+            .href(relativePath))
+    }
+}
+
+extension WindowLifecycle {
+    /// Called when app just started
+    public func didFinishLaunching(_ handler: @escaping (WebApp) -> Void) -> Self {
+        didFinishLaunching({ handler(WebApp.shared) })
+    }
+    
+    /// Called when app just started
+    public static func didFinishLaunching(_ handler: @escaping (WebApp) -> Void) -> Self {
+        Self.didFinishLaunching({ handler(WebApp.shared) })
     }
 }
