@@ -586,7 +586,7 @@ open class InputColor: BaseActiveElement, ChangeHandleable, InvalidHandleable, I
             _updateStateWithValue()
         }
         attribute("type", "color")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -646,7 +646,7 @@ open class InputDate: BaseActiveElement, _StringInitializable, ChangeHandleable,
             _updateStateWithValue()
         }
         attribute("type", "date")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -725,7 +725,7 @@ open class InputDateTime: BaseActiveElement, _StringInitializable, ChangeHandlea
             _updateStateWithValue()
         }
         attribute("type", "datetime-local")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -805,7 +805,7 @@ open class InputEmail: BaseActiveElement, _StringInitializable, ChangeHandleable
             _updateStateWithValue()
         }
         attribute("type", "email")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -883,7 +883,7 @@ open class InputHidden: BaseActiveElement {
     public required init() {
         super.init()
         attribute("type", "hidden")
-        attribute("value", value)
+        self.domElement.value = value.jsValue
     }
     
     /// String initializer
@@ -979,7 +979,7 @@ open class InputMonth: BaseActiveElement, _StringInitializable, ChangeHandleable
             _updateStateWithValue()
         }
         attribute("type", "text")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -1059,7 +1059,7 @@ open class InputNumber: BaseActiveElement, ChangeHandleable, InvalidHandleable, 
             _updateStateWithValue()
         }
         attribute("type", "number")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
 
     /// String initializer
@@ -1138,7 +1138,7 @@ open class InputPassword: BaseActiveElement, _StringInitializable, ChangeHandlea
             _updateStateWithValue()
         }
         attribute("type", "password")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -1348,7 +1348,7 @@ open class InputSearch: BaseActiveElement, _StringInitializable, ChangeHandleabl
             _updateStateWithValue()
         }
         attribute("type", "search")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -1425,7 +1425,7 @@ open class InputTel: BaseActiveElement, _StringInitializable, ChangeHandleable, 
             _updateStateWithValue()
         }
         attribute("type", "tel")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -1485,7 +1485,7 @@ open class InputText: BaseActiveElement, _StringInitializable, ChangeHandleable,
             _updateStateWithValue()
         }
         attribute("type", "text")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -1544,7 +1544,7 @@ open class InputTime: BaseActiveElement, _StringInitializable, ChangeHandleable,
             _updateStateWithValue()
         }
         attribute("type", "time")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -1626,7 +1626,7 @@ open class InputURL: BaseActiveElement, _StringInitializable, ChangeHandleable, 
             _updateStateWithValue()
         }
         attribute("type", "url")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
@@ -1685,7 +1685,7 @@ open class InputWeek: BaseActiveElement, _StringInitializable, ChangeHandleable,
             _updateStateWithValue()
         }
         attribute("type", "week")
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
     
     /// String initializer
