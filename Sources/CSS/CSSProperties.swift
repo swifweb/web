@@ -1053,13 +1053,13 @@ public class BackgroundColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1067,9 +1067,9 @@ public class BackgroundColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1077,9 +1077,9 @@ public class BackgroundColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1087,9 +1087,9 @@ public class BackgroundColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1105,13 +1105,13 @@ public class BackgroundColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1119,9 +1119,9 @@ public class BackgroundColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1129,9 +1129,9 @@ public class BackgroundColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1139,9 +1139,9 @@ public class BackgroundColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1876,13 +1876,13 @@ public class BorderBottomColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1890,9 +1890,9 @@ public class BorderBottomColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1900,9 +1900,9 @@ public class BorderBottomColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1910,9 +1910,9 @@ public class BorderBottomColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1928,13 +1928,13 @@ public class BorderBottomColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1942,9 +1942,9 @@ public class BorderBottomColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1952,9 +1952,9 @@ public class BorderBottomColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -1962,9 +1962,9 @@ public class BorderBottomColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -2482,13 +2482,13 @@ public class BorderColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -2496,9 +2496,9 @@ public class BorderColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -2506,9 +2506,9 @@ public class BorderColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -2516,9 +2516,9 @@ public class BorderColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -2534,13 +2534,13 @@ public class BorderColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -2548,9 +2548,9 @@ public class BorderColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -2558,9 +2558,9 @@ public class BorderColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -2568,9 +2568,9 @@ public class BorderColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -3018,13 +3018,13 @@ public class BorderLeftColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -3032,9 +3032,9 @@ public class BorderLeftColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -3042,9 +3042,9 @@ public class BorderLeftColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -3052,9 +3052,9 @@ public class BorderLeftColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -3070,13 +3070,13 @@ public class BorderLeftColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(.hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(.hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -3084,9 +3084,9 @@ public class BorderLeftColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -3094,9 +3094,9 @@ public class BorderLeftColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -3104,9 +3104,9 @@ public class BorderLeftColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -4849,13 +4849,13 @@ public class BorderRightColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -4863,9 +4863,9 @@ public class BorderRightColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -4873,9 +4873,9 @@ public class BorderRightColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -4883,9 +4883,9 @@ public class BorderRightColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -4901,13 +4901,13 @@ public class BorderRightColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -4915,9 +4915,9 @@ public class BorderRightColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -4925,9 +4925,9 @@ public class BorderRightColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -4935,9 +4935,9 @@ public class BorderRightColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -5480,13 +5480,13 @@ public class BorderTopColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -5494,9 +5494,9 @@ public class BorderTopColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -5504,9 +5504,9 @@ public class BorderTopColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -5514,9 +5514,9 @@ public class BorderTopColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -5532,13 +5532,13 @@ public class BorderTopColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -5546,9 +5546,9 @@ public class BorderTopColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -5556,9 +5556,9 @@ public class BorderTopColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -5566,9 +5566,9 @@ public class BorderTopColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -7390,13 +7390,13 @@ public class CaretColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -7404,9 +7404,9 @@ public class CaretColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -7414,9 +7414,9 @@ public class CaretColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -7424,9 +7424,9 @@ public class CaretColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -7442,13 +7442,13 @@ public class CaretColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -7456,9 +7456,9 @@ public class CaretColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -7466,9 +7466,9 @@ public class CaretColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -7476,9 +7476,9 @@ public class CaretColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8150,13 +8150,13 @@ public class ColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8164,9 +8164,9 @@ public class ColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8174,9 +8174,9 @@ public class ColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8184,9 +8184,9 @@ public class ColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8202,13 +8202,13 @@ public class ColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8216,9 +8216,9 @@ public class ColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8226,9 +8226,9 @@ public class ColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8236,9 +8236,9 @@ public class ColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8503,13 +8503,13 @@ public class ColumnRuleColorProperty: _Property {
     public convenience init <R, G, B, A>(r: R, g: G, b: B, a: A, important: Bool? = nil)
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue).important : .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: a.uniValue))
+        self.init(important == true ? .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue).important : .rgba(r.uniValue, g.uniValue, b.uniValue, a.uniValue))
         r.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue).important
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: $0, g: g.uniValue, b: b.uniValue, a: a.uniValue)
+                color = .rgba($0, g.uniValue, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8517,9 +8517,9 @@ public class ColumnRuleColorProperty: _Property {
         g.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue).important
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: $0, b: b.uniValue, a: a.uniValue)
+                color = .rgba(r.uniValue, $0, b.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8527,9 +8527,9 @@ public class ColumnRuleColorProperty: _Property {
         b.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue).important
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: $0, a: a.uniValue)
+                color = .rgba(r.uniValue, g.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8537,9 +8537,9 @@ public class ColumnRuleColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0).important
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0).important
             } else {
-                color = .rgba(r: r.uniValue, g: g.uniValue, b: b.uniValue, a: $0)
+                color = .rgba(r.uniValue, g.uniValue, b.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8555,13 +8555,13 @@ public class ColumnRuleColorProperty: _Property {
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
-        self.init(important == true ? .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue).important : .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: a.uniValue))
+        self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue).important
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: $0, s: s.uniValue, l: l.uniValue, a: a.uniValue)
+                color = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8569,9 +8569,9 @@ public class ColumnRuleColorProperty: _Property {
         s.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue).important
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: $0, l: l.uniValue, a: a.uniValue)
+                color = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8579,9 +8579,9 @@ public class ColumnRuleColorProperty: _Property {
         l.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue).important
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: $0, a: a.uniValue)
+                color = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -8589,9 +8589,9 @@ public class ColumnRuleColorProperty: _Property {
         a.uniStateValue?.listen {
             let color: Color
             if important == true {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0).important
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0).important
             } else {
-                color = .hsla(h: h.uniValue, s: s.uniValue, l: l.uniValue, a: $0)
+                color = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
             }
             self.propertyValue = color
             self._content._changeHandler(color)
@@ -16554,7 +16554,7 @@ public class OutlineColorProperty: _Property {
     }
 
     public convenience init (r: Int, g: Int, b: Int, a: Double, important: Bool? = nil) {
-        self.init(important == true ? .rgba(r: r, g: g, b: b, a: a).important : .rgba(r: r, g: g, b: b, a: a))
+        self.init(important == true ? .rgba(r, g, b, a).important : .rgba(r, g, b, a))
     }
 
     public convenience init (r: Int, g: Int, b: Int, important: Bool? = nil) {
@@ -16562,7 +16562,7 @@ public class OutlineColorProperty: _Property {
     }
 
     public convenience init (h: Int, s: Int, l: Int, a: Double, important: Bool? = nil) {
-        self.init(important == true ? .hsla(h: h, s: s, l: l, a: a).important : .hsla(h: h, s: s, l: l, a: a))
+        self.init(important == true ? .hsla(h, s, l, a).important : .hsla(h, s, l, a))
     }
 
     public convenience init (h: Int, s: Int, l: Int, important: Bool? = nil) {
@@ -19125,7 +19125,7 @@ public class TextDecorationColorProperty: _Property {
     }
 
     public convenience init (r: Int, g: Int, b: Int, a: Double, important: Bool? = nil) {
-        self.init(important == true ? .rgba(r: r, g: g, b: b, a: a).important : .rgba(r: r, g: g, b: b, a: a))
+        self.init(important == true ? .rgba(r, g, b, a).important : .rgba(r, g, b, a))
     }
 
     public convenience init (r: Int, g: Int, b: Int, important: Bool? = nil) {
@@ -19133,7 +19133,7 @@ public class TextDecorationColorProperty: _Property {
     }
 
     public convenience init (h: Int, s: Int, l: Int, a: Double, important: Bool? = nil) {
-        self.init(important == true ? .hsla(h: h, s: s, l: l, a: a).important : .hsla(h: h, s: s, l: l, a: a))
+        self.init(important == true ? .hsla(h, s, l, a).important : .hsla(h, s, l, a))
     }
 
     public convenience init (h: Int, s: Int, l: Int, important: Bool? = nil) {

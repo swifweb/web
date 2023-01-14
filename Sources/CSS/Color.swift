@@ -93,19 +93,19 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
     }
     
     public static func hex<I>(_ value: I) -> Color where I: UniValue, I.UniValue == Int { .init(value) }
-    public static func rgb<R, G, B>(r: R, g: G, b: B) -> Color
+    public static func rgb<R, G, B>(_ r: R, _ g: G, _ b: B) -> Color
     where R: UniValue, G: UniValue, B: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int
               { .init(r: r, g: g, b: b) }
-    public static func rgba<R, G, B, A>(r: R, g: G, b: B, a: A) -> Color
+    public static func rgba<R, G, B, A>(_ r: R, _ g: G, _ b: B, _ a: A) -> Color
     where R: UniValue, G: UniValue, B: UniValue, A: UniValue,
               R.UniValue == Int, G.UniValue == Int, B.UniValue == Int, A.UniValue == Double
               { .init(r: r, g: g, b: b, a: a) }
-    public static func hsl<H, S, L>(h: H, s: S, l: L) -> Color
+    public static func hsl<H, S, L>(_ h: H, _ s: S, _ l: L) -> Color
     where H: UniValue, S: UniValue, L: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int
               { .init(h: h, s: s, l: l) }
-    public static func hsla<H, S, L, A>(h: H, s: S, l: L, a: A) -> Color
+    public static func hsla<H, S, L, A>(_ h: H, _ s: S, _ l: L, _  a: A) -> Color
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
               H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double
               { .init(h: h, s: s, l: l, a: a) }
