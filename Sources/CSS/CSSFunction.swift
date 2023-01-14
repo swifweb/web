@@ -58,12 +58,12 @@ public final class CSSFunction: CustomStringConvertible, PropertyValueImportanta
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient())
     public static func radialGradient(
-        _ shape: CSSRadialGradientShape = .ellipse,
-        _ size: CSSRadialGradientSize = .farthestCorner,
-        _ position: NumericValue,
-        _ colors: Color...
+        shape: CSSRadialGradientShape = .ellipse,
+        size: CSSRadialGradientSize = .farthestCorner,
+        position: NumericValue,
+        colors: Color...
     ) -> CSSFunction {
-        radialGradient(shape, size, .percent(position), colors)
+        radialGradient(shape: shape, size: size, position: .percent(position), colors: colors)
     }
     
     /// The radial-gradient() CSS function creates an image consisting
@@ -73,12 +73,12 @@ public final class CSSFunction: CustomStringConvertible, PropertyValueImportanta
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient())
     public static func radialGradient(
-        _ shape: CSSRadialGradientShape = .ellipse,
-        _ size: CSSRadialGradientSize = .farthestCorner,
-        _ position: NumericValue,
-        _ colors: [Color]
+        shape: CSSRadialGradientShape = .ellipse,
+        size: CSSRadialGradientSize = .farthestCorner,
+        position: NumericValue,
+        colors: [Color]
     ) -> CSSFunction {
-        radialGradient(shape, size, .percent(position), colors)
+        radialGradient(shape: shape, size: size, position: .percent(position), colors: colors)
     }
     
     /// The radial-gradient() CSS function creates an image consisting
@@ -88,12 +88,12 @@ public final class CSSFunction: CustomStringConvertible, PropertyValueImportanta
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient())
     public static func radialGradient(
-        _ shape: CSSRadialGradientShape = .ellipse,
-        _ size: CSSRadialGradientSize = .farthestCorner,
-        _ position: CSSRadialGradientPosition = .center,
-        _ colors: Color...
+        shape: CSSRadialGradientShape = .ellipse,
+        size: CSSRadialGradientSize = .farthestCorner,
+        position: CSSRadialGradientPosition = .center,
+        colors: Color...
     ) -> CSSFunction {
-        radialGradient(shape, size, position, colors)
+        radialGradient(shape: shape, size: size, position: position, colors: colors)
     }
     
     /// The radial-gradient() CSS function creates an image consisting
@@ -103,10 +103,10 @@ public final class CSSFunction: CustomStringConvertible, PropertyValueImportanta
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient())
     public static func radialGradient(
-        _ shape: CSSRadialGradientShape = .ellipse,
-        _ size: CSSRadialGradientSize = .farthestCorner,
-        _ position: CSSRadialGradientPosition = .center,
-        _ colors: [Color]
+        shape: CSSRadialGradientShape = .ellipse,
+        size: CSSRadialGradientSize = .farthestCorner,
+        position: CSSRadialGradientPosition = .center,
+        colors: [Color]
     ) -> CSSFunction {
         var result = "radial-gradient(\(shape.rawValue) \(size.rawValue) at \(position.value), "
         if colors.count > 0 {
