@@ -1983,7 +1983,7 @@ open class Select: BaseActiveElement, ChangeHandleable, ScrollHandleable {
         onChange { [self] in
             _updateStateWithValue()
         }
-        attribute("value", text)
+        self.domElement.value = text.jsValue
     }
 
     public var value: String {
@@ -1994,17 +1994,17 @@ open class Select: BaseActiveElement, ChangeHandleable, ScrollHandleable {
     /// - Parameter value: Pass `String` or `State<String>`
     public required convenience init<U>(_ value: U) where U: UniValue, U.UniValue == String {
         self.init()
-        attribute("value", value.uniValue)
+        self.domElement.value = value.uniValue.jsValue
         self.text = value.uniValue
         if let state = value.uniStateValue {
             _text.merge(with: state, leftChanged: { [weak self] in
-                self?.attribute("value", $0)
+                self?.domElement.value = $0.jsValue
             }, rightChanged: { [weak self] in
-                self?.attribute("value", $0)
+                self?.domElement.value = $0.jsValue
             })
         } else {
             _text.listen { [weak self] in
-                self?.attribute("value", $0)
+                self?.domElement.value = $0.jsValue
             }
         }
     }
