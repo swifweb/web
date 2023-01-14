@@ -81,6 +81,7 @@ public class MediaRule: RulesContent, CSSRulable {
         case .rule(let v): _rules.append(v)
         case .keyframes(let v): _keyframes.append(v)
         case .media: print("❗️@media inside of @media doesn't work"); break
+        case .forEach(let fr): fr.allItems().forEach { parseRulesItem($0.rulesContent) }
         case .none: break
         }
     }

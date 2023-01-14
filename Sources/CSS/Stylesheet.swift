@@ -48,6 +48,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
         case .rule(let v): _rules.append(v)
         case .keyframes(let v): _keyframes.append(v)
         case .media(let v): _medias.append(v)
+        case .forEach(let fr): fr.allItems().forEach { parseRulesItem($0.rulesContent) }
         case .none: break
         }
     }
@@ -249,6 +250,7 @@ open class RulesGroup: RulesContent, Stylesheetable {
         case .rule(let v): _rules.append(v)
         case .keyframes(let v): _keyframes.append(v)
         case .media(let v): _medias.append(v)
+        case .forEach(let fr): fr.allItems().forEach { parseRulesItem($0.rulesContent) }
         case .none: break
         }
     }

@@ -9,6 +9,10 @@ public protocol RulesContent {
     var rulesContent: Rules.Item { get }
 }
 
+private struct EmptyContent: Rules.Content {
+    let rulesContent: Rules.Item
+}
+
 struct _RulesContent: Rules.Content {
     let rulesContent: Rules.Item
 }
@@ -17,6 +21,10 @@ struct _RulesContent: Rules.Content {
     public typealias Block = () -> RulesContent
     public typealias Content = RulesContent
     
+    static var none: Rules.Content {
+        EmptyContent(rulesContent: .none)
+    }
+    
     public enum Item {
         case none
         case raw(String)
@@ -24,6 +32,7 @@ struct _RulesContent: Rules.Content {
         case keyframes(Keyframes)
         case media(MediaRule)
         case items([Item])
+        case forEach(AnyForEach)
     }
 
     public static func buildBlock() -> Content {

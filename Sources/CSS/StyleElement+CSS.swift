@@ -71,6 +71,7 @@ extension Style {
         case .rule(let v): rules.append(v)
         case .keyframes(let v): keyframes.append(v)
         case .media(let v): medias.append(v)
+        case .forEach(let fr): fr.allItems().forEach { parseRulesItem($0.rulesContent) }
         case .none: break
         }
     }
