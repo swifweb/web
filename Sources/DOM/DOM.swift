@@ -15,6 +15,7 @@ public enum DOMItem {
     case none
     case elements([DOMElement])
     case items([DOMItem])
+    case forEach(AnyForEach)
 }
 
 private struct EmptyContent: DOMContent {
@@ -66,5 +67,16 @@ extension String: DOMContent {
 
     public static func buildEither(second: Content) -> Content {
         EmptyContent(domContentItem: .items([second.domContentItem]))
+    }
+}
+extension Array: DOMContent where Element: DOMElement {
+    public var domContentItem: DOMItem { .elements(self) }
+}
+extension Optional: DOMContent where Wrapped: DOMElement {
+    public var domContentItem: DOMItem {
+        switch self {
+        case .none: return .none
+        case .some(let value): return .elements([value])
+        }
     }
 }
