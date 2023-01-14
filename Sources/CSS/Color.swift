@@ -270,7 +270,7 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
     }
     
     public func stop(_ stopPoint: Double) -> Color {
-        .init(.custom("\(self) \(stopPoint)%"))
+        .init(.custom("\(self) \(Int(stopPoint))%"))
     }
 }
 
