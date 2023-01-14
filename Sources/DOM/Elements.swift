@@ -1915,17 +1915,17 @@ open class Progress: BaseActiveElement {
     
     public required convenience init<V, S>(_ value: V, _ shadowText: S) where V: UniValue, V.UniValue == Double, S: UniValue, S.UniValue == String {
         self.init()
-        attribute("value", value.uniValue)
+        self.domElement.value = value.uniValue.jsValue
         self.value = value.uniValue
         if let state = value.uniStateValue {
             _value.merge(with: state, leftChanged: { [weak self] in
-                self?.attribute("value", $0)
+                self?.domElement.value = $0.jsValue
             }, rightChanged: { [weak self] in
-                self?.attribute("value", $0)
+                self?.domElement.value = $0.jsValue
             })
         } else {
             _value.listen { [weak self] in
-                self?.attribute("value", $0)
+                self?.domElement.value = $0.jsValue
             }
         }
         innerText = shadowText.uniValue
