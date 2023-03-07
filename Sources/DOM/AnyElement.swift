@@ -45,7 +45,18 @@ extension BaseContentElementable {
     
     #if arch(wasm32)
     public var innerText: String {
-        get { s?.domElement.innerText.string ?? "" }
+        get {
+            guard let s = s else { return "" }
+            var text = ""
+            var child: JSValue = s.domElement.firstChild.jsValue
+            while !child.isNull && !child.isUndefined {
+                if child.nodeType.number == 3, let str = child.data.string {
+                    text.append(str)
+                }
+                child = child.nextSibling.jsValue
+            }
+            return text
+        }
         set {
             s?.properties.removeSubelementsRecursively()
             s?.domElement.innerText = newValue.jsValue
