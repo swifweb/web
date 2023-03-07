@@ -41,7 +41,11 @@ public final class Request: CustomStringConvertible {
         }
 
         func decode<D: Decodable>(_ decodable: D.Type, using decoder: URLQueryDecoder) throws -> D {
-            try decoder.decode(D.self, from: self.request.search)
+            var search = request.search
+            while search.starts(with: "?") {
+                search = String(search.dropFirst())
+            }
+            return try decoder.decode(D.self, from: search)
         }
 
         func encode<E: Encodable>(_ encodable: E, using encoder: URLQueryEncoder) throws {
