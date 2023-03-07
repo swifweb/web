@@ -17,7 +17,7 @@ public final class Request: CustomStringConvertible {
     public var path: String
     
     /// The Query used on this request.
-    var search: String
+    public var search: String
     
     /// The Hash used on this request.
     public var hash: String
