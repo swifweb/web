@@ -9,7 +9,7 @@
 import Foundation
 
 public final class Route: CustomStringConvertible {
-    public var path: [PathComponent]
+    public var path: [String]
     public var responder: Responder
     
     public var description: String {
@@ -17,7 +17,7 @@ public final class Route: CustomStringConvertible {
     }
     
     public init(
-        path: [PathComponent],
+        path: [String],
         responder: Responder
     ) {
         self.path = path

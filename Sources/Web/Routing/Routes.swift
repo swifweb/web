@@ -51,32 +51,32 @@ extension Routes {
     public class Group: RoutesFactoryContent {
         public var routesFactoryContent: RoutesFactory.Item { .group(self) }
         
-        let path: [PathComponent]
+        let path: [String]
         var middlewares: [Middleware] = []
         var routes: Routes { _routes ?? Routes() }
         private var _routes: Routes?
         
-        public init (_ path: [PathComponent]) {
+        public init (_ path: [String]) {
             self.path = path
         }
         
-        public init (_ path: PathComponent...) {
+        public init (_ path: String...) {
             self.path = path
         }
         
-        public init (_ path: [PathComponent], protectedBy middlewares: [Middleware] = [], @RoutesFactory block: RoutesFactory.Block) {
-            self.path = path
-            self.middlewares = middlewares
-            self._routes = .init(block: block)
-        }
-        
-        public init (_ path: PathComponent..., protectedBy middlewares: [Middleware] = [], @RoutesFactory block: RoutesFactory.Block) {
+        public init (_ path: [String], protectedBy middlewares: [Middleware] = [], @RoutesFactory block: RoutesFactory.Block) {
             self.path = path
             self.middlewares = middlewares
             self._routes = .init(block: block)
         }
         
-        public init<T>(_ path: [PathComponent], protectedBy middlewares: [Middleware] = [], controller: T.Type, @RoutesFactory block: (T.Type) -> RoutesFactory.Result) {
+        public init (_ path: String..., protectedBy middlewares: [Middleware] = [], @RoutesFactory block: RoutesFactory.Block) {
+            self.path = path
+            self.middlewares = middlewares
+            self._routes = .init(block: block)
+        }
+        
+        public init<T>(_ path: [String], protectedBy middlewares: [Middleware] = [], controller: T.Type, @RoutesFactory block: (T.Type) -> RoutesFactory.Result) {
             self.path = path
             self.middlewares = middlewares
             self._routes = .init(block: {
@@ -84,7 +84,7 @@ extension Routes {
             })
         }
         
-        public init<T>(_ path: PathComponent..., protectedBy middlewares: [Middleware] = [], controller: T.Type, @RoutesFactory block: (T.Type) -> RoutesFactory.Result) {
+        public init<T>(_ path: String..., protectedBy middlewares: [Middleware] = [], controller: T.Type, @RoutesFactory block: (T.Type) -> RoutesFactory.Result) {
             self.path = path
             self.middlewares = middlewares
             self._routes = .init(block: {
@@ -92,7 +92,7 @@ extension Routes {
             })
         }
         
-        public init (_ path: PathComponent..., protectBy middlewares: [Middleware] = [], routes: Routes) {
+        public init (_ path: String..., protectBy middlewares: [Middleware] = [], routes: Routes) {
             self.path = path
             self.middlewares = middlewares
             self._routes = routes
@@ -124,7 +124,7 @@ extension Routes {
 public protocol AnyRoutesEndpoint {}
 
 protocol _AnyRoutesEndpoint: AnyRoutesEndpoint {
-    var path: [PathComponent] { get }
+    var path: [String] { get }
     var closure: (Request) throws -> Response { get }
 }
 
@@ -132,25 +132,25 @@ extension Routes {
     public class Page: _AnyRoutesEndpoint, RoutesFactoryContent {
         public var routesFactoryContent: RoutesFactory.Item { .endpoint(self) }
         
-        var path: [PathComponent]
+        var path: [String]
         var closure: (Request) throws -> Response
         
-        public init (_ path: [PathComponent], use closure: @escaping (Request) throws -> Response) {
+        public init (_ path: [String], use closure: @escaping (Request) throws -> Response) {
             self.path = path
             self.closure = closure
         }
         
-        public convenience init (_ path: PathComponent..., use closure: @escaping (Request) throws -> Response) {
+        public convenience init (_ path: String..., use closure: @escaping (Request) throws -> Response) {
             self.init(path, use: closure)
         }
         
-        public convenience init (_ path: [PathComponent], use closure: @escaping () throws -> Response) {
+        public convenience init (_ path: [String], use closure: @escaping () throws -> Response) {
             self.init(path) { _ in
                 try closure()
             }
         }
         
-        public convenience init (_ path: PathComponent..., use closure: @escaping () throws -> Response) {
+        public convenience init (_ path: String..., use closure: @escaping () throws -> Response) {
             self.init(path, use: closure)
         }
     }

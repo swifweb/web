@@ -12,7 +12,7 @@ private struct CachedRoute {
     let route: Route
     let responder: Responder
     
-    init (_ paths: PathComponent..., responder: Responder) {
+    init (_ paths: String..., responder: Responder) {
         self.route = .init(path: paths, responder: responder)
         self.responder = responder
     }
@@ -41,7 +41,7 @@ internal struct DefaultResponder: Responder {
                 responder: middleware.makeResponder(chainingTo: route.responder)
             )
             // remove any empty path components
-            let path = route.path.filter { component in
+            let path = route.path.map { $0.components(separatedBy: "/").map { PathComponent(stringLiteral: $0) } }.flatMap { $0 }.filter { component in
                 switch component {
                 case .constant(let string):
                     return string != ""

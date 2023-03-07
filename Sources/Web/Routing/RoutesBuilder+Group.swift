@@ -20,7 +20,7 @@ extension RoutesBuilder {
     /// - parameters:
     ///     - path: Group path components separated by commas.
     /// - returns: Newly created `Router` wrapped in the path.
-    public func grouped(_ path: PathComponent...) -> RoutesBuilder {
+    public func grouped(_ path: String...) -> RoutesBuilder {
         grouped(path)
     }
 
@@ -35,7 +35,7 @@ extension RoutesBuilder {
     /// - parameters:
     ///     - path: Array of group path components.
     /// - returns: Newly created `Router` wrapped in the path.
-    public func grouped(_ path: [PathComponent]) -> RoutesBuilder {
+    public func grouped(_ path: [String]) -> RoutesBuilder {
         HTTPRoutesGroup(root: self, path: path)
     }
 
@@ -51,7 +51,7 @@ extension RoutesBuilder {
     /// - parameters:
     ///     - path: Group path components separated by commas.
     ///     - configure: Closure to configure the newly created `Router`.
-    public func group(_ path: PathComponent..., configure: (RoutesBuilder) throws -> ()) rethrows {
+    public func group(_ path: String..., configure: (RoutesBuilder) throws -> ()) rethrows {
         try group(path, configure: configure)
     }
 
@@ -67,7 +67,7 @@ extension RoutesBuilder {
     /// - parameters:
     ///     - path: Array of group path components.
     ///     - configure: Closure to configure the newly created `Router`.
-    public func group(_ path: [PathComponent], configure: (RoutesBuilder) throws -> ()) rethrows {
+    public func group(_ path: [String], configure: (RoutesBuilder) throws -> ()) rethrows {
         try configure(HTTPRoutesGroup(root: self, path: path))
     }
 }
@@ -78,10 +78,10 @@ private final class HTTPRoutesGroup: RoutesBuilder {
     let root: RoutesBuilder
     
     /// Additional components.
-    let path: [PathComponent]
+    let path: [String]
 
     /// Creates a new `PathGroup`.
-    init(root: RoutesBuilder, path: [PathComponent]) {
+    init(root: RoutesBuilder, path: [String]) {
         self.root = root
         self.path = path
     }
