@@ -94,7 +94,6 @@ extension DOMElement {
             domElement[dynamicMember: key] = value.jsValue()
         }
         #else
-        #if WEBPREVIEW
         let stringValue: String?
         switch mode {
         case .trueFalse: stringValue = value ? "true" : "false"
@@ -107,7 +106,6 @@ extension DOMElement {
         } else {
             properties.attributes.removeValue(forKey: key)
         }
-        #endif
         #endif
         return self
     }
@@ -142,9 +140,7 @@ extension DOMElement {
         #if arch(wasm32)
         _setAttribute(key, value.jsValue)
         #else
-        #if WEBPREVIEW
         properties.attributes[key] = value
-        #endif
         #endif
         return self
     }
@@ -176,10 +172,10 @@ public final class DOMElementProperties {
     public internal(set) var parent: DOMElement? = nil
     public internal(set) var subElements: [DOMElement] = []
     public var positionChangeListeners: [() -> Void] = []
-    #if !arch(wasm32)
+    #if WEBPREVIEW
     public var styles: [String: String] = [:]
-    public var attributes: [String: String] = [:]
     #endif
+    public var attributes: [String: String] = [:]
     
     init () {}
     

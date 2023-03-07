@@ -12,13 +12,14 @@ import CSS
 extension BaseElement: WebPreviewRenderable, RenderBuilderContent {
     public var renderBuilderContent: Preview.Item { .item(self) }
 }
-#if WEBPREVIEW
+
 extension DOMElement {
     var name: String { Self.name }
     
     // MARK: _PreviewRenderable
     
     public func renderPreview() -> String {
+        #if WEBPREVIEW
         if let s = self as? Stylesheet {
             var result = ""
             if s._rules.count > 0 {
@@ -33,6 +34,7 @@ extension DOMElement {
             return result
         }
         let style = properties.styles.map { $0.key + ":" + $0.value }.joined(separator: ";")
+        #endif
         let previewElementName: String
         if self is PageController {
             previewElementName = "viewcontroller"
@@ -42,9 +44,18 @@ extension DOMElement {
         var result = "<"
         result += "\(previewElementName)"
         result += " id=\"\(properties._id)\""
+        #if WEBPREVIEW
         if style.count > 0 {
             result += " style=\"\(style)\""
         }
+        #endif
+        #if !WEBPREVIEW
+        if properties.attributes.keys.contains("class") {
+            properties.attributes["class"] = (properties.attributes["class"] ?? "") + " " + properties._classes.joined(separator: " ")
+        } else {
+            properties.attributes["class"] = properties._classes.joined(separator: " ")
+        }
+        #endif
         properties.attributes.forEach { key, value in
             result += " " + key
             if value.count > 0 {
@@ -62,8 +73,3 @@ extension DOMElement {
         return result
     }
 }
-#else
-extension BaseElement {
-    public func renderPreview() -> String { "" }
-}
-#endif
