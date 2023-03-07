@@ -39,6 +39,14 @@ extension BaseElement {
     public static var pointer: Pointer { .init(Self.name) }
     public var pointer: Pointer { .init(Self.name) }
     
+    public static var rule: CSSRule {
+        CSSRule(pointer)
+    }
+    
+    public static func rule(_ pointer: Pointer) -> CSSRule {
+        CSSRule(Pointer(self.pointer.selector + pointer.selector))
+    }
+    
     /// Selects all elements with class="intro"
     ///
     /// ```
