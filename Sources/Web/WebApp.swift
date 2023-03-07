@@ -203,11 +203,21 @@ extension WebApp {
         Navigator.shared.serviceWorker?.register("./\(name).js")
     }
     
+    /// Adds script into `<head>`
+    public func addScript(_ path: String) {
+        document.head.appendChild(Script().src(path))
+    }
+    
+    /// Adds style link into `<head>`
     public func addStylesheet(_ relativePath: String) {
         document.head.appendChild(Link()
             .rel(.stylesheet)
             .type("text/css")
             .href(relativePath))
+    }
+    
+    public func addStylesheet(@Rules content: @escaping Rules.Block) {
+        document.head.appendChild(Stylesheet(content: content))
     }
     
     /// Adds font link into `<head>`
@@ -230,6 +240,8 @@ extension WebApp {
     }
     
     /// Adds icon link into `<head>`
+    ///
+    /// Default type is **icon**
     public func addIcon(_ relativePath: String, type: IconType = .icon, color: String? = nil) {
         document.head.appendChild(Link()
             .as(.font)
