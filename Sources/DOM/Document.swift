@@ -132,12 +132,21 @@ public class Document: DOMElement, EventTarget {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
     public func querySelectorAll(_ selector: String) -> [BaseElement] {
-		print("domElement.querySelector: \(domElement.querySelector.function?.callAsFunction(optionalThis: domElement.object, selector) ?? "n/a")")
-//        if let iterator = domElement.querySelector.function?.callAsFunction(selector) {//.array?.makeIterator() {
-//            print("iterator: \(iterator)")
-//        } else {
-//            print("not iterator")
+//        var items: [BaseElement] = []
+//        guard let result = domElement[dynamicMember: "querySelectorAll"].function?.callAsFunction(optionalThis: domElement.object, selector) else { return [] }
+//        guard !result.isNull && !result.isUndefined else { return [] }
+//        guard let count = result.length.number, count > 0 else { return [] }
+//        var closure: JSClosure = JSClosure { args -> JSValue in
+//            guard let element = args.first else { return .undefined }
+//            items.append(BaseElement(element))
+//            return .undefined
 //        }
-        return []
+//        result.forEach.function?.callAsFunction(optionalThis: result.object, arguments: [closure])
+//        while items.count != Int(count) {}
+//        return items
+        JSObject.global.eval.function?.callAsFunction(arguments: ["Arr = function(selector) { return Array.from(document.querySelectorAll(selector)); }"])
+        return JSObject.global[dynamicMember: "Arr"].function?.callAsFunction(arguments: [selector.jsValue]).array?.compactMap {
+            BaseElement($0)
+        } ?? []
     }
 }
