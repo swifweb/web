@@ -58,8 +58,12 @@ extension BaseContentElementable {
             return text
         }
         set {
-            s?.properties.removeSubelementsRecursively()
-            s?.domElement.innerText = newValue.jsValue
+            if var child: JSValue = s?.domElement.firstChild, !child.isNull, !child.isUndefined, child.nodeType.number == 3 {
+                child.textContent = newValue.jsValue
+            } else {
+                s?.properties.removeSubelementsRecursively()
+                s?.domElement.innerText = newValue.jsValue
+            }
         }
     }
     
