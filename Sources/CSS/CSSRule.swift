@@ -241,8 +241,9 @@ extension CSSRulable {
         if let s = self as? CSSRule {
             s.set(key, value)
         } else if let s = self as? DOMElement {
-            if let existingStyleString = s.domElement[dynamicMember: "getAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style"]), !existingStyleString.isNull {
-                s.domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style", "\(existingStyleString)\(key):\(value);"])
+            if let existingStyleString = s.domElement[dynamicMember: "getAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style"]), !existingStyleString.isNull, var str = existingStyleString.string {
+                str = str.split(separator: ";").filter({ !$0.hasPrefix("\(key):") }).joined(separator: ";")
+                s.domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style", "\(str)\(key):\(value);"])
             } else {
                 s.domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style", "\(key):\(value);"])
             }
