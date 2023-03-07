@@ -156,13 +156,18 @@ open class WebApp: _PreviewableApp {
             let response = try defaultResponder.respond(to: req)
             if let lastResponse = lastResponse {
                 #if arch(wasm32)
+                lastResponse.controller.willUnload()
                 _ = document.domElement.body.removeChild(lastResponse.controller.view)
                 lastResponse.controller.didRemoveFromDOM()
+                lastResponse.controller.didUnload()
                 #endif
             }
             #if arch(wasm32)
+            response.controller.willLoad(with: req)
             let _ = document.domElement.body.appendChild(response.controller.view)
+            response.controller.req = req
             response.controller.didAddToDOM()
+            response.controller.didLoad(with: req)
             #endif
             lastResponse = response
         } catch {

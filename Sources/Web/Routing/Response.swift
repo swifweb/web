@@ -9,5 +9,5 @@ import Foundation
 import JavaScriptKit
 
 public protocol Response: AnyObject {
-    var controller: ViewController { get }
+    var controller: PageController { get }
 }

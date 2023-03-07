@@ -8,6 +8,8 @@
 
 import Foundation
 
+public typealias PageRequest = Request
+
 public final class Request: CustomStringConvertible {
     public let application: WebApp
 

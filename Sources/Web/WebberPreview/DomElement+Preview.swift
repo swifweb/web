@@ -34,7 +34,7 @@ extension DOMElement {
         }
         let style = properties.styles.map { $0.key + ":" + $0.value }.joined(separator: ";")
         let previewElementName: String
-        if self is ViewController {
+        if self is PageController {
             previewElementName = "viewcontroller"
         } else {
             previewElementName = Self.name

@@ -80,11 +80,11 @@ internal struct DefaultResponder: Responder {
 
 private struct NotFoundResponder: Responder {
     func respond(to request: Request) throws -> Response {
-        NotFoundViewController()
+        NotFoundPageController()
     }
 }
 
-private class NotFoundViewController: ViewController {
+private class NotFoundPageController: PageController {
     required init() {
         super.init()
         view.object?.innerHTML = "Nothing has been found".jsValue

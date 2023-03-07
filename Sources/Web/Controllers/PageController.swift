@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PageController.swift
 //  Web
 //
 //  Created by Mihael Isaev on 20.11.2020.
@@ -8,10 +8,14 @@
 import Foundation
 import JavaScriptKit
 
-open class ViewController: BaseContentElement, Response {
+@available(*, unavailable, renamed: "PageController")
+public typealias ViewController = PageController
+
+open class PageController: BaseContentElement, Response {
     open override class var name: String { "div" }
     
-    public var controller: ViewController { self }
+    public var controller: PageController { return self }
+    public internal(set) var req: Request?
     
     public var view: JSValue { domElement }
     
@@ -29,4 +33,10 @@ open class ViewController: BaseContentElement, Response {
             WebApp.shared.window.document.metaDescription = $0
         }
     }
+    
+    open func willLoad(with req: PageRequest) {}
+    open func didLoad(with req: PageRequest) {}
+    
+    open func willUnload() {}
+    open func didUnload() {}
 }
