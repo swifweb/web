@@ -119,6 +119,13 @@ open class PageController: BaseContentElement {
         return self
     }
     
+    // MARK: History
+    
+    /// Calls `window.history.pushState` to replace current path
+    public func changePath(to path: String) {
+        WebApp.shared.window.history.pushState(path: path)
+    }
+    
     // MARK: - Fragment Router
     
     var fragments: [FragmentRouter] = []
