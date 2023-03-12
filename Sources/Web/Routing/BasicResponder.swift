@@ -11,7 +11,7 @@ import Foundation
 /// A basic, closure-based `Responder`.
 public struct BasicResponder: Responder {
     /// The stored responder closure.
-    private let closure: (Request) throws -> Response
+    private let closure: (Request) throws -> PageController
 
     /// Create a new `BasicResponder`.
     ///
@@ -22,12 +22,12 @@ public struct BasicResponder: Responder {
     ///
     /// - parameters:
     ///     - closure: Responder closure.
-    public init(closure: @escaping (Request) throws -> Response) {
+    public init(closure: @escaping (Request) throws -> PageController) {
         self.closure = closure
     }
 
     /// See `Responder`.
-    public func respond(to request: Request) throws -> Response {
+    public func respond(to request: Request) throws -> PageController? {
         try closure(request)
     }
 }

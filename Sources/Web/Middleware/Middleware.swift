@@ -18,7 +18,7 @@ public protocol Middleware {
     ///     - request: The incoming `Request`.
     ///     - next: Next `Responder` in the chain, potentially another middleware or the main router.
     /// - returns: An asynchronous `Response`.
-    func respond(to request: Request, chainingTo next: Responder) -> Response
+    func respond(to request: Request, chainingTo next: Responder) -> PageController
 }
 
 extension Array where Element == Middleware {
@@ -49,7 +49,7 @@ private struct HTTPMiddlewareResponder: Responder {
         self.responder = responder
     }
     
-    func respond(to request: Request) throws -> Response {
+    func respond(to request: Request) throws -> PageController? {
         middleware.respond(to: request, chainingTo: responder)
     }
 }

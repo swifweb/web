@@ -43,6 +43,10 @@ extension BaseContentElementable {
         return self
     }
     
+    public func parseDOMItem(_ item: DOMItem) {
+        s?.parseDOMItem(item)
+    }
+    
     #if arch(wasm32)
     public var innerText: String {
         get {

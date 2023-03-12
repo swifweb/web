@@ -34,7 +34,7 @@ open class WebApp: _PreviewableApp {
     
     public private(set) lazy var window = Window.shared
     public var document: Document { window.document }
-    lazy var defaultResponder = DefaultResponder(routes: routes)
+    lazy var defaultResponder = DefaultResponder(routes: routes, notFoundResponder: DefaultResponder.notFoundResponder)
     public internal(set) lazy var routes: RoutesStorage = .init()
     
     required public init () {}
@@ -149,12 +149,23 @@ open class WebApp: _PreviewableApp {
         parseAppBuilderItem(app.appBuilderContent)
     }
     
-    var lastResponse: Response?
+    var rootPaths: [String: String] = [:]
+    var lastResponse: PageController?
     
     func handleRoute(_ req: Request) {
         do {
-            let response = try defaultResponder.respond(to: req)
             if let lastResponse = lastResponse {
+                // pass respond to view controller's subrouter
+                if let lastReq = lastResponse.controller.req {
+                    if let rp = rootPaths[lastReq.path] {
+                        if req.path.starts(with: rp) {
+                            rootPaths[req.path] = rp
+                            if try lastResponse.controller.canRespond(req, rp) {
+                                return
+                            }
+                        }
+                    }
+                }
                 #if arch(wasm32)
                 lastResponse.controller.willUnload()
                 _ = document.domElement.body.removeChild(lastResponse.controller.view)
@@ -162,7 +173,22 @@ open class WebApp: _PreviewableApp {
                 lastResponse.controller.didUnload()
                 #endif
             }
+            let response = try defaultResponder.respond(to: req)!
             #if arch(wasm32)
+            for fragment in response.controller.fragments {
+                do {
+                    let rootPath: String
+                    if let rp = req.route?.rootPath?.joined(separator: "/") {
+                        rootPath = rp.hasPrefix("/") ? rp : "/\(rp)"
+                    } else {
+                        rootPath = req.path
+                    }
+                    rootPaths[req.path] = rootPath
+                    _ = try fragment.canRespond(req, rootPath)
+                } catch {
+                    print("Unable to render subroute: \(error)")
+                }
+            }
             response.controller.willLoad(with: req)
             let _ = document.domElement.body.appendChild(response.controller.view)
             response.controller.req = req

@@ -21,7 +21,7 @@ private struct CachedRoute {
 /// Vapor's main `Responder` type. Combines configured middleware + router to create a responder.
 internal struct DefaultResponder: Responder {
     private let router: TrieRouter<CachedRoute>
-    private let notFoundResponder: Responder
+    private let notFoundResponder: Responder?
 
     private struct CachedRoute {
         let route: Route
@@ -29,7 +29,7 @@ internal struct DefaultResponder: Responder {
     }
 
     /// Creates a new `ApplicationResponder`
-    public init(routes: RoutesStorage, middleware: [Middleware] = []) {
+    init(routes: RoutesStorage, notFoundResponder: Responder? = nil, middleware: [Middleware] = []) {
         let options = routes.caseInsensitive ?
             Set(arrayLiteral: TrieRouter<CachedRoute>.ConfigurationOption.caseInsensitive) : []
         let router = TrieRouter(CachedRoute.self, options: options)
@@ -52,21 +52,21 @@ internal struct DefaultResponder: Responder {
             router.register(cached, at: path)
         }
         self.router = router
-        self.notFoundResponder = middleware.makeResponder(chainingTo: NotFoundResponder())
+        if let notFoundResponder = notFoundResponder {
+            self.notFoundResponder = middleware.makeResponder(chainingTo: notFoundResponder)
+        } else {
+            self.notFoundResponder = nil
+        }
     }
     
-    func respond(to request: Request) throws -> Response {
-        let response: Response
-//        let path: String
+    func respond(to request: Request) throws -> PageController? {
         if let cachedRoute = getRoute(for: request) {
-//            path = cachedRoute.route.description
             request.route = cachedRoute.route
-            response = try cachedRoute.responder.respond(to: request)
-        } else {
-//            path = request.path
-            response = try self.notFoundResponder.respond(to: request)
+            return try cachedRoute.responder.respond(to: request)
+        } else if let notFoundResponder = notFoundResponder {
+            return try notFoundResponder.respond(to: request)
         }
-        return response
+        return nil
     }
     
     /// Gets a `Route` from the underlying `TrieRouter`.
@@ -78,8 +78,14 @@ internal struct DefaultResponder: Responder {
     }
 }
 
+extension DefaultResponder {
+    static var notFoundResponder: Responder {
+        NotFoundResponder()
+    }
+}
+
 private struct NotFoundResponder: Responder {
-    func respond(to request: Request) throws -> Response {
+    func respond(to request: Request) throws -> PageController? {
         NotFoundPageController()
     }
 }

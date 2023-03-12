@@ -9,6 +9,7 @@
 import Foundation
 
 public final class Route: CustomStringConvertible {
+    public var rootPath: [String]?
     public var path: [String]
     public var responder: Responder
     
@@ -18,9 +19,11 @@ public final class Route: CustomStringConvertible {
     
     public init(
         path: [String],
+        rootPath: [String]? = nil,
         responder: Responder
     ) {
         self.path = path
+        self.rootPath = rootPath
         self.responder = responder
     }
 }
