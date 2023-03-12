@@ -15,4 +15,8 @@ open class Class: ExpressibleByStringLiteral {
     required public init (stringLiteral name: String) {
         self.names = name.components(separatedBy: " ")
     }
+    
+    public init (_ name: String) {
+        self.names = name.components(separatedBy: " ")
+    }
 }
