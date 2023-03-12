@@ -44,11 +44,80 @@ open class PageController: BaseContentElement {
         }
     }
     
-    open func willLoad(with req: PageRequest) {}
-    open func didLoad(with req: PageRequest) {}
+    var willLoadHandlers: [() -> Void] = []
+    var didLoadHandlers: [() -> Void] = []
+    var willUnloadHandlers: [() -> Void] = []
+    var didUnloadHandlers: [() -> Void] = []
     
-    open func willUnload() {}
-    open func didUnload() {}
+    open func willLoad(with req: PageRequest) {
+        willLoadHandlers.forEach { $0() }
+    }
+    open func didLoad(with req: PageRequest) {
+        didLoadHandlers.forEach { $0() }
+    }
+    
+    open func willUnload() {
+        willUnloadHandlers.forEach { $0() }
+    }
+    open func didUnload() {
+        didUnloadHandlers.forEach { $0() }
+    }
+    
+    @discardableResult
+    public func onWillLoad(_ handler: @escaping () -> Void) -> Self {
+        willLoadHandlers.append(handler)
+        return self
+    }
+    
+    @discardableResult
+    public func onWillLoad(_ handler: @escaping (Self) -> Void) -> Self {
+        willLoadHandlers.append({
+            handler(self)
+        })
+        return self
+    }
+    
+    @discardableResult
+    public func onDidLoad(_ handler: @escaping () -> Void) -> Self {
+        didLoadHandlers.append(handler)
+        return self
+    }
+    
+    @discardableResult
+    public func onDidLoad(_ handler: @escaping (Self) -> Void) -> Self {
+        didLoadHandlers.append({
+            handler(self)
+        })
+        return self
+    }
+    
+    @discardableResult
+    public func onWillUnload(_ handler: @escaping () -> Void) -> Self {
+        willUnloadHandlers.append(handler)
+        return self
+    }
+    
+    @discardableResult
+    public func onWillUnload(_ handler: @escaping (Self) -> Void) -> Self {
+        willUnloadHandlers.append({
+            handler(self)
+        })
+        return self
+    }
+    
+    @discardableResult
+    public func onDidUnload(_ handler: @escaping () -> Void) -> Self {
+        didUnloadHandlers.append(handler)
+        return self
+    }
+    
+    @discardableResult
+    public func onDidUnload(_ handler: @escaping (Self) -> Void) -> Self {
+        didUnloadHandlers.append({
+            handler(self)
+        })
+        return self
+    }
     
     // MARK: - Fragment Router
     
