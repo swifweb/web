@@ -140,6 +140,12 @@ open class PageController: BaseContentElement {
         }
         return canRespond
     }
+    
+    // MARK: Alert
+    
+    public func alert(_ message: String) {
+        JSObject.global.alert.function?.callAsFunction(message.jsValue)
+    }
 }
 
 extension String {
