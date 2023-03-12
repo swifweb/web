@@ -15,4 +15,8 @@ open class Id: ExpressibleByStringLiteral {
     required public init (stringLiteral name: String) {
         self.name = name
     }
+    
+    public init (_ name: String) {
+        self.name = name
+    }
 }
