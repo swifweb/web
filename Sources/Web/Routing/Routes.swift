@@ -11,14 +11,23 @@ import DOM
 public typealias Group = Routes.Group
 public typealias Page = Routes.Page
 
+public final class FragmentRoutes {
+    let routes = RoutesStorage()
+    
+    public init (@RoutesFactory content: @escaping RoutesFactory.Block) {
+        Routes.parse(routes, content().routesFactoryContent)
+    }
+}
+
 public class FragmentRouter: DOMContent {
     lazy var defaultResponder = DefaultResponder(routes: routes)
-    lazy var routes: RoutesStorage = .init()
+    let routes: RoutesStorage
     lazy var container = Div()
     
     public var domContentItem: DOMItem { .elements([container]) }
     
-    public init (_ pageController: PageController) {
+    public init (_ pageController: PageController, _ routes: FragmentRoutes) {
+        self.routes = routes.routes
         pageController.fragments.append(self)
     }
     
@@ -28,27 +37,21 @@ public class FragmentRouter: DOMContent {
         return self
     }
     
-    @discardableResult
-    public func routes(@RoutesFactory content: @escaping RoutesFactory.Block) -> Self {
-        Routes.parse(routes, content().routesFactoryContent)
-        return self
-    }
-    
     // MARK: Responder
     
     private var rootPaths: [String: String] = [:]
-    private var lastResponse: PageController?
+    private var lastResponse: AnyPageController?
     
-    func canRespond(_ req: Request, _ rootPath: String) throws -> Bool {
-        guard !routes.all.isEmpty else { return false }
+    func canRespond(_ req: Request, _ rootPath: String, level: Int) throws -> Bool {
         let relativePath = req.path.deletingPrefix(rootPath)
+        guard !routes.all.isEmpty else { return false }
         if let lastResponse = lastResponse {
             // pass respond to view controller's subrouter
             if let lastReq = lastResponse.controller.req {
                 if let rp = rootPaths[lastReq.path] {
                     if req.path.starts(with: rp) {
                         rootPaths[req.path] = rp
-                        if try lastResponse.controller.canRespond(req, rp) {
+                        if try lastResponse.controller.canRespond(req, rp, level: level + 1) {
                             return true
                         }
                     }
@@ -68,21 +71,23 @@ public class FragmentRouter: DOMContent {
             hash: req.hash
         )
         guard let response = try defaultResponder.respond(to: subRequest) else { return false }
-        
-        for fragment in response.controller.fragments {
-            do {
-                let rootPath: String
-                if let rp = req.route?.rootPath?.joined(separator: "/") {
-                    rootPath = rp.hasPrefix("/") ? rp : "/\(rp)"
-                } else {
-                    rootPath = req.path
+        func wakeUpFragment(fragments: [FragmentRouter]) {
+            for fragment in fragments {
+                do {
+                    let rootPath: String
+                    if let rp = req.route?.rootPath?.joined(separator: "/") {
+                        rootPath = rp.hasPrefix("/") ? rp : "/\(rp)"
+                    } else {
+                        rootPath = req.path
+                    }
+                    rootPaths[req.path] = rootPath
+                    _ = try fragment.canRespond(req, rootPath, level: level + 1)
+                } catch {
+                    print("Unable to render subroute: \(error)")
                 }
-                rootPaths[req.path] = rootPath
-                _ = try fragment.canRespond(req, rootPath)
-            } catch {
-                print("Unable to render subroute: \(error)")
             }
         }
+        wakeUpFragment(fragments: response.controller.fragments)
         
         #if arch(wasm32)
         response.controller.willLoad(with: req)
@@ -119,20 +124,21 @@ public class Routes: AppBuilderContent {
         case .items(let items):
             items.forEach { parse(builder, $0) }
         case .endpoint(let endpoint):
-            guard let endpoint = endpoint as? _AnyRoutesEndpoint else { break }
-            guard let pageController = try? endpoint.closure(.init(application: WebApp.shared, path: endpoint.path.joined(separator: "/"))) else { break }
-            builder.add(Route(
+            guard let endpoint = endpoint as? (any _AnyRoutesEndpoint) else { break }
+            let route = Route(
                 path: endpoint.path,
-                responder: BasicResponder { try endpoint.closure($0) }
-            ))
-            for fragment in pageController.fragments {
+                rootPath: endpoint.path,
+                responder: BasicResponder { try endpoint.closure($0) as! PageController }
+            )
+            builder.add(route)
+            for fragment in endpoint.pageClass.fragmentRoutes {
                 for route in fragment.routes.all {
                     var p = endpoint.path
                     p.append(contentsOf: route.path)
                     builder.add(Route(
                         path: p,
                         rootPath: endpoint.path,
-                        responder: BasicResponder { try endpoint.closure($0) }
+                        responder: BasicResponder { try endpoint.closure($0) as! PageController }
                     ))
                 }
             }
@@ -216,36 +222,43 @@ extension Routes {
     }
 }
 
-public protocol AnyRoutesEndpoint {}
+public protocol AnyRoutesEndpoint {
+    associatedtype P: AnyPageController
+}
 
 protocol _AnyRoutesEndpoint: AnyRoutesEndpoint {
     var path: [String] { get }
-    var closure: (Request) throws -> PageController { get }
+    var closure: (Request) throws -> P { get }
+    var pageClass: P.Type { get }
+}
+
+extension _AnyRoutesEndpoint {
+    var pageClass: P.Type { P.self }
 }
 
 extension Routes {
-    public class Page: _AnyRoutesEndpoint, RoutesFactoryContent {
+    public class Page<P: AnyPageController>: _AnyRoutesEndpoint, RoutesFactoryContent {
         public var routesFactoryContent: RoutesFactory.Item { .endpoint(self) }
         
         var path: [String]
-        var closure: (Request) throws -> PageController
+        var closure: (Request) throws -> P
         
-        public init (_ path: [String], use closure: @escaping (Request) throws -> PageController) {
+        public init (_ path: [String], use closure: @escaping (Request) throws -> P) {
             self.path = path
             self.closure = closure
         }
         
-        public convenience init (_ path: String..., use closure: @escaping (Request) throws -> PageController) {
+        public convenience init (_ path: String..., use closure: @escaping (Request) throws -> P) {
             self.init(path, use: closure)
         }
         
-        public convenience init (_ path: [String], use closure: @escaping () throws -> PageController) {
+        public convenience init (_ path: [String], use closure: @escaping () throws -> P) {
             self.init(path) { _ in
                 try closure()
             }
         }
         
-        public convenience init (_ path: String..., use closure: @escaping () throws -> PageController) {
+        public convenience init (_ path: String..., use closure: @escaping () throws -> P) {
             self.init(path, use: closure)
         }
     }

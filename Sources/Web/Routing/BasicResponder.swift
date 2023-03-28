@@ -9,9 +9,11 @@
 import Foundation
 
 /// A basic, closure-based `Responder`.
-public struct BasicResponder: Responder {
+public struct BasicResponder<P: AnyPageController>: Responder {
+    var pageClass: P.Type { P.self }
+    
     /// The stored responder closure.
-    private let closure: (Request) throws -> PageController
+    private let closure: (Request) throws -> P
 
     /// Create a new `BasicResponder`.
     ///
@@ -22,12 +24,12 @@ public struct BasicResponder: Responder {
     ///
     /// - parameters:
     ///     - closure: Responder closure.
-    public init(closure: @escaping (Request) throws -> PageController) {
+    public init(closure: @escaping (Request) throws -> P) {
         self.closure = closure
     }
 
     /// See `Responder`.
-    public func respond(to request: Request) throws -> PageController? {
+    public func respond(to request: Request) throws -> AnyPageController? {
         try closure(request)
     }
 }

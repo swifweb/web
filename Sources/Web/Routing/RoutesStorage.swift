@@ -9,7 +9,7 @@
 import Foundation
 
 public final class RoutesStorage: RoutesBuilder, CustomStringConvertible {
-    public var all: [Route]
+    public var all: [any AnyRoute]
     
     /// Default routing behavior of `DefaultResponder` is case-sensitive; configure to `true` prior to
     /// Application start handle `Constant` `PathComponents` in a case-insensitive manner.
@@ -24,7 +24,7 @@ public final class RoutesStorage: RoutesBuilder, CustomStringConvertible {
         self.caseInsensitive = false
     }
 
-    public func add(_ route: Route) {
+    public func add(_ route: any AnyRoute) {
         self.all.append(route)
     }
 }

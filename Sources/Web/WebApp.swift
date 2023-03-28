@@ -150,7 +150,7 @@ open class WebApp: _PreviewableApp {
     }
     
     var rootPaths: [String: String] = [:]
-    var lastResponse: PageController?
+    var lastResponse: AnyPageController?
     
     func handleRoute(_ req: Request) {
         do {
@@ -160,7 +160,7 @@ open class WebApp: _PreviewableApp {
                     if let rp = rootPaths[lastReq.path] {
                         if req.path.starts(with: rp) {
                             rootPaths[req.path] = rp
-                            if try lastResponse.controller.canRespond(req, rp) {
+                            if try lastResponse.controller.canRespond(req, rp, level: 0) {
                                 return
                             }
                         }
@@ -184,7 +184,7 @@ open class WebApp: _PreviewableApp {
                         rootPath = req.path
                     }
                     rootPaths[req.path] = rootPath
-                    _ = try fragment.canRespond(req, rootPath)
+                    _ = try fragment.canRespond(req, rootPath, level: 0)
                 } catch {
                     print("Unable to render subroute: \(error)")
                 }

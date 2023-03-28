@@ -18,13 +18,13 @@ public protocol Middleware {
     ///     - request: The incoming `Request`.
     ///     - next: Next `Responder` in the chain, potentially another middleware or the main router.
     /// - returns: An asynchronous `Response`.
-    func respond(to request: Request, chainingTo next: Responder) -> PageController
+    func respond(to request: Request, chainingTo next: any Responder) -> PageController
 }
 
 extension Array where Element == Middleware {
     /// Wraps a `Responder` in an array of `Middleware` creating a new `Responder`.
     /// - note: The array of middleware must be `[Middleware]` not `[M] where M: Middleware`.
-    public func makeResponder(chainingTo responder: Responder) -> Responder {
+    public func makeResponder(chainingTo responder: any Responder) -> any Responder {
         var responder = responder
         for middleware in reversed() {
             responder = middleware.makeResponder(chainingTo: responder)
@@ -35,21 +35,21 @@ extension Array where Element == Middleware {
 
 public extension Middleware {
     /// Wraps a `Responder` in a single `Middleware` creating a new `Responder`.
-    func makeResponder(chainingTo responder: Responder) -> Responder {
+    func makeResponder(chainingTo responder: any Responder) -> any Responder {
         HTTPMiddlewareResponder(middleware: self, responder: responder)
     }
 }
 
 private struct HTTPMiddlewareResponder: Responder {
     var middleware: Middleware
-    var responder: Responder
+    var responder: any Responder
     
-    init(middleware: Middleware, responder: Responder) {
+    init(middleware: Middleware, responder: any Responder) {
         self.middleware = middleware
         self.responder = responder
     }
     
-    func respond(to request: Request) throws -> PageController? {
+    func respond(to request: Request) throws -> AnyPageController? {
         middleware.respond(to: request, chainingTo: responder)
     }
 }

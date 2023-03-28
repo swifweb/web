@@ -8,12 +8,12 @@
 
 import Foundation
 
-private struct CachedRoute {
-    let route: Route
-    let responder: Responder
+struct CachedRoute {
+    let route: any AnyRoute
+    let responder: any Responder
     
-    init (_ paths: String..., responder: Responder) {
-        self.route = .init(path: paths, responder: responder)
+    init (route: any AnyRoute, responder: any Responder) {
+        self.route = route
         self.responder = responder
     }
 }
@@ -21,15 +21,10 @@ private struct CachedRoute {
 /// Vapor's main `Responder` type. Combines configured middleware + router to create a responder.
 internal struct DefaultResponder: Responder {
     private let router: TrieRouter<CachedRoute>
-    private let notFoundResponder: Responder?
-
-    private struct CachedRoute {
-        let route: Route
-        let responder: Responder
-    }
+    private let notFoundResponder: (any Responder)?
 
     /// Creates a new `ApplicationResponder`
-    init(routes: RoutesStorage, notFoundResponder: Responder? = nil, middleware: [Middleware] = []) {
+    init(routes: RoutesStorage, notFoundResponder: (any Responder)? = nil, middleware: [Middleware] = []) {
         let options = routes.caseInsensitive ?
             Set(arrayLiteral: TrieRouter<CachedRoute>.ConfigurationOption.caseInsensitive) : []
         let router = TrieRouter(CachedRoute.self, options: options)
@@ -59,7 +54,7 @@ internal struct DefaultResponder: Responder {
         }
     }
     
-    func respond(to request: Request) throws -> PageController? {
+    func respond(to request: Request) throws -> AnyPageController? {
         if let cachedRoute = getRoute(for: request) {
             request.route = cachedRoute.route
             return try cachedRoute.responder.respond(to: request)
@@ -79,13 +74,13 @@ internal struct DefaultResponder: Responder {
 }
 
 extension DefaultResponder {
-    static var notFoundResponder: Responder {
+    static var notFoundResponder: any Responder {
         NotFoundResponder()
     }
 }
 
 private struct NotFoundResponder: Responder {
-    func respond(to request: Request) throws -> PageController? {
+    func respond(to request: Request) throws -> AnyPageController? {
         NotFoundPageController()
     }
 }

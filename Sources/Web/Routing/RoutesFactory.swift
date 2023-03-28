@@ -15,7 +15,7 @@ public protocol RoutesFactoryContent {
     public enum Item {
         case none
         case group(Routes.Group)
-        case endpoint(AnyRoutesEndpoint)
+        case endpoint(any AnyRoutesEndpoint)
         case items([Self])
     }
     

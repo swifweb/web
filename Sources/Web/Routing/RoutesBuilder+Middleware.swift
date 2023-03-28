@@ -84,7 +84,7 @@ private final class MiddlewareGroup: RoutesBuilder {
     }
     
     /// See `HTTPRoutesBuilder`.
-    func add(_ route: Route) {
+    func add(_ route: any AnyRoute) {
         route.responder = middleware.makeResponder(chainingTo: route.responder)
         root.add(route)
     }

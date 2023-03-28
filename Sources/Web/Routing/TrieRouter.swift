@@ -94,13 +94,11 @@ public final class TrieRouter<Output>: Router, CustomStringConvertible {
             if let catchall = currentNode.catchall {
                 currentCatchall = (catchall, [String](path.dropFirst(index)))
             }
-
             // check the constants first
             if let constant = currentNode.constants[isCaseInsensitive ? slice.lowercased() : slice] {
                 currentNode = constant
                 continue search
             }
-
             // no constants matched, check for dynamic members
             if let (name, parameter) = currentNode.parameter {
                 // if no constant routes were found that match the path, but
@@ -109,13 +107,11 @@ public final class TrieRouter<Output>: Router, CustomStringConvertible {
                 currentNode = parameter
                 continue search
             }
-
             // check for anythings
             if let anything = currentNode.anything {
                 currentNode = anything
                 continue search
             }
-
             // no matches, stop searching
             if let (catchall, subpaths) = currentCatchall {
                 // fallback to catchall output if we have one

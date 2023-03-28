@@ -12,8 +12,16 @@ import DOM
 @available(*, unavailable, renamed: "PageController")
 public typealias ViewController = PageController
 
-open class PageController: BaseContentElement {
+public protocol AnyPageController: AnyObject {
+    static var fragmentRoutes: [FragmentRoutes] { get }
+    
+    var controller: PageController { get }
+}
+
+open class PageController: BaseContentElement, AnyPageController {
     open override class var name: String { "div" }
+    
+    open class var fragmentRoutes: [FragmentRoutes] { [] }
     
     public var controller: PageController { return self }
     public internal(set) var req: Request?
@@ -131,10 +139,10 @@ open class PageController: BaseContentElement {
     var fragments: [FragmentRouter] = []
     
     @discardableResult
-    func canRespond(_ req: Request, _ rootPath: String) throws -> Bool {
+    func canRespond(_ req: Request, _ rootPath: String, level: Int) throws -> Bool {
         var canRespond = false
         for fragment in fragments {
-            if try fragment.canRespond(req, rootPath) {
+            if try fragment.canRespond(req, rootPath, level: level) {
                 canRespond = true
             }
         }

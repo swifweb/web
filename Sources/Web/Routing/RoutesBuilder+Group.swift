@@ -87,7 +87,7 @@ private final class HTTPRoutesGroup: RoutesBuilder {
     }
     
     /// See `HTTPRoutesBuilder`.
-    func add(_ route: Route) {
+    func add(_ route: any AnyRoute) {
         route.path = path + route.path
         root.add(route)
     }
