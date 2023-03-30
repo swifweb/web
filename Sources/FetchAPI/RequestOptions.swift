@@ -9,13 +9,34 @@ import WebFoundation
 import StreamsAPI
 
 public class RequestOptions {
-    public private(set) var jsValue: JSValue
+    public var jsValue: JSValue {
+        var jsValue = [:].jsValue
+        jsValue.method = method.rawValue.jsValue
+        jsValue.headers = headers
+        if let body {
+            jsValue.body = body
+        }
+        jsValue.mode = mode.rawValue.jsValue
+        jsValue.credentials = credentials.rawValue.jsValue
+        if let cache {
+            jsValue.cache = cache.jsValue
+        }
+        jsValue.redirect = redirect.rawValue.jsValue
+        if let referrer {
+            jsValue.referrer = referrer.jsValue
+        }
+        if let integrity {
+            jsValue.integrity = integrity.jsValue
+        }
+        Console.dir(jsValue)
+        return jsValue
+    }
     
     /// The request method, e.g., GET, POST. The default is GET.
     public var method: RequestMethod = .get
     
     /// Headers you want to add to your request.
-    public var headers: [String: String] = [:]
+    public private(set) var headers: JSValue = JSObject.global.Headers.function?.new().jsValue ?? .null
     
     /// Body that you want to add to your request.
     ///
@@ -42,36 +63,28 @@ public class RequestOptions {
     /// Contains the subresource integrity value of the request (e.g., sha256-BpfBw7ivV8q2jLiT13fxDYAe2tJllusRSZ273h2nFSE=).
     public var integrity: String?
     
-    public init () {
-        jsValue = [:].jsValue
-        jsValue.method = method.rawValue.jsValue
-        jsValue.headers = headers.jsValue
-        jsValue.mode = mode.rawValue.jsValue
-        jsValue.credentials = credentials.rawValue.jsValue
-        jsValue.redirect = redirect.rawValue.jsValue
-    }
+    public init () {}
     
     /// The request method, e.g., GET, POST. The default is GET.
     @discardableResult
     public func method(_ value: RequestMethod) -> Self {
         method = value
-        jsValue.method = method.rawValue.jsValue
         return self
     }
     
     /// Headers you want to add to your request.
     @discardableResult
     public func headers(_ value: [String: String]) -> Self {
-        headers = value
-        jsValue.headers = headers.jsValue
+        for (key, value) in value {
+            headers.append.function?.callAsFunction(optionalThis: headers.object, key.jsValue, value.jsValue)
+        }
         return self
     }
     
     /// Headers you want to add to your request.
     @discardableResult
     public func header(_ key: String, _ value: String) -> Self {
-        headers[key] = value
-        jsValue.headers = headers.jsValue
+        headers.append.function?.callAsFunction(optionalThis: headers.object, key.jsValue, value.jsValue)
         return self
     }
     
@@ -135,7 +148,6 @@ public class RequestOptions {
     @discardableResult
     public func mode(_ value: RequestMode) -> Self {
         mode = value
-        jsValue.mode = mode.rawValue.jsValue
         return self
     }
     
@@ -145,7 +157,6 @@ public class RequestOptions {
     @discardableResult
     public func credentials(_ value: RequestCredentials) -> Self {
         credentials = value
-        jsValue.credentials = credentials.rawValue.jsValue
         return self
     }
     
@@ -153,7 +164,6 @@ public class RequestOptions {
     @discardableResult
     public func cache(_ value: String) -> Self {
         cache = value
-        jsValue.cache = cache.jsValue
         return self
     }
     
@@ -163,7 +173,6 @@ public class RequestOptions {
     @discardableResult
     public func redirect(_ value: RedirectMode) -> Self {
         redirect = value
-        jsValue.redirect = redirect.rawValue.jsValue
         return self
     }
     
@@ -173,7 +182,6 @@ public class RequestOptions {
     @discardableResult
     public func referrer(_ value: String) -> Self {
         referrer = value
-        jsValue.referrer = referrer.jsValue
         return self
     }
     
@@ -182,7 +190,6 @@ public class RequestOptions {
     @discardableResult
     public func integrity(_ value: String) -> Self {
         integrity = value
-        jsValue.integrity = integrity.jsValue
         return self
     }
 }
