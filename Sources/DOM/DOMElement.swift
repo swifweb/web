@@ -51,6 +51,63 @@ extension DOMElement {
         #endif
     }
     
+    /// Inserts a node before a reference node as a child of a specified parent node.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore)
+    public func insertChild(_ element: DOMElement, before: DOMElement) {
+        #if arch(wasm32)
+        domElement.insertBefore.function?.callAsFunction(optionalThis: domElement.object, element.domElement, before.domElement)
+        if let index = properties.subElements.firstIndex(where: { $0.properties._id == before.properties._id }) {
+            properties.subElements.insert(element, at: index - 1)
+        } else {
+            properties.subElements.append(element)
+        }
+        element.properties.parent = self
+        Dispatch.async(element.didAddToDOM)
+        #endif
+        #if WEBPREVIEW
+        if let index = properties.subElements.firstIndex(where: { $0.properties._id == before.properties._id }) {
+            properties.subElements.insert(element, at: index - 1)
+        } else {
+            properties.subElements.append(element)
+        }
+        #endif
+    }
+    
+    /// Inserts a node before a reference node as a child of a specified parent node.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore)
+    public func insertChild(_ element: DOMElement, at: Int) {
+        if at < properties.subElements.count {
+            insertChild(element, before: properties.subElements[at])
+        } else {
+            appendChild(element)
+        }
+    }
+    
+    /// Inserts a node after a reference node as a child of a specified parent node.
+    ///
+    /// [Learn more](https://stackoverflow.com/a/4793630/1001057)
+    public func insertChild(_ element: DOMElement, after: DOMElement) {
+        #if arch(wasm32)
+        domElement.insertBefore.function?.callAsFunction(optionalThis: domElement.object, element.domElement, after.domElement.nextSibling)
+        if let index = properties.subElements.firstIndex(where: { $0.properties._id == after.properties._id }) {
+            properties.subElements.insert(element, at: index)
+        } else {
+            properties.subElements.append(element)
+        }
+        element.properties.parent = self
+        Dispatch.async(element.didAddToDOM)
+        #endif
+        #if WEBPREVIEW
+        if let index = properties.subElements.firstIndex(where: { $0.properties._id == after.properties._id }) {
+            properties.subElements.insert(element, at: index)
+        } else {
+            properties.subElements.append(element)
+        }
+        #endif
+    }
+    
     /// Removes the element from the children list of its parent.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove)
