@@ -5,14 +5,9 @@
 //  Created by Mihael Isaev on 31.12.2022.
 //
 
-public protocol AnyForEach {
-    var count: Int { get }
-    func allItems() -> [DOMContent]
-    func items(at index: Int) -> DOMContent
-    func subscribeToChanges(_ begin: @escaping () -> Void, _ handler: @escaping ([Int], [Int], [Int]) -> Void, _ end: @escaping () -> Void)
-}
-
-public class ForEach<Item> where Item: Hashable {
+public class ForEach<Item>: BaseElement, ScrollHandleable, AlignAttrable where Item: Hashable {
+    public override class var name: String { Div.name }
+    
     public typealias Handler = (Int, Item) -> DOMContent
     public typealias HandlerValue = (Item) -> DOMContent
     public typealias HandlerSimple = () -> DOMContent
@@ -20,9 +15,20 @@ public class ForEach<Item> where Item: Hashable {
     let items: State<[Item]>
     let block: Handler
     
+    required public init() {
+        self.items = State(wrappedValue: [])
+        self.block = { _,_ in
+            DOM.none
+        }
+        super.init()
+        _postInit()
+    }
+    
     public init (_ items: [Item], @DOM block: @escaping Handler) {
         self.items = State(wrappedValue: items)
         self.block = block
+        super.init()
+        _postInit()
     }
     
     public init (_ items: [Item], @DOM block: @escaping HandlerValue) {
@@ -30,6 +36,8 @@ public class ForEach<Item> where Item: Hashable {
         self.block = { _, v in
             block(v)
         }
+        super.init()
+        _postInit()
     }
     
     public init (_ items: [Item], @DOM block: @escaping HandlerSimple) {
@@ -37,11 +45,15 @@ public class ForEach<Item> where Item: Hashable {
         self.block = { _,_ in
             block()
         }
+        super.init()
+        _postInit()
     }
     
     public init (_ items: State<[Item]>, @DOM block: @escaping Handler) {
         self.items = items
         self.block = block
+        super.init()
+        _postInit()
     }
     
     public init (_ items: State<[Item]>, @DOM block: @escaping HandlerValue) {
@@ -49,6 +61,8 @@ public class ForEach<Item> where Item: Hashable {
         self.block = { _, v in
             block(v)
         }
+        super.init()
+        _postInit()
     }
     
     public init (_ items: State<[Item]>, @DOM block: @escaping HandlerSimple) {
@@ -56,24 +70,68 @@ public class ForEach<Item> where Item: Hashable {
         self.block = { _,_ in
             block()
         }
+        super.init()
+        _postInit()
     }
-}
-
-extension ForEach: AnyForEach {
-    public var count: Int { items.wrappedValue.count }
     
-    public func allItems() -> [DOMContent] {
+    func _postInit() {
+        for item in allItems() {
+            parseDOMItem(item.domContentItem)
+        }
+        subscribeToChanges({}, { [weak self] deletions, insertions, modifications in
+            guard let self = self else { return }
+            for element in self.properties.subElements.enumerated().compactMap({ deletions.contains($0.offset) ? $0.element : nil }) {
+                element.remove()
+            }
+            insertions.forEach { insertion in
+                func addAsDiv() {
+                    let div = Div()
+                    div.parseDOMItem(self.items(at: insertion).domContentItem)
+                    self.insertChild(div, at: insertion)
+                }
+                func parse(_ item: DOMItem) {
+                    switch item {
+                    case .items(let items):
+                        if items.count == 1, let item = items.first {
+                            parse(item)
+                        } else {
+                            addAsDiv()
+                        }
+                    case .elements(let elements):
+                        if elements.count == 1, let element = elements.first {
+                            self.insertChild(element, at: insertion)
+                        } else {
+                            fallthrough
+                        }
+                    default:
+                        addAsDiv()
+                    }
+                }
+                parse(self.items(at: insertion).domContentItem)
+            }
+        }) {}
+    }
+    
+    func parseDOMItem(_ item: DOMItem) {
+        switch item {
+        case .elements(let elements): elements.forEach { appendChild($0) }
+        case .items(let items): items.forEach { parseDOMItem($0) }
+        case .none: break
+        }
+    }
+    
+    private func allItems() -> [DOMContent] {
         items.wrappedValue.enumerated().compactMap { [weak self] in
             self?.block($0.offset, $0.element)
         }
     }
     
-    public func items(at index: Int) -> DOMContent {
+    func items(at index: Int) -> DOMContent {
         guard index < items.wrappedValue.count else { return DOM.none }
         return block(index, items.wrappedValue[index])
     }
     
-    public func subscribeToChanges(_ begin: @escaping () -> Void, _ handler: @escaping ([Int], [Int], [Int]) -> Void, _ end: @escaping () -> Void) {
+    private func subscribeToChanges(_ begin: @escaping () -> Void, _ handler: @escaping ([Int], [Int], [Int]) -> Void, _ end: @escaping () -> Void) {
         items.beginTrigger(begin)
         items.listen { old, new in
             let diff = old.difference(new)
@@ -84,12 +142,6 @@ extension ForEach: AnyForEach {
             handler(deletions, insertions, modifications)
         }
         items.endTrigger(end)
-    }
-}
-
-extension ForEach: DOMContent {
-    public var domContentItem: DOMItem {
-        .forEach(self)
     }
 }
 
@@ -131,55 +183,55 @@ public class BuilderFunction: DOMContent {
     
     let content: DOMContent
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == String {
+    public init (_ valueToPass: String, @DOM content: @escaping (String) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == Int8 {
+    public init (_ valueToPass: Int8, @DOM content: @escaping (Int8) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == Int16 {
+    public init (_ valueToPass: Int16, @DOM content: @escaping (Int16) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == Int32 {
+    public init (_ valueToPass: Int32, @DOM content: @escaping (Int32) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == Int64 {
+    public init (_ valueToPass: Int64, @DOM content: @escaping (Int64) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == Double {
+    public init (_ valueToPass: Double, @DOM content: @escaping (Double) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == Float {
+    public init (_ valueToPass: Float, @DOM content: @escaping (Float) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == UInt8 {
+    public init (_ valueToPass: UInt8, @DOM content: @escaping (UInt8) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == UInt16 {
+    public init (_ valueToPass: UInt16, @DOM content: @escaping (UInt16) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == UInt32 {
+    public init (_ valueToPass: UInt32, @DOM content: @escaping (UInt32) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == UInt64 {
+    public init (_ valueToPass: UInt64, @DOM content: @escaping (UInt64) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result, Element>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == Array<Element> {
+    public init <Element>(_ valueToPass: Array<Element>, @DOM content: @escaping (Array<Element>) -> DOMContent) {
         self.content = content(valueToPass)
     }
     
-    public init <Result, Key, Value>(_ valueToPass: Result, @DOM content: @escaping (Result) -> DOMContent) where Result == Dictionary<Key, Value> {
+    public init <Key, Value>(_ valueToPass: Dictionary<Key, Value>, @DOM content: @escaping (Dictionary<Key, Value>) -> DOMContent) {
         self.content = content(valueToPass)
     }
     

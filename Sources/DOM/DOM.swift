@@ -15,7 +15,6 @@ public enum DOMItem {
     case none
     case elements([DOMElement])
     case items([DOMItem])
-    case forEach(AnyForEach)
 }
 
 private struct EmptyContent: DOMContent {
