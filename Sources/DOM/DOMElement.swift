@@ -58,7 +58,7 @@ extension DOMElement {
         #if arch(wasm32)
         domElement.insertBefore.function?.callAsFunction(optionalThis: domElement.object, element.domElement, before.domElement)
         if let index = properties.subElements.firstIndex(where: { $0.properties._id == before.properties._id }) {
-            properties.subElements.insert(element, at: index - 1)
+            properties.subElements.insert(element, at: index > 0 ? index - 1 : 0)
         } else {
             properties.subElements.append(element)
         }
@@ -67,7 +67,7 @@ extension DOMElement {
         #endif
         #if WEBPREVIEW
         if let index = properties.subElements.firstIndex(where: { $0.properties._id == before.properties._id }) {
-            properties.subElements.insert(element, at: index - 1)
+            properties.subElements.insert(element, at: index > 0 ? index - 1 : 0)
         } else {
             properties.subElements.append(element)
         }
