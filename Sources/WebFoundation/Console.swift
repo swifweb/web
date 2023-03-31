@@ -8,15 +8,23 @@
 import JavaScriptKit
 
 public class Console {
-    public static func dir(_ args: JSValueConvertible...) {
+    public static func dir(_ args: ConvertibleToJSValue...) {
         JSObject.global.console.dir.function?.callAsFunction(optionalThis: JSObject.global.console.object, arguments: args)
     }
     
-    public static func warning(_ args: JSValueConvertible...) {
+    public static func log(_ args: ConvertibleToJSValue...) {
+        JSObject.global.console.log.function?.callAsFunction(optionalThis: JSObject.global.console.object, arguments: args)
+    }
+    
+    public static func log(_ args: [ConvertibleToJSValue]) {
+        JSObject.global.console.log.function?.callAsFunction(optionalThis: JSObject.global.console.object, arguments: args)
+    }
+    
+    public static func warning(_ args: ConvertibleToJSValue...) {
         JSObject.global.console.warn.function?.callAsFunction(optionalThis: JSObject.global.console.object, arguments: args)
     }
     
-    public static func error(_ args: JSValueConvertible...) {
+    public static func error(_ args: ConvertibleToJSValue...) {
         JSObject.global.console.error.function?.callAsFunction(optionalThis: JSObject.global.console.object, arguments: args)
     }
     
