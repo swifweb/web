@@ -22,7 +22,7 @@ Go to [webber](https://github.com/swifweb/webber) repository and install it.
 
 # Usage
 
-Clone [spa](https://github.com/swifweb/spa-template) or [pwa](https://github.com/swifweb/pwa-template) template
+Just execute `webber new` to create new `spa` or `pwa` project.
 
 Go to the project folder and open `Package.swift` to explore the code.
 
@@ -32,4 +32,4 @@ Then take a look at the hidden `.webber` folder, you will find the `entrypoint/d
 
 To release the project just call `webber release` or `webber release -t pwa -s Service` for pwa, and then grab production files from `.webber/release` folder.
 
-// TODO: to be continued soon
+Please find [examples in releases](releases).
