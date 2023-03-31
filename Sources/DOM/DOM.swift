@@ -15,6 +15,7 @@ public enum DOMItem {
     case none
     case elements([DOMElement])
     case items([DOMItem])
+    case print(DOMPrint)
 }
 
 private struct EmptyContent: DOMContent {
@@ -77,5 +78,25 @@ extension Optional: DOMContent where Wrapped: DOMElement {
         case .none: return .none
         case .some(let value): return .elements([value])
         }
+    }
+}
+
+public struct DOMPrint: DOMContent {
+    public var domContentItem: DOMItem { .print(self) }
+    
+    let items: [ConvertibleToJSValue]
+    
+    public init (_ items: [ConvertibleToJSValue]) {
+        self.items = items
+    }
+    
+    public init (_ items: ConvertibleToJSValue...) {
+        self.items = items
+    }
+}
+
+extension DOM {
+    public static func print(_ items: ConvertibleToJSValue...) -> DOMPrint {
+        .init(items)
     }
 }

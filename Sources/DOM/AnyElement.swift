@@ -129,6 +129,7 @@ extension _BaseContentElementable {
         switch item {
         case .elements(let elements): elements.forEach { appendChild($0) }
         case .items(let items): items.forEach { parseDOMItem($0) }
+        case .print(let print): Console.log(print.items)
         case .none: break
         }
     }
