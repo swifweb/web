@@ -5,6 +5,7 @@
 //  Created by Mihael Isaev on 27.02.2021.
 //
 
+import Foundation
 import WebFoundation
 
 /// DOM interface implemented by objects that can receive events and may have listeners for them.
@@ -28,14 +29,19 @@ public struct EventListenerAddOptions: ConvertibleToJSValue {
     /// with passive listeners to learn more.
     public let passive: Bool
     
+    /// The listener will be removed when the given AbortSignal object's `abort()` method is called.
+    /// If not specified, no `AbortSignal` is associated with the listener.
+    public var signal: AbortSignal?
+    
     /// ⚠️ A Boolean available only for code running in XBL or in Firefox's chrome
     /// which indicates if the listener will be added to the system group.
     public let mozSystemGroup: Bool?
     
-    public init (capture: Bool, once: Bool, passive: Bool, mozSystemGroup: Bool? = nil) {
+    public init (capture: Bool, once: Bool, passive: Bool, signal: AbortSignal? = nil, mozSystemGroup: Bool? = nil) {
         self.capture = capture
         self.once = once
         self.passive = passive
+        self.signal = signal
         self.mozSystemGroup = mozSystemGroup
     }
     
@@ -44,6 +50,9 @@ public struct EventListenerAddOptions: ConvertibleToJSValue {
         result["capture"] = capture
         result["once"] = once
         result["passive"] = passive
+        if let signal {
+            result["signal"] = signal.jsValue
+        }
         if let mozSystemGroup = mozSystemGroup {
             result["mozSystemGroup"] = mozSystemGroup
         }
@@ -82,8 +91,15 @@ extension EventTarget {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
     @discardableResult
     public func addEventListener(_ name: EventName, options: EventListenerAddOptions, _ handler: @escaping (AnyEvent) -> Void) -> Self {
-        let c = container.createOrUpdate(name, handler)
-        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, name.value, c.closure)
+        var eventHandler: EventListenerContainer.Handler!
+        eventHandler = EventListenerContainer.Handler(closure: {
+            if options.once {
+                self.container.remove(from: name, handler: eventHandler)
+            }
+            handler($0)
+        })
+        let c = container.createOrUpdate(name, eventHandler)
+        jsValue.addEventListener.function?.callAsFunction(optionalThis: jsValue.object, name.value, c.closure, options.jsValue)
         return self
     }
     
@@ -102,10 +118,12 @@ extension EventTarget {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
     @discardableResult
     public func addEventListener(_ name: EventName, useCapture: Bool? = nil, wantsUntrusted: Bool? = nil, _ handler: @escaping (AnyEvent) -> Void) -> Self {
-        let c = container.createOrUpdate(name, handler)
+        let c = container.createOrUpdate(name, .init(closure: handler))
         var args: [ConvertibleToJSValue] = [name.value, c.closure]
         if let useCapture = useCapture {
             args.append(useCapture)
+        } else {
+            args.append(false)
         }
         if let wantsUntrusted = wantsUntrusted {
             args.append(wantsUntrusted)
@@ -181,7 +199,7 @@ class EventTargetContainer: AnyStorageValue, StorageKey {
         eventListeners[name]
     }
     
-    func createOrUpdate(_ name: EventName, _ handler: @escaping (EventListenerContainer.BaseEvent) -> Void) -> EventListenerContainer {
+    func createOrUpdate(_ name: EventName, _ handler: EventListenerContainer.Handler) -> EventListenerContainer {
         var container: EventListenerContainer
         if let cached = eventListeners[name] {
             container = cached
@@ -191,6 +209,10 @@ class EventTargetContainer: AnyStorageValue, StorageKey {
             eventListeners[name] = container
         }
         return container
+    }
+    
+    func remove(from name: EventName, handler: EventListenerContainer.Handler) {
+        eventListeners[name]?.handlers.removeAll(where: { $0 == handler })
     }
     
     func shutdown() {
@@ -219,14 +241,26 @@ class EventListenerContainer: AnyStorageValue {
         }
     }
     
-    var handlers: [(BaseEvent) -> Void]
+    var handlers: [Handler]
+    
+    struct Handler: Equatable {
+        let id = UUID()
+        let closure: (BaseEvent) -> Void
+        
+        static func == (lhs: Self, rhs: Self) -> Bool {
+            lhs.id == rhs.id
+        }
+    }
     
     lazy var closure: JSClosure = JSClosure { args -> JSValue in
-        self.handlers.forEach { $0(.init(args.first)) }
+        self.handlers.forEach { handler in
+            handler.closure(.init(args.first))
+            self.handlers.removeAll(where: { $0 == handler })
+        }
         return .undefined
     }
     
-    required init (_ handler: @escaping (BaseEvent) -> Void) {
+    required init (_ handler: Handler) {
         handlers = [handler]
     }
     
