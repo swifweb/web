@@ -302,4 +302,26 @@ public class Window: EventListenerCompatibleObject, EventTarget {
         enterForegroundHandlers.append(handler)
         return self
     }
+
+    // MARK: Open URL
+
+    /// The openURL() method opens a new browser window, or a new tab, depending on your browser settings and the parameter values.
+    @discardableResult
+    public func openURL(
+        _ url: URLConformable = "about:blank",
+        target: TargetType = .blank,
+        options: String = ""
+    ) -> JSValue {
+        JSObject.global.window.open(url, target.rawValue, options)
+    }
+
+    /// The openURL() method opens a new browser window, or a new tab, depending on your browser settings and the parameter values.
+    @discardableResult
+    public func openURL(
+        _ url: URLConformable = "about:blank",
+        name: String = "",
+        options: String = ""
+    ) -> JSValue {
+        JSObject.global.window.open(url, name, options)
+    }
 }
