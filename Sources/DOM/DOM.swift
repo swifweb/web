@@ -84,7 +84,7 @@ extension Optional: DOMContent where Wrapped: DOMElement {
 public struct DOMPrint: DOMContent {
     public var domContentItem: DOMItem { .print(self) }
     
-    let items: [ConvertibleToJSValue]
+    public let items: [ConvertibleToJSValue]
     
     public init (_ items: [ConvertibleToJSValue]) {
         self.items = items
