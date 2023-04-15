@@ -33,3 +33,5 @@ Then take a look at the hidden `.webber` folder, you will find the `entrypoint/d
 To release the project just call `webber release` or `webber release -t pwa -s Service` for pwa, and then grab production files from `.webber/release` folder.
 
 Please find [examples in releases](https://github.com/swifweb/web/releases).
+
+[Tutorial on HackerNoon](https://hackernoon.com/how-to-use-swift-for-web-development)
