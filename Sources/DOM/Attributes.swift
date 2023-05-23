@@ -1172,7 +1172,7 @@ public protocol DataAttrable: DOMElement {
 }
 
 extension DataAttrable {
-    /// Indicates the date and time associated with the element.
+    /// Adds data tag associated with the element.
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*)
     @discardableResult
@@ -1181,7 +1181,7 @@ extension DataAttrable {
         return self
     }
     
-    /// Indicates the date and time associated with the element.
+    /// Adds data tag associated with the element.
     ///
     /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*)
     @discardableResult
