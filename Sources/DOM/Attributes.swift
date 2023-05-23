@@ -1162,6 +1162,38 @@ extension Link: CrossOriginAttrable {}
 extension Script: CrossOriginAttrable {}
 extension Video: CrossOriginAttrable {}
 
+// MARK: - DataAttrable
+
+public protocol DataAttrable: DOMElement {
+    @discardableResult
+    func data(_ tag: String, _ value: String) -> Self
+    @discardableResult
+    func data<S>(_ tag: String, _ value: S) -> Self where S: StateConvertible, S.Value == String
+}
+
+extension DataAttrable {
+    /// Indicates the date and time associated with the element.
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*)
+    @discardableResult
+    public func data(_ tag: String, _ value: String) -> Self {
+        attribute("data-\(tag)", value)
+        return self
+    }
+    
+    /// Indicates the date and time associated with the element.
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*)
+    @discardableResult
+    public func data<S>(_ tag: String, _ value: S) -> Self where S: StateConvertible, S.Value == String {
+        data(tag, value.stateValue.wrappedValue)
+        value.stateValue.listen { self.data($0, $1) }
+        return self
+    }
+}
+
+extension BaseActiveElement: DataAttrable {}
+
 // MARK: - DateTimeAttrable
 
 public protocol DateTimeAttrable: DOMElement {
