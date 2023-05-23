@@ -4730,9 +4730,37 @@ extension TextArea: WrapAttrable {}
 //https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/data
 //<object>    Specifies the URL of the resource.
 
-//https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*
-//data-*    Global attribute    Lets you attach custom attributes to an HTML element.
+// MARK: - DataAttrable
 
+public protocol DataAttrable: DOMElement {
+    @discardableResult
+    func data(_ tag: String, _ value: String) -> Self
+    @discardableResult
+    func data<S>(_ tag: String, _ value: S) -> Self where S: StateConvertible, S.Value == String
+}
+
+extension DataAttrable {
+    /// Adds data tag associated with the element.
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*)
+    @discardableResult
+    public func data(_ tag: String, _ value: String) -> Self {
+        attribute("data-\(tag)", value)
+        return self
+    }
+    
+    /// Adds data tag associated with the element.
+    ///
+    /// [More info →](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*)
+    @discardableResult
+    public func data<S>(_ tag: String, _ value: S) -> Self where S: StateConvertible, S.Value == String {
+        data(tag, value.stateValue.wrappedValue)
+        value.stateValue.listen { self.data($0, $1) }
+        return self
+    }
+}
+
+extension BaseActiveElement: DataAttrable {}
 
 // MARK: - DirNameAttrable
 
