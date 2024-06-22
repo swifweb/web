@@ -860,11 +860,11 @@ public struct ColorType: PropertyValueImportantable, _StringPropertyValue {
         .init("rgba(\(r), \(g), \(b), \(a))")
     }
     
-    public static func hsl(_ hue: Int, _ saturation: Int, _ lightness: Int) -> ColorType {
+    public static func hsl(_ hue: Double, _ saturation: Double, _ lightness: Double) -> ColorType {
         .init("hsl(\(hue), \(saturation)%, \(lightness)%)")
     }
     
-    public static func hsla(_ hue: Int, _ saturation: Int, _ lightness: Int, _ alpha: Double) -> ColorType {
+    public static func hsla(_ hue: Double, _ saturation: Double, _ lightness: Double, _ alpha: Double) -> ColorType {
         .init("hsla(\(hue), \(saturation)%, \(lightness)%, \(alpha))")
     }
     

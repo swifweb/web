@@ -70,25 +70,25 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
     
     public init <H, S, L, A>(h: H, s: S, l: L, a: A)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         value = .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue)
         h.uniStateValue?.listen { [weak self] in
-            self?.value = .rgba($0, s.uniValue, l.uniValue, a.uniValue)
+            self?.value = .hsla($0, s.uniValue, l.uniValue, a.uniValue)
         }
         s.uniStateValue?.listen { [weak self] in
-            self?.value = .rgba(h.uniValue, $0, l.uniValue, a.uniValue)
+            self?.value = .hsla(h.uniValue, $0, l.uniValue, a.uniValue)
         }
         l.uniStateValue?.listen { [weak self] in
-            self?.value = .rgba(h.uniValue, s.uniValue, $0, a.uniValue)
+            self?.value = .hsla(h.uniValue, s.uniValue, $0, a.uniValue)
         }
         a.uniStateValue?.listen { [weak self] in
-            self?.value = .rgba(h.uniValue, s.uniValue, l.uniValue, $0)
+            self?.value = .hsla(h.uniValue, s.uniValue, l.uniValue, $0)
         }
     }
     
     public convenience init <H, S, L>(h: H, s: S, l: L)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1)
     }
     
@@ -103,11 +103,11 @@ open class Color: CustomStringConvertible, _PropertyValueInnerChangeable, Hashab
               { .init(r: r, g: g, b: b, a: a) }
     public static func hsl<H, S, L>(_ h: H, _ s: S, _ l: L) -> Color
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double
               { .init(h: h, s: s, l: l) }
     public static func hsla<H, S, L, A>(_ h: H, _ s: S, _ l: L, _  a: A) -> Color
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double
               { .init(h: h, s: s, l: l, a: a) }
     
     public static var aliceBlue: Color { .init(.css(.aliceBlue)) }

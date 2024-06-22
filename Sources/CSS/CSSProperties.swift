@@ -1104,7 +1104,7 @@ public class BackgroundColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -1150,7 +1150,7 @@ public class BackgroundColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -1202,7 +1202,7 @@ extension CSSRulable {
     @discardableResult
     public func backgroundColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(BackgroundColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -1211,7 +1211,7 @@ extension CSSRulable {
     @discardableResult
     public func backgroundColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(BackgroundColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -1927,7 +1927,7 @@ public class BorderBottomColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -1973,7 +1973,7 @@ public class BorderBottomColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -2025,7 +2025,7 @@ extension CSSRulable {
     @discardableResult
     public func borderBottomColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(BorderBottomColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -2034,7 +2034,7 @@ extension CSSRulable {
     @discardableResult
     public func borderBottomColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(BorderBottomColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -2533,7 +2533,7 @@ public class BorderColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -2579,7 +2579,7 @@ public class BorderColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -2631,7 +2631,7 @@ extension CSSRulable {
     @discardableResult
     public func borderColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(BorderColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -2640,7 +2640,7 @@ extension CSSRulable {
     @discardableResult
     public func borderColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(BorderColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -3069,7 +3069,7 @@ public class BorderLeftColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(.hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -3115,7 +3115,7 @@ public class BorderLeftColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -3167,7 +3167,7 @@ extension CSSRulable {
     @discardableResult
     public func borderLeftColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(BorderLeftColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -3176,7 +3176,7 @@ extension CSSRulable {
     @discardableResult
     public func borderLeftColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(BorderLeftColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -4900,7 +4900,7 @@ public class BorderRightColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -4946,7 +4946,7 @@ public class BorderRightColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -4998,7 +4998,7 @@ extension CSSRulable {
     @discardableResult
     public func borderRightColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(BorderRightColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -5007,7 +5007,7 @@ extension CSSRulable {
     @discardableResult
     public func borderRightColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(BorderRightColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -5531,7 +5531,7 @@ public class BorderTopColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -5577,7 +5577,7 @@ public class BorderTopColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -5629,7 +5629,7 @@ extension CSSRulable {
     @discardableResult
     public func borderTopColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(BorderTopColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -5638,7 +5638,7 @@ extension CSSRulable {
     @discardableResult
     public func borderTopColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(BorderTopColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -7441,7 +7441,7 @@ public class CaretColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -7487,7 +7487,7 @@ public class CaretColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -7539,7 +7539,7 @@ extension CSSRulable {
     @discardableResult
     public func caretColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(CaretColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -7548,7 +7548,7 @@ extension CSSRulable {
     @discardableResult
     public func caretColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(CaretColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -8201,7 +8201,7 @@ public class ColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -8247,7 +8247,7 @@ public class ColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -8299,7 +8299,7 @@ extension CSSRulable {
     @discardableResult
     public func color <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(ColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -8308,7 +8308,7 @@ extension CSSRulable {
     @discardableResult
     public func color <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(ColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -8554,7 +8554,7 @@ public class ColumnRuleColorProperty: _Property {
 
     public convenience init <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         self.init(important == true ? .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue).important : .hsla(h.uniValue, s.uniValue, l.uniValue, a.uniValue))
         h.uniStateValue?.listen {
             let color: Color
@@ -8600,7 +8600,7 @@ public class ColumnRuleColorProperty: _Property {
 
     public convenience init <H, S, L>(h: H, s: S, l: L, important: Bool? = nil)
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -8652,7 +8652,7 @@ extension CSSRulable {
     @discardableResult
     public func columnRuleColor <H, S, L, A>(h: H, s: S, l: L, a: A, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue, A: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int, A.UniValue == Double {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double, A.UniValue == Double {
         _addProperty(ColumnRuleColorProperty(h: h, s: s, l: l, a: a, important: important))
         return self
     }
@@ -8661,7 +8661,7 @@ extension CSSRulable {
     @discardableResult
     public func columnRuleColor <H, S, L>(h: H, s: S, l: L, important: Bool? = nil) -> Self
     where H: UniValue, S: UniValue, L: UniValue,
-              H.UniValue == Int, S.UniValue == Int, L.UniValue == Int {
+              H.UniValue == Double, S.UniValue == Double, L.UniValue == Double {
         _addProperty(ColumnRuleColorProperty(h: h, s: s, l: l, important: important))
         return self
     }
@@ -16561,11 +16561,11 @@ public class OutlineColorProperty: _Property {
         self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init (h: Int, s: Int, l: Int, a: Double, important: Bool? = nil) {
+    public convenience init (h: Double, s: Double, l: Double, a: Double, important: Bool? = nil) {
         self.init(important == true ? .hsla(h, s, l, a).important : .hsla(h, s, l, a))
     }
 
-    public convenience init (h: Int, s: Int, l: Int, important: Bool? = nil) {
+    public convenience init (h: Double, s: Double, l: Double, important: Bool? = nil) {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
@@ -19132,11 +19132,11 @@ public class TextDecorationColorProperty: _Property {
         self.init(r: r, g:g, b: b, a: 1, important: important)
     }
 
-    public convenience init (h: Int, s: Int, l: Int, a: Double, important: Bool? = nil) {
+    public convenience init (h: Double, s: Double, l: Double, a: Double, important: Bool? = nil) {
         self.init(important == true ? .hsla(h, s, l, a).important : .hsla(h, s, l, a))
     }
 
-    public convenience init (h: Int, s: Int, l: Int, important: Bool? = nil) {
+    public convenience init (h: Double, s: Double, l: Double, important: Bool? = nil) {
         self.init(h: h, s: s, l: l, a: 1, important: important)
     }
 }
