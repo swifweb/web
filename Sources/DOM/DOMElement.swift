@@ -32,6 +32,62 @@ extension DOMElement {
 // TODO: https://developer.mozilla.org/en-US/docs/Web/API/Element
 // TODO: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
 extension DOMElement {
+    // MARK: Instance methods
+    
+    /// Removes keyboard focus from the current element.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/blur)
+    public func blur() {
+        #if arch(wasm32)
+        domElement.blur.function?.callAsFunction(optionalThis: domElement.object)
+        #endif
+    }
+    
+    /// Simulates a mouse click on an element
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/click)
+    public func click() {
+        #if arch(wasm32)
+        domElement.click.function?.callAsFunction(optionalThis: domElement.object)
+        #endif
+    }
+    
+    /// Sets focus on the specified element, if it can be focused.
+    /// The focused element is the element that will receive keyboard and similar events by default.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus)
+    public func focus(preventScroll: Bool? = nil, focusVisible: Bool? = nil) {
+        var options: [String: JSValue] = [:]
+        if let preventScroll = preventScroll {
+            options["preventScroll"] = preventScroll.jsValue
+        }
+        if let focusVisible = focusVisible {
+            options["focusVisible"] = focusVisible.jsValue
+        }
+        #if arch(wasm32)
+        domElement.focus.function?.callAsFunction(optionalThis: domElement.object, options.jsValue)
+        #endif
+    }
+    
+    /// Hides a popover element (i.e. one that has a valid popover attribute)
+    /// by removing it from the top layer and styling it with display: none.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidePopover)
+    public func hidePopover() {
+        #if arch(wasm32)
+        domElement.hidePopover.function?.callAsFunction(optionalThis: domElement.object)
+        #endif
+    }
+    
+    /// Shows a popover element (i.e. one that has a valid popover attribute) by adding it to the top layer.
+    ///
+    /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/showPopover)
+    public func showPopover() {
+        #if arch(wasm32)
+        domElement.showPopover.function?.callAsFunction(optionalThis: domElement.object)
+        #endif
+    }
+    
     // MARK: - Core Methods
     
     /// Adds the specified childNode argument as the last child to the current node.
