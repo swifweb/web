@@ -968,21 +968,31 @@ extension Pointerable {
         .init(pointer.selector + " " + values.map { $0.pointer.selector }.joined(separator: " "))
     }
 
-    /// Selects all `<p>` elements where the parent is a `<div>` element
-    ///
-    /// ```
-    /// div > p
-    /// ```
+    @available(*, deprecated, renamed: "parent(for:)") // TODO: remove in next major version
     public func parent(_ values: Pointerable...) -> Pointer {
         parent(values)
     }
-
+    
     /// Selects all `<p>` elements where the parent is a `<div>` element
     ///
     /// ```
     /// div > p
     /// ```
+    public func parent(for values: Pointerable...) -> Pointer {
+        parent(values)
+    }
+
+    @available(*, deprecated, renamed: "parent(for:)") // TODO: remove in next major version
     public func parent(_ values: [Pointerable]) -> Pointer {
+        .init(pointer.selector + " > " + values.map { $0.pointer.selector }.joined(separator: " >` "))
+    }
+    
+    /// Selects all `<p>` elements where the parent is a `<div>` element
+    ///
+    /// ```
+    /// div > p
+    /// ```
+    public func parent(for values: [Pointerable]) -> Pointer {
         .init(pointer.selector + " > " + values.map { $0.pointer.selector }.joined(separator: " >` "))
     }
 
