@@ -796,7 +796,30 @@ extension ClassAttrable {
     @discardableResult
     public func `class`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Class {
         `class`(value.stateValue.wrappedValue)
-        value.stateValue.listen { self.`class`($0) }
+        value.stateValue.listen { (old, new: Class) in
+            if old.names.count > 0 {
+                self.removeClass(old)
+            }
+            if new.names.count > 0 {
+                self.`class`(new)
+            }
+        }
+        return self
+    }
+    
+    @discardableResult
+    public func `class`<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Optional<Class> {
+        if let val = value.stateValue.wrappedValue {
+            `class`(val)
+        }
+        value.stateValue.listen { old, new in
+            if let old, old.names.count > 0 {
+                self.removeClass(old)
+            }
+            if let new, new.names.count > 0 {
+                self.`class`(new)
+            }
+        }
         return self
     }
     
