@@ -23,8 +23,10 @@ public final class Navigator: InnerStateChangeable, Equatable {
     /// Name of the element inside DOM
     let jsObjectName = "navigator"
     
+    #if arch(wasm32)
     /// Reference to DOM-object
     let jsValue: JSValue
+    #endif
     
     /// Returns the code name of the browser
     public let appCodeName: String
@@ -70,7 +72,6 @@ public final class Navigator: InnerStateChangeable, Equatable {
         product = jsValue.product.string ?? ""
         userAgent = jsValue.userAgent.string ?? ""
         #else
-        jsValue = JSValue("")
         appCodeName = ""
         appName = ""
         appVersion = ""
@@ -85,7 +86,9 @@ public final class Navigator: InnerStateChangeable, Equatable {
     }
     
     public init(original: Navigator) {
+        #if arch(wasm32)
         jsValue = original.jsValue
+        #endif
         appCodeName = original.appCodeName
         appName = original.appName
         appVersion = original.appVersion

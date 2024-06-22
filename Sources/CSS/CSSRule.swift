@@ -124,7 +124,7 @@ open class CSSRule: RulesContent, CSSRulable {
             _properties.remove(at: index)
         }
         _properties.append(_Property(key: key, value: value))
-        #if !WEBPREVIEW
+        #if arch(wasm32)
         domElement?.style.object?.removeProperty.function?.callAsFunction(optionalThis: domElement?.style.object, key)
         if value.hasSuffix("!important"), let left = value.components(separatedBy: "!").first {
             domElement?.style.object?.setProperty.function?.callAsFunction(optionalThis: domElement?.style.object, key, left.jsValue, "important".jsValue)

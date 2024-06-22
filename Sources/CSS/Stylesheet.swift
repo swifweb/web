@@ -14,7 +14,9 @@ open class Stylesheet: BaseElement, Stylesheetable {
     public typealias RuleItems = Rules.Content
     open override class var name: String { "style" }
     
+    #if arch(wasm32)
     lazy var sheet: JSValue = domElement.sheet
+    #endif
     
     public private(set) var _rawStyles: [String] = []
     public private(set) var _rules: [CSSRule] = []
@@ -54,6 +56,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     }
     
     public func findRuleIndex(by selector: String) -> Int? {
+        #if arch(wasm32)
         guard let ruleObject = sheet.cssRules.object else { return nil }
         let keys: [String] = JSObject.global[dynamicMember: "Object"].jsValue.function?.keys?(ruleObject).array?.compactMap { $0.string } ?? []
         for key in keys {
@@ -61,16 +64,19 @@ open class Stylesheet: BaseElement, Stylesheetable {
                 return Int(key)
             }
         }
+        #endif
         return nil
     }
     
     public func deleteRule(_ index: Int) {
+        #if arch(wasm32)
         sheet.deleteRule.function?.callAsFunction(optionalThis: sheet.object, arguments: [index])
+        #endif
     }
     
     @discardableResult
     public func addRawStyle(_ cssText: String) -> Int {
-        #if !WEBPREVIEW
+        #if arch(wasm32)
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
         return Int(index)
         #else
@@ -82,7 +88,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     @discardableResult
     public func addRule(_ rule: CSSRule) -> Int {
         let cssText = rule.render()
-        #if !WEBPREVIEW
+        #if arch(wasm32)
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
         rule.domElement = sheet.cssRules.item.function?.callAsFunction(optionalThis: sheet.cssRules.object, Int(index))
         return Int(index)
@@ -95,7 +101,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     @discardableResult
     public func addKeyframesRule(_ kf: Keyframes) -> Int {
         let cssText = kf.render()
-        #if !WEBPREVIEW
+        #if arch(wasm32)
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
         kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
         return Int(index)
@@ -108,7 +114,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     @discardableResult
     public func addMediaRule(_ m: MediaRule) -> Int {
         let cssText = m.render()
-        #if !WEBPREVIEW
+        #if arch(wasm32)
         guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return -1 }
         m.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
         return Int(index)
@@ -119,6 +125,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     }
     
     public func processRules() {
+        #if arch(wasm32)
         if sheet.object != nil {
             _rawStyles.forEach {
                 addRawStyle($0)
@@ -141,6 +148,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
             style.append("\r\n")
             domElement.innerHTML = style.jsValue
         }
+        #endif
     }
     
     open override func didAddToDOM() {
@@ -151,8 +159,18 @@ open class Stylesheet: BaseElement, Stylesheetable {
     
     /// Representing the advisory title of the current style sheet.
     public var title: String {
-        get { domElement.title.string ?? "" }
-        set { domElement.title = newValue.jsValue }
+        get {
+            #if arch(wasm32)
+            domElement.title.string ?? ""
+            #else
+            return ""
+            #endif
+        }
+        set {
+            #if arch(wasm32)
+            domElement.title = newValue.jsValue
+            #endif
+        }
     }
     
     /// Deletes the rule at the specified index into the stylesheet's rule list
@@ -167,33 +185,69 @@ open class Stylesheet: BaseElement, Stylesheetable {
     
     /// Shows whether the current stylesheet has been applied or not
     public var disabled: Bool {
-        get { sheet.disabled.boolean ?? false }
-        set { sheet.disabled = newValue.jsValue }
+        get {
+            #if !arch(wasm32)
+            return false
+            #else
+            sheet.disabled.boolean ?? false
+            #endif
+        }
+        set {
+            #if arch(wasm32)
+            sheet.disabled = newValue.jsValue
+            #endif
+        }
     }
 
     /// Representing the location of the stylesheet
     public var href: String? {
-        get { sheet.href.string }
+        get {
+            #if !arch(wasm32)
+            return nil
+            #else
+            sheet.href.string
+            #endif
+        }
     }
 
     /// Returns a MediaList representing the intended destination medium for style information.
     public var media: String? {
-        get { sheet.media.string }
+        get {
+            #if !arch(wasm32)
+            return nil
+            #else
+            sheet.media.string
+            #endif
+        }
     }
 
+    #if arch(wasm32)
     /// Returns a Node associating this style sheet with the current document.
     var ownerNode: JSValue {
         get { sheet.ownerNode }
     }
+    #endif
 
     /// Returns a StyleSheet including this one, if any; returns null if there aren't any.
     public var parentStyleSheet: String? {
-        get { sheet.parentStyleSheet.string }
+        get {
+            #if !arch(wasm32)
+            return nil
+            #else
+            sheet.parentStyleSheet.string
+            #endif
+        }
     }
 
     /// Returns a DOMString representing the style sheet language for this style sheet.
     public var type: String? {
-        get { sheet.type.string }
+        get {
+            #if !arch(wasm32)
+            return nil
+            #else
+            sheet.type.string
+            #endif
+        }
     }
     
     public private(set) var _disabled = false
@@ -201,7 +255,7 @@ open class Stylesheet: BaseElement, Stylesheetable {
     /// Disables stylesheet
     @discardableResult
     public func disabled(_ value: Bool) -> Self {
-        #if !WEBPREVIEW
+        #if arch(wasm32)
         domElement.disabled = value.jsValue
         #endif
         _disabled = value

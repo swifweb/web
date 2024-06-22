@@ -19,15 +19,21 @@ import Events
 ///
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer)
 public final class ServiceWorkerContainer {
+    #if arch(wasm32)
     /// Reference to JS-object
     let jsValue: JSValue
+    #endif
     
     public var shared: ServiceWorkerContainer? { _sharedNavigator?.serviceWorker }
     
     init? (_ navigator: Navigator) {
+        #if arch(wasm32)
         let sw: JSValue = navigator.jsValue.serviceWorker
         guard !sw.isUndefined && !sw.isNull else { return nil }
         self.jsValue = sw
+        #else
+        return nil
+        #endif
     }
     
     /// An object containing registration options.
@@ -79,6 +85,7 @@ public final class ServiceWorkerContainer {
         _ options: RegistrationOptions? = nil,
         _ handler: @escaping ((Result<ServiceWorkerRegistration, RegisterError>) -> Void)
     ) {
+        #if arch(wasm32)
         var arguments: [ConvertibleToJSValue] = [scriptURL]
         if let options = options {
             arguments.append(options)
@@ -98,6 +105,7 @@ public final class ServiceWorkerContainer {
         } else {
             handler(.failure(.unableToRegister))
         }
+        #endif
     }
     
     /// Returns a `ServiceWorker` object if its state is `activating` or `activated`
@@ -106,7 +114,13 @@ public final class ServiceWorkerContainer {
     /// This property returns `null` if the request is a force refresh (Shift + refresh) or if there is no active worker.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/controller)
-    public var controller: ServiceWorker? { .init(jsValue.controller) }
+    public var controller: ServiceWorker? {
+        #if arch(wasm32)
+        return .init(jsValue.controller)
+        #else
+        return nil
+        #endif
+    }
     
     public enum GetRegistrationError: Error {
         case unableToGetRegistration
@@ -118,6 +132,7 @@ public final class ServiceWorkerContainer {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/getRegistration)
     public func getRegistration(_ scope: String, _ handler: @escaping ((Result<ServiceWorkerRegistration, GetRegistrationError>) -> Void)) {
+        #if arch(wasm32)
         if let result = jsValue.getRegistration.function?.callAsFunction(optionalThis: jsValue.object, scope) {
             JSPromise(from: result)?.then(success: {
                 guard !$0.isUndefined && !$0.isNull else {
@@ -137,6 +152,7 @@ public final class ServiceWorkerContainer {
         } else {
             handler(.failure(.unableToGetRegistration))
         }
+        #endif
     }
     
     public enum GetRegistrationsError: Error {
@@ -148,6 +164,7 @@ public final class ServiceWorkerContainer {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/getRegistrations)
     public func getRegistrations(_ handler: @escaping ((Result<[ServiceWorkerRegistration], GetRegistrationsError>) -> Void)) {
+        #if arch(wasm32)
         if let result = jsValue.getRegistrations.function?.callAsFunction(optionalThis: jsValue.object) {
             JSPromise(from: result)?.then(success: {
                 guard !$0.isUndefined, !$0.isNull, let array = $0.array else {
@@ -171,6 +188,7 @@ public final class ServiceWorkerContainer {
         } else {
             handler(.failure(.unableToGetRegistrations))
         }
+        #endif
     }
     
     /// Explicitly starts the flow of messages being dispatched from a service worker to pages under its control.
@@ -181,7 +199,9 @@ public final class ServiceWorkerContainer {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/startMessages)
     public func startMessages() {
+        #if arch(wasm32)
         jsValue.startMessages.function?.callAsFunction(optionalThis: jsValue.object)
+        #endif
     }
     
     private var readyHandlers: [(ServiceWorkerRegistration) -> Void] = []
@@ -194,6 +214,7 @@ public final class ServiceWorkerContainer {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/ready)
     public func onReady(_ handler: @escaping ((ServiceWorkerRegistration) -> Void)) {
+        #if arch(wasm32)
         guard readyHandlers.count == 0 else {
             readyHandlers.append(handler)
             return
@@ -209,6 +230,7 @@ public final class ServiceWorkerContainer {
         }, failure: { _ in
             return JSValue.undefined
         })
+        #endif
     }
     
     /// Occurs when the document's associated `ServiceWorkerRegistration` acquires a new active worker.

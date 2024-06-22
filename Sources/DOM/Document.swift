@@ -125,15 +125,20 @@ public class Document: DOMElement, EventTarget {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
     public func querySelector(_ selector: String) -> BaseElement? {
+        #if arch(wasm32)
         guard let element = domElement[dynamicMember: "querySelector"].function?.callAsFunction(optionalThis: domElement.object, selector) else { return nil }
         guard !element.isNull && !element.isUndefined else { return nil }
         return BaseElement(element)
+        #else
+        return nil
+        #endif
     }
     
     /// Returns a list of the document's elements that match the specified group of selectors.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
     public func querySelectorAll(_ selector: String) -> [BaseElement] {
+        #if arch(wasm32)
 //        var items: [BaseElement] = []
 //        guard let result = domElement[dynamicMember: "querySelectorAll"].function?.callAsFunction(optionalThis: domElement.object, selector) else { return [] }
 //        guard !result.isNull && !result.isUndefined else { return [] }
@@ -150,5 +155,8 @@ public class Document: DOMElement, EventTarget {
         return JSObject.global[dynamicMember: "Arr"].function?.callAsFunction(arguments: [selector.jsValue]).array?.compactMap {
             BaseElement($0)
         } ?? []
+        #else
+        return []
+        #endif
     }
 }

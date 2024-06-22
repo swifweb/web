@@ -19,6 +19,12 @@ open class WebApp: _PreviewableApp {
     
     private var isStarted = false
     
+    #if !arch(wasm32)
+    fileprivate var _scripts: [Script] = []
+    fileprivate var _links: [Link] = []
+    fileprivate var _stylesheets: [Stylesheet] = []
+    #endif
+    
     public static var shared: WebApp {
         #if WEBPREVIEW
         guard webapp == nil else {
@@ -236,19 +242,34 @@ extension WebApp {
     
     /// Adds script into `<head>`
     public func addScript(_ path: String) {
-        document.head.appendChild(Script().src(path))
+        let script = Script().src(path)
+        #if arch(wasm32)
+        document.head.appendChild(script)
+        #else
+        _scripts.append(script)
+        #endif
     }
     
     /// Adds style link into `<head>`
     public func addStylesheet(_ relativePath: String) {
-        document.head.appendChild(Link()
+        let link = Link()
             .rel(.stylesheet)
             .type("text/css")
-            .href(relativePath))
+            .href(relativePath)
+        #if arch(wasm32)
+        document.head.appendChild(link)
+        #else
+        _links.append(link)
+        #endif
     }
     
     public func addStylesheet(@Rules content: @escaping Rules.Block) {
-        document.head.appendChild(Stylesheet(content: content))
+        let stylesheet = Stylesheet(content: content)
+        #if arch(wasm32)
+        document.head.appendChild(stylesheet)
+        #else
+        _stylesheets.append(stylesheet)
+        #endif
     }
     
     /// Adds font link into `<head>`
@@ -256,11 +277,16 @@ extension WebApp {
     /// Default type is **woff2**
     public func addFont(_ relativePath: String, _ type: String? = nil) {
         let type = type ?? relativePath.components(separatedBy: ".").last ?? "woff2"
-        document.head.appendChild(Link()
+        let link = Link()
             .as(.font)
             .rel(.preLoad)
             .type("font/\(type)")
-            .href(relativePath))
+            .href(relativePath)
+        #if arch(wasm32)
+        document.head.appendChild(link)
+        #else
+        _links.append(link)
+        #endif
     }
     
     public enum IconType: String {
@@ -274,11 +300,16 @@ extension WebApp {
     ///
     /// Default type is **icon**
     public func addIcon(_ relativePath: String, type: IconType = .icon, color: String? = nil) {
-        document.head.appendChild(Link()
+        let link = Link()
             .as(.font)
             .rel(.init(type.rawValue))
             .type("icons/\(type)")
-            .href(relativePath))
+            .href(relativePath)
+        #if arch(wasm32)
+        document.head.appendChild(link)
+        #else
+        _links.append(link)
+        #endif
     }
 }
 
