@@ -37,8 +37,8 @@ open class WebPreview {
     public struct Size: RenderBuilderContent {
         public var renderBuilderContent: Preview.Item { .size(self) }
         
-        let width: UInt
-        let height: UInt
+        public let width: UInt
+        public let height: UInt
         
         public init (_ width: UInt, _ height: UInt) {
             self.width = width
@@ -127,7 +127,7 @@ open class WebPreview {
         }
         parseRenderBuilderLanguage(content.renderBuilderContent)
         parseRenderBuilderItem(content.renderBuilderContent)
-        let html: String = items.map { $0.renderPreview() }.joined()
+        let html: String = items.map { $0.renderPreview(singleQuotes: false) }.joined()
         
         return PreviewData(
             title: title,

@@ -13,7 +13,7 @@ public enum AppStyles: WebPreviewRenderable, RenderBuilderContent {
     
     public var renderBuilderContent: Preview.Item { .item(self) }
     
-    public func renderPreview() -> String {
+    public func renderPreview(singleQuotes: Bool) -> String {
         #if WEBPREVIEW
         WebApp.shared._previewStart()
         let styles: [Stylesheet]
@@ -33,7 +33,11 @@ public enum AppStyles: WebPreviewRenderable, RenderBuilderContent {
                 style._keyframes.count > 0 ||
                 style._medias.count > 0
             else { continue }
-            result.append("<style id=\"\(style.properties._id)\">")
+            if singleQuotes {
+                result.append("<style id='\(style.properties._id)'>")
+            } else {
+                result.append("<style id=\"\(style.properties._id)\">")
+            }
             result.append(style._rules.map { $0.render() }.joined())
             result.append(style._keyframes.map { $0.render() }.joined())
             result.append(style._medias.map { $0.render() }.joined())

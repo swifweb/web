@@ -18,18 +18,28 @@ extension DOMElement {
     
     // MARK: _PreviewRenderable
     
-    public func renderPreview() -> String {
+    public func renderPreview(singleQuotes: Bool) -> String {
         #if WEBPREVIEW
         if let s = self as? Stylesheet {
             var result = ""
             if s._rules.count > 0 {
-                result = "<style id=\"\(properties._id)\">" + s._rules.map { $0.render() }.joined() + "</style>"
+                if singleQuotes {
+                    result = "<style id='\(properties._id)'>"
+                } else {
+                    result = "<style id=\"\(properties._id)\">"
+                }
+                result += s._rules.map { $0.render() }.joined() + "</style>"
             }
             return result
         } else if let s = self as? Style {
             var result = ""
             if s.rules.count > 0 {
-                result = "<style id=\"\(properties._id)\">" + s.rules.map { $0.render() }.joined() + "</style>"
+                if singleQuotes {
+                    result = "<style id='\(properties._id)'>"
+                } else {
+                    result = "<style id=\"\(properties._id)\">"
+                }
+                result = s.rules.map { $0.render() }.joined() + "</style>"
             }
             return result
         }
@@ -43,10 +53,20 @@ extension DOMElement {
         }
         var result = "<"
         result += "\(previewElementName)"
-        result += " id=\"\(properties._id)\""
+        if !properties.attributes.keys.contains("id") {
+            if singleQuotes {
+                result += " id='\(properties._id)'"
+            } else {
+                result += " id=\"\(properties._id)\""
+            }
+        }
         #if WEBPREVIEW
         if style.count > 0 {
-            result += " style=\"\(style)\""
+            if singleQuotes {
+                result += " style='\(style)'"
+            } else {
+                result += " style=\"\(style)\""
+            }
         }
         #endif
         #if !WEBPREVIEW
@@ -59,7 +79,11 @@ extension DOMElement {
         properties.attributes.forEach { key, value in
             result += " " + key
             if value.count > 0 {
-                result += "=\"" + value + "\""
+                if singleQuotes {
+                    result += "='" + value + "'"
+                } else {
+                    result += "=\"" + value + "\""
+                }
             }
         }
         result += ">"
@@ -67,7 +91,7 @@ extension DOMElement {
             result += s.innerText
         }
         properties.subElements.forEach {
-            result.append($0.renderPreview())
+            result.append($0.renderPreview(singleQuotes: singleQuotes))
         }
         result.append("</\(previewElementName)>")
         return result

@@ -6,5 +6,5 @@
 //
 
 public protocol WebPreviewRenderable {
-    func renderPreview() -> String
+    func renderPreview(singleQuotes: Bool) -> String
 }
