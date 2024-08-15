@@ -35,3 +35,5 @@ To release the project just call `webber release` or `webber release -t pwa -s S
 Please find [examples in releases](https://github.com/swifweb/web/releases).
 
 [Tutorial on HackerNoon](https://hackernoon.com/how-to-use-swift-for-web-development)
+
+Special thanks to [Tierra Cero](https://github.com/tierracero) for all his love and commitment into SwifWeb project.
