@@ -950,20 +950,6 @@ extension Pointerable {
         .init(pointer.selector + element)
     }
 
-    
-    
-    
-    
-    ///
-    public func `in`(_ element: Class) -> Pointer {
-        .init(pointer.selector + ":" + element.pointer.selector)
-    }
-
-    
-    
-    
-    
-    
     /// Selects all `<p>` elements inside `<div>` elements
     ///
     /// ```
