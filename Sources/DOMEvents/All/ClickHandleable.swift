@@ -67,9 +67,4 @@ extension ClickHandleable {
     public func onClick(_ handler: @escaping () -> Void) -> Self {
         onClick { _ in handler() }
     }
-    
-    /// Call it to imitate real click on the element
-    public func click() {
-        callFunction("click")
-    }
 }
