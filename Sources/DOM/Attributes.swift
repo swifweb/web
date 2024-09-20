@@ -976,6 +976,42 @@ extension ContentAttrable {
 
 extension Meta: ContentAttrable {}
 
+// MARK: - PropertyAttrable
+
+public protocol PropertyAttrable: DOMElement {
+    @discardableResult
+    func property(_ value: String) -> Self
+    @discardableResult
+    func property<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String
+}
+
+extension PropertyAttrable {
+    /// A value associated with http-equiv or name depending on the context.
+    ///
+    /// Applicable to `<meta>`
+    ///
+    /// [More info →](https://ogp.me/)
+    @discardableResult
+    public func property(_ value: String) -> Self {
+        attribute("property", value)
+        return self
+    }
+    
+    /// A value associated with http-equiv or name depending on the context.
+    ///
+    /// Applicable to `<meta>`
+    ///
+    /// [More info →](https://ogp.me/)
+    @discardableResult
+    public func property<S>(_ value: S) -> Self where S: StateConvertible, S.Value == String {
+        property(value.stateValue.wrappedValue)
+        value.stateValue.listen { self.property($0) }
+        return self
+    }
+}
+
+extension Meta: PropertyAttrable {}
+
 // MARK: - ContentEditableAttrable
 
 public protocol ContentEditableAttrable: DOMElement {
