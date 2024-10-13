@@ -101,8 +101,7 @@ extension DOMElement {
         properties.subElements.append(element)
         element.properties.parent = self
         Dispatch.async(element.didAddToDOM)
-        #endif
-        #if WEBPREVIEW
+        #else
         properties.subElements.append(element)
         #endif
     }
@@ -120,8 +119,7 @@ extension DOMElement {
         }
         element.properties.parent = self
         Dispatch.async(element.didAddToDOM)
-        #endif
-        #if WEBPREVIEW
+        #else
         if let index = properties.subElements.firstIndex(where: { $0.properties._id == before.properties._id }) {
             properties.subElements.insert(element, at: index > 0 ? index - 1 : 0)
         } else {
@@ -154,8 +152,7 @@ extension DOMElement {
         }
         element.properties.parent = self
         Dispatch.async(element.didAddToDOM)
-        #endif
-        #if WEBPREVIEW
+        #else
         if let index = properties.subElements.firstIndex(where: { $0.properties._id == after.properties._id }) {
             properties.subElements.insert(element, at: index)
         } else {
@@ -285,7 +282,7 @@ public final class DOMElementProperties {
     public internal(set) var parent: DOMElement? = nil
     public internal(set) var subElements: [DOMElement] = []
     public var positionChangeListeners: [() -> Void] = []
-    #if WEBPREVIEW
+    #if !arch(wasm32)
     public var styles: [String: String] = [:]
     #endif
     public var attributes: [String: String] = [:]

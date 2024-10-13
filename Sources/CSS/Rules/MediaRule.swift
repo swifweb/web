@@ -90,14 +90,14 @@ public class MediaRule: RulesContent, CSSRulable {
         // TODO: ??? Need to test with JS to investigate how to manipulate in runtime
 //        _rules.enumerated().forEach { i, rule in
 //            let cssText = rule.render()
-//            #if !WEBPREVIEW
+//            #if arch(wasm32)
 //            guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
 //            rule.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
 //            #endif
 //        }
 //        _keyframes.enumerated().forEach { i, kf in
 //            let cssText = kf.render()
-//            #if !WEBPREVIEW
+//            #if arch(wasm32)
 //            guard let index = sheet.insertRule.function?.callAsFunction(optionalThis: sheet.object, cssText)?.number else { return }
 //            kf.domElement = sheet.rules.item.function?.callAsFunction(optionalThis: sheet.rules.object, Int(index))
 //            #endif

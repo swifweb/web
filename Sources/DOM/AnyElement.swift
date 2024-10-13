@@ -24,7 +24,7 @@ public protocol BaseContentElementable: DOMElement {
 protocol _BaseContentElementable: BaseContentElementable {
     func postBuildUI()
     func parseDOMItem(_ item: DOMItem)
-    #if WEBPREVIEW
+    #if !arch(wasm32)
     var __innerText: String { get set }
     #endif
 }
@@ -81,14 +81,14 @@ extension BaseContentElementable {
     #else
     public var innerText: String {
         get {
-            #if WEBPREVIEW
-            return s?.__innerText ?? ""
-            #else
+            #if arch(wasm32)
             return ""
+            #else
+            return s?.__innerText ?? ""
             #endif
         }
         set {
-            #if WEBPREVIEW
+            #if !arch(wasm32)
             s?.__innerText = newValue
             #endif
         }

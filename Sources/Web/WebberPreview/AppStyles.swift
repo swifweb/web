@@ -14,7 +14,9 @@ public enum AppStyles: WebPreviewRenderable, RenderBuilderContent {
     public var renderBuilderContent: Preview.Item { .item(self) }
     
     public func renderPreview(singleQuotes: Bool) -> String {
-        #if WEBPREVIEW
+        #if arch(wasm32)
+        return ""
+        #else
         WebApp.shared._previewStart()
         let styles: [Stylesheet]
         switch self {
@@ -44,8 +46,6 @@ public enum AppStyles: WebPreviewRenderable, RenderBuilderContent {
             result.append("</style>")
         }
         return result
-        #else
-        return ""
         #endif
     }
 }

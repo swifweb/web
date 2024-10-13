@@ -33,9 +33,7 @@ extension CSSRulable {
                 s.domElement[dynamicMember: "setAttribute"].function?.callAsFunction(optionalThis: s.domElement.object, arguments: ["style", "\(key):\(value);"])
             }
             #else
-            #if WEBPREVIEW
             s.properties.styles[key] = value.description
-            #endif
             #endif
         } else {
             _addProperty(key.propertyKey(), value)

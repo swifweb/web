@@ -10,7 +10,7 @@ import CSS
 
 private var webapp: WebApp!
 
-open class WebApp: _PreviewableApp {
+open class WebApp {
     public typealias Configuration = AppBuilder.Content
     
     public static func main() {
@@ -26,13 +26,13 @@ open class WebApp: _PreviewableApp {
     #endif
     
     public static var shared: WebApp {
-        #if WEBPREVIEW
+        #if arch(wasm32)
+        return webapp /// because it is already started in `main()`
+        #else
         guard webapp == nil else {
             return webapp
         }
         webapp = WebApp.start()
-        return webapp
-        #else
         return webapp
         #endif
     }
@@ -53,8 +53,17 @@ open class WebApp: _PreviewableApp {
         webapp = Self()
         guard !webapp.isStarted else { return webapp }
         webapp.isStarted = true
-        #if WEBPREVIEW
-        webapp.previewStart()
+        #if !arch(wasm32)
+        var args = CommandLine.arguments
+        if args.count > 1 {
+            if args.contains("--previews") {
+                webapp.previewStart(args)
+            }
+            if args.contains("--index") {
+                webapp.renderIndex()
+            }
+            exit(0)
+        }
         #else
         webapp.start()
         #endif
@@ -62,11 +71,74 @@ open class WebApp: _PreviewableApp {
     }
     
     #if !arch(wasm32)
-    private func previewStart() {
-        var args = CommandLine.arguments
-        guard args.contains("--previews") else {
-            fatalError("Missing --previews argument")
+    private func renderIndex() {
+        var styles: [String] = []
+        var scripts: [String] = []
+        var links: [String] = []
+        var splash: Splash?
+        var index: Index?
+        func parseAppBuilderItem(_ item: AppBuilder.Item) {
+            switch item {
+            case .lifecycle(let v): ExtractWindowLifecycleListeners(v).didFinishLaunching.forEach { $0() }
+            case .items(let v):  for i in v { parseAppBuilderItem(i) }
+            case .splash(let v): splash = v
+            case .index(let v): index = v
+            case .stylesheet(let v): styles.append(v.renderPreview(singleQuotes: false))
+            default: break
+            }
         }
+        parseAppBuilderItem(app.appBuilderContent)
+        for s in _stylesheets {
+            styles.append(s.renderPreview(singleQuotes: false))
+        }
+        for s in _scripts {
+            scripts.append(s.renderPreview(singleQuotes: false))
+        }
+        for l in _links {
+            links.append(l.renderPreview(singleQuotes: false))
+        }
+        struct SplashData: Encodable {
+            let styles: [String]
+            let scripts: [String]
+            let links: [String]
+            let pathToFile: String?
+            let body: String?
+        }
+        var splashData: SplashData?
+        if let splash {
+            splashData = SplashData(
+                styles: styles.compactMap { $0.data(using: .utf8)?.base64EncodedString() },
+                scripts: scripts.compactMap { $0.data(using: .utf8)?.base64EncodedString() },
+                links: scripts.compactMap { $0.data(using: .utf8)?.base64EncodedString() },
+                pathToFile: splash.pathToHTML,
+                body: splash.pathToHTML == nil ? nil : splash.renderPreview(singleQuotes: false)
+            )
+        }
+        struct IndexData: Encodable {
+            let title: String?
+            let metas: [[String: String]]?
+            let links: [[String: String]]?
+            let scripts: [[String: String]]?
+            let splash: SplashData?
+        }
+        let indexData = IndexData(
+            title: index?.title,
+            metas: index?.metas,
+            links: index?.links,
+            scripts: index?.scripts,
+            splash: splashData
+        )
+        if let data = try? JSONEncoder().encode(indexData), let str = String(data: data, encoding: .utf8) {
+            print("==SPLASH-START==")
+            print(str)
+            print("==SPLASH-END==")
+        }
+    }
+    #endif
+    
+    #if !arch(wasm32)
+    private func previewStart(_ args: [String]) {
+        var args = args
         struct PassedPreview {
             let module, `class`: String
         }
@@ -148,8 +220,8 @@ open class WebApp: _PreviewableApp {
     }
     
     private var _previewStarted = false
-    
-    func _previewStart() {
+    /// Calls only once from `renderPreview()`
+    internal func _previewStart() {
         guard !_previewStarted else { return }
         _previewStarted = true
         parseAppBuilderItem(app.appBuilderContent)
@@ -212,16 +284,14 @@ open class WebApp: _PreviewableApp {
     
     @AppBuilder open var app: AppBuilder.Content { _AppContent(appBuilderContent: .none) }
     
-    #if WEBPREVIEW
     public var stylesheets: [Stylesheet] = []
-    #else
-    var stylesheets: [Stylesheet] = []
-    #endif
     
     private func parseAppBuilderItem(_ item: AppBuilder.Item) {
         switch item {
         case .items(let v): v.forEach { parseAppBuilderItem($0) }
         case .lifecycle(let v): window.addLifecycleListener(v)
+        case .splash(let v): break
+        case .index(let v): break
         case .routes(let v): v.addRoutes(into: routes)
         case .stylesheet(let v): stylesheets.append(v)
         case .none: break

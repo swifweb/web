@@ -138,7 +138,7 @@ open class CSSRule: RulesContent, CSSRulable {
         if let index = _properties.firstIndex(where: { $0.key == key }) {
             _properties.remove(at: index)
         }
-        #if !WEBPREVIEW
+        #if arch(wasm32)
         domElement?.style.object?[key] = JSValue.null
         #endif
     }
@@ -230,10 +230,8 @@ extension CSSRulable {
             s.domElement.style.object?[key] = .null
         }
         #else
-        #if WEBPREVIEW
         guard let s = self as? DOMElement else { return }
         s.properties.styles.removeValue(forKey: key)
-        #endif
         #endif
     }
 
@@ -254,13 +252,11 @@ extension CSSRulable {
             }
         }
         #else
-        #if WEBPREVIEW
         if let s = self as? CSSRule {
             s.set(key, value)
         } else if let s = self as? DOMElement {
             s.properties.styles[key] = value
         }
-        #endif
         #endif
     }
 }

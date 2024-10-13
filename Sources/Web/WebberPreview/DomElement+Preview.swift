@@ -19,7 +19,7 @@ extension DOMElement {
     // MARK: _PreviewRenderable
     
     public func renderPreview(singleQuotes: Bool) -> String {
-        #if WEBPREVIEW
+        #if !arch(wasm32)
         if let s = self as? Stylesheet {
             var result = ""
             if s._rules.count > 0 {
@@ -60,20 +60,19 @@ extension DOMElement {
                 result += " id=\"\(properties._id)\""
             }
         }
-        #if WEBPREVIEW
+        #if arch(wasm32)
+        if properties.attributes.keys.contains("class") {
+            properties.attributes["class"] = (properties.attributes["class"] ?? "") + " " + properties._classes.joined(separator: " ")
+        } else {
+            properties.attributes["class"] = properties._classes.joined(separator: " ")
+        }
+        #else
         if style.count > 0 {
             if singleQuotes {
                 result += " style='\(style)'"
             } else {
                 result += " style=\"\(style)\""
             }
-        }
-        #endif
-        #if !WEBPREVIEW
-        if properties.attributes.keys.contains("class") {
-            properties.attributes["class"] = (properties.attributes["class"] ?? "") + " " + properties._classes.joined(separator: " ")
-        } else {
-            properties.attributes["class"] = properties._classes.joined(separator: " ")
         }
         #endif
         properties.attributes.forEach { key, value in

@@ -51,13 +51,11 @@ public class Document: DOMElement, EventTarget {
     init (_ window: Window) {
         #if arch(wasm32)
         domElement = JSObject.global.document
-        // reset body
-        domElement.body.object?.innerHTML = "";
         #else
         domElement = JSValue("")
         #endif
         self.window = window
-        #if !WEBPREVIEW
+        #if arch(wasm32)
         setupTitle()
         setupMetaDescription()
         window.$isInForeground.merge(with: $isInForeground)

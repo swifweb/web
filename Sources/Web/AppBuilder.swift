@@ -28,6 +28,8 @@ public typealias Lifecycle = WindowLifecycle
     public enum Item {
         case none
         case lifecycle(Lifecycle)
+        case splash(Splash)
+        case index(Index)
         case routes(Routes)
         case stylesheet(Stylesheet)
         case items([Item])
