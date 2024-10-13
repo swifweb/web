@@ -100,3 +100,11 @@ public final class WindowLifecycle {
         Self().willEnterForeground(handler)
     }
 }
+
+public struct ExtractWindowLifecycleListeners {
+    public let didFinishLaunching: [() -> Void]
+    
+    public init (_ lifecycle: WindowLifecycle) {
+        didFinishLaunching = lifecycle._didFinishLaunching
+    }
+}
