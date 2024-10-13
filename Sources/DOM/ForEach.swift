@@ -74,42 +74,49 @@ public class ForEach<Item>: BaseElement, ScrollHandleable, AlignAttrable where I
         _postInit()
     }
     
+    private var addedToDOM = false
+    
     func _postInit() {
-        for item in allItems() {
-            parseDOMItem(item.domContentItem)
-        }
-        subscribeToChanges({}, { [weak self] deletions, insertions, modifications in
-            guard let self = self else { return }
-            for element in self.properties.subElements.enumerated().compactMap({ deletions.contains($0.offset) ? $0.element : nil }) {
-                element.remove()
+        onDidAddToDOM {
+            guard !self.addedToDOM else { return }
+            self.addedToDOM = true
+            for item in self.allItems() {
+                (self.superview as? BaseContentElementable)?.parseDOMItem(item.domContentItem)
             }
-            insertions.forEach { insertion in
-                func addAsDiv() {
-                    let div = Div()
-                    div.parseDOMItem(self.items(at: insertion).domContentItem)
-                    self.insertChild(div, at: insertion)
+            self.subscribeToChanges({}, { [weak self] deletions, insertions, modifications in
+                guard let self = self else { return }
+                guard let superview = (self.superview as? BaseContentElementable) else { return }
+                for element in superview.properties.subElements.enumerated().compactMap({ deletions.contains($0.offset) ? $0.element : nil }) {
+                    element.remove()
                 }
-                func parse(_ item: DOMItem) {
-                    switch item {
-                    case .items(let items):
-                        if items.count == 1, let item = items.first {
-                            parse(item)
-                        } else {
+                insertions.forEach { insertion in
+                    func addAsDiv() {
+                        let div = Div()
+                        div.parseDOMItem(self.items(at: insertion).domContentItem)
+                        superview.insertChild(div, at: insertion)
+                    }
+                    func parse(_ item: DOMItem) {
+                        switch item {
+                        case .items(let items):
+                            if items.count == 1, let item = items.first {
+                                parse(item)
+                            } else {
+                                addAsDiv()
+                            }
+                        case .elements(let elements):
+                            if elements.count == 1, let element = elements.first {
+                                superview.insertChild(element, at: insertion)
+                            } else {
+                                fallthrough
+                            }
+                        default:
                             addAsDiv()
                         }
-                    case .elements(let elements):
-                        if elements.count == 1, let element = elements.first {
-                            self.insertChild(element, at: insertion)
-                        } else {
-                            fallthrough
-                        }
-                    default:
-                        addAsDiv()
                     }
+                    parse(self.items(at: insertion).domContentItem)
                 }
-                parse(self.items(at: insertion).domContentItem)
-            }
-        }) {}
+            }) {}
+        }
     }
     
     func parseDOMItem(_ item: DOMItem) {
