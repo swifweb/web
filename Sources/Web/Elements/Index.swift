@@ -8,12 +8,22 @@
 import Foundation
 import WebFoundation
 
-/// Static information for `index.html` file
-/// Should contain title, description, meta, and other information
+/// Static information for `index.html` file.
+/// Should contain title, description, meta, and other information.
 open class Index: Codable, AppBuilderContent {
     public var appBuilderContent: AppBuilder.Item { .index(self) }
     
     public init() {}
+    
+    // MARK: Language
+    
+    var lang: String = "en-US"
+    
+    /// Language of the `index.html`, stored in the `<html lang="">` tag
+    public func lang(_ value: String) -> Self {
+        lang = value
+        return self
+    }
     
     // MARK: Title
     
@@ -108,4 +118,10 @@ open class Index: Codable, AppBuilderContent {
         scripts.append(params)
         return self
     }
+
+    // iOS icons
+    // TODO: <link rel="apple-touch-icon" sizes="57x57" href="/icon-57x57.png">
+
+    // Android icons
+    // TODO: <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png">
 }

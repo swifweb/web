@@ -111,7 +111,7 @@ open class WebApp {
                 scripts: scripts.compactMap { $0.data(using: .utf8)?.base64EncodedString() },
                 links: scripts.compactMap { $0.data(using: .utf8)?.base64EncodedString() },
                 pathToFile: splash.pathToHTML,
-                body: splash.pathToHTML == nil ? nil : splash.renderPreview(singleQuotes: false)
+                body: splash.pathToHTML != nil ? nil : splash.renderPreview(singleQuotes: false).data(using: .utf8)?.base64EncodedString()
             )
         }
         struct IndexData: Encodable {
@@ -129,9 +129,9 @@ open class WebApp {
             splash: splashData
         )
         if let data = try? JSONEncoder().encode(indexData), let str = String(data: data, encoding: .utf8) {
-            print("==SPLASH-START==")
+            print("==INDEX-START==")
             print(str)
-            print("==SPLASH-END==")
+            print("==INDEX-END==")
         }
     }
     #endif
