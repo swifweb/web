@@ -74,7 +74,7 @@ public class Document: DOMElement, EventTarget {
             if let existingTitle = titles.item.function?.callAsFunction(optionalThis: titles.object, 0),
                !existingTitle.isNull,
                !existingTitle.isUndefined {
-                predefinedTitle = existingTitle.innerText.string ?? ""
+                predefinedTitle = existingTitle.innerHTML.string ?? ""
                 head.domElement.removeChild.function?.callAsFunction(optionalThis: head.domElement.object, existingTitle)
             }
         }
