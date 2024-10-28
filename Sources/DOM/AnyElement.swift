@@ -66,7 +66,7 @@ extension BaseContentElementable {
                 child.textContent = newValue.jsValue
             } else {
                 s?.properties.removeSubelementsRecursively()
-                s?.domElement.innerText = newValue.jsValue
+                s?.domElement.innerHTML = newValue.jsValue
             }
         }
     }
