@@ -61,7 +61,7 @@ extension Style {
         medias.forEach {
             result.append($0.render())
         }
-        domElement.innerText = result.jsValue
+        domElement.innerHTML = result.jsValue
     }
 
     private func parseRulesItem(_ item: Rules.Item) {
