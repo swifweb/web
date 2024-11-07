@@ -28,8 +28,8 @@ open class PageController: BaseContentElement, AnyPageController {
     
     public var view: JSValue { domElement }
     
-    @State public var title = ""
-    @State public var metaDescription = ""
+    @State public var title = WebApp.shared.window.document.title
+    @State public var metaDescription = WebApp.shared.window.document.metaDescription
     
     public init (@DOM closure: @escaping (PageController) -> DOM.Content) {
         super.init()
@@ -42,11 +42,9 @@ open class PageController: BaseContentElement, AnyPageController {
     
     open override func buildUI() {
         super.buildUI()
-        title = WebApp.shared.window.document.title
         $title.listen {
             WebApp.shared.window.document.title = $0
         }
-        metaDescription = WebApp.shared.window.document.metaDescription
         $metaDescription.listen {
             WebApp.shared.window.document.metaDescription = $0
         }
