@@ -2478,7 +2478,7 @@ open class Html: BaseElement {
 /// There can be only one `<body>` element in a document.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body)
-open class Body: BaseElement, AfterPrintHandleable, BeforePrintHandleable, BeforeUnloadHandleable, HashChangeHandleable, OfflineHandleable, OnlineHandleable, PageHideHandleable, PageShowHandleable, ResizeHandleable, UnloadHandleable, ScrollHandleable, LoadHandleable {
+open class Body: BaseContentElement, AfterPrintHandleable, BeforePrintHandleable, BeforeUnloadHandleable, HashChangeHandleable, OfflineHandleable, OnlineHandleable, PageHideHandleable, PageShowHandleable, ResizeHandleable, UnloadHandleable, ScrollHandleable, LoadHandleable {
     
 }
 
