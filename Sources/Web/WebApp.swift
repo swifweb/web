@@ -18,6 +18,7 @@ open class WebApp {
     }
     
     private var isStarted = false
+    var rendered: JSFunction?
     
     #if !arch(wasm32)
     fileprivate var _scripts: [Script] = []
@@ -203,19 +204,42 @@ open class WebApp {
             $0.processRules()
         }
         window.appDidStarted()
-        handleRoute(.init(
-            application: self,
-            path: window.location.pathname,
-            search: window.location.search,
-            hash: window.location.hash
-        ))
-        window.$location.listenOnlyIfChanged { location in
+        var allowLocationChangeListener = true
+        JSObject.global.wasiDisableLocationChangeListener = JSClosure { args in
+            allowLocationChangeListener = false
+            return .undefined
+        }.jsValue
+        JSObject.global.wasiChangeRoute = JSClosure { args in
+            let pathname = args.count > 0 ? args[0].string ?? "" : ""
+            let search = args.count > 1 ? args[1].string ?? "" : ""
+            self.rendered = args.count > 2 ? args[2].function : nil
             self.handleRoute(.init(
                 application: self,
-                path: location.pathname,
-                search: location.search,
-                hash: location.hash
+                path: pathname,
+                search: search,
+                hash: ""
             ))
+            return .undefined
+        }.jsValue
+        JSObject.global.wasiAppOnStart.function?.callAsFunction()
+        Dispatch.async {
+            if allowLocationChangeListener {
+                self.handleRoute(.init(
+                    application: self,
+                    path: self.window.location.pathname,
+                    search: self.window.location.search,
+                    hash: self.window.location.hash
+                ))
+            }
+            self.window.$location.listenOnlyIfChanged { location in
+                guard allowLocationChangeListener else { return }
+                self.handleRoute(.init(
+                    application: self,
+                    path: location.pathname,
+                    search: location.search,
+                    hash: location.hash
+                ))
+            }
         }
     }
     

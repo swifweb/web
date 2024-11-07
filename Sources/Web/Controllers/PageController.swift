@@ -49,6 +49,20 @@ open class PageController: BaseContentElement, AnyPageController {
             WebApp.shared.window.document.metaDescription = $0
         }
     }
+
+    var isRendered = false
+
+    public enum RenderedType {
+        case expirable, `static`
+    }
+
+    public func rendered(_ type: RenderedType = .expirable, expiresIn: TimeInterval = 10, lastModifiedAt: Date? = nil) {
+        guard !isRendered else { return }
+        isRendered = true
+        Dispatch.asyncAfter(0.1) {
+            WebApp.shared.rendered?.callAsFunction(type == .static ? 0 : expiresIn, lastModifiedAt?.timeIntervalSince1970 ?? JSValue.undefined)
+        }
+    }
     
     var willLoadHandlers: [() -> Void] = []
     var didLoadHandlers: [() -> Void] = []
