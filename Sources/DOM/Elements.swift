@@ -301,8 +301,8 @@ open class Style: BaseElement, LoadHandleable {
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title)
 open class Title: BaseContentElement, _StringInitializable {
     var value: String {
-        get { innerText }
-        set { innerText = newValue }
+        get { innerHTML }
+        set { innerHTML = newValue }
     }
 
     /// String initializer
