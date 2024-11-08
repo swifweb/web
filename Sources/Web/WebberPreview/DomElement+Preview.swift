@@ -75,16 +75,16 @@ extension DOMElement {
             }
         }
         #endif
-        properties.attributes.forEach { key, value in
-            result += " " + key
-            if value.count > 0 {
-                if singleQuotes {
-                    result += "='" + value + "'"
-                } else {
-                    result += "=\"" + value + "\""
-                }
+        properties.attributes.compactMap({ key, value in
+            guard value.count > 0 else { return nil }
+            if singleQuotes {
+                return key + "='" + value + "'"
+            } else {
+                return key + "=\"" + value + "\""
             }
-        }
+        })
+        .sorted(by: { $0 < $1 })
+        .joined(separator: " ")
         result += ">"
         if let s = self as? BaseContentElementable, s.innerText.count > 0 {
             result += s.innerText
