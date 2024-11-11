@@ -39,18 +39,20 @@ open class Index: Codable, AppBuilderContent {
     
     var metas: [[String: String]] = [
         ["charset": "utf-8"],
-        ["viewport": "width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"],
-        ["description": ""]
+        ["name": "viewport", "content": "width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"],
+        ["name": "description", "content": ""]
     ]
     
     /// Meta of the `index.html`, stored in the `<meta name="" content="">` tag
     public func meta(name: String, _ content: String) -> Self {
+        metas.removeAll(where: { $0["name"] == name })
         metas.append(["name": name, "content": content])
         return self
     }
     
     /// Meta of the `index.html`, stored in the `<meta property="" content="">` tag
     public func meta(property: String, _ content: String) -> Self {
+        metas.removeAll(where: { $0["property"] == property })
         metas.append(["property": property, "content": content])
         return self
     }
@@ -59,6 +61,7 @@ open class Index: Codable, AppBuilderContent {
     
     /// Charset of the `index.html`, stored in the `<meta charset>` tag
     public func charset(_ value: String) -> Self {
+        metas.removeAll(where: { $0.keys.contains("charset") })
         metas.append(["charset": value])
         return self
     }
@@ -67,7 +70,8 @@ open class Index: Codable, AppBuilderContent {
     
     /// Viewport of the `index.html`, stored in the `<meta name="viewport">` tag
     public func viewport(_ value: String) -> Self {
-        metas.append(["viewport": value])
+        metas.removeAll(where: { $0["name"] == "viewport" })
+        metas.append(["name": "viewport", "content": value])
         return self
     }
     
@@ -75,7 +79,8 @@ open class Index: Codable, AppBuilderContent {
     
     /// Description of the `index.html`, stored in the `<meta name="description">` tag
     public func description(_ value: String) -> Self {
-        metas.append(["description": value])
+        metas.removeAll(where: { $0["name"] == "description" })
+        metas.append(["name": "description", "content": value])
         return self
     }
     
