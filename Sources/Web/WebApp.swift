@@ -123,6 +123,7 @@ open class WebApp {
         }
         struct IndexData: Encodable {
             let title: String?
+            let lang: String?
             let metas: [[String: String]]?
             let links: [[String: String]]?
             let scripts: [[String: String]]?
@@ -130,6 +131,7 @@ open class WebApp {
         }
         let indexData = IndexData(
             title: index?.title,
+            lang: index?.lang,
             metas: index?.metas,
             links: index?.links,
             scripts: index?.scripts,
@@ -315,13 +317,14 @@ open class WebApp {
     @AppBuilder open var app: AppBuilder.Content { _AppContent(appBuilderContent: .none) }
     
     public var stylesheets: [Stylesheet] = []
+    private var index: Index?
     
     private func parseAppBuilderItem(_ item: AppBuilder.Item) {
         switch item {
         case .items(let v): v.forEach { parseAppBuilderItem($0) }
         case .lifecycle(let v): window.addLifecycleListener(v)
         case .splash(let v): break
-        case .index(let v): break
+        case .index(let v): index = v
         case .routes(let v): v.addRoutes(into: routes)
         case .stylesheet(let v): stylesheets.append(v)
         case .none: break
