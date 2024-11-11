@@ -18,7 +18,13 @@ open class WebApp {
     }
     
     private var isStarted = false
-    var rendered: JSFunction?
+    private var _rendered: JSFunction?
+
+    func rendered(_ type: PageController.RenderedType = .expirable, expiresIn: TimeInterval = 10, lastModifiedAt: Date? = nil) {
+        Dispatch.async {
+            self._rendered?.callAsFunction(type == .static ? 0 : expiresIn, lastModifiedAt?.timeIntervalSince1970 ?? JSValue.undefined)
+        }
+    }
     
     #if !arch(wasm32)
     fileprivate var _scripts: [Script] = []
@@ -212,7 +218,7 @@ open class WebApp {
         JSObject.global.wasiChangeRoute = JSClosure { args in
             let pathname = args.count > 0 ? args[0].string ?? "" : ""
             let search = args.count > 1 ? args[1].string ?? "" : ""
-            self.rendered = args.count > 2 ? args[2].function : nil
+            self._rendered = args.count > 2 ? args[2].function : nil
             self.handleRoute(.init(
                 application: self,
                 path: pathname,

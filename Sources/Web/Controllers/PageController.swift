@@ -59,9 +59,7 @@ open class PageController: BaseContentElement, AnyPageController {
     public func rendered(_ type: RenderedType = .expirable, expiresIn: TimeInterval = 10, lastModifiedAt: Date? = nil) {
         guard !isRendered else { return }
         isRendered = true
-        Dispatch.asyncAfter(0.1) {
-            WebApp.shared.rendered?.callAsFunction(type == .static ? 0 : expiresIn, lastModifiedAt?.timeIntervalSince1970 ?? JSValue.undefined)
-        }
+        WebApp.shared.rendered(type, expiresIn: expiresIn, lastModifiedAt: lastModifiedAt)
     }
     
     var willLoadHandlers: [() -> Void] = []
