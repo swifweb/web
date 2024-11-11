@@ -229,7 +229,41 @@ open class WebApp {
             ))
             return .undefined
         }.jsValue
-        JSObject.global.wasiAppOnStart.function?.callAsFunction()
+        if let wasiAppOnStart = JSObject.global.wasiAppOnStart.function {
+            if let index {
+                window.document.querySelector("html")?.attribute("lang", index.lang)
+                let head = window.document.querySelector("head")
+                for mmm in window.document.querySelectorAll("meta") {
+                    head?.domElement.removeChild.function?.callAsFunction(optionalThis: head?.domElement.object, mmm.domElement)
+                }
+                for data in index.metas {
+                    let meta = Meta()
+                    for key in data.keys {
+                        meta.attribute(key, data[key]!)
+                    }
+                    self.document.head.appendChild(meta)
+                }
+                for data in index.links {
+                    let link = Link()
+                    for key in data.keys {
+                        link.attribute(key, data[key]!)
+                    }
+                    document.head.appendChild(link)
+                }
+                for data in index.scripts {
+                    let script = Script()
+                    for key in data.keys {
+                        if ["async", "crossorigin"].contains(key) {
+                            script.attribute(key, true)
+                        } else {
+                            script.attribute(key, data[key]!)
+                        }
+                    }
+                    document.head.appendChild(script)
+                }
+            }
+            wasiAppOnStart.callAsFunction()
+        }
         Dispatch.async {
             if allowLocationChangeListener {
                 self.handleRoute(.init(
