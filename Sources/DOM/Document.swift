@@ -122,11 +122,11 @@ public class Document: DOMElement, EventTarget {
     /// Returns the first Element within the document that matches the specified selector.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
-    public func querySelector(_ selector: String) -> BaseElement? {
+    public func querySelector(_ selector: String) -> BaseContentElement? {
         #if arch(wasm32)
         guard let element = domElement[dynamicMember: "querySelector"].function?.callAsFunction(optionalThis: domElement.object, selector) else { return nil }
         guard !element.isNull && !element.isUndefined else { return nil }
-        return BaseElement(element)
+        return BaseContentElement(element)
         #else
         return nil
         #endif
@@ -135,7 +135,7 @@ public class Document: DOMElement, EventTarget {
     /// Returns a list of the document's elements that match the specified group of selectors.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
-    public func querySelectorAll(_ selector: String) -> [BaseElement] {
+    public func querySelectorAll(_ selector: String) -> [BaseContentElement] {
         #if arch(wasm32)
 //        var items: [BaseElement] = []
 //        guard let result = domElement[dynamicMember: "querySelectorAll"].function?.callAsFunction(optionalThis: domElement.object, selector) else { return [] }
@@ -151,7 +151,7 @@ public class Document: DOMElement, EventTarget {
 //        return items
         JSObject.global.eval.function?.callAsFunction(arguments: ["Arr = function(selector) { return Array.from(document.querySelectorAll(selector)); }"])
         return JSObject.global[dynamicMember: "Arr"].function?.callAsFunction(arguments: [selector.jsValue]).array?.compactMap {
-            BaseElement($0)
+            BaseContentElement($0)
         } ?? []
         #else
         return []
