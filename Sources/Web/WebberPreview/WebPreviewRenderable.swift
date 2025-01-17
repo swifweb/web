@@ -8,3 +8,8 @@
 public protocol WebPreviewRenderable {
     func renderPreview(singleQuotes: Bool) -> String
 }
+extension WebPreviewRenderable {
+    public func renderPreview() -> String {
+        renderPreview(singleQuotes: false)
+    }
+}
