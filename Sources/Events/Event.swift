@@ -86,6 +86,6 @@ open class Event: AnyEvent {
         defaultPrevented = event.defaultPrevented.boolean ?? false
         eventPhase = HandledEventPhase(rawValue: Int(event.eventPhase.number ?? 0)) ?? .none
         isTrusted = event.isTrusted.boolean ?? false
-        timeStamp = Double(event.timeStamp.string ?? "0") ?? 0.0
+        timeStamp = Double(event.timeStamp.number ?? 0)
     }
 }
