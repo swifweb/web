@@ -39,6 +39,8 @@ extension String: DOMContent {
 /// ````
 ///
 @resultBuilder public struct DOM {
+    public static var isForCrawler: Bool { JSObject.global.isCrawlServer.boolean ?? false }
+
     public typealias Content = DOMContent
     public typealias Block = () -> Content
     
