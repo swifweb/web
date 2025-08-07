@@ -2461,7 +2461,14 @@ open class NoScript: BaseElement {
 /// this is typically used to embed or refer to JavaScript code.
 ///
 /// [Learn more ->](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script)
-open class Script: BaseElement, ErrorHandleable, LoadHandleable {
+open class Script: BaseContentElement, ErrorHandleable, LoadHandleable, _StringInitializable {
+    required public convenience init <U>(_ title: U) where U: UniValue, U.UniValue == String {
+        self.init()
+        value = title.uniValue
+        title.uniStateValue?.listen {
+            self.value = $0
+        }
+    }
     open func addedToDocument() {}
 }
 
