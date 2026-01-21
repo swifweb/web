@@ -1,7 +1,6 @@
-// swift-tools-version:5.7
+// swift-tools-version:6.1
 
 import PackageDescription
-import Foundation
 
 // MARK: - Conveniences
 
@@ -62,6 +61,7 @@ deps.append(
 
 let package = Package(
     name: "web",
+    platforms: [.macOS(.v10_15)],
     products: [
         .library(name: "WebFoundation", type: .static, targets: ["WebFoundation"]),
         .library(name: "Events", type: .static, targets: ["Events"]),
