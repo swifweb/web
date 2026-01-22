@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 12.03.2021.
 //
 
-import Foundation
+import FoundationEssentials
 import WebFoundation
 
 extension Language: RenderBuilderContent {

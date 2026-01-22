@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 01.03.2021.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Provides a persistent storage mechanism for Request / Response object pairs that are cached in long lived memory.
 ///

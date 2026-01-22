@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 23.11.2020.
 //
 
-import Foundation
+import FoundationEssentials
 import DOM
 
 public typealias Group = Routes.Group

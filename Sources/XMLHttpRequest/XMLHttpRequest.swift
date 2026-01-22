@@ -6,7 +6,7 @@
 //
 
 import WebFoundation
-import Foundation
+import FoundationEssentials
 import Events
 
 public final class XMLHttpRequest: _XMLHttpRequestEventTarget {

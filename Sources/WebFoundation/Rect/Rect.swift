@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 16.11.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class Rect: InnerStateChangeable, Equatable, CustomStringConvertible {
     @State public var x: Double = 0

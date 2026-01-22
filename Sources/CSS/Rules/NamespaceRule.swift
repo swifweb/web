@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 11.07.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Tells the CSS engine that all its content must be considered prefixed with an XML namespace.
 

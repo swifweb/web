@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Generic `TrieRouter` built using the "trie" tree algorithm.
 ///

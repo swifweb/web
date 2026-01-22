@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 11.07.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Describes the aspect of an external font to be downloaded.
 

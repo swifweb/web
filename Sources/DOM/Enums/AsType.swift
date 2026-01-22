@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 26.12.2022.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// This attribute is only used when rel="preload" or rel="prefetch" has been set on the `<link>` element.
 /// It specifies the type of content being loaded by the `<link>`,

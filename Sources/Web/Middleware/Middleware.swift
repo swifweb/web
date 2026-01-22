@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// `Middleware` is placed between the server and your router. It is capable of
 /// mutating both incoming requests and outgoing responses. `Middleware` can choose

@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 31.07.2022.
 //
 
-import Foundation
+import FoundationEssentials
 
 extension String {
 	public init (_ ls: LocalizedString...) {

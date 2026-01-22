@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 19.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public enum AutocapitalizeType: String {
     /// No autocapitalization is applied (all letters default to lowercase)

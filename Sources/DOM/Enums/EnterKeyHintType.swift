@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 20.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// The enterkeyhint content attribute is an enumerated attribute
 /// that specifies what action label (or icon) to present for the enter key on virtual keyboards.

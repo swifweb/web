@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 22.02.2021.
 //
 
-import Foundation
+import FoundationEssentials
 import JavaScriptKit
 
 class EventListener {

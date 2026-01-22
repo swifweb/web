@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 01.03.2021.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Represents the storage for `Cache` objects.
 ///

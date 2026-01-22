@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// A basic, closure-based `Responder`.
 public struct BasicResponder<P: AnyPageController>: Responder {

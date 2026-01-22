@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 27.02.2021.
 //
 
-import Foundation
+import FoundationEssentials
 import WebFoundation
 
 /// DOM interface implemented by objects that can receive events and may have listeners for them.

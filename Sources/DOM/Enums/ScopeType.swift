@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 22.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class ScopeType {
     public let value: String

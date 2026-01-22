@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Encodes `Encodable` instances to `application/x-www-form-urlencoded` data.
 ///

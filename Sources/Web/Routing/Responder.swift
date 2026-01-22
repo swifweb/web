@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 public protocol Responder {
     func respond(to request: Request) throws -> AnyPageController?

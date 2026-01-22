@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 09.07.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public protocol URLValue: CustomStringConvertible {
     var urlValue: String { get }

@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 11.07.2020.
 //
 
-import Foundation
+import FoundationEssentials
 import JavaScriptKit
 
 /// Describes the aspect of intermediate steps in a CSS animation sequence.

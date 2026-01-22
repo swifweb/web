@@ -6,7 +6,7 @@
 //
 
 import DOM
-import Foundation
+import FoundationEssentials
 
 extension BaseElement {
     public enum FadeInBegin {

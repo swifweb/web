@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 12.02.2021.
 //
 
-import Foundation
+import FoundationEssentials
 import JavaScriptKit
 
 private var serviceworker: ServiceWorker!

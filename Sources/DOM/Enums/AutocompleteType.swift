@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 20.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class AutocompleteType {
     public let value: String

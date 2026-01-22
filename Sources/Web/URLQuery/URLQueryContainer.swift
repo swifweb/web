@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Helper for encoding and decoding data from an HTTP request query string.
 ///

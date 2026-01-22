@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Keeps track if the string was percent encoded or not.
 /// Prevents double encoding/double decoding

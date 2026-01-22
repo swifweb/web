@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 15.11.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class WindowLifecycle {
     private init () {}

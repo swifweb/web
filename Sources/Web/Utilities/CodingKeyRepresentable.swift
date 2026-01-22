@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Capable of being represented by a `CodingKey`.
 public protocol CodingKeyRepresentable {

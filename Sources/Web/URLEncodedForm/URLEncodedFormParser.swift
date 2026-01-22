@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Parses a URL Query `single=value&arr=1&arr=2&obj[key]=objValue` into
 internal struct URLEncodedFormParser {

@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 11.07.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Defines the character set used by the style sheet.
 

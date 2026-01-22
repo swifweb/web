@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 18.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class AlignType {
     public let value: String

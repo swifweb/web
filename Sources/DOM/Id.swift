@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 28.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 open class Id: ExpressibleByStringLiteral {
     public typealias StringLiteralType = String

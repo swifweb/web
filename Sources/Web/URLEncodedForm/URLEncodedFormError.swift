@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// Errors thrown while encoding/decoding `application/x-www-form-urlencoded` data.
 enum URLEncodedFormError: Error {

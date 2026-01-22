@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 22.02.2021.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// The PushEvent interface of the Push API represents a push message that has been received.
 /// This event is sent to the global scope of a ServiceWorker.

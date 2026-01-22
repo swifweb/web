@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 20.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// The crossorigin attribute, valid on the <audio>, <img>, <link>, <script>, and <video> elements,
 /// provides support for CORS, defining how the element handles crossorigin requests,

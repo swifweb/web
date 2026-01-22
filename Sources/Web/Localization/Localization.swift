@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 29.11.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 private var localization = Localization()
 

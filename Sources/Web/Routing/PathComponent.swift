@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 /// A single path component of a `Route`. An array of these components describes
 /// a route's path, including which parts are constant and which parts are dynamic.

@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 17.11.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class NavigatorGeolocation: Equatable {
     public static func == (lhs: NavigatorGeolocation, rhs: NavigatorGeolocation) -> Bool {

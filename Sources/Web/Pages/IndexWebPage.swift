@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 06.07.2020.
 //
 
-//import Foundation
+//import FoundationEssentials
 //import WebCore
 //
 //class IndexWebPage: WebPage {

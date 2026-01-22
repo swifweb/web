@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 20.11.2020.
 //
 
-import Foundation
+import FoundationEssentials
 import JavaScriptKit
 import DOM
 

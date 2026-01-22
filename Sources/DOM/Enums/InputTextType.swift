@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 21.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class InputTextType {
     public let value: String

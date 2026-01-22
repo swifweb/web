@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 24.02.2021.
 //
 
-import Foundation
+import FoundationEssentials
 
 class Container<Event: AnyEvent>: GenericContainer {
     typealias E = Event

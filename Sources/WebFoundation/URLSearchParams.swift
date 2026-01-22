@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 09.03.2021.
 //
 
-import Foundation
+import FoundationEssentials
 import JavaScriptKit
 
 ///Defines utility methods to work with the query string of a URL.

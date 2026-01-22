@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 25.02.2021.
 //
 
-import Foundation
+import FoundationEssentials
 import WebFoundation
 
 // MARK: - Content sectioning

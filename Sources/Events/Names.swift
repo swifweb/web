@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 28.02.2021.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/Events)
 public struct EventName: ExpressibleByStringLiteral, Hashable {

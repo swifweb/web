@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 20.12.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 /// The capture attribute specifies that, optionally, a new file should be captured,
 /// and which device should be used to capture that new media of a type defined

@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 16.11.2020.
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class Size: InnerStateChangeable, Equatable, CustomStringConvertible {
     @State public var width: Double = 0

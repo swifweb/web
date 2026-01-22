@@ -6,7 +6,7 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import Foundation
+import FoundationEssentials
 
 public final class RoutesStorage: RoutesBuilder, CustomStringConvertible {
     public var all: [any AnyRoute]

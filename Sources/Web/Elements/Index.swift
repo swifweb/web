@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 13.10.2024.
 //
 
-import Foundation
+import FoundationEssentials
 import WebFoundation
 
 /// Static information for `index.html` file.

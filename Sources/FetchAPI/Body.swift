@@ -7,7 +7,7 @@
 
 import WebFoundation
 import StreamsAPI
-import Foundation
+import FoundationEssentials
 
 public final class Body: Bodyable {
     public let jsValue: JSValue
