@@ -7,18 +7,9 @@
 
 import WebFoundation
 
-var _sharedNavigator: Navigator?
-
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Navigator)
-public final class Navigator: InnerStateChangeable, Equatable {
-    public static var shared: Navigator {
-        guard let shared = _sharedNavigator else {
-            let shared = Navigator()
-            _sharedNavigator = shared
-            return shared
-        }
-        return shared
-    }
+public final class Navigator: InnerStateChangeable, Equatable, @unchecked Sendable {
+    public static let shared = Navigator()
     
     /// Name of the element inside DOM
     let jsObjectName = "navigator"

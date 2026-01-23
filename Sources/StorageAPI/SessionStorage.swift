@@ -7,18 +7,9 @@
 
 import WebFoundation
 
-private var _shared: SessionStorage?
-
 // It is more secure to just use swift dictionary, cause it will be not available for user
-public final class SessionStorage {
-    public static var shared: SessionStorage {
-        guard let shared = _shared else {
-            let shared = SessionStorage()
-            _shared = shared
-            return shared
-        }
-        return shared
-    }
+public final class SessionStorage: @unchecked Sendable {
+    public static let shared = SessionStorage()
     
     /// Name of the element inside DOM
     let domElementName = "sessionStorage"

@@ -7,17 +7,8 @@
 
 import WebFoundation
 
-private var _shared: LocalStorage?
-
-public final class LocalStorage {
-    public static var shared: LocalStorage {
-        guard let shared = _shared else {
-            let shared = LocalStorage()
-            _shared = shared
-            return shared
-        }
-        return shared
-    }
+public final class LocalStorage: @unchecked Sendable {
+    public static let shared = LocalStorage()
     
     /// Name of the element inside DOM
     let domElementName = "localStorage"

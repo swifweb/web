@@ -7,18 +7,9 @@
 
 import WebFoundation
 
-private var _shared: Location?
-
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Location)
-public final class Location: InnerStateChangeable, Equatable {
-    public static var shared: Location {
-        guard let shared = _shared else {
-            let shared = Location()
-            _shared = shared
-            return shared
-        }
-        return shared
-    }
+public final class Location: InnerStateChangeable, Equatable, @unchecked Sendable {
+    public static let shared = Location()
     
     /// Name of the element inside DOM
     let domElementName = "location"

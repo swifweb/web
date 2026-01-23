@@ -8,20 +8,11 @@
 import WebFoundation
 import Events
 
-private var _shared: Window?
-
-public class Window: EventListenerCompatibleObject, EventTarget {
+public class Window: EventListenerCompatibleObject, EventTarget, @unchecked Sendable {
     public lazy var storage: Storage = .init()
     public var jsValue: JSValue { domElement }
     
-    public static var shared: Window {
-        guard let shared = _shared else {
-            let shared = Window()
-            _shared = shared
-            return shared
-        }
-        return shared
-    }
+    public static let shared = Window()
     
     /// Name of the element inside DOM
     public let domElementName = "window"

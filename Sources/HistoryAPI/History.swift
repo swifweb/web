@@ -8,18 +8,9 @@
 import WebFoundation
 import LocationAPI
 
-private var _shared: History?
-
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/History)
-public final class History: InnerStateChangeable, Equatable {
-    public static var shared: History {
-        guard let shared = _shared else {
-            let shared = History()
-            _shared = shared
-            return shared
-        }
-        return shared
-    }
+public final class History: InnerStateChangeable, Equatable, @unchecked Sendable {
+    public static let shared = History()
     
     /// Name of the element inside DOM
     let domElementName = "history"
