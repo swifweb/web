@@ -229,7 +229,7 @@ open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget,
 
 // MARK: CustomStringConvertible
 
-extension Array: CustomStringConvertible where Element == BaseElement {
+extension Array where Element == BaseElement {
     public var description: String {
         "[\(self.map { $0.description }.joined(separator: ", "))]"
     }
