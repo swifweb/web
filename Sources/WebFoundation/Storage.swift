@@ -5,9 +5,9 @@
 //  Created by Mihael Isaev on 24.02.2021.
 //
 
-import Foundation
+import FoundationEssentials
 
-public struct Storage {
+public struct Storage: Sendable {
     var storage: [ObjectIdentifier: AnyStorageValue]
 
     struct Value<T>: AnyStorageValue {
