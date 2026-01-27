@@ -9,7 +9,7 @@ import WebFoundation
 
 /// Represents any web page loaded in the browser
 /// and serves as an entry point into the web page's content.
-public class Document: DOMElement, EventTarget {
+public class Document: DOMElement, EventTarget, Sendable {
     public lazy var storage: Storage = .init()
     public var jsValue: JSValue { domElement }
     
