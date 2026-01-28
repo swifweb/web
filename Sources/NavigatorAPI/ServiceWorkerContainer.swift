@@ -24,7 +24,7 @@ public final class ServiceWorkerContainer {
     let jsValue: JSValue
     #endif
     
-    public var shared: ServiceWorkerContainer? { _sharedNavigator?.serviceWorker }
+    public var shared: ServiceWorkerContainer? { Navigator.shared.serviceWorker }
     
     init? (_ navigator: Navigator) {
         #if arch(wasm32)
@@ -54,7 +54,9 @@ public final class ServiceWorkerContainer {
         }
         
 		public var jsValue: JSValue {
-            ["scope": scope].jsValue
+            let object = JSObject.global.Object.function!.new()
+            object["scope"] = scope.jsValue
+            return .object(object)
         }
     }
     
