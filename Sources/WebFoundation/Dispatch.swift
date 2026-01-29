@@ -5,17 +5,17 @@
 //  Created by Mihael Isaev on 15.11.2020.
 //
 
-import Foundation
+import FoundationEssentials
 import JavaScriptKit
 
-private var dispatch = Dispatch()
+private let dispatch = Dispatch()
 
-public struct Dispatch {
+public actor Dispatch {
     fileprivate var functions: [String: JSClosure] = [:]
     
     /// Set timeout JavaScript function which executes after 0 seconds.
     /// - Parameter closure: Closure to execute.
-    public static func async(_ closure: @escaping () -> Void) {
+    public static func async(_ closure: @escaping @Sendable () -> Void) {
         asyncAfter(0, closure)
     }
     
@@ -23,7 +23,7 @@ public struct Dispatch {
     /// - Parameters:
     ///   - time: Time in seconds.
     ///   - closure: Closure to execute.
-    public static func asyncAfter(_ time: Double, _ closure: @escaping () -> Void) {
+    public static func asyncAfter(_ time: Double, _ closure: @escaping @Sendable () -> Void) {
         #if arch(wasm32)
         let uid = String.shuffledAlphabet(8)
         var function: JSClosure!
@@ -38,7 +38,10 @@ public struct Dispatch {
         dispatch.functions[uid] = function
         _ = JSObject.global.setTimeout!(function, time * 1_000)
         #else
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(time)), execute: closure)
+        Task {
+            try? await Task.sleep(nanoseconds: UInt64(time) * 1_000_000_000)
+            closure()
+        }
         #endif
     }
     
