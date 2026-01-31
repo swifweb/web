@@ -7,7 +7,7 @@
 
 public typealias WState = State
 
-public protocol StateConvertible: UniValue {
+@MainActor public protocol StateConvertible: UniValue {
     associatedtype Value
     
     var stateValue: State<Value> { get }
@@ -19,7 +19,7 @@ extension StateConvertible {
 }
 
 @propertyWrapper
-open class State<Value>: Stateable {
+@MainActor open class State<Value>: Stateable {
     private var _originalValue: Value
     private var _wrappedValue: Value
     public var wrappedValue: Value {
@@ -188,7 +188,7 @@ extension State where Value: Equatable {
     }
 }
 
-public class CombinedState<A, B> {
+@MainActor public class CombinedState<A, B> {
     let _left: State<A>
     let _right: State<B>
     public var left: A { _left.wrappedValue }

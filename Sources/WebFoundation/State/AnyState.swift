@@ -17,11 +17,11 @@ extension State {
 
 // MARK: Any States to Expressable
 
-public protocol AnyState: AnyObject {
+@MainActor public protocol AnyState: AnyObject {
     func listen(_ listener: @escaping () -> Void)
 }
 
-public class AnyStates {
+@MainActor public class AnyStates {
     private var _expression: (() -> Void)?
     
     @discardableResult
@@ -36,7 +36,7 @@ public class AnyStates {
 }
 
 extension Array where Element == AnyState {
-    public func map<Result>(_ expression: @escaping () -> Result) -> State<Result> {
+    @MainActor public func map<Result>(_ expression: @escaping () -> Result) -> State<Result> {
         let state = State<Result>.init(wrappedValue: expression())
         AnyStates(self) { [weak state] in
             state?.wrappedValue = expression()

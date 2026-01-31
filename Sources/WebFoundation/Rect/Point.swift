@@ -7,7 +7,7 @@
 
 import FoundationEssentials
 
-public final class Point: InnerStateChangeable, Equatable, CustomStringConvertible {
+@MainActor public final class Point: InnerStateChangeable, Equatable, CustomStringConvertible {
     @State public var x: Double = 0
     @State public var y: Double = 0
     

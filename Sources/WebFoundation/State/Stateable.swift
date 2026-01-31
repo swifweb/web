@@ -5,7 +5,7 @@
 //  Created by Mihael Isaev on 16.11.2020.
 //
 
-public protocol Stateable: AnyState {
+@MainActor public protocol Stateable: AnyState {
     associatedtype Value
     
     var wrappedValue: Value { get set }

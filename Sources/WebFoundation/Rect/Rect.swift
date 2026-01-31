@@ -7,7 +7,7 @@
 
 import FoundationEssentials
 
-public final class Rect: InnerStateChangeable, Equatable, CustomStringConvertible {
+@MainActor public final class Rect: InnerStateChangeable, Equatable, CustomStringConvertible {
     @State public var x: Double = 0
     @State public var y: Double = 0
     @State public var width: Double = 0

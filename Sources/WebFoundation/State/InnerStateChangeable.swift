@@ -5,11 +5,11 @@
 //  Created by Mihael Isaev on 16.11.2020.
 //
 
-public protocol InnerStateChangeableObserver {
+@MainActor public protocol InnerStateChangeableObserver {
     func innerStateChangeableSetup()
 }
 
-public protocol InnerStateChangeable: AnyObject, Copyable {
+@MainActor public protocol InnerStateChangeable: AnyObject, Copyable {
     var innerStates: [AnyState] { get }
     var innerStatePrevSelf: Self { get set }
     var innerStateManualUpdating: Bool { get set }

@@ -7,7 +7,7 @@
 
 import FoundationEssentials
 
-public final class Size: InnerStateChangeable, Equatable, CustomStringConvertible {
+@MainActor public final class Size: InnerStateChangeable, Equatable, CustomStringConvertible {
     @State public var width: Double = 0
     @State public var height: Double = 0
     
