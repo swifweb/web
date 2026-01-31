@@ -7,7 +7,7 @@
 
 import FoundationEssentials
 
-public struct Storage: Sendable {
+public struct Storage {
     var storage: [ObjectIdentifier: AnyStorageValue]
 
     struct Value<T>: AnyStorageValue {
