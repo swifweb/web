@@ -8,14 +8,12 @@
 import FoundationEssentials
 import JavaScriptKit
 
-private let dispatch = Dispatch()
-
-public actor Dispatch {
-    fileprivate var functions: [String: JSClosure] = [:]
+@MainActor public enum Dispatch {
+    private static var functions: [String: JSClosure] = [:]
     
     /// Set timeout JavaScript function which executes after 0 seconds.
     /// - Parameter closure: Closure to execute.
-    public static func async(_ closure: @escaping @Sendable () -> Void) {
+    public static func async(_ closure: @escaping @MainActor () -> Void) {
         asyncAfter(0, closure)
     }
     
@@ -23,33 +21,35 @@ public actor Dispatch {
     /// - Parameters:
     ///   - time: Time in seconds.
     ///   - closure: Closure to execute.
-    public static func asyncAfter(_ time: Double, _ closure: @escaping @Sendable () -> Void) {
+    public static func asyncAfter(_ time: Double, _ closure: @escaping @MainActor () -> Void) {
         #if arch(wasm32)
         let uid = String.shuffledAlphabet(8)
         var function: JSClosure!
         function = .init { _ -> JSValue in
-            closure()
-            #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
-            function.release()
-            #endif
-            dispatch.functions[uid] = nil
+            MainActor.assumeIsolated {
+                closure()
+                #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+                function.release()
+                #endif
+                functions[uid] = nil
+            }
             return .null
         }
-        dispatch.functions[uid] = function
+        functions[uid] = function
         _ = JSObject.global.setTimeout!(function, time * 1_000)
         #else
-        Task {
+        Task { @MainActor in
             try? await Task.sleep(nanoseconds: UInt64(time) * 1_000_000_000)
             closure()
         }
         #endif
     }
     
-    public struct IntervalTask {
+    @MainActor public struct IntervalTask {
         let object: JSValue
-        let invalidateHandler: () -> Void
+        let invalidateHandler: @MainActor () -> Void
         
-        init (_ object: JSValue, _ invalidateHandler: @escaping () -> Void) {
+        init (_ object: JSValue, _ invalidateHandler: @escaping @MainActor () -> Void) {
             self.object = object
             self.invalidateHandler = invalidateHandler
         }
@@ -60,27 +60,29 @@ public actor Dispatch {
     }
     
     /// https://www.w3schools.com/jsref/met_win_setinterval.asp
-    public static func interval(_ time: Double, _ closure: @escaping (IntervalTask) -> Void) {
+    public static func interval(_ time: Double, _ closure: @escaping @MainActor (IntervalTask) -> Void) {
         #if arch(wasm32)
         let uid = String.shuffledAlphabet(8)
         var function: JSClosure!
         var timer: JSValue!
         var task: IntervalTask?
         function = .init { _ -> JSValue in
-            if let task = task {
-                closure(task)
-            } else {
-                task = IntervalTask(timer) {
-                    dispatch.functions[uid] = nil
-                    #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
-                    function.release()
-                    #endif
+            MainActor.assumeIsolated {
+                if let task = task {
+                    closure(task)
+                } else {
+                    task = IntervalTask(timer) {
+                        functions[uid] = nil
+                        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+                        function.release()
+                        #endif
+                    }
+                    closure(task!)
                 }
-                closure(task!)
             }
             return .null
         }
-        dispatch.functions[uid] = function
+        functions[uid] = function
         timer = JSObject.global.setInterval!(function, time * 1_000)
         #endif
     }
