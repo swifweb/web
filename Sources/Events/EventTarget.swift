@@ -11,7 +11,7 @@ import WebFoundation
 /// DOM interface implemented by objects that can receive events and may have listeners for them.
 ///
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget)
-public protocol EventTarget: JSValuable, Storageable {}
+@MainActor public protocol EventTarget: JSValuable, Storageable {}
 
 /// Specifies characteristics about the event listener
 public struct EventListenerAddOptions: ConvertibleToJSValue {
@@ -94,7 +94,9 @@ extension EventTarget {
         var eventHandler: EventListenerContainer.Handler!
         eventHandler = EventListenerContainer.Handler(closure: {
             if options.once {
-                self.container.remove(from: name, handler: eventHandler)
+                MainActor.assumeIsolated {
+                    self.container.remove(from: name, handler: eventHandler)
+                }
             }
             handler($0)
         })
@@ -190,7 +192,7 @@ extension EventTarget {
     }
 }
 
-class EventTargetContainer: AnyStorageValue, StorageKey {
+@MainActor class EventTargetContainer: AnyStorageValue, StorageKey {
     typealias Value = EventTargetContainer
     
     private lazy var eventListeners: [EventName: EventListenerContainer] = [:]
@@ -215,14 +217,16 @@ class EventTargetContainer: AnyStorageValue, StorageKey {
         eventListeners[name]?.handlers.removeAll(where: { $0 == handler })
     }
     
-    func shutdown() {
-        eventListeners.forEach {
-            $0.value.shutdown()
+    nonisolated func shutdown() {
+        MainActor.assumeIsolated {
+            self.eventListeners.forEach {
+                $0.value.shutdown()
+            }
         }
     }
 }
 
-class EventListenerContainer: AnyStorageValue {
+@MainActor class EventListenerContainer: AnyStorageValue {
     final class BaseEvent: AnyEvent {
         let jsEvent: JSValue
         let type: EventName
@@ -253,9 +257,11 @@ class EventListenerContainer: AnyStorageValue {
     }
     
     lazy var closure: JSClosure = JSClosure { args -> JSValue in
-        self.handlers.forEach { handler in
-            handler.closure(.init(args.first))
-            self.handlers.removeAll(where: { $0 == handler })
+        MainActor.assumeIsolated {
+            self.handlers.forEach { handler in
+                handler.closure(.init(args.first))
+                self.handlers.removeAll(where: { $0 == handler })
+            }
         }
         return .undefined
     }
@@ -270,10 +276,12 @@ class EventListenerContainer: AnyStorageValue {
         #endif
     }
     
-    func shutdown() {
-        #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
-        closure.release()
-        #endif
-        handlers.removeAll()
+    nonisolated func shutdown() {
+        MainActor.assumeIsolated {
+            #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
+            self.closure.release()
+            #endif
+            self.handlers.removeAll()
+        }
     }
 }
