@@ -17,7 +17,7 @@ public protocol EventListenerCompatibleType {
     var rawValue: String { get }
 }
 
-public class EventListener {
+@MainActor public class EventListener {
     private let handler: ([JSValue]) -> Void
     private let closure: JSClosure
     private let object, event: String
