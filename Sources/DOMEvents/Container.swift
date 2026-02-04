@@ -7,16 +7,19 @@
 
 import FoundationEssentials
 
+@MainActor
 class Container<Event: AnyEvent>: GenericContainer {
     typealias E = Event
     
     var isAddedToDOM: Bool = false
     var handlers: [(E) -> Void]
     
-    lazy var closure: JSClosure = JSClosure { args -> JSValue in
-        guard let event = args.first else { return .undefined }
-        self.handlers.forEach { $0(.init(event)) }
-        return .undefined
+    lazy var closure: JSClosure = JSClosure { [weak self] args -> JSValue in
+        MainActor.assumeIsolated {
+            guard let self, let event = args.first else { return .undefined }
+            self.handlers.forEach { $0(.init(event)) }
+            return .undefined
+        }
     }
     
     required init (_ handler: @escaping (Event) -> Void) {
@@ -30,11 +33,13 @@ class Container<Event: AnyEvent>: GenericContainer {
     }
 }
 
+@MainActor
 protocol AnyContainer: AnyObject {
     var isAddedToDOM: Bool { get set }
     var closure: JSClosure { get }
 }
 
+@MainActor
 protocol GenericContainer: AnyContainer, AnyStorageValue {
     associatedtype E: AnyEvent
     
@@ -43,8 +48,10 @@ protocol GenericContainer: AnyContainer, AnyStorageValue {
 }
 
 extension GenericContainer {
-    func shutdown() {
-        handlers.removeAll()
+    nonisolated func shutdown() {
+        MainActor.assumeIsolated {
+            handlers.removeAll()
+        }
     }
 }
 
