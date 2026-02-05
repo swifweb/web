@@ -7,7 +7,7 @@
 
 import WebFoundation
 
-public protocol BaseContentElementable: DOMElement {
+@MainActor public protocol BaseContentElementable: DOMElement {
     init ()
     init(@DOM content: @escaping DOM.Block)
     
@@ -21,7 +21,7 @@ public protocol BaseContentElementable: DOMElement {
     var innerHTML: String { get set }
 }
 
-protocol _BaseContentElementable: BaseContentElementable {
+@MainActor protocol _BaseContentElementable: BaseContentElementable {
     func postBuildUI()
     func parseDOMItem(_ item: DOMItem)
     #if !arch(wasm32)

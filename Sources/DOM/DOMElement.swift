@@ -7,13 +7,13 @@
 
 import WebFoundation
 
-public protocol DOMElementable: Storageable {
+@MainActor public protocol DOMElementable: Storageable {
     #if arch(wasm32)
     var domElement: JSValue { get set }
     #endif
 }
 
-public protocol DOMElement: DOMElementable, AnyElement {
+@MainActor public protocol DOMElement: DOMElementable, AnyElement {
     static var name: String { get }
     
     var properties: DOMElementProperties { get }
@@ -273,7 +273,7 @@ extension DOMElement {
     }
 }
 
-public final class DOMElementProperties {
+@MainActor public final class DOMElementProperties {
     let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz")
     
     public lazy var _id = uid

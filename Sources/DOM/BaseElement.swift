@@ -8,7 +8,7 @@
 import WebFoundation
 import Events
 
-open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget, Equatable, Hashable, CustomStringConvertible {
+@MainActor open class BaseElement: DOMElement, DOMContent, DOMEventsBaseScope, EventTarget, Equatable, Hashable, CustomStringConvertible {
     // MARK: Storageable
     
     public lazy var storage: Storage = .init()
