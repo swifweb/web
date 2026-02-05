@@ -7,15 +7,17 @@
 
 import JavaScriptKit
 
-class DarkModeDetector {
+@MainActor class DarkModeDetector {
     private var closure: JSClosure?
     private lazy var mediaQuery = JSObject.global.window.matchMedia.function!.callAsFunction("(prefers-color-scheme: dark)")
     
     init (_ handler: @escaping (Bool) -> Void) {
         #if arch(wasm32)
         closure = .init { v -> JSValue in
-            handler(v.first?.matches.boolean == true)
-            return .null
+            MainActor.assumeIsolated {
+                handler(v.first?.matches.boolean == true)
+                return .null
+            }
         }
         setJSValue(this: mediaQuery.object!, name: "onchange", value: closure.jsValue)
         handler(mediaQuery.matches.boolean == true)

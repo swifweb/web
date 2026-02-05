@@ -7,7 +7,7 @@
 
 import FoundationEssentials
 
-public final class WindowLifecycle {
+@MainActor public final class WindowLifecycle {
     private init () {}
     
     // MARK: Finish Launching
@@ -101,7 +101,7 @@ public final class WindowLifecycle {
     }
 }
 
-public struct ExtractWindowLifecycleListeners {
+@MainActor public struct ExtractWindowLifecycleListeners {
     public let didFinishLaunching: [() -> Void]
     
     public init (_ lifecycle: WindowLifecycle) {

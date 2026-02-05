@@ -8,7 +8,7 @@
 import WebFoundation
 import Events
 
-public class Window: EventListenerCompatibleObject, EventTarget, @unchecked Sendable {
+@MainActor public class Window: EventListenerCompatibleObject, EventTarget {
     public lazy var storage: Storage = .init()
     public var jsValue: JSValue { domElement }
     
