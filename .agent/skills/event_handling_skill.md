@@ -1,30 +1,21 @@
 # Event Handling Skill
 
-## Use When
+Use for event wrappers or listener registration, removal, options, propagation, and retained callback changes.
 
-- Adding listener APIs or event wrappers.
-- Changing event attach/detach logic.
+## Required Context
 
-## Required Docs
+- Primary: `architecture/EVENT_MODEL.md`
+- Supporting: `architecture/RUNTIME_BRIDGE.md`; add `DOM_MODEL.md` only for DOM ownership/integration
 
-- `.agent/architecture/EVENT_MODEL.md`
-- `.agent/architecture/RUNTIME_BRIDGE.md`
-- `.agent/architecture/FOUNDATION_RULES.md`
+## Procedure
 
-## Constraints
+1. Confirm the event's standards definition and correct owner (`Events`, `DOMEvents`, or focused API target).
+2. Trace the exact underlying target and effective registration tuple: event type, callback identity, capture/options, and receiver.
+3. Prove removal uses the required same identity/options and that repeated/one-shot registration behaves correctly.
+4. Map `capture`, `once`, `passive`, signal, cancellation, and propagation without Swift-side semantic substitution.
+5. Define retained closure ownership, capture behavior, cleanup/invalidation, and owner teardown.
+6. Verify with the narrowest useful registration/invocation/removal scenario plus diff review.
 
-- Must follow `SPEC_ALIGNMENT.md`.
-- Must follow `API_DESIGN_RULES.md`.
-- Must not bypass `FOUNDATION_RULES.md`.
+## Stop Conditions
 
-## Steps
-
-1. Preserve EventTarget semantics.
-2. Support options behavior (`capture`, `once`, `passive`) correctly.
-3. Ensure listener removal path matches registration identity.
-4. Ensure closure lifecycle has explicit release strategy.
-
-## Pitfalls
-
-- Leaking `JSClosure` instances.
-- Mixing `Events` and `DOMEvents` ownership.
+Stop when a reversible API cannot actually detach, closure lifetime is unbounded, or the proposed type duplicates an existing event concept.

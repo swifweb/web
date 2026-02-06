@@ -1,41 +1,51 @@
 # Runtime Bridge
 
-## Bridge Ownership
+Authoritative owner for JavaScript value, object, closure, callback, promise, and wasm/native runtime semantics.
 
-- Bridge primitives are owned by `WebFoundation`.
-- Wrapper modules consume bridge APIs but do not redefine bridge infrastructure.
+## Scope
 
-## JSValue Lifecycle Rules
+This chunk governs how wrappers preserve runtime behavior. Shared type placement belongs to `FOUNDATION_RULES.md`; public API shape belongs to `API_DESIGN_RULES.md`.
 
-- Store `JSValue` only when lifecycle and ownership are clear.
-- Avoid uncontrolled global retention of `JSValue`.
-- Keep wrapper state synchronized with JS source of truth.
+## Stable Boundary Rules
 
-## Promise Bridging Patterns
+### BRIDGE-001 — Value-state fidelity
 
-- JS promises may be exposed as callback-based APIs or async/await adapters.
-- Async wrappers must preserve browser completion and error semantics.
-- Promise rejection must map to explicit Swift error paths.
+Preserve meaningful distinctions among missing values, JavaScript `undefined`, `null`, conversion failure, and valid falsy values. Do not collapse them unless the Web API itself defines that equivalence.
 
-## Async/Await Mapping
+### BRIDGE-002 — Object identity and receiver
 
-- Async convenience is additive.
-- Canonical async behavior must match underlying JS behavior.
-- Do not swallow or reinterpret JS errors.
+When browser behavior depends on object identity or `this`, retain and call the correct `JSObject`/receiver. Do not reconstruct wrappers in a way that changes identity-sensitive behavior.
 
-## Memory Safety Rules
+### BRIDGE-003 — Closure lifetime
 
-- Avoid retain cycles in closures capturing wrapper instances.
-- Ensure closure-based handlers are released when no longer needed.
-- Keep wrapper references bounded to required lifetime.
+Every retained `JSClosure` has an explicit owner and release/invalidation path appropriate to the Web API. One-shot closures must not become unbounded retained state; long-lived listeners must remain alive until detach/invalidation.
 
-## JSClosure Lifecycle
+### BRIDGE-004 — Promise completion
 
-- `JSClosure` instances must have explicit release/lifetime strategy.
-- Do not leak long-lived closures for short-lived listeners.
-- Listener detach paths must release corresponding closure references.
+Promise adapters complete exactly once, preserve fulfillment/rejection distinction, and keep required closures alive through settlement. Async/await or callback convenience is additive to the underlying asynchronous semantics.
 
-## WASM Constraints
+### BRIDGE-005 — Callback contracts
 
-- All browser bridge calls are guarded by `#if arch(wasm32)` where applicable.
-- Non-wasm paths must not assume browser runtime availability.
+Map callback argument positions, optionality, and invocation ordering from the actual API. Treat malformed/unexpected JavaScript values as explicit conversion/error cases rather than silently fabricating success values.
+
+### BRIDGE-006 — Error fidelity
+
+Do not swallow JavaScript exceptions or promise rejections. Map them to a documented Swift error/result path while retaining enough underlying information for callers to understand failure.
+
+### BRIDGE-007 — Wasm and native behavior
+
+Browser-global operations execute only where that runtime exists. Native compilation paths may provide inert/default behavior only when the public contract documents it and it does not masquerade as a successful browser operation.
+
+### BRIDGE-008 — Single source of truth
+
+Do not keep mutable Swift shadow state that can drift from the wrapped JavaScript object. Cache only immutable/derived values or explicitly synchronized state required by the wrapper contract.
+
+## Review Hazards
+
+Check `JSClosure` capture cycles, listener removal identity, promise early-release/double-completion, force-unwrapped browser globals, incorrect method receiver, undefined/null conflation, and native paths that report false success.
+
+## Related Owners
+
+- `FOUNDATION_RULES.md` — shared interop ownership
+- `EVENT_MODEL.md` — listener-specific lifecycle
+- `API_DESIGN_RULES.md` — public async/error surface

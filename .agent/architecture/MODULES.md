@@ -1,45 +1,57 @@
 # Modules
 
-## Authoritative Layer Hierarchy
+Authoritative owner for SwiftPM target identity, source placement, dependency direction, and cross-target reuse.
 
-`WebFoundation -> Events -> DOMEvents -> DOM -> CSS -> Web -> APIs`
+## Verified Current Facts
 
-This hierarchy matches current target intent and dependency direction.
+- `Package.swift` is the current target/product/dependency authority.
+- Core layer targets are `WebFoundation`, `Events`, `DOMEvents`, `DOM`, `CSS`, and `Web`.
+- Focused targets cover workers, messaging, fetch/streams/transports, browser globals/capabilities, and DOM-adjacent APIs.
+- `WebFoundation` directly declares JavaScriptKit products; other targets consume its re-exported bridge surface through target dependencies.
 
-## Core Layer Roles
+## Stable Boundary Rules
 
-- `WebFoundation`: bridge layer, shared primitives, JS interop support.
-- `Events`: base event objects and enums.
-- `DOMEvents`: browser DOM event surface on top of `Events`.
-- `DOM`: DOM object model wrappers and element abstractions.
-- `CSS`: typed style values and rules used with DOM.
-- `Web`: high-level app/routing/page composition.
+### MODULE-001 — Manifest authority
 
-## API Families
+Resolve current products, targets, and dependency edges from `Package.swift`. Documentation groups are navigation aids and must not become a second manifest.
 
-### Workers Family
+### MODULE-002 — One natural owner
 
-- `WorkersAPI`, `Worker`, `SharedWorker`, `ServiceWorker`
-- Rule: keep worker wrappers family-scoped; avoid unrelated API imports.
+A shared Web concept has one natural target owner. Re-export or depend on that owner when semantics are identical; do not duplicate a model to avoid a justified dependency.
 
-### Messaging APIs
+### MODULE-003 — Evidence-based dependency edges
 
-- `ChannelMessagingAPI`, `BroadcastChannelAPI`
-- Rule: share event/messaging primitives via core layers only.
+Add a target dependency only for a concrete source/API need consistent with platform semantics. Avoid convenience coupling, umbrella imports, and architecture changes motivated only by visual hierarchy.
 
-### Streams/Fetch Family
+### MODULE-004 — Core layer roles
 
-- `StreamsAPI`, `FetchAPI`, `XMLHttpRequest`, `WebSocketAPI`
-- Rule: transport wrappers stay protocol-accurate and avoid cross-family coupling.
+- `WebFoundation` owns shared interop and base values.
+- `Events` owns generic event primitives/listener machinery.
+- `DOMEvents` owns DOM-focused event conveniences.
+- `DOM` owns document/window/element abstractions.
+- `CSS` owns typed CSS representation and stylesheet behavior.
+- `Web` owns SwifWeb application composition.
 
-### Navigator-Based APIs
+Changing these roles requires updating the owner, manifest, source map, and affected routing in one reviewed task.
 
-- `NavigatorAPI` and APIs consumed through navigator capabilities (`PushAPI`, `NotificationsAPI`, `ContentIndexAPI`, `WorkersAPI` integration points)
-- Rule: navigator-linked capability exposure must mirror platform capability boundaries.
+### MODULE-005 — Focused API-family ownership
 
-## Dependency Invariants
+Place a browser API in its existing focused target when one exists. Create a target only when the API is independently consumable or needs a real dependency boundary; do not create a target per type or merge families solely because they are adjacent in a browser global.
 
-- API modules depend on `WebFoundation` and only the minimal required modules.
-- Avoid cross-API coupling by default.
-- If API-to-API dependency is required, document exact reason and keep it minimal.
-- No dependency may bypass foundation bridge rules.
+### MODULE-006 — Export discipline
+
+Re-export only when downstream consumers intentionally need the dependency's public concepts as part of the target's surface. Do not use exports to conceal accidental coupling or competing ownership.
+
+### MODULE-007 — Tests follow behavior ownership
+
+Focused tests belong with the target/behavior they prove. A cross-layer `WebTests` case is appropriate only when high-level composition is the behavior under test; manifest declarations remain required for tests to run under SwiftPM.
+
+## Change Checklist
+
+For a new or moved target, verify manifest validity, directory/product naming, direct dependency necessity, public exports, downstream callers, tests, `SOURCE_MAP.md`, and compatibility/migration impact.
+
+## Related Owners
+
+- `ARCHITECTURE.md` — top-level layer intent
+- `FOUNDATION_RULES.md` — JavaScriptKit/shared bridge boundary
+- `API_DESIGN_RULES.md` — wrapper ownership inputs

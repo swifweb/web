@@ -1,23 +1,27 @@
 # Project Memory
 
-## Current Architectural Decisions
+Durable, non-obvious current-state facts useful beyond immediate source and Git inspection.
 
-- SwifWeb is spec-driven and wrapper-first.
-- Swift ergonomics are layered on top of canonical Web semantics.
-- `WebFoundation` is bridge-critical infrastructure.
+## Current Package Facts
 
-## Constraints
+- The Swift package is named `web` and currently uses Swift tools version 6.1.
+- JavaScriptKit `0.17.0` is the sole declared external package dependency; `WebFoundation` is the target that directly declares its products.
+- `WebFoundation/Exports.swift` re-exports JavaScriptKit, so feature targets commonly access `JSValue`, `JSObject`, and `JSClosure` through `WebFoundation`.
+- Production targets are organized as core layers (`WebFoundation`, `Events`, `DOMEvents`, `DOM`, `CSS`, `Web`) plus focused Web API and worker targets.
+- The repository currently contains `WebTests` and `ServiceWorkerTests`; test coverage is not uniform across all API targets.
 
-- Large module surface with many Web APIs.
-- Must scale without duplicated models or drift from specs.
-- Must preserve clear module ownership and dependency limits.
+## Durable Architectural Facts
 
-## Known Limitations
+- SwifWeb is wrapper-first and standards-aligned: canonical browser behavior is the authority, while Swift ergonomics are additive.
+- `WebFoundation` owns shared JavaScript interop policy and primitives, but feature wrappers legitimately perform API-specific JavaScript calls through that dependency.
+- `Web` owns project-specific application composition, routing, middleware, localization, and preview support; those are SwifWeb framework facilities, not claimed browser standards.
+- The manifest contains both newer family targets such as `WorkersAPI` and compatibility/specialized targets such as `Worker`, `SharedWorker`, and `ServiceWorker`; placement changes require an explicit migration rather than assumptions from naming alone.
 
-- Legacy wrappers may have uneven style and depth.
-- Some APIs may need incremental alignment to strict checklist rules.
+## Maintenance Reality
 
-## Persistent Rules
+- The codebase spans many independently packaged Web API surfaces and contains legacy variation in style and wrapper completeness.
+- Current source and `Package.swift` remain the implementation truth. Stable docs describe boundaries and navigation; they do not certify that every wrapper is complete or fully spec-conformant.
 
-- New APIs require spec reference and checklist pass.
-- Cross-API coupling is disallowed unless explicitly documented and justified.
+## Scope Rule
+
+Do not store task logs, command output, exhaustive file lists, open decisions, or future ideas here. Use Git/source, `.artifacts/**`, `OPEN_DECISIONS.md`, `TODO.md`, or `TECH_DEBT.md` as appropriate.

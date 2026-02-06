@@ -1,30 +1,21 @@
 # CSS Composition Skill
 
-## Use When
+Use for typed CSS values, properties, functions, selectors/rules, stylesheet behavior, or emitted CSS text.
 
-- Adding CSS value/property wrappers.
-- Extending typed style DSL behavior.
+## Required Context
 
-## Required Docs
+- Primary: `architecture/CSS_MODEL.md`
+- Supporting: `architecture/SPEC_ALIGNMENT.md`; add `DOM_MODEL.md` only for CSSOM/application behavior
 
-- `.agent/architecture/CSS_MODEL.md`
-- `.agent/STYLE_GUIDELINES.md`
-- `.agent/architecture/SPEC_ALIGNMENT.md`
+## Procedure
 
-## Constraints
+1. Confirm the current CSS specification/status and exact grammar for the requested concept.
+2. Search existing value categories, protocols, units, functions, properties, and generation patterns.
+3. Choose reuse only when it admits exactly the intended grammar; do not widen a protocol merely for fluent syntax.
+4. Preserve omission/default/global-keyword/cascade distinctions and exact boundary identifiers.
+5. Verify emitted text, including token order, separators, escaping, whitespace, units, and representative edge cases.
+6. For stylesheet/DOM application, verify the real CSSOM receiver/property and wasm/native behavior.
 
-- Must follow `SPEC_ALIGNMENT.md`.
-- Must follow `API_DESIGN_RULES.md`.
-- Must not bypass `FOUNDATION_RULES.md`.
+## Stop Conditions
 
-## Steps
-
-1. Confirm spec-backed property/value.
-2. Reuse existing protocol/value types.
-3. Keep rendering output spec-accurate.
-4. Keep ergonomic constructors additive.
-
-## Pitfalls
-
-- Creating API-specific CSS forks.
-- Introducing non-standard value semantics.
+Stop when the proposed abstraction permits invalid CSS, emitted syntax is not established, or an experimental concept would be documented as broadly standard.

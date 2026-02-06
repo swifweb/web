@@ -1,22 +1,44 @@
 # CSS Model
 
-## Ownership
+Authoritative owner for typed CSS values, properties, functions, rules, stylesheet behavior, and serialization.
 
-- `CSS` owns typed style values, units, functions, and rules.
+## Verified Current Facts
 
-## DSL Rules
+- `Sources/CSS/` contains typed values/units/functions/properties, rules/selectors, stylesheet behavior, and generated/large property surfaces.
+- The `CSS` target depends on both `WebFoundation` and `DOM`.
 
-- Keep value types explicit and composable.
-- Preserve CSS semantics and value constraints.
-- Provide ergonomic constructors without changing meaning.
+## Stable Boundary Rules
 
-## Integration Rules
+### CSS-001 — CSS ownership
 
-- CSS values must stay compatible with DOM style application.
-- Avoid API-specific CSS variants outside `CSS` unless required by platform semantics.
+Reusable CSS syntax/value/property/rule concepts belong in `CSS`. A browser API target must not fork a private CSS model when the standard concept is shared.
 
-## Extension Checklist
+### CSS-002 — Serialization fidelity
 
-- Confirm property/value exists in CSS spec.
-- Reuse existing protocols/value types before adding new ones.
-- Keep generated string representation spec-accurate.
+Rendered CSS text preserves standard identifiers, token order, separators, escaping, units, whitespace significance, function grammar, and rule structure. Swift names do not authorize different emitted syntax.
+
+### CSS-003 — Typed composition
+
+Protocols/generics/builders express real CSS grammar or reusable value categories. Do not introduce overly broad composition that permits invalid combinations solely for fluent syntax.
+
+### CSS-004 — Defaults, global values, and omission
+
+Preserve the difference between omitting a declaration, setting an empty/invalid string, using CSS-wide keywords, and emitting a concrete default. Do not invent Swift defaults that alter cascade or computed behavior.
+
+### CSS-005 — DOM integration
+
+Applying or removing styles uses the correct DOM/CSSOM object and property identity. Typed values are representations of browser CSS state, not a competing style engine or cascade model.
+
+### CSS-006 — Extension discipline
+
+Before adding a property/value/function/rule, verify its current specification/status and search existing protocols/types. Reuse only semantically compatible value categories, keep experimental compatibility explicit, and add generated surface through the established mechanism when one exists.
+
+## Review Hazards
+
+Check exact emitted text, unitless-zero rules, escaping, optional/empty handling, property custom-name behavior, value-category overreach, browser support claims, and wasm/native application behavior.
+
+## Related Owners
+
+- `SPEC_ALIGNMENT.md` — standards/compatibility evidence
+- `DOM_MODEL.md` — CSSOM/DOM application boundary
+- `RUNTIME_BRIDGE.md` — underlying JavaScript object behavior

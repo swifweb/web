@@ -1,32 +1,55 @@
 # Workflow
 
-## Roles
+Mandatory development workflow for SwifWeb.
 
-- ChatGPT: planner, reviewer, invariants checker.
-- Codex: executor that edits files.
+## PLAN → IMPLEMENT → AUDIT
 
-## Iteration Loop
+Every non-trivial task follows:
 
-1. Analysis and plan.
-2. Create/update planning artifact in `.artifacts/planning/`.
-3. Execute patch in Codex.
-4. Export/update patch artifact in `.artifacts/patches/`.
-5. Review patch using `.agent/REVIEW_RULES.md` and produce review artifact in `.artifacts/reviews/`.
-   Review must validate `SYSTEM_RULES.md` before checklist evaluation.
-6. Repeat until acceptance criteria are met.
+1. **PLAN** — define the exact goal, approved paths, primary owner/IDs, supporting context, invariants, risks, and completion evidence. Write the plan under `.artifacts/planning/` before mutation.
+2. **IMPLEMENT** — execute the reviewed scope without unrelated expansion. If a material premise fails, stop and update the plan before continuing.
+3. **AUDIT** — inspect the real diff, run the smallest meaningful verification, check Git scope, synchronize only durable knowledge that changed, and record review evidence under `.artifacts/reviews/`.
 
-## Artifact Strictness
+Each iteration also records the resulting patch or a compact patch summary under `.artifacts/patches/`. Trivial typo or format-only work may use one short artifact per required category.
 
-- Trivial change: artifact content may be short but must exist.
-- Non-trivial change: include scope, affected files, invariants, and risk checks.
-- Architecture/API change: include explicit spec-alignment check.
+## Spec-First Vertical Development
 
-## Patch Acceptance Gates
+For browser APIs, move vertically through the smallest complete slice:
 
-- Scope is minimal and intentional.
-- Spec-alignment is preserved.
-- Module boundaries are preserved.
-- No direct JS bridge bypass outside `WebFoundation` rules.
-- Review is incomplete if `.agent/REVIEW_RULES.md` is not used.
-- Review artifacts must reflect checklist execution from `.agent/REVIEW_RULES.md`.
-- Patch acceptance requires review-gate completion.
+```text
+confirm specification surface
+→ identify existing target/model ownership
+→ implement the canonical bridge behavior
+→ add only justified Swift convenience
+→ verify observable semantics and lifetime
+```
+
+Do not require an entire API family to be complete before a useful narrow wrapper can land. Do not use incremental delivery as permission for knowingly incompatible naming or semantics.
+
+## Verification
+
+Start with the smallest check that can confirm or reject the change, then expand according to scope and risk.
+
+Possible evidence includes:
+
+- targeted source/caller audit;
+- `swift package dump-package` for manifest validity;
+- a focused SwiftPM build or test target;
+- wasm/browser behavior when runtime semantics changed;
+- rendered DOM/CSS/string output inspection;
+- exact Markdown link and architecture-ID audit;
+- final `git diff` and `git status --short --untracked-files=all` inspection.
+
+Compilation alone does not prove browser semantics, event identity, promise failure mapping, or closure cleanup.
+
+## Documentation Synchronization
+
+Use `skills/documentation_sync_skill.md` when durable repository knowledge changes. Update only the owning documents; keep implementation logs and external comparison evidence transient.
+
+## Patch Audit
+
+Use `skills/patch_review_skill.md` for a formal change-set review. A patch is not accepted until scope, owning architecture rules, relevant Web semantics, verification evidence, documentation coherence, and final Git state pass.
+
+## Git Safety
+
+Follow `COMMIT_RULES.md`. Never stage, commit, or push unless explicitly authorized.

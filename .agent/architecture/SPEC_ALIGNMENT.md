@@ -1,25 +1,43 @@
 # Spec Alignment
 
-## Core Principle
+Authoritative owner for standards evidence and preservation of browser-observable semantics.
 
-SwifWeb APIs must mirror Web platform specifications.
-Swift APIs are adaptations, not redesigns.
+## Scope
 
-## Hard Rules
+This chunk governs browser-facing behavior and naming. It does not own SwiftPM placement (`MODULES.md`), Swift surface mechanics (`API_DESIGN_RULES.md`), or JavaScript lifetime implementation (`RUNTIME_BRIDGE.md`).
 
-- Every wrapper maps to a real browser API surface.
-- API behavior stays close to browser semantics.
-- Naming keeps Web concept identity.
-- Ergonomic sugar is layered and additive.
+## Stable Boundary Rules
 
-## DO
+### SPEC-001 — Primary standards evidence
 
-- Prefer thin wrappers over framework-specific abstraction layers.
-- Keep canonical API paths visible.
-- Cite spec or MDN reference for new API surfaces.
+Every new browser-facing concept must trace to a current primary Web specification. Use MDN as supplementary developer documentation, not as sole authority when normative behavior is material. Record exact evidence in the planning/review artifact.
 
-## DO NOT
+### SPEC-002 — Observable browser semantics
 
-- Do not invent abstractions that diverge from the Web platform.
-- Do not replace canonical semantics with project-specific behavior.
-- Do not hide critical browser behavior behind opaque wrappers.
+Preserve observable behavior: defaults, state transitions, exceptions/rejections, event ordering, cancellation, mutability, side effects, serialization, and identity. Swift adaptation must not silently substitute a different model.
+
+### SPEC-003 — Concept identity and naming
+
+Keep standard concept identity and exact boundary string names. Swift casing, labels, overloads, and typed enums are allowed only when their mapping to the Web name/value remains unambiguous.
+
+### SPEC-004 — Honest support claims
+
+Do not infer completeness from an API/target name. Unsupported members, partial mappings, runtime restrictions, and intentional deviations must not be documented as full conformance.
+
+### SPEC-005 — Compatibility and runtime behavior
+
+Do not add speculative browser-version workarounds. When compatibility handling is necessary, cite concrete evidence, preserve the standard path, and make fallback behavior explicit. Native/non-wasm behavior must not pretend a browser global exists.
+
+### SPEC-006 — Project-owned extensions
+
+SwifWeb may add application composition or ergonomic facilities, but they must be clearly project-owned and cannot redefine a standard type or operation under the same identity.
+
+## Evidence Procedure
+
+Route current standards research through `../REFERENCE_PROJECTS.md`. Compare the exact specification surface with current source, record gaps/deviations in transient review evidence, and promote only stable rules or verified debt into `.agent/**`.
+
+## Related Owners
+
+- `API_DESIGN_RULES.md` — Swift wrapper design
+- `RUNTIME_BRIDGE.md` — interop implementation semantics
+- `ARCHITECTURE.md` — SwifWeb-owned application layer

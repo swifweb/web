@@ -1,85 +1,72 @@
 # Architecture Index
 
-Use this file as the only routing entrypoint.
+Authoritative routing and architecture-ID ownership index for SwifWeb.
 
-## Global Rules (ALWAYS LOAD)
+## Supporting Authorities
 
-- `.agent/SYSTEM_RULES.md`
+- `SYSTEM_RULES.md` — global invariants; always load
+- `WORKFLOW.md` — PLAN → IMPLEMENT → AUDIT
+- `COMMIT_RULES.md` — Git and scope safety
+- `CONTEXT_LOADING_RULES.md` — progressive context budget
+- `STYLE_GUIDELINES.md` — common conventions for Swift production/test edits
 
-`SYSTEM_RULES.md` must be loaded for every task before any task-specific routing.
-Global rules are mandatory, not advisory.
+These documents do not own architecture IDs and cannot override an owning architecture chunk.
 
-## Loading Protocol
+## Architecture ID Rule
 
-1. Load `.agent/SYSTEM_RULES.md`.
-2. Classify the task.
-3. Load only the mapped docs below.
-4. Load skills only when implementation pattern is repeated.
-5. Load templates only when scaffolding new wrappers.
+Every stable architecture boundary ID has exactly one authoritative owner under `architecture/`. Other documents may cite an ID, summarize it for routing, or turn it into a checklist item, but must not restate its full rule as alternate authority.
 
-## Spec Alignment
+## Current ID Ownership
 
-- `.agent/architecture/SPEC_ALIGNMENT.md`
-- `.agent/architecture/API_DESIGN_RULES.md`
-- `.agent/architecture/API_CHECKLIST.md`
+| ID range | Owning chunk | Summary |
+|---|---|---|
+| `ARCH-001`–`ARCH-005` | `architecture/ARCHITECTURE.md` | Package purpose, layer roles, canonical-vs-ergonomic surfaces, application layer, incremental delivery |
+| `SPEC-001`–`SPEC-006` | `architecture/SPEC_ALIGNMENT.md` | Standards evidence, browser semantics, naming, compatibility, project-owned extensions |
+| `MODULE-001`–`MODULE-007` | `architecture/MODULES.md` | SwiftPM target ownership, dependency direction, API-family placement, exports and tests |
+| `FOUNDATION-001`–`FOUNDATION-005` | `architecture/FOUNDATION_RULES.md` | JavaScriptKit dependency/re-export, shared bridge primitives, feature-wrapper boundary |
+| `BRIDGE-001`–`BRIDGE-008` | `architecture/RUNTIME_BRIDGE.md` | JS value/object/closure lifetime, promises, callbacks, wasm/native behavior |
+| `API-001`–`API-008` | `architecture/API_DESIGN_RULES.md` | Public wrapper identity, canonical surface, types, options, errors, ergonomics |
+| `EVENT-001`–`EVENT-007` | `architecture/EVENT_MODEL.md` | Event ownership, listener identity/options, propagation, closure lifetime |
+| `DOM-001`–`DOM-006` | `architecture/DOM_MODEL.md` | DOM ownership, hierarchy, property/attribute semantics, integration |
+| `CSS-001`–`CSS-006` | `architecture/CSS_MODEL.md` | Typed CSS ownership, serialization, composition, DOM integration |
+| `FORBID-001`–`FORBID-008` | `architecture/FORBIDDEN_PATTERNS.md` | Acceptance-blocking semantic, ownership, dependency, and lifetime patterns |
 
-Task: add Web API
--> `API_DESIGN_RULES.md`
--> `SPEC_ALIGNMENT.md`
--> `MODULES.md`
--> `API_CHECKLIST.md`
+`architecture/API_CHECKLIST.md` is an operational gate derived from these owners; it owns no competing architecture rules.
 
-## Architecture
+## Task-Type Routing
 
-- `.agent/architecture/ARCHITECTURE.md`
-- `.agent/architecture/MODULES.md`
-- `.agent/architecture/FOUNDATION_RULES.md`
-- `.agent/architecture/RUNTIME_BRIDGE.md`
-- `.agent/architecture/EVENT_MODEL.md`
-- `.agent/architecture/DOM_MODEL.md`
-- `.agent/architecture/CSS_MODEL.md`
-- `.agent/architecture/FORBIDDEN_PATTERNS.md`
+Load one primary chunk and normally no more than two supporting chunks.
 
-## Workflow
+| Task / question | Primary owner | Supporting owners when needed |
+|---|---|---|
+| Package/layer/application-composition boundary | `ARCHITECTURE.md` | `MODULES.md`, relevant focused owner |
+| New browser API wrapper or public API shape | `API_DESIGN_RULES.md` | `SPEC_ALIGNMENT.md`, `MODULES.md` |
+| Standards/name/behavior compatibility question | `SPEC_ALIGNMENT.md` | `API_DESIGN_RULES.md`, relevant focused owner |
+| Target creation, placement, import, dependency, export | `MODULES.md` | `ARCHITECTURE.md`, `FOUNDATION_RULES.md` |
+| Shared conversion/interop primitive | `FOUNDATION_RULES.md` | `RUNTIME_BRIDGE.md` |
+| `JSValue`/`JSObject`/`JSClosure`, promise, callback, wasm behavior | `RUNTIME_BRIDGE.md` | `FOUNDATION_RULES.md`, relevant API owner |
+| Event type/listener/attach/detach/options | `EVENT_MODEL.md` | `RUNTIME_BRIDGE.md`, `DOM_MODEL.md` for DOM events |
+| Element/document/window/tree/attributes | `DOM_MODEL.md` | `EVENT_MODEL.md`, `RUNTIME_BRIDGE.md` |
+| CSS values/properties/rules/serialization | `CSS_MODEL.md` | `SPEC_ALIGNMENT.md`, `DOM_MODEL.md` |
+| Forbidden-pattern or acceptance audit | `FORBIDDEN_PATTERNS.md` | exact affected owner(s) |
+| Cross-cutting documentation/control-plane migration | this index | affected owner chunks; context-budget escalation is explicit |
 
-- `.agent/WORKFLOW.md`
-- `.agent/DEVELOPMENT_PHASES.md`
-- `.agent/REVIEW_RULES.md`
+## Operational Routing
 
-## Context
+| Need | Route |
+|---|---|
+| Repeated implementation procedure | `SKILL_INDEX.md` |
+| New source/template navigation | `SOURCE_MAP.md` |
+| Durable docs/task/decision/debt synchronization | `skills/documentation_sync_skill.md` |
+| Formal patch review | `skills/patch_review_skill.md` |
+| New architecture owner | `templates/architecture_chunk_template.md` |
+| Structured active task | `templates/task_template.md` |
+| Standards/dependency/external repository evidence | `REFERENCE_PROJECTS.md` |
 
-- `.agent/CONTEXT_RULES.md`
+## Owner Split and Self-Maintenance
 
-## API Design
+Create or split an owner only when it controls a genuinely independent concept and improves routing. Move IDs rather than copying rules, update this index and direct links in the same task, and do not create empty future owner chunks.
 
-- `.agent/architecture/API_DESIGN_RULES.md`
-- `.agent/architecture/API_CHECKLIST.md`
-- `.agent/STYLE_GUIDELINES.md`
+## Default Context Budget
 
-## Modules
-
-- `.agent/architecture/MODULES.md`
-
-## Development Rules
-
-- `.agent/COMMIT_RULES.md`
-
-## Skills
-
-- `.agent/skills/dom_tree_manipulation_skill.md`
-- `.agent/skills/event_handling_skill.md`
-- `.agent/skills/css_composition_skill.md`
-- `.agent/skills/js_bridge_skill.md`
-- `.agent/skills/web_api_wrapper_skill.md`
-
-## Templates
-
-- `.agent/templates/dom_element_template.swift`
-- `.agent/templates/css_property_template.swift`
-- `.agent/templates/api_wrapper_template.swift`
-
-## Project State
-
-- `.agent/PROJECT_MEMORY.md`
-- `.agent/TASKS.md`
-- `.agent/TODO.md`
+Ordinary work uses **1 primary + at most 2 supporting architecture chunks**. Cross-cutting audits may exceed this deliberately; see `CONTEXT_LOADING_RULES.md`.

@@ -1,31 +1,22 @@
-# JS Bridge Skill
+# JavaScript Bridge Skill
 
-## Use When
+Use for `JSValue`, `JSObject`, `JSClosure`, callback, promise, JavaScript error, or wasm/native behavior changes.
 
-- Adding/changing JS interop usage in wrappers.
-- Mapping promises, closures, and wasm guards.
+## Required Context
 
-## Required Docs
+- Primary: `architecture/RUNTIME_BRIDGE.md`
+- Supporting: `architecture/FOUNDATION_RULES.md` and the exact feature owner when needed
 
-- `.agent/architecture/RUNTIME_BRIDGE.md`
-- `.agent/architecture/FOUNDATION_RULES.md`
-- `.agent/architecture/SPEC_ALIGNMENT.md`
+## Procedure
 
-## Constraints
+1. Trace the underlying browser operation and current call chain, including target object/receiver and all completion paths.
+2. Classify each JavaScript value state: missing, `undefined`, `null`, conversion failure, or valid value.
+3. Identify closure ownership, retention duration, capture graph, one-shot/long-lived behavior, and release/invalidation path.
+4. For promises/callbacks, prove success/failure mapping, exact-once completion, argument order, and lifetime through completion.
+5. Verify whether behavior is wasm-only and what the native path truthfully does.
+6. Keep shared conversions/policy in `WebFoundation`; keep feature-specific calls in the owning target.
+7. Audit early returns, thrown/rejected failures, method receiver, cleanup, and direct callers.
 
-- Must follow `SPEC_ALIGNMENT.md`.
-- Must follow `API_DESIGN_RULES.md`.
-- Must not bypass `FOUNDATION_RULES.md`.
+## Stop Conditions
 
-## Steps
-
-1. Keep bridge usage through foundation-owned primitives.
-2. Define `JSValue` ownership and lifetime.
-3. Map promise success/failure explicitly.
-4. Guard browser runtime calls for wasm availability.
-
-## Pitfalls
-
-- Unbounded `JSValue` retention.
-- Missing closure release paths.
-- Reinterpreting JS errors.
+Stop when cleanup ownership is unclear, failure would be swallowed, native code would report false browser success, or the change needs a competing bridge dependency/policy.

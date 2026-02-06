@@ -1,18 +1,7 @@
-# Tasks
+# Active Tasks
 
-## Active
+Active, maintainer-approved, executable work only.
 
-- [ ] Bootstrap `.agent` governance docs and templates (this milestone).
+No active task is recorded.
 
-## Completed
-
-- [ ] None.
-
-## Task Entry Format
-
-- Goal
-- Scope
-- Target modules
-- Spec reference
-- Acceptance criteria
-- Artifact paths
+Use `templates/task_template.md` when a task needs more than a compact sentence. On completion, remove it from this file; add a short outcome to `TASKS_ARCHIVE.md` only when future agents benefit from knowing it existed.
