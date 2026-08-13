@@ -14,9 +14,10 @@ Use this index to select technical architecture owners. Model-independent LLM-as
 - `ARTIFACTS_WORKFLOW.md` — transient research/plan/task/report/review/correction/handoff workflow
 - `COMMIT_RULES.md` — Git and scope safety
 - `CONTEXT_LOADING_RULES.md` — progressive context budget
+- `PUBLIC_CONTENT_IDEAS.md` — lazy durable README/docs/website/release/publication idea capture; detailed entries live in focused `public-content-ideas/**` shards
 - `STYLE_GUIDELINES.md` — common conventions for Swift production/test edits
 
-These documents do not own architecture IDs and cannot override an owning architecture chunk. `DEVELOPMENT_ORCHESTRATION.md` and `ARTIFACTS_WORKFLOW.md` are operational workflow owners and do not consume architecture-chunk slots.
+These documents do not own architecture IDs and cannot override an owning architecture chunk. Operational orchestration/artifact/public-content owners do not consume architecture-chunk slots.
 
 ## Architecture ID Rule
 
@@ -62,6 +63,7 @@ Load one primary chunk and normally no more than two supporting chunks.
 | Need | Route |
 |---|---|
 | Substantial iterative LLM-assisted development | `DEVELOPMENT_ORCHESTRATION.md` + `ARTIFACTS_WORKFLOW.md` |
+| Lazy durable README/docs/website/release/publication idea capture | `PUBLIC_CONTENT_IDEAS.md` + exactly the relevant `public-content-ideas/**` shard after a positive capture check |
 | Repeated implementation procedure | `SKILL_INDEX.md` |
 | New source/template navigation | `SOURCE_MAP.md` |
 | Durable docs/task/decision/debt synchronization | `skills/documentation_sync_skill.md` |
@@ -76,4 +78,4 @@ Create or split an owner only when it controls a genuinely independent concept a
 
 ## Default Context Budget
 
-Ordinary work uses **1 primary + at most 2 supporting architecture chunks**. Operational orchestration/artifact owners do not consume those slots. Cross-cutting audits may exceed the architecture budget deliberately; see `CONTEXT_LOADING_RULES.md`.
+Ordinary work uses **1 primary + at most 2 supporting architecture chunks**. Operational orchestration/artifact/public-content owners do not consume those slots. The public-content bank is still zero-by-default and must not be browsed during ordinary development. Cross-cutting audits may exceed the architecture budget deliberately; see `CONTEXT_LOADING_RULES.md`.

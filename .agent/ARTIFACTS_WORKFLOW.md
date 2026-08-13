@@ -335,9 +335,13 @@ session-specific collaboration/tool facts that matter to continuation
 
 Machine-local paths/tool context identifiers are allowed in `NEW_CHAT.md` because it is transient. Stable `.agent/**` documentation must remain portable.
 
-## Promotion to Stable Documentation
+## Promotion to Stable Documentation and Public-Content Capture
 
 At the end of an accepted implementation/correction cycle, decide what learned information is durable.
+
+At the same meaningful checkpoints where continuation context and durable-doc synchronization are considered, also perform the lazy public-content capture check owned by `PUBLIC_CONTENT_IDEAS.md`. This does **not** mean opening the bank every time. First decide from current work whether a genuinely useful README/docs/website/release/publication example, capability, migration note, validation result, engineering story, or explanation appeared. Only on a positive result open the compact router plus one relevant shard and append the smallest useful entry while its context is fresh.
+
+`NEW_CHAT.md` and the public-content bank intentionally have different lifecycles: `NEW_CHAT.md` is transient/disposable execution continuity; `PUBLIC_CONTENT_IDEAS.md` and `.agent/public-content-ideas/**` are durable versioned candidate communication material. Capturing an idea does not promote it to architecture, implementation, validation, release, or public-documentation truth.
 
 Promote only durable facts/rules into the correct stable `.agent/**` owner:
 

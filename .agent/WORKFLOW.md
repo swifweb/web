@@ -50,6 +50,8 @@ Executor reports and `EXECUTION_REPORT.md` are evidence, not proof. Independent 
 
 Use `skills/documentation_sync_skill.md` when durable repository knowledge changes. Update only the owning documents; keep implementation logs, task mechanics, external comparison evidence, and transient Git/session facts in `.artifacts/**`.
 
+After meaningful research, design, implementation, validation, correction, or audit, perform the cheap public-content capture check owned by `PUBLIC_CONTENT_IDEAS.md` using only information already in context. If no genuinely valuable README/docs/website/release/publication material appeared, do not open the bank. If the check is positive, open only the compact router plus the relevant thematic shard and append the smallest useful entry while the example/reasoning/evidence is fresh.
+
 ## Patch Audit
 
 Use `skills/patch_review_skill.md` for a formal change-set review. A patch is not accepted until scope, owning architecture rules, relevant Web semantics, verification evidence, documentation coherence, and final Git state pass.

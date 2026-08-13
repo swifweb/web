@@ -26,7 +26,7 @@ When documents conflict, higher authority wins:
 5. `.agent/PROJECT_MEMORY.md` and `.agent/SOURCE_MAP.md` — durable current-state and navigation facts
 6. `.agent/OPEN_DECISIONS.md` — unresolved choices only
 7. `.agent/TASKS.md`, `.agent/TODO.md`, `.agent/TECH_DEBT.md`, and `.agent/TASKS_ARCHIVE.md` — active work, retained ideas, verified debt, and compact history
-8. `.agent/CONTEXT_LOADING_RULES.md`, `.agent/SKILL_INDEX.md`, `.agent/REFERENCE_PROJECTS.md`, `.agent/skills/*`, and `.agent/templates/*` — routing and operational guidance
+8. `.agent/CONTEXT_LOADING_RULES.md`, `.agent/PUBLIC_CONTENT_IDEAS.md`, `.agent/SKILL_INDEX.md`, `.agent/REFERENCE_PROJECTS.md`, `.agent/skills/*`, and `.agent/templates/*` — routing, lazy public-content capture, and operational guidance
 
 Architecture owners govern Web semantics, target ownership, and bridge boundaries. Style guidance applies only within those boundaries. Skills and templates are procedures, not permission to override owners.
 
@@ -62,6 +62,8 @@ Detailed mechanics belong in the two operational owners above, not in this route
 
 `DEVELOPMENT_ORCHESTRATION.md` and `ARTIFACTS_WORKFLOW.md` are operational workflow owners and do not consume architecture-chunk slots. Cross-cutting architecture or documentation audits may deliberately exceed the normal architecture budget. Full rules live in `.agent/CONTEXT_LOADING_RULES.md`.
 
+`PUBLIC_CONTENT_IDEAS.md` and its thematic shards are durable but lazy communication context. They are not part of ordinary development loading and do not consume architecture-chunk slots.
+
 ## Web-Semantics Guardrails
 
 - Do not introduce ECS, simulation loops, gameplay abstractions, or game-runtime terminology.
@@ -77,6 +79,7 @@ Detailed enforceable rules are owned by the architecture IDs routed in `.agent/A
 - Each architecture ID has exactly one owner. Link to the owner instead of duplicating the full rule.
 - When ownership, routing, durable facts, source locations, task state, decisions, or verified debt change, update only the affected stable docs in the same task.
 - Keep plans, command output, debugging diaries, external-reference provenance, and patch evidence in `.artifacts/**`.
+- After meaningful work, perform the cheap public-content capture check owned by `.agent/PUBLIC_CONTENT_IDEAS.md` from information already in context. If the result is negative, do not open the bank. If positive, open only the router plus the relevant thematic shard and append the smallest useful candidate material.
 - Stable SwifWeb docs must be self-contained and must not require a sibling checkout or machine-local absolute path.
 
 ## Git Safety
