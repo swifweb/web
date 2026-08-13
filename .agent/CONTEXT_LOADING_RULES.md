@@ -14,18 +14,22 @@ Normal work loads:
 - the smallest relevant source and test subset;
 - no external repository by default.
 
-Do not bulk-load `.agent/architecture/**`, `.agent/skills/**`, all API targets, or external repositories for ordinary work.
+`DEVELOPMENT_ORCHESTRATION.md` and `ARTIFACTS_WORKFLOW.md` are operational workflow owners. Load them for substantial iterative LLM-assisted work; they do **not** consume architecture-chunk slots.
+
+Do not bulk-load `.agent/architecture/**`, `.agent/skills/**`, all API targets, all numbered task files, or external repositories for ordinary work.
 
 ## Loading Sequence
 
 1. Read root `AGENTS.md`.
 2. Read `SYSTEM_RULES.md` and `ARCH_INDEX.md`.
-3. Classify the task using the routing table in `ARCH_INDEX.md`.
-4. Load the primary owner and up to two genuinely relevant supporting owners.
-5. For Swift edits, load `STYLE_GUIDELINES.md`.
-6. Use `SKILL_INDEX.md` only when a concrete procedure applies.
-7. Use `SOURCE_MAP.md` before broad source discovery; inspect exact target, direct dependencies/callers, and focused tests.
-8. Route Web-standard or dependency research through `REFERENCE_PROJECTS.md`; prefer current primary standards and dependency configuration.
+3. If the work is substantial iterative LLM-assisted development, load `DEVELOPMENT_ORCHESTRATION.md` and `ARTIFACTS_WORKFLOW.md`. These are operational docs outside the architecture budget.
+4. Classify the technical task using the routing table in `ARCH_INDEX.md`.
+5. Load the primary architecture owner and up to two genuinely relevant supporting owners.
+6. For Swift edits, load `STYLE_GUIDELINES.md`.
+7. Use `SKILL_INDEX.md` only when a concrete procedure applies.
+8. Use `SOURCE_MAP.md` before broad source discovery; inspect exact target, direct dependencies/callers, and focused tests.
+9. Route Web-standard or dependency research through `REFERENCE_PROJECTS.md`; prefer current primary standards and dependency configuration.
+10. Load only the planning/task/report artifacts needed for the current orchestration step. An executor reads the next numbered task immediately before executing it rather than bulk-loading the whole task set.
 
 Stop loading once scope, ownership, and evidence needs are clear. Do not re-read already loaded material without a concrete reason.
 
@@ -37,9 +41,10 @@ Stop loading once scope, ownership, and evidence needs are clear. Do not re-read
 - DOM/event/CSS work routes to its corresponding focused owner.
 - High-level app composition/routing behavior routes to `ARCHITECTURE.md`.
 - Documentation-only control-plane work routes through `ARCH_INDEX.md` plus `skills/documentation_sync_skill.md`; load affected owners only.
+- Substantial iterative implementation/correction orchestration additionally routes through `DEVELOPMENT_ORCHESTRATION.md` and `ARTIFACTS_WORKFLOW.md` without consuming architecture slots.
 
 ## Escalation
 
-Broader loading is allowed for genuinely cross-cutting architecture or documentation migrations. State why the normal budget is insufficient, inspect deliberately, and leave the final owner/routing system focused for future ordinary tasks.
+Broader context is allowed for genuinely cross-cutting architecture or documentation migrations. State why the normal architecture budget is insufficient, inspect deliberately, and leave the final owner/routing system focused for future ordinary tasks.
 
 The budget is a discipline, not permission to ignore a clearly relevant owner or caller.

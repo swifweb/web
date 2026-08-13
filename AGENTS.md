@@ -13,14 +13,14 @@ The repository root owns `AGENTS.md`, `.agent/`, `.artifacts/`, `Package.swift`,
 - `Sources/<Target>/` contains SwiftPM production targets.
 - `Tests/<Target>Tests/` contains focused package tests.
 - `.agent/**` is the stable agent control plane.
-- `.artifacts/**` is transient planning, patch, and review evidence; it is never stable architecture authority.
+- `.artifacts/**` is disposable Git-ignored working memory for research, plans, tasks, reports, reviews, corrections, patches, and continuation context. It is never stable architecture authority.
 
 ## Authority Hierarchy
 
 When documents conflict, higher authority wins:
 
 1. `.agent/SYSTEM_RULES.md` — global invariants
-2. `.agent/WORKFLOW.md` and `.agent/COMMIT_RULES.md` — development and Git workflow
+2. `.agent/WORKFLOW.md`, `.agent/DEVELOPMENT_ORCHESTRATION.md`, `.agent/ARTIFACTS_WORKFLOW.md`, and `.agent/COMMIT_RULES.md` — development, orchestration, artifact, and Git workflow
 3. `.agent/ARCH_INDEX.md` and the owning `.agent/architecture/*.md` chunk — architecture authority
 4. `.agent/STYLE_GUIDELINES.md` — SwifWeb-owned Swift conventions
 5. `.agent/PROJECT_MEMORY.md` and `.agent/SOURCE_MAP.md` — durable current-state and navigation facts
@@ -34,11 +34,21 @@ Architecture owners govern Web semantics, target ownership, and bridge boundarie
 
 Use **PLAN → IMPLEMENT → AUDIT**.
 
-- Non-trivial work requires a written plan before mutation.
+- Non-trivial work requires a written reviewed plan before mutation.
 - Prefer the smallest spec-backed implementation that preserves current target boundaries.
 - If implementation disproves a material assumption, stop that path and re-plan.
 - Verification must be proportional to risk and include actual diff/Git-scope inspection.
-- Every iteration produces the applicable transient evidence under `.artifacts/planning/`, `.artifacts/patches/`, and `.artifacts/reviews/`; a trivial iteration may use compact entries.
+
+### Mandatory Iterative-Development Routing
+
+For substantial iterative LLM-assisted work, load `.agent/DEVELOPMENT_ORCHESTRATION.md` and `.agent/ARTIFACTS_WORKFLOW.md`.
+
+- Externalize research, implementation planning, plan audit, task contracts, execution evidence, reviews, corrections, and continuation context under `.artifacts/**`.
+- Large implementation or correction work is decomposed into numbered surgical task files; the executor receives one short generic `COORDINATOR_PROMPT.md` and runs already-approved tasks autonomously in order.
+- If `.artifacts/**` is missing, reconstruct current context from stable docs, Git, actual source, and current maintainer instruction rather than guessing lost transient state.
+- Executor reports are evidence, never proof; independently audit actual source, diff, verification evidence, and Git afterward.
+
+Detailed mechanics belong in the two operational owners above, not in this router.
 
 ## Mandatory Context Budget
 
@@ -50,7 +60,7 @@ Use **PLAN → IMPLEMENT → AUDIT**.
 6. Use `.agent/SKILL_INDEX.md` to load **at most 1 operational skill** by default.
 7. Use `.agent/SOURCE_MAP.md` before broad source discovery and inspect the smallest relevant source subset.
 
-Cross-cutting architecture or documentation audits may deliberately exceed the normal budget. Full rules live in `.agent/CONTEXT_LOADING_RULES.md`.
+`DEVELOPMENT_ORCHESTRATION.md` and `ARTIFACTS_WORKFLOW.md` are operational workflow owners and do not consume architecture-chunk slots. Cross-cutting architecture or documentation audits may deliberately exceed the normal architecture budget. Full rules live in `.agent/CONTEXT_LOADING_RULES.md`.
 
 ## Web-Semantics Guardrails
 
@@ -71,7 +81,7 @@ Detailed enforceable rules are owned by the architecture IDs routed in `.agent/A
 
 ## Git Safety
 
-Follow `.agent/COMMIT_RULES.md`. Preserve unrelated user work. Never stage, commit, amend, reset, clean, stash, restore, or push unless the user's request explicitly authorizes that exact operation and scope.
+Follow `.agent/COMMIT_RULES.md`. Preserve unrelated user work. Never stage, unstage, commit, amend, reset, clean, stash, restore, push, or rewrite history unless the user's request explicitly authorizes that exact operation and scope.
 
 ## Task and Decision State
 

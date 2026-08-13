@@ -6,11 +6,13 @@ Mandatory development workflow for SwifWeb.
 
 Every non-trivial task follows:
 
-1. **PLAN** — define the exact goal, approved paths, primary owner/IDs, supporting context, invariants, risks, and completion evidence. Write the plan under `.artifacts/planning/` before mutation.
-2. **IMPLEMENT** — execute the reviewed scope without unrelated expansion. If a material premise fails, stop and update the plan before continuing.
-3. **AUDIT** — inspect the real diff, run the smallest meaningful verification, check Git scope, synchronize only durable knowledge that changed, and record review evidence under `.artifacts/reviews/`.
+1. **PLAN** — research current facts, define the exact goal, approved paths, primary owner/IDs, supporting context, invariants, risks, and completion evidence. Externalize substantial research/plan state under `.artifacts/planning/<slug>/` according to `ARTIFACTS_WORKFLOW.md`.
+2. **IMPLEMENT** — execute the reviewed scope without unrelated expansion. Large or multi-behavior executor work is decomposed into numbered surgical task files before execution. If a material premise fails, stop the affected path and re-plan.
+3. **AUDIT** — inspect the real source/diff/Git state, run the smallest meaningful verification, use focused numbered correction tasks when needed, and synchronize only durable knowledge that changed.
 
-Each iteration also records the resulting patch or a compact patch summary under `.artifacts/patches/`. Trivial typo or format-only work may use one short artifact per required category.
+Small typo/format-only work may skip a formal artifact plan but still requires scope/result verification.
+
+For substantial iterative work, `.agent/DEVELOPMENT_ORCHESTRATION.md` and `.agent/ARTIFACTS_WORKFLOW.md` are mandatory operational guidance. Detailed implementation/correction mechanics live in task files; the executor receives one short generic `COORDINATOR_PROMPT.md`, executes approved tasks sequentially, and appends evidence after every task.
 
 ## Spec-First Vertical Development
 
@@ -42,14 +44,18 @@ Possible evidence includes:
 
 Compilation alone does not prove browser semantics, event identity, promise failure mapping, or closure cleanup.
 
+Executor reports and `EXECUTION_REPORT.md` are evidence, not proof. Independent audit inspects the actual repository after execution.
+
 ## Documentation Synchronization
 
-Use `skills/documentation_sync_skill.md` when durable repository knowledge changes. Update only the owning documents; keep implementation logs and external comparison evidence transient.
+Use `skills/documentation_sync_skill.md` when durable repository knowledge changes. Update only the owning documents; keep implementation logs, task mechanics, external comparison evidence, and transient Git/session facts in `.artifacts/**`.
 
 ## Patch Audit
 
 Use `skills/patch_review_skill.md` for a formal change-set review. A patch is not accepted until scope, owning architecture rules, relevant Web semantics, verification evidence, documentation coherence, and final Git state pass.
 
+If audit finds implementation defects, create a focused numbered correction wave under `.artifacts/corrections/**` rather than sending one large correction prompt. Independently re-audit after the correction wave.
+
 ## Git Safety
 
-Follow `COMMIT_RULES.md`. Never stage, commit, or push unless explicitly authorized.
+Follow `COMMIT_RULES.md`. Never stage, unstage, commit, push, or rewrite history unless explicitly authorized for that exact operation and scope.
