@@ -5,7 +5,6 @@
 //  Created by Mihael Isaev on 20.12.2020.
 //
 
-import FoundationEssentials
 
 /// The enctype attribute specifies how the form-data should be encoded when submitting it to the server.
 public final class EncType {

@@ -5,7 +5,6 @@
 //  Created by Mihael Isaev on 19.12.2020.
 //
 
-import FoundationEssentials
 
 /// A keyword or author-defined name of the default browsing context
 /// to show the results of navigation from <a>, <area>,
