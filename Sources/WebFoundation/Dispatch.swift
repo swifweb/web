@@ -5,7 +5,6 @@
 //  Created by Mihael Isaev on 15.11.2020.
 //
 
-import FoundationEssentials
 import JavaScriptKit
 
 @MainActor public enum Dispatch {
