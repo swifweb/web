@@ -5,7 +5,6 @@
 //  Created by Mihael Isaev on 29.11.2020.
 //
 
-import FoundationEssentials
 import JavaScriptKit
 
 public protocol ErrorHandleable: DOMEventable {
