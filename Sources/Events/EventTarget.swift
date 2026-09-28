@@ -5,7 +5,6 @@
 //  Created by Mihael Isaev on 27.02.2021.
 //
 
-import FoundationEssentials
 import WebFoundation
 
 /// DOM interface implemented by objects that can receive events and may have listeners for them.
@@ -248,9 +247,18 @@ extension EventTarget {
     var handlers: [Handler]
     
     struct Handler: Equatable {
-        let id = UUID()
+        let id: UInt64
         let closure: (BaseEvent) -> Void
-        
+
+        @MainActor
+        init(closure: @escaping (BaseEvent) -> Void) {
+            Self.nextID &+= 1
+            self.id = Self.nextID
+            self.closure = closure
+        }
+
+        @MainActor private static var nextID: UInt64 = 0
+
         static func == (lhs: Self, rhs: Self) -> Bool {
             lhs.id == rhs.id
         }
