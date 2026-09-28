@@ -5,7 +5,6 @@
 //  Created by Mihael Isaev on 09.03.2021.
 //
 
-import FoundationEssentials
 import WebFoundation
 
 public final class Fetch {
