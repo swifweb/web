@@ -8,9 +8,10 @@
 import FoundationEssentials
 
 public protocol RoutesFactoryContent {
-    var routesFactoryContent: RoutesFactory.Item { get }
+    @MainActor var routesFactoryContent: RoutesFactory.Item { get }
 }
 
+@MainActor
 @resultBuilder public struct RoutesFactory {
     public enum Item {
         case none
@@ -19,12 +20,12 @@ public protocol RoutesFactoryContent {
         case items([Self])
     }
     
-    struct Content: RoutesFactoryContent {
-        let routesFactoryContent: Item
+    @MainActor struct Content: RoutesFactoryContent {
+        @MainActor let routesFactoryContent: Item
     }
     
     public typealias Result = RoutesFactoryContent
-    public typealias Block = () -> Result
+    public typealias Block = @MainActor () -> Result
 
     public static func buildBlock() -> Result {
         Content(routesFactoryContent: .none)

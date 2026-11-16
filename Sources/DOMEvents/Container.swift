@@ -26,7 +26,7 @@ class Container<Event: AnyEvent>: GenericContainer {
         handlers = [handler]
     }
     
-    deinit {
+    isolated deinit {
         #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
         closure.release()
         #endif
@@ -48,10 +48,8 @@ protocol GenericContainer: AnyContainer, AnyStorageValue {
 }
 
 extension GenericContainer {
-    nonisolated func shutdown() {
-        MainActor.assumeIsolated {
-            handlers.removeAll()
-        }
+    func shutdown() {
+        handlers.removeAll()
     }
 }
 

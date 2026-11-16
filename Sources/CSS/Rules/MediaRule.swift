@@ -47,7 +47,7 @@ extension String: RulesContent {
 public class MediaRule: RulesContent, CSSRulable {
     public typealias Rule = CSSRule
     public typealias RuleItems = Rules.Content
-    public var rulesContent: Rules.Item { .media(self) }
+    @MainActor public var rulesContent: Rules.Item { .media(self) }
     
     public internal(set) var domElement: JSValue?
     var _items: [MediaType] = []
@@ -61,20 +61,20 @@ public class MediaRule: RulesContent, CSSRulable {
         self.domElement = domElement
     }
     
-    public init (_ items: [MediaType], @Rules content: @escaping Rules.Block) {
+    @MainActor public init (_ items: [MediaType], @Rules content: @escaping Rules.Block) {
         self._items = items
         parseRulesItem(content().rulesContent)
         parseRulesItem(rules.rulesContent)
         processRules()
     }
     
-    public convenience init (_ items: MediaType..., @Rules content: @escaping Rules.Block) {
+    @MainActor public convenience init (_ items: MediaType..., @Rules content: @escaping Rules.Block) {
         self.init(items, content: content)
     }
     
-    @Rules open var rules: RuleItems { _RulesContent(rulesContent: .none) }
+    @MainActor @Rules open var rules: RuleItems { _RulesContent(rulesContent: .none) }
     
-    private func parseRulesItem(_ item: Rules.Item) {
+    @MainActor private func parseRulesItem(_ item: Rules.Item) {
         switch item {
         case .raw(let v): _rawStyles.append(v)
         case .items(let v): v.forEach { parseRulesItem($0) }
@@ -104,7 +104,7 @@ public class MediaRule: RulesContent, CSSRulable {
 //        }
     }
     
-    public func render() -> String {
+    @MainActor public func render() -> String {
         var result = "@media "
         result.append(_items.map { $0.value }.joined(separator: ", "))
         result.append("{")

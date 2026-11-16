@@ -8,6 +8,7 @@
 import WebFoundation
 
 public protocol StringInitializable: AnyObject {
+    @MainActor
     init <U>(_ value: U) where U: UniValue, U.UniValue == String
 }
 

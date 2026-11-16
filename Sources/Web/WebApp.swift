@@ -7,18 +7,28 @@
 
 import FoundationEssentials
 import CSS
+#if !arch(wasm32)
+import Foundation
+#endif
 
-private var webapp: WebApp!
-
+@MainActor
 open class WebApp {
     public typealias Configuration = AppBuilder.Content
+
+    private static var singleton: WebApp?
     
-    public static func main() {
-        Self.start()
+    nonisolated public static func main() async {
+        await startForMain()
+    }
+
+    @MainActor
+    private static func startForMain() {
+        _ = Self.start()
     }
     
     private var isStarted = false
     private var _rendered: JSFunction?
+    private var allowLocationChangeListener = true
 
     func rendered(_ type: PageController.RenderedType = .expirable, expiresIn: TimeInterval = 10, lastModifiedAt: Date? = nil) {
         Dispatch.async {
@@ -34,13 +44,9 @@ open class WebApp {
     
     public static var shared: WebApp {
         #if arch(wasm32)
-        return webapp /// because it is already started in `main()`
+        return singleton!
         #else
-        guard webapp == nil else {
-            return webapp
-        }
-        webapp = WebApp.start()
-        return webapp
+        return singleton ?? Self.start()
         #endif
     }
     public class var current: Self { shared as! Self }
@@ -56,25 +62,29 @@ open class WebApp {
     
     @discardableResult
     public static func start() -> WebApp {
-        guard webapp == nil else { return webapp }
-        webapp = Self()
-        guard !webapp.isStarted else { return webapp }
-        webapp.isStarted = true
+        if let singleton {
+            return singleton
+        }
+        let app = Self()
+        singleton = app
+        guard !app.isStarted else { return app }
+        app.isStarted = true
         #if !arch(wasm32)
-        var args = CommandLine.arguments
+        let args = CommandLine.arguments
         if args.count > 1 {
             if args.contains("--previews") {
-                webapp.previewStart(args)
+                app.previewStart(args)
+                return app
             }
             if args.contains("--index") {
-                webapp.renderIndex()
+                app.renderIndex()
+                return app
             }
-            exit(0)
         }
         #else
-        webapp.start()
+        app.start()
         #endif
-        return webapp
+        return app
     }
     
     #if !arch(wasm32)
@@ -201,7 +211,6 @@ open class WebApp {
         } catch {
             fatalError("\(error)")
         }
-        exit(0)
     }
     #endif
     
@@ -212,22 +221,25 @@ open class WebApp {
             $0.processRules()
         }
         window.appDidStarted()
-        var allowLocationChangeListener = true
         JSObject.global.wasiDisableLocationChangeListener = JSClosure { args in
-            allowLocationChangeListener = false
-            return .undefined
+            MainActor.assumeIsolated {
+                self.allowLocationChangeListener = false
+                return .undefined
+            }
         }.jsValue
         JSObject.global.wasiChangeRoute = JSClosure { args in
-            let pathname = args.count > 0 ? args[0].string ?? "" : ""
-            let search = args.count > 1 ? args[1].string ?? "" : ""
-            self._rendered = args.count > 2 ? args[2].function : nil
-            self.handleRoute(.init(
-                application: self,
-                path: pathname,
-                search: search,
-                hash: ""
-            ))
-            return .undefined
+            MainActor.assumeIsolated {
+                let pathname = args.count > 0 ? args[0].string ?? "" : ""
+                let search = args.count > 1 ? args[1].string ?? "" : ""
+                self._rendered = args.count > 2 ? args[2].function : nil
+                self.handleRoute(.init(
+                    application: self,
+                    path: pathname,
+                    search: search,
+                    hash: ""
+                ))
+                return .undefined
+            }
         }.jsValue
         if let wasiAppOnStart = JSObject.global.wasiAppOnStart.function {
             if let index {
@@ -265,7 +277,7 @@ open class WebApp {
             wasiAppOnStart.callAsFunction()
         }
         Dispatch.async {
-            if allowLocationChangeListener {
+            if self.allowLocationChangeListener {
                 self.handleRoute(.init(
                     application: self,
                     path: self.window.location.pathname,
@@ -274,13 +286,18 @@ open class WebApp {
                 ))
             }
             self.window.$location.listenOnlyIfChanged { location in
-                guard allowLocationChangeListener else { return }
-                self.handleRoute(.init(
-                    application: self,
-                    path: location.pathname,
-                    search: location.search,
-                    hash: location.hash
-                ))
+                let pathname = location.pathname
+                let search = location.search
+                let hash = location.hash
+                Task { @MainActor in
+                    guard self.allowLocationChangeListener else { return }
+                    self.handleRoute(.init(
+                        application: self,
+                        path: pathname,
+                        search: search,
+                        hash: hash
+                    ))
+                }
             }
         }
     }

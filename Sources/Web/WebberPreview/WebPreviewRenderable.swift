@@ -6,10 +6,10 @@
 //
 
 public protocol WebPreviewRenderable {
-    func renderPreview(singleQuotes: Bool) -> String
+    @MainActor func renderPreview(singleQuotes: Bool) -> String
 }
 extension WebPreviewRenderable {
-    public func renderPreview() -> String {
+    @MainActor public func renderPreview() -> String {
         renderPreview(singleQuotes: false)
     }
 }

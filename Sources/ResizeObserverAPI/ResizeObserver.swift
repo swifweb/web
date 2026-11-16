@@ -17,8 +17,8 @@ public class ResizeObserver {
     
     public typealias Handler = ([Entry], ResizeObserver) -> Void
     
-    private var observers: [BaseElement: Handler] = [:]
-    private var positionChangeListenerSubscriptions: [BaseElement] = []
+    private var observers: [String: Handler] = [:]
+    private var positionChangeListenerSubscriptions: [String] = []
     
     /// Creates and returns a new ResizeObserver object.
     ///
@@ -47,18 +47,20 @@ public class ResizeObserver {
         #endif
     }
     
+    @MainActor
     public func setObserver(for baseElement: BaseElement, handler: @escaping Handler) {
-        if !positionChangeListenerSubscriptions.contains(baseElement) {
-            positionChangeListenerSubscriptions.append(baseElement)
+        let uid = baseElement.properties.uid
+        if !positionChangeListenerSubscriptions.contains(uid) {
+            positionChangeListenerSubscriptions.append(uid)
             baseElement.properties.positionChangeListeners.append { [weak self] in
                 guard let self = self else { return }
 //                Console.warning("📏 ResizeObserver: position change event handled")
                 self.observers.values.forEach { $0([], self) }
             }
         }
-        observers[baseElement] = handler
-        baseElement.onShutdown { [weak self] element in
-            self?.observers.removeValue(forKey: element)
+        observers[uid] = handler
+        baseElement.onShutdown { [weak self] _ in
+            self?.observers.removeValue(forKey: uid)
         }
     }
     
@@ -86,6 +88,7 @@ public class ResizeObserver {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe)
     @discardableResult
+    @MainActor
     public func observe<Element: DOMElementable>(_ element: Element, _ options: ObserverOptions? = nil) -> Self {
         #if arch(wasm32)
         jsValue?.object?["observe"].function?.callAsFunction(optionalThis: jsValue?.object, arguments: [element.domElement, options ?? JSValue.null])
@@ -97,6 +100,7 @@ public class ResizeObserver {
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve)
     @discardableResult
+    @MainActor
     public func unobserve<Element: DOMElementable>(_ element: Element) -> Self {
         #if arch(wasm32)
         jsValue?.object?["unobserve"].function?.callAsFunction(optionalThis: jsValue?.object, arguments: [element.domElement])

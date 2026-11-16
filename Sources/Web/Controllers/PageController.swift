@@ -12,12 +12,14 @@ import DOM
 @available(*, unavailable, renamed: "PageController")
 public typealias ViewController = PageController
 
+@MainActor
 public protocol AnyPageController: AnyObject {
     static var fragmentRoutes: [FragmentRoutes] { get }
     
     var controller: PageController { get }
 }
 
+@MainActor
 open class PageController: BaseContentElement, AnyPageController {
     open override class var name: String { "div" }
     
@@ -43,10 +45,16 @@ open class PageController: BaseContentElement, AnyPageController {
     open override func buildUI() {
         super.buildUI()
         $title.listen {
-            WebApp.shared.window.document.title = $0
+            let title = $0
+            Task { @MainActor in
+                WebApp.shared.window.document.title = title
+            }
         }
         $metaDescription.listen {
-            WebApp.shared.window.document.metaDescription = $0
+            let metaDescription = $0
+            Task { @MainActor in
+                WebApp.shared.window.document.metaDescription = metaDescription
+            }
         }
     }
 

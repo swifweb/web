@@ -9,15 +9,15 @@ import WebFoundation
 
 public protocol AnyForEach {
     var count: Int { get }
-    func allItems() -> [RulesContent]
-    func items(at index: Int) -> RulesContent
+    @MainActor func allItems() -> [RulesContent]
+    @MainActor func items(at index: Int) -> RulesContent
     func subscribeToChanges(_ begin: @escaping () -> Void, _ handler: @escaping ([Int], [Int], [Int]) -> Void, _ end: @escaping () -> Void)
 }
 
 public class ForEach<Item> where Item: Hashable {
-    public typealias Handler = (Int, Item) -> RulesContent
-    public typealias HandlerValue = (Item) -> RulesContent
-    public typealias HandlerSimple = () -> RulesContent
+    public typealias Handler = @MainActor (Int, Item) -> RulesContent
+    public typealias HandlerValue = @MainActor (Item) -> RulesContent
+    public typealias HandlerSimple = @MainActor () -> RulesContent
     
     let items: State<[Item]>
     let block: Handler
@@ -64,13 +64,13 @@ public class ForEach<Item> where Item: Hashable {
 extension ForEach: AnyForEach {
     public var count: Int { items.wrappedValue.count }
     
-    public func allItems() -> [RulesContent] {
+    @MainActor public func allItems() -> [RulesContent] {
         items.wrappedValue.enumerated().compactMap { [weak self] in
             self?.block($0.offset, $0.element)
         }
     }
     
-    public func items(at index: Int) -> RulesContent {
+    @MainActor public func items(at index: Int) -> RulesContent {
         guard index < items.wrappedValue.count else { return Rules.none }
         return block(index, items.wrappedValue[index])
     }
@@ -90,7 +90,7 @@ extension ForEach: AnyForEach {
 }
 
 extension ForEach: RulesContent {
-    public var rulesContent: Rules.Item {
+    @MainActor public var rulesContent: Rules.Item {
         .forEach(self)
     }
 }
@@ -129,67 +129,53 @@ extension Int {
 // TODO: move to separate file
 
 public class BuilderFunction: RulesContent {
-    public var rulesContent: Rules.Item { .items([content.rulesContent]) }
-    
+    @MainActor public var rulesContent: Rules.Item { .items([content.rulesContent]) }
+
     let content: RulesContent
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == String {
-        self.content = content(valueToPass)
+
+    @MainActor public init(_ value: String, @Rules content: @escaping @MainActor (String) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Int8 {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: Int8, @Rules content: @escaping @MainActor (Int8) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Int16 {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: Int16, @Rules content: @escaping @MainActor (Int16) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Int32 {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: Int32, @Rules content: @escaping @MainActor (Int32) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Int64 {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: Int64, @Rules content: @escaping @MainActor (Int64) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Int {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: Int, @Rules content: @escaping @MainActor (Int) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Double {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: Double, @Rules content: @escaping @MainActor (Double) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Float {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: Float, @Rules content: @escaping @MainActor (Float) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == UInt8 {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: UInt8, @Rules content: @escaping @MainActor (UInt8) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == UInt16 {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: UInt16, @Rules content: @escaping @MainActor (UInt16) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == UInt32 {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: UInt32, @Rules content: @escaping @MainActor (UInt32) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == UInt64 {
-        self.content = content(valueToPass)
+    @MainActor public init(_ value: UInt64, @Rules content: @escaping @MainActor (UInt64) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result, Element>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Array<Element> {
-        self.content = content(valueToPass)
+    @MainActor public init<Element>(_ value: [Element], @Rules content: @escaping @MainActor ([Element]) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result, Key, Value>(_ valueToPass: Result, @Rules content: @escaping (Result) -> RulesContent) where Result == Dictionary<Key, Value> {
-        self.content = content(valueToPass)
+    @MainActor public init<Key, Value>(_ value: [Key: Value], @Rules content: @escaping @MainActor ([Key: Value]) -> RulesContent) {
+        self.content = content(value)
     }
-    
-    public init <Result>(_ beforeRender: @escaping () -> Result, @Rules content: @escaping (Result) -> RulesContent) {
+    @MainActor public init<Result>(_ beforeRender: @escaping @MainActor () -> Result, @Rules content: @escaping @MainActor (Result) -> RulesContent) {
         self.content = content(beforeRender())
     }
 }

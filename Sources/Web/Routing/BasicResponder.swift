@@ -13,7 +13,7 @@ public struct BasicResponder<P: AnyPageController>: Responder {
     var pageClass: P.Type { P.self }
     
     /// The stored responder closure.
-    private let closure: (Request) throws -> P
+    private let closure: @MainActor (Request) throws -> P
 
     /// Create a new `BasicResponder`.
     ///
@@ -24,12 +24,12 @@ public struct BasicResponder<P: AnyPageController>: Responder {
     ///
     /// - parameters:
     ///     - closure: Responder closure.
-    public init(closure: @escaping (Request) throws -> P) {
+    public init(closure: @escaping @MainActor (Request) throws -> P) {
         self.closure = closure
     }
 
     /// See `Responder`.
-    public func respond(to request: Request) throws -> AnyPageController? {
+    @MainActor public func respond(to request: Request) throws -> AnyPageController? {
         try closure(request)
     }
 }

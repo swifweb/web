@@ -216,11 +216,9 @@ extension EventTarget {
         eventListeners[name]?.handlers.removeAll(where: { $0 == handler })
     }
     
-    nonisolated func shutdown() {
-        MainActor.assumeIsolated {
-            self.eventListeners.forEach {
-                $0.value.shutdown()
-            }
+    func shutdown() {
+        eventListeners.forEach {
+            $0.value.shutdown()
         }
     }
 }
@@ -245,6 +243,7 @@ extension EventTarget {
     }
     
     var handlers: [Handler]
+    private var isShutdown = false
     
     struct Handler: Equatable {
         let id: UInt64
@@ -278,18 +277,16 @@ extension EventTarget {
         handlers = [handler]
     }
     
-    deinit {
+    isolated deinit {
+        shutdown()
+    }
+
+    func shutdown() {
+        guard !isShutdown else { return }
+        isShutdown = true
         #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
         closure.release()
         #endif
-    }
-    
-    nonisolated func shutdown() {
-        MainActor.assumeIsolated {
-            #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
-            self.closure.release()
-            #endif
-            self.handlers.removeAll()
-        }
+        handlers.removeAll()
     }
 }

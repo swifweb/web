@@ -198,7 +198,7 @@ open class Worker: AbstractWorker, EventTarget {
         unhandledrejectionHandlers.removeAll()
     }
     
-    deinit {
+    isolated deinit {
         shutdown()
     }
 }

@@ -8,15 +8,17 @@
 import WebFoundation
 
 public protocol RenderBuilderContent {
-    var renderBuilderContent: Preview.Item { get }
+    @MainActor var renderBuilderContent: Preview.Item { get }
 }
 
+@MainActor
 struct _RenderBuilderContent: Preview.Content {
-    let renderBuilderContent: Preview.Item
+    @MainActor let renderBuilderContent: Preview.Item
 }
 
+@MainActor
 @resultBuilder public struct Preview {
-    public typealias Block = () -> RenderBuilderContent
+    public typealias Block = @MainActor () -> RenderBuilderContent
     public typealias Content = RenderBuilderContent
     
     public enum Item {

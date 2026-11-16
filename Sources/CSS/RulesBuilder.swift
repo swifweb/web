@@ -6,22 +6,24 @@
 //
 
 public protocol RulesContent {
-    var rulesContent: Rules.Item { get }
+    @MainActor var rulesContent: Rules.Item { get }
 }
 
 private struct EmptyContent: Rules.Content {
     let rulesContent: Rules.Item
+    @MainActor init(rulesContent: Rules.Item) { self.rulesContent = rulesContent }
 }
 
 struct _RulesContent: Rules.Content {
     let rulesContent: Rules.Item
+    @MainActor init(rulesContent: Rules.Item) { self.rulesContent = rulesContent }
 }
 
 @resultBuilder public struct Rules {
-    public typealias Block = () -> RulesContent
+    public typealias Block = @MainActor () -> RulesContent
     public typealias Content = RulesContent
     
-    static var none: Rules.Content {
+    @MainActor static var none: Rules.Content {
         EmptyContent(rulesContent: .none)
     }
     
@@ -35,28 +37,28 @@ struct _RulesContent: Rules.Content {
         case forEach(AnyForEach)
     }
 
-    public static func buildBlock() -> Content {
+    @MainActor public static func buildBlock() -> Content {
         _RulesContent(rulesContent: .none)
     }
 
-    public static func buildBlock(_ attrs: Content...) -> Content {
+    @MainActor public static func buildBlock(_ attrs: Content...) -> Content {
         buildBlock(attrs)
     }
 
-    public static func buildBlock(_ attrs: [Content]) -> Content {
+    @MainActor public static func buildBlock(_ attrs: [Content]) -> Content {
         _RulesContent(rulesContent: .items(attrs.map { $0.rulesContent }))
     }
 
-    public static func buildIf(_ content: Content?) -> Content {
+    @MainActor public static func buildIf(_ content: Content?) -> Content {
         guard let content = content else { return _RulesContent(rulesContent: .none) }
         return _RulesContent(rulesContent: .items([content.rulesContent]))
     }
 
-    public static func buildEither(first: Content) -> Content {
+    @MainActor public static func buildEither(first: Content) -> Content {
         _RulesContent(rulesContent: .items([first.rulesContent]))
     }
 
-    public static func buildEither(second: Content) -> Content {
+    @MainActor public static func buildEither(second: Content) -> Content {
         _RulesContent(rulesContent: .items([second.rulesContent]))
     }
 }

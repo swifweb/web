@@ -48,6 +48,7 @@ class AbstractWorkerErrorHandler: AnyStorageValue, StorageKey {
         #endif
     }
     
+    @MainActor
     func shutdown() {
         handler = nil
     }

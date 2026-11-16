@@ -12,6 +12,7 @@ public struct Storage {
     struct Value<T>: AnyStorageValue {
         var value: T
         var onShutdown: (() -> Void)?
+        @MainActor
         func shutdown() {
             onShutdown?()
         }
@@ -50,6 +51,7 @@ public struct Storage {
         }
     }
     
+    @MainActor
     public func shutdown() {
         self.storage.values.forEach {
             $0.shutdown()
@@ -58,7 +60,7 @@ public struct Storage {
 }
 
 public protocol AnyStorageValue {
-    func shutdown()
+    @MainActor func shutdown()
 }
 
 public protocol StorageKey {

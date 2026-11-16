@@ -8,5 +8,5 @@
 import CSS
 
 extension Stylesheet: AppBuilderContent {
-    public var appBuilderContent: AppBuilder.Item { .stylesheet(self) }
+    @MainActor public var appBuilderContent: AppBuilder.Item { .stylesheet(self) }
 }

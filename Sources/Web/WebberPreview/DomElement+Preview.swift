@@ -10,7 +10,7 @@ import DOM
 import CSS
 
 extension BaseElement: WebPreviewRenderable, RenderBuilderContent {
-    public var renderBuilderContent: Preview.Item { .item(self) }
+    @MainActor public var renderBuilderContent: Preview.Item { .item(self) }
 }
 
 extension DOMElement {
@@ -18,7 +18,7 @@ extension DOMElement {
     
     // MARK: _PreviewRenderable
     
-    public func renderPreview(singleQuotes: Bool) -> String {
+    @MainActor public func renderPreview(singleQuotes: Bool) -> String {
         #if !arch(wasm32)
         if let s = self as? Stylesheet {
             var result = ""

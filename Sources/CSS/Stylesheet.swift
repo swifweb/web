@@ -266,7 +266,12 @@ open class Stylesheet: BaseElement, Stylesheetable {
     @discardableResult
     public func disabled<S>(_ value: S) -> Self where S: StateConvertible, S.Value == Bool {
         disabled(value.stateValue.wrappedValue)
-        value.stateValue.listen { self.disabled($0) }
+        value.stateValue.listen { [self] newValue in
+            let snapshot: Bool = newValue
+            Task { @MainActor [self] in
+                self.disabled(snapshot)
+            }
+        }
         return self
     }
 }
@@ -275,7 +280,7 @@ open class RulesGroup: RulesContent, Stylesheetable {
     public typealias Rule = CSSRule
     public typealias RuleItems = Rules.Content
     
-    public var rulesContent: Rules.Item {
+    @MainActor public var rulesContent: Rules.Item {
         .items(_rawStyles.map { .raw($0) } + _rules.map { .rule($0) } + [rules.rulesContent] + _keyframes.map { .keyframes($0) } + _medias.map { .media($0) })
     }
     
@@ -286,18 +291,18 @@ open class RulesGroup: RulesContent, Stylesheetable {
     
     public init () {}
     
-    public convenience init(@Rules content: @escaping Rules.Block) {
+    @MainActor public convenience init(@Rules content: @escaping Rules.Block) {
         self.init()
         parseRulesItem(content().rulesContent)
     }
     
-    @discardableResult
+    @MainActor @discardableResult
     public func rules(@Rules content: @escaping Rules.Block) -> Self {
         parseRulesItem(content().rulesContent)
         return self
     }
     
-    private func parseRulesItem(_ item: Rules.Item) {
+    @MainActor private func parseRulesItem(_ item: Rules.Item) {
         switch item {
         case .raw(let v): _rawStyles.append(v)
         case .items(let v): v.forEach { parseRulesItem($0) }
@@ -309,5 +314,5 @@ open class RulesGroup: RulesContent, Stylesheetable {
         }
     }
     
-    @Rules open var rules: RuleItems { [_RulesContent(rulesContent: .none)] }
+    @MainActor @Rules open var rules: RuleItems { [_RulesContent(rulesContent: .none)] }
 }

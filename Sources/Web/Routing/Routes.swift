@@ -14,11 +14,12 @@ public typealias Page = Routes.Page
 public final class FragmentRoutes {
     let routes = RoutesStorage()
     
-    public init (@RoutesFactory content: @escaping RoutesFactory.Block) {
+    @MainActor public init (@RoutesFactory content: @escaping RoutesFactory.Block) {
         Routes.parse(routes, content().routesFactoryContent)
     }
 }
 
+@MainActor
 public class FragmentRouter: DOMContent {
     lazy var defaultResponder = DefaultResponder(routes: routes)
     let routes: RoutesStorage
@@ -102,7 +103,7 @@ public class FragmentRouter: DOMContent {
 }
 
 public class Routes: AppBuilderContent {
-    public var appBuilderContent: AppBuilder.Item { .routes(self) }
+    @MainActor public var appBuilderContent: AppBuilder.Item { .routes(self) }
     
     let item: RoutesFactory.Item
     
@@ -110,15 +111,15 @@ public class Routes: AppBuilderContent {
         item = .none
     }
     
-    public init (@RoutesFactory block: RoutesFactory.Block) {
+    @MainActor public init (@RoutesFactory block: RoutesFactory.Block) {
         item = block().routesFactoryContent
     }
     
-    func addRoutes(into collection: RoutesBuilder) {
+    @MainActor func addRoutes(into collection: RoutesBuilder) {
         Self.parse(collection, item)
     }
     
-    static func parse(_ builder: RoutesBuilder, _ item: RoutesFactory.Item) {
+    @MainActor static func parse(_ builder: RoutesBuilder, _ item: RoutesFactory.Item) {
         switch item {
         case .none: break
         case .items(let items):
@@ -150,7 +151,7 @@ public class Routes: AppBuilderContent {
 
 extension Routes {
     public class Group: RoutesFactoryContent {
-        public var routesFactoryContent: RoutesFactory.Item { .group(self) }
+        @MainActor public var routesFactoryContent: RoutesFactory.Item { .group(self) }
         
         let path: [String]
         var middlewares: [Middleware] = []
@@ -165,19 +166,19 @@ extension Routes {
             self.path = path
         }
         
-        public init (_ path: [String], protectedBy middlewares: [Middleware] = [], @RoutesFactory block: RoutesFactory.Block) {
+        @MainActor public init (_ path: [String], protectedBy middlewares: [Middleware] = [], @RoutesFactory block: RoutesFactory.Block) {
             self.path = path
             self.middlewares = middlewares
             self._routes = .init(block: block)
         }
         
-        public init (_ path: String..., protectedBy middlewares: [Middleware] = [], @RoutesFactory block: RoutesFactory.Block) {
+        @MainActor public init (_ path: String..., protectedBy middlewares: [Middleware] = [], @RoutesFactory block: RoutesFactory.Block) {
             self.path = path
             self.middlewares = middlewares
             self._routes = .init(block: block)
         }
         
-        public init<T>(_ path: [String], protectedBy middlewares: [Middleware] = [], controller: T.Type, @RoutesFactory block: (T.Type) -> RoutesFactory.Result) {
+        @MainActor public init<T>(_ path: [String], protectedBy middlewares: [Middleware] = [], controller: T.Type, @RoutesFactory block: @MainActor (T.Type) -> RoutesFactory.Result) {
             self.path = path
             self.middlewares = middlewares
             self._routes = .init(block: {
@@ -185,7 +186,7 @@ extension Routes {
             })
         }
         
-        public init<T>(_ path: String..., protectedBy middlewares: [Middleware] = [], controller: T.Type, @RoutesFactory block: (T.Type) -> RoutesFactory.Result) {
+        @MainActor public init<T>(_ path: String..., protectedBy middlewares: [Middleware] = [], controller: T.Type, @RoutesFactory block: @MainActor (T.Type) -> RoutesFactory.Result) {
             self.path = path
             self.middlewares = middlewares
             self._routes = .init(block: {
@@ -208,12 +209,12 @@ extension Routes {
             return self
         }
         
-        public func routes(@RoutesFactory block: RoutesFactory.Block) -> Self {
+        @MainActor public func routes(@RoutesFactory block: RoutesFactory.Block) -> Self {
             _routes = .init(block: block)
             return self
         }
         
-        public func routes<T>(_ controller: T.Type, @RoutesFactory block: (T.Type) -> RoutesFactory.Result) -> Self {
+        @MainActor public func routes<T>(_ controller: T.Type, @RoutesFactory block: @MainActor (T.Type) -> RoutesFactory.Result) -> Self {
             self._routes = .init(block: {
                 block(T.self)
             })
@@ -228,7 +229,7 @@ public protocol AnyRoutesEndpoint {
 
 protocol _AnyRoutesEndpoint: AnyRoutesEndpoint {
     var path: [String] { get }
-    var closure: (Request) throws -> P { get }
+    var closure: @MainActor (Request) throws -> P { get }
     var pageClass: P.Type { get }
 }
 
@@ -238,27 +239,27 @@ extension _AnyRoutesEndpoint {
 
 extension Routes {
     public class Page<P: AnyPageController>: _AnyRoutesEndpoint, RoutesFactoryContent {
-        public var routesFactoryContent: RoutesFactory.Item { .endpoint(self) }
+        @MainActor public var routesFactoryContent: RoutesFactory.Item { .endpoint(self) }
         
         var path: [String]
-        var closure: (Request) throws -> P
+        var closure: @MainActor (Request) throws -> P
         
-        public init (_ path: [String], use closure: @escaping (Request) throws -> P) {
+        public init (_ path: [String], use closure: @escaping @MainActor (Request) throws -> P) {
             self.path = path
             self.closure = closure
         }
         
-        public convenience init (_ path: String..., use closure: @escaping (Request) throws -> P) {
+        public convenience init (_ path: String..., use closure: @escaping @MainActor (Request) throws -> P) {
             self.init(path, use: closure)
         }
         
-        public convenience init (_ path: [String], use closure: @escaping () throws -> P) {
+        public convenience init (_ path: [String], use closure: @escaping @MainActor () throws -> P) {
             self.init(path) { _ in
                 try closure()
             }
         }
         
-        public convenience init (_ path: String..., use closure: @escaping () throws -> P) {
+        public convenience init (_ path: String..., use closure: @escaping @MainActor () throws -> P) {
             self.init(path, use: closure)
         }
     }

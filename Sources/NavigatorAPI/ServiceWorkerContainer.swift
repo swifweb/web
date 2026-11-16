@@ -68,6 +68,7 @@ public final class ServiceWorkerContainer {
     /// Creates or updates a `ServiceWorkerRegistration` for the given scriptURL.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register)
+    @MainActor
     public func register(_ scriptURL: URLConformable) {
         register(scriptURL) { _ in }
     }
@@ -82,6 +83,7 @@ public final class ServiceWorkerContainer {
     ///   - options: An object containing registration options.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register)
+    @MainActor
     public func register(
         _ scriptURL: URLConformable,
         _ options: RegistrationOptions? = nil,
@@ -116,6 +118,7 @@ public final class ServiceWorkerContainer {
     /// This property returns `null` if the request is a force refresh (Shift + refresh) or if there is no active worker.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/controller)
+    @MainActor
     public var controller: ServiceWorker? {
         #if arch(wasm32)
         return .init(jsValue.controller)
@@ -133,6 +136,7 @@ public final class ServiceWorkerContainer {
     /// Gets a ServiceWorkerRegistration object whose scope URL matches the provided document URL.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/getRegistration)
+    @MainActor
     public func getRegistration(_ scope: String, _ handler: @escaping ((Result<ServiceWorkerRegistration, GetRegistrationError>) -> Void)) {
         #if arch(wasm32)
         if let result = jsValue.getRegistration.function?.callAsFunction(optionalThis: jsValue.object, scope) {
@@ -165,6 +169,7 @@ public final class ServiceWorkerContainer {
     /// Gets all ServiceWorkerRegistrations associated with a `ServiceWorkerContainer`, in an array.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/getRegistrations)
+    @MainActor
     public func getRegistrations(_ handler: @escaping ((Result<[ServiceWorkerRegistration], GetRegistrationsError>) -> Void)) {
         #if arch(wasm32)
         if let result = jsValue.getRegistrations.function?.callAsFunction(optionalThis: jsValue.object) {
@@ -215,6 +220,7 @@ public final class ServiceWorkerContainer {
     /// Once that condition is met, it resolves with the `ServiceWorkerRegistration`.
     ///
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/ready)
+    @MainActor
     public func onReady(_ handler: @escaping ((ServiceWorkerRegistration) -> Void)) {
         #if arch(wasm32)
         guard readyHandlers.count == 0 else {
@@ -273,7 +279,7 @@ public class ServiceWorkerRegistration: EventTarget {
         self.jsValue = jsValue
     }
     
-    deinit {
+    isolated deinit {
         #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
         onupdatefoundClosure.release()
         #endif
@@ -496,7 +502,7 @@ public final class ServiceWorker: Worker {
         onstatechangeHandlers.removeAll()
     }
     
-    deinit {
+    isolated deinit {
         shutdown()
     }
 }

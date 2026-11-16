@@ -100,7 +100,9 @@ extension DOMElement {
         domElement.appendChild.function?.callAsFunction(optionalThis: domElement.object, element.domElement)
         properties.subElements.append(element)
         element.properties.parent = self
-        Dispatch.async(element.didAddToDOM)
+        Dispatch.async {
+            element.didAddToDOM()
+        }
         #else
         properties.subElements.append(element)
         #endif
@@ -118,7 +120,9 @@ extension DOMElement {
             properties.subElements.append(element)
         }
         element.properties.parent = self
-        Dispatch.async(element.didAddToDOM)
+        Dispatch.async {
+            element.didAddToDOM()
+        }
         #else
         if let index = properties.subElements.firstIndex(where: { $0.properties._id == before.properties._id }) {
             properties.subElements.insert(element, at: index > 0 ? index - 1 : 0)
@@ -151,7 +155,9 @@ extension DOMElement {
             properties.subElements.append(element)
         }
         element.properties.parent = self
-        Dispatch.async(element.didAddToDOM)
+        Dispatch.async {
+            element.didAddToDOM()
+        }
         #else
         if let index = properties.subElements.firstIndex(where: { $0.properties._id == after.properties._id }) {
             properties.subElements.insert(element, at: index)
@@ -274,7 +280,7 @@ extension DOMElement {
 }
 
 @MainActor public final class DOMElementProperties {
-    let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz")
+    package let uid: String = .shuffledAlphabet(8, letters: "AaBbCcDdEeFfGgJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz")
     
     public lazy var _id = uid
     public lazy var _classes: Set<String> = []

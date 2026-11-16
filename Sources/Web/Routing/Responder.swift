@@ -9,5 +9,5 @@
 import FoundationEssentials
 
 public protocol Responder {
-    func respond(to request: Request) throws -> AnyPageController?
+    @MainActor func respond(to request: Request) throws -> AnyPageController?
 }

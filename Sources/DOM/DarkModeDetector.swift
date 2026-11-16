@@ -26,7 +26,7 @@ import JavaScriptKit
         #endif
     }
     
-    deinit {
+    isolated deinit {
         #if JAVASCRIPTKIT_WITHOUT_WEAKREFS
         closure?.release()
         #endif

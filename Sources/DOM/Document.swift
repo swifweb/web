@@ -15,7 +15,7 @@ import WebFoundation
     
     public private(set) lazy var properties: DOMElementProperties = .init()
     
-    public static var name: String { "\(Self.self)".lowercased() }
+    nonisolated public static var name: String { "\(Self.self)".lowercased() }
     
     public let window: Window
     

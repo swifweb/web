@@ -8,60 +8,77 @@
 import FoundationEssentials
 
 extension String {
-	public init (_ ls: LocalizedString...) {
+	@MainActor public init (_ ls: LocalizedString...) {
 		self.init(ls)
 	}
 	
-	public init (_ ls: [LocalizedString]) {
-		guard ls.count > 0 else {
-			self.init("")
+	@MainActor public init (_ ls: [LocalizedString]) {
+		self.init(renderLocalizedString(ls, current: Localization.current, default: Localization.default))
+	}
+}
+
+private func renderLocalizedString(
+	_ ls: [LocalizedString],
+	current: Language,
+	default defaultLanguage: Language
+) -> String {
+		if ls.isEmpty {
 			print("⚠️ Localization: ❌ EMPTY STRING")
-			return
+			return ""
 		}
 		var lsByPrefix: LocalizedString?
 		for ls in ls {
 			switch ls.type {
 			case .short:
-				if Localization.current.rawValue.starts(with: ls.language.rawValue) {
-					self.init(ls.value)
-					return
+				if current.rawValue.starts(with: ls.language.rawValue) {
+					return ls.value
 				}
 			case .long:
-				if ls.language == Localization.current {
-					self.init(ls.value)
-					return
-				} else if Localization.current.prefix.starts(with: ls.prefix) {
+				if ls.language == current {
+					return ls.value
+				} else if current.prefix.starts(with: ls.prefix) {
 					lsByPrefix = ls
-				} else if ls.prefix.starts(with: Localization.current.prefix) {
+				} else if ls.prefix.starts(with: current.prefix) {
 					lsByPrefix = ls
 				}
 			}
 		}
 		if let ls = lsByPrefix {
-			self.init(ls.value)
-			return
+			return ls.value
 		}
 		if let ls = ls.first(where: {
-			$0.language.rawValue.contains(Localization.default.rawValue)
-				|| $0.prefix == Localization.default.prefix }) {
-			self.init(ls.value)
-			return
+			$0.language.rawValue.contains(defaultLanguage.rawValue)
+				|| $0.prefix == defaultLanguage.prefix }) {
+			return ls.value
 		}
-		self.init("❔❔❔")
-		print("⚠️ Localization: ❌ UNABLE TO DETECT LOCALE 🤬 set breakpoint here to find that string (current locale: \(Localization.current)")
-	}
+		print("⚠️ Localization: ❌ UNABLE TO DETECT LOCALE 🤬 set breakpoint here to find that string (current locale: \(current)")
+		return "❔❔❔"
 }
 
 /// Dynamic localized string
+@MainActor
 public func LString(_ ls: LocalizedString...) -> State<String> {
 	LString(ls)
 }
 
 /// Dynamic localized string
+@MainActor
 public func LString(_ ls: [LocalizedString]) -> State<String> {
-	let state: State<String> = .init(wrappedValue: .init(ls))
-	Localization.currentState.listen {
-		state.wrappedValue = .init(ls)
+	let currentState = Localization.currentState
+	let defaultState = Localization.shared.defaultStateForLString
+	let state: State<String> = .init(
+		wrappedValue: renderLocalizedString(
+			ls,
+			current: currentState.wrappedValue,
+			default: defaultState.wrappedValue
+		)
+	)
+	currentState.listen { newCurrent in
+		state.wrappedValue = renderLocalizedString(
+			ls,
+			current: newCurrent,
+			default: defaultState.wrappedValue
+		)
 	}
 	return state
 }

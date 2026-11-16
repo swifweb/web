@@ -7,12 +7,20 @@
 
 import FoundationEssentials
 
-private var localization = Localization()
-
+@MainActor
 public class Localization {
+    private static let localization = Localization()
+
     let currentLocaleIdentifier = WebApp.shared.window.navigator.language?.replacingOccurrences(of: "-", with: "_") ?? "en_US"
-    
-    var defaultLanguage: Language = .en
+
+    private let defaultLanguageState = State<Language>(wrappedValue: .en)
+
+    var defaultLanguage: Language {
+        get { defaultLanguageState.wrappedValue }
+        set { defaultLanguageState.wrappedValue = newValue }
+    }
+
+    var defaultStateForLString: State<Language> { defaultLanguageState }
     
 	@State public internal(set) var currentLanguage: Language = .en
 	

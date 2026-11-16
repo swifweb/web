@@ -7,14 +7,15 @@
 
 import FoundationEssentials
 import JavaScriptKit
-
-private var serviceworker: ServiceWorker!
+import WorkersAPI
 
 /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
 open class ServiceWorker {
+    @WebWorkerActor private static var serviceworker: ServiceWorker!
+
     private var isStarted = false
     
-    public static var shared: ServiceWorker {
+    @WebWorkerActor public static var shared: ServiceWorker {
         #if !arch(wasm32)
         guard serviceworker == nil else {
             return serviceworker
@@ -25,7 +26,7 @@ open class ServiceWorker {
         return serviceworker
         #endif
     }
-    public class var current: Self { shared as! Self }
+    @WebWorkerActor public class var current: Self { shared as! Self }
 
     private var activatePromiseClosure: JSClosure?
     private var contentDeletePromiseClosure: JSClosure?
@@ -138,7 +139,7 @@ open class ServiceWorker {
     }
     
     @discardableResult
-    public static func start() -> ServiceWorker {
+    @WebWorkerActor public static func start() -> ServiceWorker {
         guard serviceworker == nil else { return serviceworker }
         serviceworker = Self()
         guard !serviceworker.isStarted else { return serviceworker }
@@ -154,9 +155,14 @@ open class ServiceWorker {
     //    var registration: Registration
     //    debugPrint("JSObject.global.registration: \(String(describing: JSObject.global.registration))")
         
-	public static func main() {
-		Self.start()
+	nonisolated public static func main() async {
+		await Self.startForMain()
 	}
+
+    @WebWorkerActor
+    private static func startForMain() {
+        _ = Self.start()
+    }
 
     private func start() {
         parseServiceBuilderItem(body.serviceBuilderContent)
@@ -218,7 +224,6 @@ open class ServiceWorker {
                 fatalError("Unable print manifest data")
             }
             print(string)
-            exit(0)
         } catch {
             fatalError("Unable to encode manifest: \(error)")
         }

@@ -5,11 +5,11 @@
 //  Created by Mihael Isaev on 16.11.2020.
 //
 
-@MainActor public protocol InnerStateChangeableObserver {
+public protocol InnerStateChangeableObserver {
     func innerStateChangeableSetup()
 }
 
-@MainActor public protocol InnerStateChangeable: AnyObject, Copyable {
+public protocol InnerStateChangeable: AnyObject, Copyable {
     var innerStates: [AnyState] { get }
     var innerStatePrevSelf: Self { get set }
     var innerStateManualUpdating: Bool { get set }
@@ -19,7 +19,11 @@
 
 extension InnerStateChangeable {
     public func innerStatesListen() {
-        innerStates.forEach { [self] in $0.listen(_handleChange) }
+        innerStates.forEach { state in
+            state.listen { [weak self] in
+                self?._handleChange()
+            }
+        }
     }
     
     public func innerStatesManualUpdateStarted() {

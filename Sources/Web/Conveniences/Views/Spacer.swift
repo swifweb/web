@@ -13,8 +13,12 @@ open class Spacer: BaseActiveElement {
         _unit = value.wrappedValue.unit
         super.init()
         value.listen {
-            self._size = $0.value.doubleValue
-            self._unit = $0.unit
+            let size = $0.value.doubleValue
+            let unit = $0.unit.description
+            Task { @MainActor in
+                self._size = size
+                self._unit = spacerUnit(from: unit)
+            }
         }
     }
     
@@ -28,22 +32,34 @@ open class Spacer: BaseActiveElement {
         _size = size.wrappedValue
         _unit = unit
         super.init()
-        size.listen { self._size = $0 }
+        size.listen {
+            let snapshot = $0
+            Task { @MainActor in self._size = snapshot }
+        }
     }
 
     public init (_ size: Double, _ unit: State<Unit>) {
         _size = size
         _unit = unit.wrappedValue
         super.init()
-        unit.listen { self._unit = $0 }
+        unit.listen {
+            let snapshot = $0
+            Task { @MainActor in self._unit = snapshot }
+        }
     }
 
     public init (_ size: State<Double>, _ unit: State<Unit>) {
         _size = size.wrappedValue
         _unit = unit.wrappedValue
         super.init()
-        size.listen { self._size = $0 }
-        unit.listen { self._unit = $0 }
+        size.listen {
+            let snapshot = $0
+            Task { @MainActor in self._size = snapshot }
+        }
+        unit.listen {
+            let snapshot = $0
+            Task { @MainActor in self._unit = snapshot }
+        }
     }
     
     public required init() {
@@ -54,4 +70,38 @@ open class Spacer: BaseActiveElement {
         super.buildUI()
         width(_size, _unit).height(_size, _unit)
     }
+}
+
+private func spacerUnit(from snapshot: String) -> Unit {
+    let importantSuffix = "!important"
+    var value = snapshot
+    var importantCount = 0
+    while value.hasSuffix(importantSuffix) {
+        value = String(value.dropLast(importantSuffix.count))
+        importantCount += 1
+    }
+    var unit: Unit
+    switch value {
+    case "cm": unit = .cm
+    case "mm": unit = .mm
+    case "in": unit = .in
+    case "px": unit = .px
+    case "pt": unit = .pt
+    case "pc": unit = .pc
+    case "fr": unit = .fr
+    case "em": unit = .em
+    case "ex": unit = .ex
+    case "ch": unit = .ch
+    case "rem": unit = .rem
+    case "vw": unit = .vw
+    case "vh": unit = .vh
+    case "vmin": unit = .vmin
+    case "vmax": unit = .vmax
+    case "%": unit = .percent
+    default: preconditionFailure("Unknown Spacer unit snapshot: \(snapshot)")
+    }
+    for _ in 0..<importantCount {
+        unit = unit.important
+    }
+    return unit
 }

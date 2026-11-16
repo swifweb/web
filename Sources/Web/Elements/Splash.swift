@@ -8,7 +8,7 @@
 import FoundationEssentials
 
 open class Splash: Div, AppBuilderContent {
-    public var appBuilderContent: AppBuilder.Item { .splash(self) }
+    @MainActor public var appBuilderContent: AppBuilder.Item { .splash(self) }
     
     open override class var name: String { "div" }
     

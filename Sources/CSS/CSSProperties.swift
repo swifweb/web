@@ -11,7 +11,7 @@ import DOM
 
 // MARK: - Custom Property
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets custom style property
     ///
     /// If you need **CSS** like this
@@ -78,7 +78,7 @@ extension Stylesheetable {
     public typealias AlignContent = AlignContentProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the alignment between the lines inside a flexible container when the items do not use all available space
     @discardableResult
     public func alignContent(_ type: AlignContentType) -> Self {
@@ -128,7 +128,7 @@ extension Stylesheetable {
     public typealias AlignItems = AlignItemsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the alignment for items inside a flexible container
     @discardableResult
     public func alignItems(_ type: AlignItemsType) -> Self {
@@ -178,7 +178,7 @@ extension Stylesheetable {
     public typealias AlignSelf = AlignSelfProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the alignment for selected items inside a flexible container
     @discardableResult
     public func alignSelf(_ type: AlignSelfType) -> Self {
@@ -228,7 +228,7 @@ extension Stylesheetable {
     public typealias All = AllProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Resets all properties (except unicode-bidi and direction)
     @discardableResult
     public func all(_ type: AllType) -> Self {
@@ -286,7 +286,7 @@ extension Stylesheetable {
     public typealias AnimationDelay = AnimationDelayProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies a delay for the start of an animation
     @discardableResult
     public func animationDelay<U>(_ value: U) -> Self where U: UniValue, U.UniValue: TimeUnitValue {
@@ -345,7 +345,7 @@ extension Stylesheetable {
     public typealias AnimationDirection = AnimationDirectionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether an animation should be played forwards, backwards or in alternate cycles
     @discardableResult
     public func animationDirection(_ type: AnimationDirectionType) -> Self {
@@ -401,7 +401,7 @@ extension Stylesheetable {
     public typealias AnimationDuration = AnimationDurationProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how long an animation should take to complete one cycle
     @discardableResult
     public func animationDuration<U>(_ value: U) -> Self where U: UniValue, U.UniValue: TimeUnitValue {
@@ -460,7 +460,7 @@ extension Stylesheetable {
     public typealias AnimationFillMode = AnimationFillModeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies a style for the element when the animation is not playing (before it starts, after it ends, or both)
     @discardableResult
     public func animationFillMode(_ type: AnimationFillModeType) -> Self {
@@ -506,7 +506,7 @@ extension Stylesheetable {
     public typealias AnimationIterationCount = AnimationIterationCountProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the number of times an animation should be played
     @discardableResult
     public func animationIterationCount<N>(_ n: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue == Int {
@@ -545,7 +545,7 @@ extension Stylesheetable {
     public typealias AnimationName = AnimationNameProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies a name for the @keyframes animation
     @discardableResult
     public func animationName<S>(_ type: S, important: Bool? = nil) -> Self where S: UniValue, S.UniValue == String {
@@ -588,7 +588,7 @@ extension Stylesheetable {
     public typealias AnimationPlayState = AnimationPlayStateProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether the animation is running or paused
     @discardableResult
     public func animationPlayState(_ type: AnimationPlayStateType) -> Self {
@@ -700,7 +700,7 @@ extension Stylesheetable {
     public typealias Animation = AnimationProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for all the animation-* properties
     @discardableResult
     public func animation(_ type: AnimationValue) -> Self {
@@ -779,7 +779,7 @@ extension Stylesheetable {
     public typealias AnimationTimingFunction = AnimationTimingFunctionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the speed curve of an animation
     @discardableResult
     public func animationTimingFunction(_ type: TransitionTimingFunctionType) -> Self {
@@ -829,7 +829,7 @@ extension Stylesheetable {
     public typealias BackfaceVisibility = BackfaceVisibilityProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines whether or not the back face of an element should be visible when facing the user
     @discardableResult
     public func backfaceVisibility(_ type: BackfaceVisibilityType) -> Self {
@@ -879,7 +879,7 @@ extension Stylesheetable {
     public typealias BackgroundAttachment = BackgroundAttachmentProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets whether a background image scrolls with the rest of the page, or is fixed
     @discardableResult
     public func backgroundAttachment(_ type: BackgroundAttachmentType) -> Self {
@@ -929,7 +929,7 @@ extension Stylesheetable {
     public typealias BackgroundBlendMode = BackgroundBlendModeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the blending mode of each background layer (color/image)
     @discardableResult
     public func backgroundBlendMode(_ type: BackgroundBlendModeType) -> Self {
@@ -981,7 +981,7 @@ extension Stylesheetable {
     public typealias BackgroundClip = BackgroundClipProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines how far the background (color or image) should extend within an element
     @discardableResult
     public func backgroundClip(_ type: BackgroundClipType) -> Self {
@@ -1163,7 +1163,7 @@ extension Stylesheetable {
     public typealias BackgroundColor = BackgroundColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the background color of an element
     @discardableResult
     public func backgroundColor(_ type: Color) -> Self {
@@ -1249,7 +1249,7 @@ extension Stylesheetable {
     public typealias BackgroundImage = BackgroundImageProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies one or more background images for an element
     @discardableResult
     public func backgroundImage<S>(_ src: S, important: Bool? = nil) -> Self where S: UniValue, S.UniValue == String {
@@ -1299,7 +1299,7 @@ extension Stylesheetable {
     public typealias BackgroundOrigin = BackgroundOriginProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the origin position of a background image
     @discardableResult
     public func backgroundOrigin(_ type: BackgroundOriginType) -> Self {
@@ -1349,7 +1349,7 @@ extension Stylesheetable {
     public typealias BackgroundPosition = BackgroundPositionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the position of a background image
     @discardableResult
     public func backgroundPosition(_ type: BackgroundPositionType) -> Self {
@@ -1472,7 +1472,7 @@ extension Stylesheetable {
     public typealias Background = BackgroundProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for all the background-* properties
     @discardableResult
     public func background(_ type: BackgroundValue) -> Self {
@@ -1576,7 +1576,7 @@ extension Stylesheetable {
     public typealias BackgroundRepeat = BackgroundRepeatProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets if/how a background image will be repeated
     @discardableResult
     public func backgroundRepeat(_ type: BackgroundRepeatType) -> Self {
@@ -1769,7 +1769,7 @@ extension Stylesheetable {
     public typealias BackgroundSize = BackgroundSizeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     // MARK: All
 
     /// Specifies the size of the background images
@@ -1986,7 +1986,7 @@ extension Stylesheetable {
     public typealias BorderBottomColor = BorderBottomColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the color of the bottom border
     @discardableResult
     public func borderBottomColor(_ type: Color) -> Self {
@@ -2077,7 +2077,7 @@ extension Stylesheetable {
     public typealias BorderBottomLeftRadius = BorderBottomLeftRadiusProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines the radius of the border of the bottom-left corner
     @discardableResult
     public func borderBottomLeftRadius(_ type: BorderRadiusType) -> Self {
@@ -2169,7 +2169,7 @@ extension Stylesheetable {
     public typealias BorderBottom = BorderBottomProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for border-bottom-width, border-bottom-style and border-bottom-color
     @discardableResult
     public func borderBottom(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
@@ -2266,7 +2266,7 @@ extension Stylesheetable {
     public typealias BorderBottomRightRadius = BorderBottomRightRadiusProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines the radius of the border of the bottom-right corner
     @discardableResult
     public func borderBottomRightRadius(_ type: BorderRadiusType) -> Self {
@@ -2323,7 +2323,7 @@ extension Stylesheetable {
     public typealias BorderBottomStyle = BorderBottomStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the style of the bottom border
     @discardableResult
     public func borderBottomStyle(_ type: BorderStyleType) -> Self {
@@ -2378,7 +2378,7 @@ extension Stylesheetable {
     public typealias BorderBottomWidth = BorderBottomWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the width of the bottom border
     @discardableResult
     public func borderBottomWidth(_ type: BorderWidthType) -> Self {
@@ -2435,7 +2435,7 @@ extension Stylesheetable {
     public typealias BorderCollapse = BorderCollapseProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets whether table borders should collapse into a single border or be separated
     @discardableResult
     public func borderCollapse(_ type: BorderCollapseType) -> Self {
@@ -2592,7 +2592,7 @@ extension Stylesheetable {
     public typealias BorderColor = BorderColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the color of the four borders
     @discardableResult
     public func borderColor(_ type: Color) -> Self {
@@ -2683,7 +2683,7 @@ extension Stylesheetable {
     public typealias BorderImageOutset = BorderImageOutsetProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the amount by which the border image area extends beyond the border box
     @discardableResult
     public func borderImageOutset(_ type: BorderImageOutsetType) -> Self {
@@ -2767,7 +2767,7 @@ extension Stylesheetable {
     public typealias BorderImage = BorderImageProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for all the border-image-* properties
     @discardableResult
     public func borderImage(_ type: BorderImageValue) -> Self {
@@ -2831,7 +2831,7 @@ extension Stylesheetable {
     public typealias BorderImageRepeat = BorderImageRepeatProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether the border image should be repeated, rounded or stretched
     @discardableResult
     public func borderImageRepeat(_ type: BorderImageRepeatType) -> Self {
@@ -2881,7 +2881,7 @@ extension Stylesheetable {
     public typealias BorderImageSlice = BorderImageSliceProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how to slice the border image
     @discardableResult
     public func borderImageSlice(_ type: BorderImageSliceType) -> Self {
@@ -2928,7 +2928,7 @@ extension Stylesheetable {
     public typealias BorderImageSource = BorderImageSourceProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the path to the image to be used as a border
     @discardableResult
     public func borderImageSource<S>(_ type: S, important: Bool? = nil) -> Self where S: UniValue, S.UniValue == String {
@@ -2971,7 +2971,7 @@ extension Stylesheetable {
     public typealias BorderImageWidth = BorderImageWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the width of the border image
     @discardableResult
     public func borderImageWidth(_ type: BorderWidthType) -> Self {
@@ -3128,7 +3128,7 @@ extension Stylesheetable {
     public typealias BorderLeftColor = BorderLeftColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the color of the left border
     @discardableResult
     public func borderLeftColor(_ type: Color) -> Self {
@@ -3249,7 +3249,7 @@ extension Stylesheetable {
     public typealias BorderLeft = BorderLeftProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for border-left-width, border-left-style and border-left-color
     @discardableResult
     public func borderLeft(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
@@ -3341,7 +3341,7 @@ extension Stylesheetable {
     public typealias BorderLeftStyle = BorderLeftStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the style of the left border
     @discardableResult
     public func borderLeftStyle(_ type: BorderStyleType) -> Self {
@@ -3396,7 +3396,7 @@ extension Stylesheetable {
     public typealias BorderLeftWidth = BorderLeftWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the width of the left border
     @discardableResult
     public func borderLeftWidth(_ type: BorderWidthType) -> Self {
@@ -3498,7 +3498,7 @@ extension Stylesheetable {
     public typealias Border = BorderProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for border-width, border-style and border-color
     @discardableResult
     public func border(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
@@ -4238,7 +4238,7 @@ extension Stylesheetable {
     public typealias BorderRadius = BorderRadiusProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the four border-*-radius properties
     @discardableResult
     public func borderRadius<U: UnitValuable>(_ value: U) -> Self {
@@ -4959,7 +4959,7 @@ extension Stylesheetable {
     public typealias BorderRightColor = BorderRightColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the color of the right border
     @discardableResult
     public func borderRightColor(_ type: Color) -> Self {
@@ -5080,7 +5080,7 @@ extension Stylesheetable {
     public typealias BorderRight = BorderRightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for border-right-width, border-right-style and border-right-color
     @discardableResult
     public func borderRight(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
@@ -5172,7 +5172,7 @@ extension Stylesheetable {
     public typealias BorderRightStyle = BorderRightStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the style of the right border
     @discardableResult
     public func borderRightStyle(_ type: BorderStyleType) -> Self {
@@ -5227,7 +5227,7 @@ extension Stylesheetable {
     public typealias BorderRightWidth = BorderRightWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the width of the right border
     @discardableResult
     public func borderRightWidth(_ type: BorderWidthType) -> Self {
@@ -5317,7 +5317,7 @@ extension Stylesheetable {
     public typealias BorderSpacing = BorderSpacingProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     // MARK: All
 
     /// Sets the distance between the borders of adjacent cells
@@ -5405,7 +5405,7 @@ extension Stylesheetable {
     public typealias BorderStyle = BorderStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the style of the four borders
     @discardableResult
     public func borderStyle (_ types: BorderStyleType..., important: Bool? = nil) -> Self {
@@ -5590,7 +5590,7 @@ extension Stylesheetable {
     public typealias BorderTopColor = BorderTopColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the color of the top border
     @discardableResult
     public func borderTopColor(_ type: Color) -> Self {
@@ -5681,7 +5681,7 @@ extension Stylesheetable {
     public typealias BorderTopLeftRadius = BorderTopLeftRadiusProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines the radius of the border of the top-left corner
     @discardableResult
     public func borderTopLeftRadius(_ type: BorderRadiusType) -> Self {
@@ -5773,7 +5773,7 @@ extension Stylesheetable {
     public typealias BorderTop = BorderTopProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for border-top-width, border-top-style and border-top-color
     @discardableResult
     public func borderTop(width: BorderWidthType? = nil, style: BorderStyleType, color: Color? = nil, important: Bool? = nil) -> Self {
@@ -5870,7 +5870,7 @@ extension Stylesheetable {
     public typealias BorderTopRightRadius = BorderTopRightRadiusProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines the radius of the border of the top-right corner
     @discardableResult
     public func borderTopRightRadius(_ type: BorderRadiusType) -> Self {
@@ -5927,7 +5927,7 @@ extension Stylesheetable {
     public typealias BorderTopStyle = BorderTopStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the style of the top border
     @discardableResult
     public func borderTopStyle(_ type: BorderStyleType) -> Self {
@@ -5982,7 +5982,7 @@ extension Stylesheetable {
     public typealias BorderTopWidth = BorderTopWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the width of the top border
     @discardableResult
     public func borderTopWidth(_ type: BorderWidthType) -> Self {
@@ -6074,7 +6074,7 @@ extension Stylesheetable {
     public typealias BorderWidth = BorderWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the width of the four borders
     @discardableResult
     public func borderWidth(_ type: BorderWidthType..., important: Bool? = nil) -> Self {
@@ -6160,7 +6160,7 @@ extension Stylesheetable {
     public typealias Bottom = BottomProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the elements position, from the bottom of its parent element
     @discardableResult
     public func bottom<U>(_ value: U) -> Self where U: UniValue, U.UniValue: UnitValuable {
@@ -6219,7 +6219,7 @@ extension Stylesheetable {
     public typealias BoxDecorationBreak = BoxDecorationBreakProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the behavior of the background and border of an element at page-break, or, for in-line elements, at line-break.
     @discardableResult
     public func boxDecorationBreak(_ type: BoxDecorationBreakType) -> Self {
@@ -6898,7 +6898,7 @@ extension Stylesheetable {
     public typealias BoxShadow = BoxShadowProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Use it for multiple shadows
     @discardableResult
     public func boxShadow(_ values: [BoxShadowValue], important: Bool? = nil) -> Self {
@@ -7143,7 +7143,7 @@ extension Stylesheetable {
     public typealias BoxSizing = BoxSizingProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines how the width and height of an element are calculated: should they include padding and borders, or not
     @discardableResult
     public func boxSizing(_ type: BoxSizingType) -> Self {
@@ -7193,7 +7193,7 @@ extension Stylesheetable {
     public typealias BreakAfter = BreakAfterProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not a page-, column-, or region-break should occur after the specified element
     @discardableResult
     public func breakAfter(_ type: BreakType) -> Self {
@@ -7243,7 +7243,7 @@ extension Stylesheetable {
     public typealias BreakBefore = BreakBeforeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not a page-, column-, or region-break should occur before the specified element
     @discardableResult
     public func breakBefore(_ type: BreakType) -> Self {
@@ -7293,7 +7293,7 @@ extension Stylesheetable {
     public typealias BreakInside = BreakInsideProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not a page-, column-, or region-break should occur inside the specified element
     @discardableResult
     public func breakInside(_ type: BreakInsideType) -> Self {
@@ -7343,7 +7343,7 @@ extension Stylesheetable {
     public typealias CaptionSide = CaptionSideProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the placement of a table caption
     @discardableResult
     public func captionSide(_ type: CaptionSideType) -> Self {
@@ -7500,7 +7500,7 @@ extension Stylesheetable {
     public typealias CaretColor = CaretColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the color of the cursor (caret) in inputs, textareas, or any element that is editable
     @discardableResult
     public func caretColor(_ type: Color) -> Self {
@@ -7586,7 +7586,7 @@ extension Stylesheetable {
     public typealias Clear = ClearProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies on which sides of an element floating elements are not allowed to float
     @discardableResult
     public func clear(_ type: ClearType) -> Self {
@@ -7899,7 +7899,7 @@ extension Stylesheetable {
     public typealias Clip = ClipProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Clips an absolutely positioned element
     @discardableResult
     public func clip<U: UnitValuable>(all: U, important: Bool? = nil) -> Self {
@@ -8260,7 +8260,7 @@ extension Stylesheetable {
     public typealias Color = ColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the color of text
     @discardableResult
     public func color(_ color: Color) -> Self {
@@ -8344,7 +8344,7 @@ extension Stylesheetable {
     public typealias ColumnCount = ColumnCountProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the number of columns an element should be divided into
     @discardableResult
     public func columnCount<U>(_ n: U) -> Self where U: UniValue, U.UniValue == Int {
@@ -8388,7 +8388,7 @@ extension Stylesheetable {
     public typealias ColumnFill = ColumnFillProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how to fill columns, balanced or not
     @discardableResult
     public func columnFill(_ type: ColumnFillType) -> Self {
@@ -8447,7 +8447,7 @@ extension Stylesheetable {
     public typealias ColumnGap = ColumnGapProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the gap between the columns
     @discardableResult
     public func columnGap <U>(_ value: U) -> Self where U: UniValue, U.UniValue: UnitValuable {
@@ -8613,7 +8613,7 @@ extension Stylesheetable {
     public typealias ColumnRuleColor = ColumnRuleColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the color of the rule between columns
     @discardableResult
     public func columnRuleColor(_ type: Color) -> Self {
@@ -8704,7 +8704,7 @@ extension Stylesheetable {
     public typealias ColumnRule = ColumnRuleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for all the column-rule-* properties
     @discardableResult
     public func columnRule(width: ColumnRuleWidthType, style: ColumnRuleStyleType, color: Color, important: Bool? = nil) -> Self {
@@ -8753,7 +8753,7 @@ extension Stylesheetable {
     public typealias ColumnRuleStyle = ColumnRuleStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the style of the rule between columns
     @discardableResult
     public func columnRuleStyle(_ type: ColumnRuleStyleType) -> Self {
@@ -8803,7 +8803,7 @@ extension Stylesheetable {
     public typealias ColumnRuleWidth = ColumnRuleWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the width of the rule between columns
     @discardableResult
     public func columnRuleWidth(_ type: ColumnRuleWidthType) -> Self {
@@ -8853,7 +8853,7 @@ extension Stylesheetable {
     public typealias ColumnSpan = ColumnSpanProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how many columns an element should span across
     @discardableResult
     public func columnSpan(_ type: ColumnSpanType) -> Self {
@@ -8913,7 +8913,7 @@ extension Stylesheetable {
     public typealias Columns = ColumnsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for column-width and column-count
     @discardableResult
     public func columns<W, C>(width: W, count: C, important: Bool? = nil) -> Self where W: UniValue, W.UniValue: UnitValuable, C: UniValue, C.UniValue == Int {
@@ -8965,7 +8965,7 @@ extension Stylesheetable {
     public typealias ColumnWidth = ColumnWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the column width
     @discardableResult
     public func columnWidth <U>(_ value: U) -> Self where U: UniValue, U.UniValue: UnitValuable {
@@ -9022,7 +9022,7 @@ extension Stylesheetable {
     public typealias Content = ContentProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Used with the :before and :after pseudo-elements, to insert generated content
     @discardableResult
     public func content(_ type: ContentType) -> Self {
@@ -9072,7 +9072,7 @@ extension Stylesheetable {
     public typealias CounterIncrement = CounterIncrementProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Increases or decreases the value of one or more CSS counters
     @discardableResult
     public func counterIncrement(_ type: CounterResetType) -> Self {
@@ -9122,7 +9122,7 @@ extension Stylesheetable {
     public typealias CounterReset = CounterResetProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Creates or resets one or more CSS counters
     @discardableResult
     public func counterReset(_ type: CounterResetType) -> Self {
@@ -9172,7 +9172,7 @@ extension Stylesheetable {
     public typealias Cursor = CursorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the mouse cursor to be displayed when pointing over an element
     @discardableResult
     public func cursor(_ type: CursorType) -> Self {
@@ -9222,7 +9222,7 @@ extension Stylesheetable {
     public typealias Direction = DirectionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the text direction/writing direction
     @discardableResult
     public func direction(_ type: DirectionType) -> Self {
@@ -9272,7 +9272,7 @@ extension Stylesheetable {
     public typealias Display = DisplayProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how a certain HTML element should be displayed
     @discardableResult
     public func display(_ type: DisplayType) -> Self {
@@ -9322,7 +9322,7 @@ extension Stylesheetable {
     public typealias EmptyCells = EmptyCellsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not to display borders and background on empty cells in a table
     @discardableResult
     public func emptyCells(_ type: EmptyCellsType) -> Self {
@@ -9372,7 +9372,7 @@ extension Stylesheetable {
     public typealias Filter = FilterProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines effects (e.g. blurring or color shifting) on an element before the element is displayed
     @discardableResult
     public func filter(_ type: FilterType) -> Self {
@@ -9431,7 +9431,7 @@ extension Stylesheetable {
     public typealias FlexBasis = FlexBasisProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the initial length of a flexible item
     @discardableResult
     public func flexBasis<U>(_ value: U) -> Self where U: UniValue, U.UniValue: UnitValuable {
@@ -9490,7 +9490,7 @@ extension Stylesheetable {
     public typealias FlexDirection = FlexDirectionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the direction of the flexible items
     @discardableResult
     public func flexDirection(_ type: FlexDirectionType) -> Self {
@@ -9587,7 +9587,7 @@ extension Stylesheetable {
     public typealias FlexFlow = FlexFlowProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the flex-direction and the flex-wrap properties
     @discardableResult
     public func flexFlow(direction: FlexDirectionType, wrap: FlexWrapType, important: Bool? = nil) -> Self {
@@ -9646,7 +9646,7 @@ extension Stylesheetable {
     public typealias FlexGrow = FlexGrowProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how much the item will grow relative to the rest
     @discardableResult
     public func flexGrow<N>(_ n: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue: NumericValue {
@@ -9702,7 +9702,7 @@ extension Stylesheetable {
     public typealias Flex = FlexProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the flex-grow, flex-shrink, and the flex-basis properties
     @discardableResult
     public func flex<G, S, B>(grow: G, shrink: S, basis: B, important: Bool? = nil) -> Self where G:UniValue, G.UniValue: NumericValue, S:UniValue, S.UniValue: NumericValue, B:UniValue, B.UniValue: UnitValuable {
@@ -9756,7 +9756,7 @@ extension Stylesheetable {
     public typealias FlexShrink = FlexShrinkProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how the item will shrink relative to the rest
     @discardableResult
     public func flexShrink<N>(_ n: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue: NumericValue {
@@ -9799,7 +9799,7 @@ extension Stylesheetable {
     public typealias FlexWrap = FlexWrapProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether the flexible items should wrap or not
     @discardableResult
     public func flexWrap(_ type: FlexWrapType) -> Self {
@@ -9849,7 +9849,7 @@ extension Stylesheetable {
     public typealias Float = FloatProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not a box should float
     @discardableResult
     public func float(_ type: FloatType) -> Self {
@@ -9957,7 +9957,7 @@ extension Stylesheetable {
     public typealias FontFamily = FontFamilyProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the font family for text
     @discardableResult
     public func fontFamily(_ types: [FontFamilyType], important: Bool? = nil) -> Self {
@@ -10036,7 +10036,7 @@ extension Stylesheetable {
     public typealias FontKerning = FontKerningProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls the usage of the kerning information (how letters are spaced)
     @discardableResult
     public func fontKerning(_ type: FontKerningType) -> Self {
@@ -10095,7 +10095,7 @@ extension Stylesheetable {
     public typealias FontLanguageOverride = FontLanguageOverrideProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls the usage of language-specific glyphs in a typeface
     @discardableResult
     public func fontLanguageOverride(_ type: FontLanguageOverrideType) -> Self {
@@ -10224,7 +10224,7 @@ extension Stylesheetable {
     public typealias Font = FontProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the font-style, font-variant, font-weight, font-size/line-height, and the font-family properties
     @discardableResult
     public func font(_ type: FontType) -> Self {
@@ -10328,7 +10328,7 @@ extension Stylesheetable {
     public typealias FontSizeAdjust = FontSizeAdjustProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Preserves the readability of text when font fallback occurs
     @discardableResult
     public func fontSizeAdjust(_ type: FontSizeAdjustType) -> Self {
@@ -10413,7 +10413,7 @@ extension Stylesheetable {
     public typealias FontSize = FontSizeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the font size of text
     @discardableResult
     public func fontSize(_ type: FontSizeType) -> Self {
@@ -10484,7 +10484,7 @@ extension Stylesheetable {
     public typealias FontStretch = FontStretchProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Selects a normal, condensed, or expanded face from a font family
     @discardableResult
     public func fontStretch(_ type: FontStretchType) -> Self {
@@ -10537,7 +10537,7 @@ extension Stylesheetable {
     public typealias FontStyle = FontStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the font style for text
     @discardableResult
     public func fontStyle(_ type: FontStyleType) -> Self {
@@ -10590,7 +10590,7 @@ extension Stylesheetable {
     public typealias FontSynthesis = FontSynthesisProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls which missing typefaces (bold or italic) may be synthesized by the browser
     @discardableResult
     public func fontSynthesis(_ type: FontSynthesisType) -> Self {
@@ -10716,7 +10716,7 @@ extension Stylesheetable {
     public typealias FontVariantAlternates = FontVariantAlternatesProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls the usage of alternate glyphs associated to alternative names defined in @font-feature-values
     @discardableResult
     public func fontVariantAlternates(_ types: [FontVariantAlternatesType], important: Bool? = nil) -> Self {
@@ -10850,7 +10850,7 @@ extension Stylesheetable {
     public typealias FontVariantCaps = FontVariantCapsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls the usage of alternate glyphs for capital letters
     @discardableResult
     public func fontVariantCaps(_ types: [FontVariantCapsType], important: Bool? = nil) -> Self {
@@ -10988,7 +10988,7 @@ extension Stylesheetable {
     public typealias FontVariantEastAsian = FontVariantEastAsianProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls the usage of alternate glyphs for East Asian scripts (e.g Japanese and Chinese)
     @discardableResult
     public func fontVariantEastAsian(_ types: [FontVariantEastAsianType], important: Bool? = nil) -> Self {
@@ -11119,7 +11119,7 @@ extension Stylesheetable {
     public typealias FontVariantLigatures = FontVariantLigaturesProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls which ligatures and contextual forms are used in textual content of the elements it applies to
     @discardableResult
     public func fontVariantLigatures(_ types: [FontVariantLigaturesType], important: Bool? = nil) -> Self {
@@ -11238,7 +11238,7 @@ extension Stylesheetable {
     public typealias FontVariantNumeric = FontVariantNumericProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls the usage of alternate glyphs for numbers, fractions, and ordinal markers
     @discardableResult
     public func fontVariantNumeric(_ types: [FontVariantNumericType], important: Bool? = nil) -> Self {
@@ -11303,7 +11303,7 @@ extension Stylesheetable {
     public typealias FontVariantPosition = FontVariantPositionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls the usage of alternate glyphs of smaller size positioned as superscript or subscript regarding the baseline of the font
     @discardableResult
     public func fontVariantPosition(_ type: FontVariantPositionType) -> Self {
@@ -11413,7 +11413,7 @@ extension Stylesheetable {
     public typealias FontVariant = FontVariantProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not a text should be displayed in a small-caps font
     @discardableResult
     public func fontVariant(_ types: [FontVariantType], important: Bool? = nil) -> Self {
@@ -11517,7 +11517,7 @@ extension Stylesheetable {
     public typealias FontWeight = FontWeightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the weight of a font
     @discardableResult
     public func fontWeight(_ type: FontWeightType) -> Self {
@@ -11605,7 +11605,7 @@ extension Stylesheetable {
     public typealias GridArea = GridAreaProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Either specifies a name for the grid item, or this property is a shorthand property
     /// for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties
     @discardableResult
@@ -11689,7 +11689,7 @@ extension Stylesheetable {
     public typealias GridAutoColumns = GridAutoColumnsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies a default column size
     @discardableResult
     public func gridAutoColumns(_ type: [GridAutoColumnsType], important: Bool? = nil) -> Self {
@@ -11776,7 +11776,7 @@ extension Stylesheetable {
     public typealias GridAutoFlow = GridAutoFlowProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how auto-placed items are inserted in the grid
     @discardableResult
     public func gridAutoFlow(_ type: GridAutoFlowType) -> Self {
@@ -11826,7 +11826,7 @@ extension Stylesheetable {
     public typealias GridAutoRows = GridAutoRowsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies a default row size
     @discardableResult
     public func gridAutoRows(_ type: GridAutoRowsType) -> Self {
@@ -11950,7 +11950,7 @@ extension Stylesheetable {
     public typealias GridColumnEnd = GridColumnEndProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies where to end the grid item
     /// means **auto**
     @discardableResult
@@ -12040,7 +12040,7 @@ extension Stylesheetable {
     public typealias GridColumnGap = GridColumnGapProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the size of the gap between columns
     @discardableResult
     public func gridColumnGap<U: UnitValuable>(_ value: U) -> Self {
@@ -12171,7 +12171,7 @@ extension Stylesheetable {
     public typealias GridColumn = GridColumnProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the grid-column-start and the grid-column-end properties
     @discardableResult
     public func gridColumn(start: Int, end: Int, important: Bool? = nil) -> Self {
@@ -12305,7 +12305,7 @@ extension Stylesheetable {
     public typealias GridColumnStart = GridColumnStartProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies where to start the grid item
     /// means **auto**
     @discardableResult
@@ -12449,7 +12449,7 @@ extension Stylesheetable {
     public typealias GridGap = GridGapProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the grid-row-gap and grid-column-gap properties
     @discardableResult
     public func gridGap<R: UnitValuable>(_ rowGap: R) -> Self {
@@ -12595,7 +12595,7 @@ extension Stylesheetable {
     public typealias Grid = GridProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the size(s) of the columns and rows
     @discardableResult
     public func grid(templateRows: GridTemplateRowsType, templateColumns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
@@ -12802,7 +12802,7 @@ extension Stylesheetable {
     public typealias GridRowEnd = GridRowEndProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies where to end the grid item
     /// means **auto**
     @discardableResult
@@ -12892,7 +12892,7 @@ extension Stylesheetable {
     public typealias GridRowGap = GridRowGapProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the size of the gap between rows
     @discardableResult
     public func gridRowGap<U: UnitValuable>(_ value: U) -> Self {
@@ -13023,7 +13023,7 @@ extension Stylesheetable {
     public typealias GridRow = GridRowProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the grid-row-start and the grid-row-end properties
     @discardableResult
     public func gridRow(start: Int, end: Int, important: Bool? = nil) -> Self {
@@ -13133,7 +13133,7 @@ extension Stylesheetable {
     public typealias GridRowStart = GridRowStartProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies where to start the grid item
     /// means **auto**
     @discardableResult
@@ -13226,7 +13226,7 @@ extension Stylesheetable {
     public typealias GridTemplateAreas = GridTemplateAreasProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how to display columns and rows, using named grid items
     @discardableResult
     public func gridTemplateAreas(_ type: String..., important: Bool? = nil) -> Self {
@@ -13282,7 +13282,7 @@ extension Stylesheetable {
     public typealias GridTemplateColumns = GridTemplateColumnsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the size of the columns, and how many columns in a grid layout
     @discardableResult
     public func gridTemplateColumns(_ type: GridTemplateColumnsType) -> Self {
@@ -13366,7 +13366,7 @@ extension Stylesheetable {
     public typealias GridTemplate = GridTemplateProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the grid-template-rows, grid-template-columns and grid-areas properties
     @discardableResult
     public func gridTemplate(rows: GridTemplateRowsType, columns: GridTemplateColumnsType, important: Bool? = nil) -> Self {
@@ -13428,7 +13428,7 @@ extension Stylesheetable {
     public typealias GridTemplateRows = GridTemplateRowsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the size of the rows in a grid layout
     @discardableResult
     public func gridTemplateRows(_ type: GridTemplateRowsType) -> Self {
@@ -13490,7 +13490,7 @@ extension Stylesheetable {
     public typealias HangingPunctuation = HangingPunctuationProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether a punctuation character may be placed outside the line box
     @discardableResult
     public func hangingPunctuation(_ type: HangingPunctuationType) -> Self {
@@ -13558,7 +13558,7 @@ extension Stylesheetable {
     public typealias Height = HeightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the height of an element
     @discardableResult
     public func height<U: UnitValuable>(_ value: U) -> Self {
@@ -13656,7 +13656,7 @@ extension Stylesheetable {
     public typealias Hyphens = HyphensProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets how to split words to improve the layout of paragraphs
     @discardableResult
     public func hyphens(_ type: HyphensType) -> Self {
@@ -13754,7 +13754,7 @@ extension Stylesheetable {
     public typealias ImageRendering = ImageRenderingProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Gives a hint to the browser about what aspects of an image are most important to preserve when the image is scaled
     @discardableResult
     public func imageRendering(_ type: ImageRenderingType) -> Self {
@@ -13804,7 +13804,7 @@ extension Stylesheetable {
     public typealias Isolation = IsolationProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines whether an element must create a new stacking content
     @discardableResult
     public func isolation(_ type: IsolationType) -> Self {
@@ -13854,7 +13854,7 @@ extension Stylesheetable {
     public typealias JustifyContent = JustifyContentProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the alignment between the items inside a flexible container when the items do not use all available space
     @discardableResult
     public func justifyContent(_ type: JustifyContentType) -> Self {
@@ -13922,7 +13922,7 @@ extension Stylesheetable {
     public typealias Left = LeftProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the left position of a positioned element
     @discardableResult
     public func left<U: UnitValuable>(_ value: U) -> Self {
@@ -14002,7 +14002,7 @@ extension Stylesheetable {
     public typealias LetterSpacing = LetterSpacingProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Increases or decreases the space between characters in a text
     @discardableResult
     public func letterSpacing(_ type: LetterSpacingType) -> Self {
@@ -14068,7 +14068,7 @@ extension Stylesheetable {
     public typealias LineBreak = LineBreakProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how/if to break lines
     @discardableResult
     public func lineBreak(_ type: LineBreakType) -> Self {
@@ -14121,7 +14121,7 @@ extension Stylesheetable {
     public typealias LineHeight = LineHeightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the line height
     @discardableResult
     public func lineHeight(_ type: LineHeightType) -> Self {
@@ -14195,7 +14195,7 @@ extension Stylesheetable {
     public typealias ListStyleImage = ListStyleImageProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies an image as the list-item marker
     @discardableResult
     public func listStyleImage(_ type: URLValue) -> Self {
@@ -14259,7 +14259,7 @@ extension Stylesheetable {
     public typealias ListStylePosition = ListStylePositionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the position of the list-item markers (bullet points)
     @discardableResult
     public func listStylePosition(_ type: ListStylePositionType) -> Self {
@@ -14316,7 +14316,7 @@ extension Stylesheetable {
     public typealias ListStyle = ListStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets all the properties for a list in one declaration
     @discardableResult
     public func listStyle(_ type: ListStyleTypeType, _ position: ListStylePositionType, _ url: URLValue, important: Bool? = nil) -> Self {
@@ -14362,7 +14362,7 @@ extension Stylesheetable {
     public typealias ListStyleType = ListStyleTypeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the type of list-item marker
     @discardableResult
     public func listStyleType(_ type: ListStyleTypeType) -> Self {
@@ -14467,7 +14467,7 @@ extension Stylesheetable {
     public typealias MarginBottom = MarginBottomProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the bottom margin of an element
     @discardableResult
     public func marginBottom(_ value: MarginSideValue) -> Self {
@@ -14575,7 +14575,7 @@ extension Stylesheetable {
     public typealias MarginLeft = MarginLeftProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the left margin of an element
     @discardableResult
     public func marginLeft(_ value: MarginSideValue) -> Self {
@@ -14989,7 +14989,7 @@ extension Stylesheetable {
     public typealias Margin = MarginProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets all the margin properties in one declaration
     @discardableResult
     public func margin<U: UnitValuable>(all: U) -> Self {
@@ -15318,7 +15318,7 @@ extension Stylesheetable {
     public typealias MarginRight = MarginRightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the top margin of an element
     @discardableResult
     public func marginRight(_ value: MarginSideValue) -> Self {
@@ -15427,7 +15427,7 @@ extension Stylesheetable {
     public typealias MarginTop = MarginTopProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the top margin of an element
     @discardableResult
     public func marginTop(_ value: MarginSideValue) -> Self {
@@ -15531,7 +15531,7 @@ extension Stylesheetable {
     public typealias MaxHeight = MaxHeightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the maximum height of an element
     @discardableResult
     public func maxHeight<U: UnitValuable>(_ value: U) -> Self {
@@ -15629,7 +15629,7 @@ extension Stylesheetable {
     public typealias MaxWidth = MaxWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the maximum width of an element
     @discardableResult
     public func maxWidth<U: UnitValuable>(_ value: U) -> Self {
@@ -15727,7 +15727,7 @@ extension Stylesheetable {
     public typealias MinHeight = MinHeightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the minimum height of an element
     @discardableResult
     public func minHeight<U: UnitValuable>(_ value: U) -> Self {
@@ -15825,7 +15825,7 @@ extension Stylesheetable {
     public typealias MinWidth = MinWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the minimum width of an element
     @discardableResult
     public func minWidth<U: UnitValuable>(_ value: U) -> Self {
@@ -15911,7 +15911,7 @@ extension Stylesheetable {
     public typealias MixBlendMode = MixBlendModeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how an element's content should blend with its direct parent background
     @discardableResult
     public func mixBlendMode(_ type: MixBlendModeType) -> Self {
@@ -15961,7 +15961,7 @@ extension Stylesheetable {
     public typealias ObjectFit = ObjectFitProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how the contents of a replaced element should be fitted to the box established by its used height and width
     @discardableResult
     public func objectFit(_ type: ObjectFitType) -> Self {
@@ -16241,7 +16241,7 @@ extension Stylesheetable {
     public typealias ObjectPosition = ObjectPositionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the alignment of the replaced element inside its box
     @discardableResult
     public func objectPosition(x: ObjectPositionXType) -> Self {
@@ -16412,7 +16412,7 @@ extension Stylesheetable {
     public typealias Opacity = OpacityProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the opacity level for an element
     @discardableResult
     public func opacity<N>(_ value: N, important: Bool? = nil) -> Self where N: UniValue, N.UniValue: NumericValue {
@@ -16458,7 +16458,7 @@ extension Stylesheetable {
     public typealias Order = OrderProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the order of the flexible item, relative to the rest
     @discardableResult
     public func order(_ type: Int, important: Bool? = nil) -> Self {
@@ -16509,7 +16509,7 @@ extension Stylesheetable {
     public typealias Orphans = OrphansProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the minimum number of lines that must be left at the bottom of a page when a page break occurs inside an element
     @discardableResult
     public func orphans(_ type: Int, important: Bool? = nil) -> Self {
@@ -16578,7 +16578,7 @@ extension Stylesheetable {
     public typealias OutlineColor = OutlineColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the color of an outline
     @discardableResult
     public func outlineColor(_ type: Color) -> Self {
@@ -16645,7 +16645,7 @@ extension Stylesheetable {
     public typealias OutlineOffset = OutlineOffsetProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Offsets an outline, and draws it beyond the border edge
     @discardableResult
     public func outlineOffset<U: UnitValuable>(_ value: U) -> Self {
@@ -16738,7 +16738,7 @@ extension Stylesheetable {
     public typealias Outline = OutlineProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for the outline-width, outline-style, and the outline-color properties
     @discardableResult
     public func outline<U: UnitValuable>(width: U, style: OutlineStyleType, color: Color, important: Bool? = nil) -> Self {
@@ -16781,7 +16781,7 @@ extension Stylesheetable {
     public typealias OutlineStyle = OutlineStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the style of an outline
     @discardableResult
     public func outlineStyle(_ type: OutlineStyleType) -> Self {
@@ -16831,7 +16831,7 @@ extension Stylesheetable {
     public typealias OutlineWidth = OutlineWidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the width of an outline
     @discardableResult
     public func outlineWidth(_ type: OutlineWidthType) -> Self {
@@ -16896,7 +16896,7 @@ extension Stylesheetable {
     public typealias Overflow = OverflowProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies what happens if content overflows an element's box
     @discardableResult
     public func overflow(_ type: OverflowType) -> Self {
@@ -16951,7 +16951,7 @@ extension Stylesheetable {
     public typealias OverflowWrap = OverflowWrapProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not the browser may break lines within words
     /// in order to prevent overflow (when a string is too long to fit its containing box)
     @discardableResult
@@ -17006,7 +17006,7 @@ extension Stylesheetable {
     public typealias OverflowX = OverflowXProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not to clip the left/right edges of the content, if it overflows the element's content area
     @discardableResult
     public func overflowX(_ type: OverflowType) -> Self {
@@ -17059,7 +17059,7 @@ extension Stylesheetable {
     public typealias OverflowY = OverflowYProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not to clip the top/bottom edges of the content, if it overflows the element's content area
     @discardableResult
     public func overflowY(_ type: OverflowType) -> Self {
@@ -17127,7 +17127,7 @@ extension Stylesheetable {
     public typealias PaddingBottom = PaddingBottomProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the bottom padding of an element
     public func paddingBottom<U: UnitValuable>(_ value: U) -> Self {
         _addProperty(.paddingBottom, UnitValue(value.value.doubleValue, value.unit))
@@ -17223,7 +17223,7 @@ extension Stylesheetable {
     public typealias PaddingLeft = PaddingLeftProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the left padding of an element
     @discardableResult
     public func paddingLeft<U: UnitValuable>(_ value: U) -> Self {
@@ -17558,7 +17558,7 @@ extension Stylesheetable {
     public typealias Padding = PaddingProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for all the padding-* properties
     @discardableResult
     public func padding<U: UnitValuable>(all: U) -> Self {
@@ -17828,7 +17828,7 @@ extension Stylesheetable {
     public typealias PaddingRight = PaddingRightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the right padding of an element
     @discardableResult
     public func paddingRight<U: UnitValuable>(_ value: U) -> Self {
@@ -17926,7 +17926,7 @@ extension Stylesheetable {
     public typealias PaddingTop = PaddingTopProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the top padding of an element
     @discardableResult
     public func paddingTop<U: UnitValuable>(_ value: U) -> Self {
@@ -18006,7 +18006,7 @@ extension Stylesheetable {
     public typealias PageBreakAfter = PageBreakAfterProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the page-break behavior after an element
     @discardableResult
     public func pageBreakAfter(_ type: PageBreakAfterType) -> Self {
@@ -18056,7 +18056,7 @@ extension Stylesheetable {
     public typealias PageBreakBefore = PageBreakBeforeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the page-break behavior before an element
     @discardableResult
     public func pageBreakBefore(_ type: PageBreakBeforeType) -> Self {
@@ -18106,7 +18106,7 @@ extension Stylesheetable {
     public typealias PageBreakInside = PageBreakInsideProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the page-break behavior inside an element
     @discardableResult
     public func pageBreakInside(_ type: PageBreakInsideType) -> Self {
@@ -18249,7 +18249,7 @@ extension Stylesheetable {
     public typealias PerspectiveOrigin = PerspectiveOriginProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines at which position the user is looking at the 3D-positioned element
     @discardableResult
     public func perspectiveOrigin(_ xAxis: XAxis, _ yAxis: YAxis, important: Bool? = nil) -> Self {
@@ -18395,7 +18395,7 @@ extension Stylesheetable {
     public typealias Perspective = PerspectiveProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Gives a 3D-positioned element some perspective
     @discardableResult
     public func perspective<U: UnitValuable>(_ value: U) -> Self {
@@ -18482,7 +18482,7 @@ extension Stylesheetable {
     public typealias PointerEvents = PointerEventsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines whether or not an element reacts to pointer events
     @discardableResult
     public func pointerEvents(_ type: PointerEventsType) -> Self {
@@ -18536,7 +18536,7 @@ extension Stylesheetable {
     public typealias Position = PositionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the type of positioning method used for an element (static, relative, absolute or fixed)
     @discardableResult
     public func position(_ type: PositionType) -> Self {
@@ -18588,7 +18588,7 @@ extension Stylesheetable {
     public typealias Quotes = QuotesProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the type of quotation marks for embedded quotations
     @discardableResult
     public func quotes(_ type: QuotesType) -> Self {
@@ -18641,7 +18641,7 @@ extension Stylesheetable {
     public typealias Resize = ResizeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines if (and how) an element is resizable by the user
     @discardableResult
     public func resize(_ type: ResizeType) -> Self {
@@ -18715,7 +18715,7 @@ extension Stylesheetable {
     public typealias Right = RightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the right position of a positioned element
     @discardableResult
     public func right<U: UnitValuable>(_ value: U) -> Self {
@@ -18797,7 +18797,7 @@ extension Stylesheetable {
     public typealias ScrollBehavior = ScrollBehaviorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether to smoothly animate the scroll position in a scrollable box, instead of a straight jump
     @discardableResult
     public func scrollBehavior(_ type: ScrollBehaviorType) -> Self {
@@ -18848,7 +18848,7 @@ extension Stylesheetable {
     public typealias TableLayout = TableLayoutProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines the algorithm used to lay out table cells, rows, and columns
     @discardableResult
     public func tableLayout(_ type: TableLayoutType) -> Self {
@@ -18904,7 +18904,7 @@ extension Stylesheetable {
     public typealias TabSize = TabSizeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the width of a tab character
     @discardableResult
     public func tabSize(_ type: TabSizeType) -> Self {
@@ -18968,7 +18968,7 @@ extension Stylesheetable {
     public typealias TextAlignLast = TextAlignLastProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Describes how the last line of a block or a line right before a forced line break is aligned when text-align is "justify"
     @discardableResult
     public func textAlignLast(_ type: TextAlignLastType) -> Self {
@@ -19021,7 +19021,7 @@ extension Stylesheetable {
     public typealias TextAlign = TextAlignProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the horizontal alignment of text
     @discardableResult
     public func textAlign(_ type: TextAlignType) -> Self {
@@ -19077,7 +19077,7 @@ extension Stylesheetable {
     public typealias TextCombineUpright = TextCombineUprightProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the combination of multiple characters into the space of a single character
     @discardableResult
     public func textCombineUpright(_ type: TextCombineUprightType) -> Self {
@@ -19149,7 +19149,7 @@ extension Stylesheetable {
     public typealias TextDecorationColor = TextDecorationColorProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the color of the text-decoration
     @discardableResult
     public func textDecorationColor(_ type: Color) -> Self {
@@ -19213,7 +19213,7 @@ extension Stylesheetable {
     public typealias TextDecorationLine = TextDecorationLineProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the type of line in a text-decoration
     @discardableResult
     public func textDecorationLine(_ type: TextDecorationLineType) -> Self {
@@ -19289,7 +19289,7 @@ extension Stylesheetable {
     public typealias TextDecoration = TextDecorationProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the decoration added to text
     @discardableResult
     public func textDecoration(_ line: TextDecorationLineType, _ color: Color? = nil, _ style: TextDecorationStyleType? = nil, important: Bool? = nil) -> Self {
@@ -19350,7 +19350,7 @@ extension Stylesheetable {
     public typealias TextDecorationStyle = TextDecorationStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the style of the line in a text decoration
     @discardableResult
     public func textDecorationStyle(_ type: TextDecorationStyleType) -> Self {
@@ -19410,7 +19410,7 @@ extension Stylesheetable {
     public typealias TextIndent = TextIndentProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the indentation of the first line in a text-block
     @discardableResult
     public func textIndent(_ type: TextIndentType) -> Self {
@@ -19476,7 +19476,7 @@ extension Stylesheetable {
     public typealias TextJustify = TextJustifyProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the justification method used when text-align is "justify"
     @discardableResult
     public func textJustify(_ type: TextJustifyType) -> Self {
@@ -19530,7 +19530,7 @@ extension Stylesheetable {
     public typealias TextOrientation = TextOrientationProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Defines the orientation of the text in a line
     @discardableResult
     public func textOrientation(_ type: TextOrientationType) -> Self {
@@ -19584,7 +19584,7 @@ extension Stylesheetable {
     public typealias TextOverflow = TextOverflowProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies what should happen when text overflows the containing element
     @discardableResult
     public func textOverflow(_ type: TextOverflowType) -> Self {
@@ -19655,7 +19655,7 @@ extension Stylesheetable {
     public typealias TextShadow = TextShadowProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Adds shadow to text
     @discardableResult
     public func textShadow(_ type: TextShadowType...) -> Self {
@@ -19728,7 +19728,7 @@ extension Stylesheetable {
     public typealias TextTransform = TextTransformProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Controls the capitalization of text
     @discardableResult
     public func textTransform(_ type: TextTransformType) -> Self {
@@ -19810,7 +19810,7 @@ extension Stylesheetable {
     public typealias TextUnderlinePosition = TextUnderlinePositionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the position of the underline which is set using the text-decoration property
     @discardableResult
     public func textUnderlinePosition(_ type: TextUnderlinePositionType...) -> Self {
@@ -19895,7 +19895,7 @@ extension Stylesheetable {
     public typealias Top = TopProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the top position of a positioned element
     @discardableResult
     public func top<U: UnitValuable>(_ value: U) -> Self {
@@ -19978,7 +19978,7 @@ extension Stylesheetable {
     public typealias TransformOrigin = TransformOriginProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Allows you to change the position on transformed elements
     @discardableResult
     public func transformOrigin(_ type: TransformOriginType) -> Self {
@@ -20038,7 +20038,7 @@ extension Stylesheetable {
     public typealias Transform = TransformProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Applies a 2D or 3D transformation to an element
     @discardableResult
     public func transform(_ type: TransformFunction) -> Self {
@@ -20091,7 +20091,7 @@ extension Stylesheetable {
     public typealias TransformStyle = TransformStyleProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how nested elements are rendered in 3D space
     @discardableResult
     public func transformStyle(_ type: TransformStyleType) -> Self {
@@ -20144,7 +20144,7 @@ extension Stylesheetable {
     public typealias TransitionDelay = TransitionDelayProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies when the transition effect will start
     @discardableResult
     public func transitionDelay(_ type: TimeType) -> Self {
@@ -20197,7 +20197,7 @@ extension Stylesheetable {
     public typealias TransitionDuration = TransitionDurationProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how many seconds or milliseconds a transition effect takes to complete
     @discardableResult
     public func transitionDuration(_ type: TimeType) -> Self {
@@ -20285,7 +20285,7 @@ extension Stylesheetable {
     public typealias Transition = TransitionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// A shorthand property for all the transition-* properties
     @discardableResult
     public func transition(_ properties: [TransitionPropertyType], duration: TimeType, timingFunction: TransitionTimingFunctionType? = nil, delay: TimeType? = nil, important: Bool? = nil) -> Self {
@@ -20351,7 +20351,7 @@ extension Stylesheetable {
     public typealias TransitionProperty = TransitionPropertyProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the name of the CSS property the transition effect is for
     @discardableResult
     public func transitionProperty(_ type: TransitionPropertyType) -> Self {
@@ -20403,7 +20403,7 @@ extension Stylesheetable {
     public typealias TransitionTimingFunction = TransitionTimingFunctionProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies the speed curve of the transition effect
     @discardableResult
     public func transitionTimingFunction(_ type: TransitionTimingFunctionType) -> Self {
@@ -20459,7 +20459,7 @@ extension Stylesheetable {
     public typealias UnicodeBidi = UnicodeBidiProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Used together with the direction property to set or return whether the text
     /// should be overridden to support multiple languages in the same document
     @discardableResult
@@ -20517,7 +20517,7 @@ extension Stylesheetable {
     public typealias UserSelect = UserSelectProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether the text of an element can be selected
     @discardableResult
     public func userSelect(_ type: UserSelectType) -> Self {
@@ -20615,7 +20615,7 @@ extension Stylesheetable {
     public typealias VerticalAlign = VerticalAlignProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the vertical alignment of an element
     @discardableResult
     public func verticalAlign(_ type: VerticalAlignType) -> Self {
@@ -20683,7 +20683,7 @@ extension Stylesheetable {
     public typealias Visibility = VisibilityProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether or not an element is visible
     @discardableResult
     public func visibility(_ type: VisibilityType) -> Self {
@@ -20743,7 +20743,7 @@ extension Stylesheetable {
     public typealias WhiteSpace = WhiteSpaceProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how white-space inside an element is handled
     @discardableResult
     public func whiteSpace(_ type: WhiteSpaceType) -> Self {
@@ -20787,7 +20787,7 @@ extension Stylesheetable {
     public typealias Widows = WidowsProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the minimum number of lines that must be left at the top of a page when a page break occurs inside an element
     @discardableResult
     public func widows(_ type: Int) -> Self {
@@ -20868,7 +20868,7 @@ extension Stylesheetable {
     public typealias Width = WidthProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the width of an element
     @discardableResult
     public func width<U: UnitValuable>(_ value: U) -> Self {
@@ -20950,7 +20950,7 @@ extension Stylesheetable {
     public typealias WordBreak = WordBreakProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies how words should break when reaching the end of a line
     @discardableResult
     public func wordBreak(_ type: WordBreakType) -> Self {
@@ -21002,7 +21002,7 @@ extension Stylesheetable {
     public typealias WordSpacing = WordSpacingProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Increases or decreases the space between words in a text
     @discardableResult
     public func wordSpacing(_ type: WordSpacingType) -> Self {
@@ -21066,7 +21066,7 @@ extension Stylesheetable {
     public typealias WordWrap = WordWrapProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Allows long, unbreakable words to be broken and wrap to the next line
     @discardableResult
     public func wordWrap(_ type: WordWrapType) -> Self {
@@ -21126,7 +21126,7 @@ extension Stylesheetable {
     public typealias WritingMode = WritingModeProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Specifies whether lines of text are laid out horizontally or vertically
     @discardableResult
     public func writingMode(_ type: WritingModeType) -> Self {
@@ -21181,7 +21181,7 @@ extension Stylesheetable {
     public typealias ZIndex = ZIndexProperty
 }
 
-extension CSSRulable {
+@MainActor extension CSSRulable {
     /// Sets the stack order of a positioned element
     @discardableResult
     public func zIndex(_ value: Int, important: Bool? = nil) -> Self {
