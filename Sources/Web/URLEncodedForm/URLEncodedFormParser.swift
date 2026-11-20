@@ -6,14 +6,12 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import FoundationEssentials
-
 /// Parses a URL Query `single=value&arr=1&arr=2&obj[key]=objValue` into
 internal struct URLEncodedFormParser {
     init() { }
     
     func parse(_ query: String) throws -> URLEncodedFormData {
-        let plusDecodedQuery = query.replacingOccurrences(of: "+", with: "%20")
+        let plusDecodedQuery = normalizeFormPlus(query)
         var result: URLEncodedFormData = []
         for pair in plusDecodedQuery.split(separator: "&") {
             let kv = pair.split(
@@ -38,7 +36,7 @@ internal struct URLEncodedFormParser {
     }
 
     func parseKey(key: Substring) throws -> [String] {
-        guard let percentDecodedKey = key.removingPercentEncoding else {
+        guard let percentDecodedKey = percentDecode(String(key)) else {
             throw URLEncodedFormError.malformedKey(key: key)
         }
         return try percentDecodedKey.split(separator: "[").enumerated().map { (i, part) in
@@ -53,4 +51,21 @@ internal struct URLEncodedFormParser {
             }
         }
     }
+}
+
+private func normalizeFormPlus(_ query: String) -> String {
+    var bytes: [UInt8] = []
+    bytes.reserveCapacity(query.utf8.count)
+
+    for byte in query.utf8 {
+        if byte == 0x2B {
+            bytes.append(0x25)
+            bytes.append(0x32)
+            bytes.append(0x30)
+        } else {
+            bytes.append(byte)
+        }
+    }
+
+    return String(decoding: bytes, as: UTF8.self)
 }

@@ -6,8 +6,6 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import FoundationEssentials
-
 /// Keeps track if the string was percent encoded or not.
 /// Prevents double encoding/double decoding
 enum URLQueryFragment: ExpressibleByStringLiteral, Equatable {
@@ -32,7 +30,7 @@ enum URLQueryFragment: ExpressibleByStringLiteral, Equatable {
     func asUrlDecoded() throws -> String {
         switch self {
         case .urlEncoded(let encoded):
-            guard let decoded = encoded.removingPercentEncoding else {
+            guard let decoded = percentDecode(encoded) else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "Unable to remove percent encoding for \(encoded)"))
             }
             return decoded

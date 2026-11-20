@@ -6,8 +6,6 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import FoundationEssentials
-
 /// Holds dynamic path components that were discovered while routing.
 ///
 /// After this struct has been filled with parameter values, you can fetch
@@ -63,7 +61,7 @@ public struct Parameters {
     ///     - name: Unique parameter name
     ///     - value: Value (percent-encoded if necessary)
     public mutating func set(_ name: String, to value: String?) {
-        self.values[name] = value?.removingPercentEncoding
+        self.values[name] = value.flatMap(percentDecode)
     }
     
     /// Fetches the components matched by `catchall` (`**`).
@@ -82,7 +80,7 @@ public struct Parameters {
     /// - returns: The path components matched
     public mutating func getCatchall() -> [String] {
         if self.catchall.isPercentEncoded {
-            self.catchall.values = self.catchall.values.map { $0.removingPercentEncoding ?? $0 }
+            self.catchall.values = self.catchall.values.map { percentDecode($0) ?? $0 }
             self.catchall.isPercentEncoded = false
         }
         return self.catchall.values

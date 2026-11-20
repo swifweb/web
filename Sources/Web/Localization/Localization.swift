@@ -11,7 +11,9 @@ import FoundationEssentials
 public class Localization {
     private static let localization = Localization()
 
-    let currentLocaleIdentifier = WebApp.shared.window.navigator.language?.replacingOccurrences(of: "-", with: "_") ?? "en_US"
+    let currentLocaleIdentifier = WebApp.shared.window.navigator.language.map { language in
+        String(language.map { $0 == "-" ? "_" : $0 })
+    } ?? "en_US"
 
     private let defaultLanguageState = State<Language>(wrappedValue: .en)
 
