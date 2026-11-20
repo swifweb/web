@@ -6,8 +6,6 @@
 //  Credits to https://github.com/vapor/vapor
 //
 
-import struct Foundation.CharacterSet
-
 struct URLEncodedFormSerializer {
     let splitVariablesOn: Character
     let splitKeyValueOn: Character
@@ -66,22 +64,26 @@ extension Array where Element == CodingKey {
 extension String {
     /// Prepares a `String` for inclusion in form-urlencoded data.
     func urlEncoded(codingPath: [CodingKey] = []) throws -> String {
-        guard let result = self.addingPercentEncoding(
-            withAllowedCharacters: _allowedCharacters
-        ) else {
-            throw EncodingError.invalidValue(self, EncodingError.Context(
-                codingPath: codingPath,
-                debugDescription: "Unable to add percent encoding to \(self)"
-            ))
+        var result: [UInt8] = []
+        result.reserveCapacity(utf8.count)
+
+        for byte in utf8 {
+            switch byte {
+            case 0x41...0x5A, 0x61...0x7A, 0x30...0x39, 0x2A, 0x2D, 0x2E, 0x5F:
+                result.append(byte)
+            case 0x20:
+                result.append(0x2B)
+            default:
+                result.append(0x25)
+                result.append(_urlEncodedHexDigit(byte >> 4))
+                result.append(_urlEncodedHexDigit(byte & 0x0F))
+            }
         }
-        return result
+
+        return String(decoding: result, as: UTF8.self)
     }
 }
 
-/// Characters allowed in form-urlencoded data.
-private let _allowedCharacters: CharacterSet = {
-    var allowed = CharacterSet.urlQueryAllowed
-    // these symbols are reserved for url-encoded form
-    allowed.remove(charactersIn: "?&=[];+")
-    return allowed
-}()
+private func _urlEncodedHexDigit(_ value: UInt8) -> UInt8 {
+    value < 10 ? 0x30 + value : 0x41 + value - 10
+}
