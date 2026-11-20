@@ -845,7 +845,10 @@ public struct ColorType: PropertyValueImportantable, _StringPropertyValue {
     }
     
     public static func hex(_ v: Int) -> ColorType {
-        var hex = String(format:"%02X", v)
+        var hex = String(v, radix: 16, uppercase: true)
+        if hex.count < 2 {
+            hex = String(repeating: "0", count: 2 - hex.count) + hex
+        }
         if hex.count == 5 || hex.count == 7 {
             hex = "0\(hex)"
         }
