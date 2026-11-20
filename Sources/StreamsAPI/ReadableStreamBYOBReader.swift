@@ -23,14 +23,14 @@ public class ReadableStreamBYOBReader {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBReader/closed)
     public func onClosed(_ closure: @escaping (Result<Void, Error>) -> Void) {
         guard let promise = jsValue.closed.function?.callAsFunction(optionalThis: jsValue.object)?.object else {
-            closure(.failure(JSError(message: "ReadableStream `cancel` method is nil")))
+            closure(.failure(JavaScriptError(message: "ReadableStream `cancel` method is nil")))
             return
         }
         JSPromise(promise)?.then(success: { _ in
             closure(.success(()))
             return JSValue.undefined
         }, failure: { error in
-            closure(.failure(error))
+            closure(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }
@@ -42,14 +42,14 @@ public class ReadableStreamBYOBReader {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBReader/cancel)
     public func cancel(_ reason: String? = nil, _ closure: ((Result<Void, Error>) -> Void)? = nil) {
         guard let promise = jsValue.cancel.function?.callAsFunction(optionalThis: jsValue.object, reason)?.object else {
-            closure?(.failure(JSError(message: "ReadableStream `cancel` method is nil")))
+            closure?(.failure(JavaScriptError(message: "ReadableStream `cancel` method is nil")))
             return
         }
         JSPromise(promise)?.then(success: { _ in
             closure?(.success(()))
             return JSValue.undefined
         }, failure: { error in
-            closure?(.failure(error))
+            closure?(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }
@@ -59,30 +59,30 @@ public class ReadableStreamBYOBReader {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStreamBYOBReader/read)
     public func read(_ closure: @escaping (Result<[UInt8], Error>) -> Void) {
         guard let view = JSObject.global.Uint8Array.function?.new().jsValue else {
-            closure(.failure(JSError(message: "Unable to create view to read stream into.")))
+            closure(.failure(JavaScriptError(message: "Unable to create view to read stream into.")))
             return
         }
         guard let promise = jsValue.read.function?.callAsFunction(optionalThis: jsValue.object, view)?.object else {
-            closure(.failure(JSError(message: "Unable to get `read` promise.")))
+            closure(.failure(JavaScriptError(message: "Unable to get `read` promise.")))
             return
         }
         JSPromise(promise)?.then(success: { response in
             guard let done = response.done.boolean else {
-                closure(.failure(JSError(message: "Incorrect stream `read` response.")))
+                closure(.failure(JavaScriptError(message: "Incorrect stream `read` response.")))
                 return JSValue.undefined
             }
             if done {
                 closure(.success([]))
             } else {
                 guard let _: JSArray = response.value.array else { // TBD: unable to test cause it is still draft in web docs.
-                    closure(.failure(JSError(message: "Incorrect stream `read` response.")))
+                    closure(.failure(JavaScriptError(message: "Incorrect stream `read` response.")))
                     return JSValue.undefined
                 }
                 
             }
             return JSValue.undefined
         }, failure: { error in
-            closure(.failure(error))
+            closure(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }

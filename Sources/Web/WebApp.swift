@@ -224,8 +224,8 @@ open class WebApp {
         JSObject.global.wasiDisableLocationChangeListener = JSClosure { args in
             MainActor.assumeIsolated {
                 self.allowLocationChangeListener = false
-                return .undefined
             }
+            return .undefined
         }.jsValue
         JSObject.global.wasiChangeRoute = JSClosure { args in
             MainActor.assumeIsolated {
@@ -238,8 +238,8 @@ open class WebApp {
                     search: search,
                     hash: ""
                 ))
-                return .undefined
             }
+            return .undefined
         }.jsValue
         if let wasiAppOnStart = JSObject.global.wasiAppOnStart.function {
             if let index {

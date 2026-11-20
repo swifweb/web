@@ -16,10 +16,10 @@ class Container<Event: AnyEvent>: GenericContainer {
     
     lazy var closure: JSClosure = JSClosure { [weak self] args -> JSValue in
         MainActor.assumeIsolated {
-            guard let self, let event = args.first else { return .undefined }
+            guard let self, let event = args.first else { return }
             self.handlers.forEach { $0(.init(event)) }
-            return .undefined
         }
+        return .undefined
     }
     
     required init (_ handler: @escaping (Event) -> Void) {

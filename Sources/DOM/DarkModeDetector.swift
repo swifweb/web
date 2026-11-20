@@ -16,8 +16,8 @@ import JavaScriptKit
         closure = .init { v -> JSValue in
             MainActor.assumeIsolated {
                 handler(v.first?.matches.boolean == true)
-                return .null
             }
+            return .null
         }
         setJSValue(this: mediaQuery.object!, name: "onchange", value: closure.jsValue)
         handler(mediaQuery.matches.boolean == true)

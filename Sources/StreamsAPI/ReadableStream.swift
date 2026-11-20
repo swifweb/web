@@ -39,14 +39,14 @@ public class ReadableStream {
     public func cancel(_ reason: String? = nil, _ closure: ((Result<Void, Error>) -> Void)? = nil) {
         do {
             guard let promise = try jsValue.cancel.function?.throws.callAsFunction(this: jsValue.object, reason).object else {
-                closure?(.failure(JSError(message: "ReadableStream `cancel` method is nil")))
+                closure?(.failure(JavaScriptError(message: "ReadableStream `cancel` method is nil")))
                 return
             }
             JSPromise(promise)?.then(success: { _ in
                 closure?(.success(()))
                 return JSValue.undefined
             }, failure: { error in
-                closure?(.failure(error))
+                closure?(.failure(JavaScriptError(error)))
                 return JSValue.undefined
             })
         } catch {
@@ -79,7 +79,7 @@ public class ReadableStream {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/pipeThrough)
     public func pipeThrough(_ content: TransformStream, _ options: PipeOptions? = nil) throws {
         // TBD
-        throw JSError(message: "pipeThrough method is not implemented yet")
+        throw JavaScriptError(message: "pipeThrough method is not implemented yet")
     }
     
     /// Pipes the current `ReadableStream` to a given `WritableStream` and returns a Promise that fulfills when the piping process completes successfully, or rejects if any errors were encountered.
@@ -91,14 +91,14 @@ public class ReadableStream {
     /// [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/pipeTo)
     public func pipeTo(_ destination: WritableStream, _ options: PipeOptions? = nil, _ closure: ((Result<Void, Error>) -> Void)? = nil) {
         guard let promise = jsValue.pipeTo.function?.callAsFunction(optionalThis: jsValue.object, destination.jsValue, options)?.object else {
-            closure?(.failure(JSError(message: "ReadableStream `pipeTo` method is nil")))
+            closure?(.failure(JavaScriptError(message: "ReadableStream `pipeTo` method is nil")))
             return
         }
         JSPromise(promise)?.then(success: { _ in
             closure?(.success(()))
             return JSValue.undefined
         }, failure: { error in
-            closure?(.failure(error))
+            closure?(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }

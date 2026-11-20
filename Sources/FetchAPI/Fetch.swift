@@ -10,14 +10,14 @@ import WebFoundation
 public final class Fetch {
     private init (_ value: JSValue, _ options: RequestOptions? = nil, _ handler: @escaping (Result<Response, Error>) -> Void) {
         guard let jsPromise = JSObject.global.fetch.function?.callAsFunction(value, options?.jsValue).object else {
-            handler(.failure(JSError(message: "`Fetch` is unavailabe")))
+            handler(.failure(JavaScriptError(message: "`Fetch` is unavailabe")))
             return
         }
         JSPromise(jsPromise)?.then(success: { result in
             handler(.success(.init(result)))
             return JSValue.undefined
         }, failure: { error in
-            handler(.failure(error))
+            handler(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }

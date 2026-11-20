@@ -52,7 +52,7 @@ extension Bodyable {
             closure(.success(.init(value)))
             return JSValue.undefined
         }, failure: { error in
-            closure(.failure(error))
+            closure(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }
@@ -68,7 +68,7 @@ extension Bodyable {
             closure(.success(.init(value)))
             return JSValue.undefined
         }, failure: { error in
-            closure(.failure(error))
+            closure(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }
@@ -84,7 +84,7 @@ extension Bodyable {
             closure(.success(.jsValue(value)))
             return JSValue.undefined
         }, failure: { error in
-            closure(.failure(error))
+            closure(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }
@@ -100,7 +100,7 @@ extension Bodyable {
             closure(.success(value.string ?? ""))
             return JSValue.undefined
         }, failure: { error in
-            closure(.failure(error))
+            closure(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }

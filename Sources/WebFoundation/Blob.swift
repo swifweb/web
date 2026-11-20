@@ -90,7 +90,7 @@ public class Blob: JSClass, CustomStringConvertible {
             closure(.success(value.string ?? ""))
             return JSValue.undefined
         }, failure: { error in
-            closure(.failure(error))
+            closure(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }
@@ -102,7 +102,7 @@ public class Blob: JSClass, CustomStringConvertible {
             closure(.success(ArrayBuffer(value)))
             return JSValue.undefined
         }, failure: { error in
-            closure(.failure(error))
+            closure(.failure(JavaScriptError(error)))
             return JSValue.undefined
         })
     }

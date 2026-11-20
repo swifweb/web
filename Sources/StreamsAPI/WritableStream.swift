@@ -30,14 +30,14 @@ public class WritableStream {
     public func abort(_ reason: String, _ closure: ((Result<Void, Error>) -> Void)? = nil) {
         do {
             guard let promise = try jsValue.abort.function?.throws.callAsFunction(this: jsValue.object, reason).object else {
-                closure?(.failure(JSError(message: "ReadableStream `cancel` method is nil")))
+                closure?(.failure(JavaScriptError(message: "ReadableStream `cancel` method is nil")))
                 return
             }
             JSPromise(promise)?.then(success: { _ in
                 closure?(.success(()))
                 return JSValue.undefined
             }, failure: { error in
-                closure?(.failure(error))
+                closure?(.failure(JavaScriptError(error)))
                 return JSValue.undefined
             })
         } catch {
