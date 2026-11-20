@@ -177,7 +177,8 @@ open class ServiceWorker {
                         case .success:
                             callInstall()
                         case .failure(let error):
-                            JSObject.global.serviceInstallationError = error.localizedDescription.jsValue
+                            let description = (error as? LocalizedError)?.errorDescription ?? String(describing: error)
+                            JSObject.global.serviceInstallationError = description.jsValue
                         }
                     }
                 } else {
